@@ -1,0 +1,2 @@
+- El estado de la publicacion es un nvarchar(255) porque es el tipo de datos de la tabla maestra.
+
