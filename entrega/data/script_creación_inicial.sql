@@ -50,7 +50,7 @@ CREATE TABLE PEL.Rol_Funcion(
 	rol_func_func NUMERIC(18,0) NOT NULL,
 	PRIMARY KEY (rol_func_rol,rol_func_func),
 	FOREIGN KEY (rol_func_rol) REFERENCES PEL.Rol(rol_id),
-	FOREIGN KEY (rol_func_func) REFERENCES PEL.Funcion(func_id),
+	FOREIGN KEY (rol_func_func) REFERENCES PEL.Funcion(func_id)
 )
 
 
@@ -58,14 +58,20 @@ CREATE TABLE PEL.Rol_Usuario (
 	rol_usua_usua NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	rol_usua_rol NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	PRIMARY KEY (rol_usua_usua,rol_usua_rol),
-	FOREIGN KEY (rol_usua_usua) REFERENCES PEL.Usuario (usua_id)
+	FOREIGN KEY (rol_usua_usua) REFERENCES PEL.Usuario (usua_id),
 	FOREIGN KEY (rol_usua_rol) REFERENCES PEL.Rol (rol_id)
+)
+
+CREATE TABLE PEL.Estado_Publicacion (
+	Esta_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
+	Esta_descripcion NVARCHAR(255) NOT NULL,
+	PRIMARY KEY(Esta_id)
 )
 
 CREATE TABLE PEL.Publicacion (
 	publ_id NUMERIC(18,0) NOT NULL,
 	publ_descripcion NVARCHAR(255) NOT NULL,
-	publ_estado NVARCHAR(255) NOT NULL,
+	publ_estado NUMERIC(18,0),
 	publ_fecha_publi DATETIME,
 	publ_fecha_ven DATETIME,
 	publ_fecha_hora DATETIME,
@@ -74,9 +80,10 @@ CREATE TABLE PEL.Publicacion (
 	publ_grado NUMERIC(18,0),
 	publ_usua_resp NUMERIC(18,0),
 	PRIMARY KEY (publ_id),
-	FOREIGN KEY (publi_rubro) REFERENCES PEL.Rubro (rubr_id),
-	FOREIGN KEY (publi_grado) REFERENCES PEL.Grado (grad_id),
-	FOREIGN KEY (publi_usua_resp) REFERENCES PEL.Usuario (usua_id)
+	FOREIGN KEY (publ_rubro) REFERENCES PEL.Rubro (rubr_id),
+	FOREIGN KEY (publ_grado) REFERENCES PEL.Grado (grad_id),
+	FOREIGN KEY (publ_usua_resp) REFERENCES PEL.Usuario (usua_id),
+	FOREIGN KEY (publ_estado) REFERENCES PEL.Estado (Esta_id)
 )
 
 CREATE TABLE PEL.Cliente (
@@ -214,15 +221,20 @@ INSERT INTO PEL.Funcion (func_nombre) values
 	('ABM DE CATEGORIA')
 GO
 
+INSERT INTO PEL.Estado (Esta_descripcion) values
+	('Finalizada'),
+	('Activa'),
+	('Borrador')
+GO
+
 INSERT INTO PEL.Rubro (rubr_descripcion)
   	SELECT DISTINCT Espectaculo_Rubro_Descripcion
 	FROM gd_esquema.Maestra
 GO
-
-
 	
 INSERT INTO PEL.Publicacion (publ_id, publ_descripcion, publ_fecha_publi, publ_fecha_ven, publ_rubro, publ_estado)
-  	SELECT DISTINCT Espectaculo_Cod, Espectaculo_Descripcion, Espectaculo_Fecha, Espectaculo_Fecha_Venc, (SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), Espectaculo_Estado
+	--Habria que ver que estado le damos inicialmente, por ejemplo si la fecha es anterior a la actual ponerle el finalizada
+  	SELECT DISTINCT Espectaculo_Cod, Espectaculo_Descripcion, Espectaculo_Fecha, Espectaculo_Fecha_Venc, (SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), --Espectaculo_Estado
 	FROM gd_esquema.Maestra
 GO
 
