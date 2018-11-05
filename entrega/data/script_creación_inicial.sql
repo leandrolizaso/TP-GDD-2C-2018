@@ -137,8 +137,8 @@ CREATE TABLE PEL.Compra (
 	compr_total NUMERIC(18,2) NOT NULL,
 	compr_descuento NVARCHAR(255) NOT NULL,
 	compr_medio_pago NVARCHAR(255) NOT NULL,
-	compr_puntos_acum NUMERIC(18,0) NOT NULL,
-	compr_puntos_gast NUMERIC(18,0) NOT NULL,
+	compr_puntos_acum NUMERIC(18,0),
+	compr_puntos_gast NUMERIC(18,0),
 	PRIMARY KEY (compr_id),
 	FOREIGN KEY (compr_clie) REFERENCES PEL.Cliente(clie_id),
 	FOREIGN KEY (compr_publi) REFERENCES PEL.Publicacion(publ_id)
@@ -193,7 +193,7 @@ GO
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
---falta:
+--falta:(supongo que se haran con un sp)
 	--premio
 	--grado
 	--premio_cliente
@@ -201,24 +201,17 @@ GO
 	--rol_funcion
 	--rol_usuario
 	--usuario
+	
 
 	--item_factura
-	--compra
 	
 	
-INSERT INTO PEL.Funcion (func_nombre) values ('ABM DE ROL');
-GO
-
-INSERT INTO PEL.Funcion (func_nombre) values ('ABM DE CLIENTE');
-GO
-
-INSERT INTO PEL.Funcion (func_nombre) values ('ABM DE EMPRESA');
-GO
-
-INSERT INTO PEL.Funcion (func_nombre) values ('ABM DE GRADO');
-GO
-
-INSERT INTO PEL.Funcion (func_nombre) values ('ABM DE CATEGORIA');
+INSERT INTO PEL.Funcion (func_nombre) values 
+	('ABM DE ROL'),
+    ('ABM DE CLIENTE'),
+    ('ABM DE EMPRESA'),
+    ('ABM DE GRADO'),
+	('ABM DE CATEGORIA')
 GO
 
 INSERT INTO PEL.Rubro (rubr_descripcion)
@@ -229,7 +222,6 @@ GO
 
 	
 INSERT INTO PEL.Publicacion (publ_id, publ_descripcion, publ_fecha_publi, publ_fecha_ven, publ_rubro, publ_estado)
-	--dejo como pk el cod de publicacion porque despues no se como referenciarla desde otra tabla, como ubicacion
   	SELECT DISTINCT Espectaculo_Cod, Espectaculo_Descripcion, Espectaculo_Fecha, Espectaculo_Fecha_Venc, (SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), Espectaculo_Estado
 	FROM gd_esquema.Maestra
 GO
@@ -240,13 +232,12 @@ INSERT INTO PEL.Tipo_Ubicacion (tipo_ubic_descripcion, tipo_ubic_id)
 GO
 
 INSERT INTO PEL.Empresa (empr_razon_social, empr_cuit, empr_fecha, empr_mail, empr_direccion)
-	SELECT Espec_Empresa_Razon_Social, Espec_Empresa_Cuit, Espec_Empresa_Fecha_Creacion, Espec_Empresa_Mail, Espec_Empresa_Dom_Calle + Espec_Empresa_Nro_Calle + Espec_Empresa_Piso + Espec_Empresa_Depto + Espec_Empresa_Cod_Postal
+	SELECT DISTINCT Espec_Empresa_Razon_Social, Espec_Empresa_Cuit, Espec_Empresa_Fecha_Creacion, Espec_Empresa_Mail, Espec_Empresa_Dom_Calle + Espec_Empresa_Nro_Calle + Espec_Empresa_Piso + Espec_Empresa_Depto + Espec_Empresa_Cod_Postal
 	FROM gd_esquema.Maestra
 GO
 
 INSERT INTO PEL.Factura (fact_fecha, fact_importe)
-	--empresa?? 
-	SELECT Factura_Fecha, Factura_Total
+	SELECT Factura_Fecha, Factura_Total, (SELECT empr_id FROM PEL.Empresa where empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit = Espec_Empresa_Cuit)
 	FROM gd_esquema.Maestra
 GO
 
@@ -256,13 +247,17 @@ INSERT INTO PEL.Cliente (clie_nro_doc, clie_apellido, clie_nombre, clie_mail, cl
 	FROM gd_esquema.Maestra
 GO 
 
-INSERT INTO PEL.Ubicacion (ubic_fila, ubic_asiento, ubic_sin_numerar, ubic_precio, ubic_publ, ubic_tipo)
-	SELECT Ubicacion_Fila, Ubicacion_Asiento, Ubicacion_Sin_numerar, Ubicacion_Precio, Espectaculo_Cod, Ubicacion_Tipo_Codigo --como referencio la compra?
+INSERT INTO PEL.Compra (compr_fecha, compr_total, compr_detalle, compr_medio_pago, compr_publi, compr_cliente)
+	--No entiendo que diferencia hay entre la cantidad de compra y la cantidad de item-factura, esta cantidad no la tenemos en la compra en el DER
+	--compra_cantidad, item_factura_cantidad?
+	--Monto * cantidad?
+	--Descuento?
+	SELECT Compra_Fecha,Item_Factura_Monto, Item_Factura_Descripcion, Forma_Pago_Desc, Espectaculo_Cod, (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
 	FROM gd_esquema.Maestra
 GO
 
-INSERT INTO PEL.Compra ()
-	SELECT 
-	FROM gd_esquema.Maestra
+INSERT INTO PEL.Ubicacion (ubic_fila, ubic_asiento, ubic_sin_numerar, ubic_precio, ubic_publ, ubic_tipo, ubic_compra)
+	SELECT Ubicacion_Fila, Ubicacion_Asiento, Ubicacion_Sin_numerar, Ubicacion_Precio, Espectaculo_Cod, Ubicacion_Tipo_Codigo, compr_id
+	FROM gd_esquema.Maestra JOIN PEL.Compra WHERE compr_fecha = Compra_Fecha AND compr_detalle = Item_Factura_Descripcion AND compr_cliente = (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
+	--No se si eso alcanza para conseguir la compra, por ejemplo si el cliente compro varias de la misma publicacion el mismo dia
 GO
-
