@@ -1,6 +1,6 @@
 ﻿namespace PalcoNet.Abm_Cliente
 {
-    partial class Form1
+    partial class ABMCliente
     {
         /// <summary>
         /// Required designer variable.
@@ -28,11 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.SuspendLayout();
+            // 
+            // ABMCliente
+            // 
+            this.ClientSize = new System.Drawing.Size(407, 312);
+            this.Name = "ABMCliente";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
     }
 }
