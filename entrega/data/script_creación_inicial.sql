@@ -152,7 +152,7 @@ CREATE TABLE PEL.Compra (
 )
 
 CREATE TABLE PEL.Factura (
-	fact_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
+	fact_id NUMERIC(18,0) NOT NULL,
 	fact_fecha DATETIME NOT NULL,
 	fact_comision NUMERIC(18,2),
 	fact_importe NUMERIC(18,2) NOT NULL,
@@ -247,8 +247,8 @@ INSERT INTO PEL.Empresa (empr_razon_social, empr_cuit, empr_fecha, empr_mail, em
 	FROM gd_esquema.Maestra
 GO
 
-INSERT INTO PEL.Factura (fact_fecha, fact_importe)
-	SELECT Factura_Fecha, Factura_Total, (SELECT empr_id FROM PEL.Empresa where empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit = Espec_Empresa_Cuit)
+INSERT INTO PEL.Factura (fact_fecha, fact_importe, fact_id, fact_empr)
+	SELECT Factura_Fecha, Factura_Total, Factura_Nro,(SELECT empr_id FROM PEL.Empresa where empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit = Espec_Empresa_Cuit)
 	FROM gd_esquema.Maestra
 GO
 
@@ -271,6 +271,7 @@ INSERT INTO PEL.Ubicacion (ubic_fila, ubic_asiento, ubic_sin_numerar, ubic_preci
 GO
 
 INSERT INTO PEL.Item_Factura (item_compra, item_factura)
-	--Como consigo el id de la factura?
-	SELECT compr_id, 
-	FROM PEL.Compra 
+	SELECT compr_id, Factura_Nro
+	FROM PEL.Compra JOIN gd_esquema.Maestra on compr_fecha = Compra_Fecha where compr_detalle = Item_Factura_Descripcion AND compr_cliente = (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
+	--idem anterior
+GO
