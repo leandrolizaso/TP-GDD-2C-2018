@@ -142,7 +142,7 @@ CREATE TABLE PEL.Compra (
 	compr_fecha DATETIME NOT NULL,
 	compr_detalle NVARCHAR(255) NOT NULL,
 	compr_total NUMERIC(18,2) NOT NULL,
-	compr_descuento NVARCHAR(255) NOT NULL,
+	compr_descuento NVARCHAR(255),
 	compr_medio_pago NVARCHAR(255) NOT NULL,
 	compr_puntos_acum NUMERIC(18,0),
 	compr_puntos_gast NUMERIC(18,0),
@@ -204,7 +204,6 @@ GO
 	--premio
 	--grado
 	--premio_cliente
-	--rol
 	--rol_funcion
 	--rol_usuario
 	--usuario
@@ -260,16 +259,18 @@ INSERT INTO PEL.Cliente (clie_nro_doc, clie_apellido, clie_nombre, clie_mail, cl
 GO 
 
 INSERT INTO PEL.Compra (compr_fecha, compr_total, compr_detalle, compr_medio_pago, compr_publi, compr_cliente)
-	--No entiendo que diferencia hay entre la cantidad de compra y la cantidad de item-factura, esta cantidad no la tenemos en la compra en el DER
-	--compra_cantidad, item_factura_cantidad?
-	--Monto * cantidad?
-	--Descuento?
-	SELECT Compra_Fecha,Item_Factura_Monto, Item_Factura_Descripcion, Forma_Pago_Desc, Espectaculo_Cod, (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
+	--Habria que verificar que las cantidades coincidan
+	SELECT Compra_Fecha,Ubicacion_Precio, Item_Factura_Descripcion, Forma_Pago_Desc, Espectaculo_Cod, (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
 	FROM gd_esquema.Maestra
 GO
 
 INSERT INTO PEL.Ubicacion (ubic_fila, ubic_asiento, ubic_sin_numerar, ubic_precio, ubic_publ, ubic_tipo, ubic_compra)
 	SELECT Ubicacion_Fila, Ubicacion_Asiento, Ubicacion_Sin_numerar, Ubicacion_Precio, Espectaculo_Cod, Ubicacion_Tipo_Codigo, compr_id
-	FROM gd_esquema.Maestra JOIN PEL.Compra WHERE compr_fecha = Compra_Fecha AND compr_detalle = Item_Factura_Descripcion AND compr_cliente = (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
+	FROM gd_esquema.Maestra JOIN PEL.Compra on compr_fecha = Compra_Fecha where compr_detalle = Item_Factura_Descripcion AND compr_cliente = (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
 	--No se si eso alcanza para conseguir la compra, por ejemplo si el cliente compro varias de la misma publicacion el mismo dia
 GO
+
+INSERT INTO PEL.Item_Factura (item_compra, item_factura)
+	--Como consigo el id de la factura?
+	SELECT compr_id, 
+	FROM PEL.Compra 

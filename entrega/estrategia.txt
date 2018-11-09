@@ -15,3 +15,9 @@
 Una factura tiene una empresa.
 Cada item de factura es una compra distinta para esa empresa.
 (de una sola publicacion? de varias publicaciones de la misma empresa? <ver foro, definir>)
+
+"Te comento, tengan en cuenta que esto es rendición de comisiones, y justamente dejamos un poco abierto la solución para no restringir a una unica solución. Uds podrían generar las rendiciones de todas las ventas independientemente sea la empresa (ABAA) y luego (en otra etapa del sistema) generar el pago propiamente dicho a cada empresa, o bien, generar las rendiciones para una empresa ej AAA y luego la rendición para B. El criterio lo determinan uds, eso por fa comentenló en doc de estrategia para saber que rumbo toman."
+
+(*1) FK Nullable
+https://stackoverflow.com/a/2366979
+https://social.msdn.microsoft.com/forums/sqlserver/en-us/325c11b9-e5c4-4db7-94e6-f82b44412b9b/is-it-possible-to-allow-null-values-in-foreign-key
