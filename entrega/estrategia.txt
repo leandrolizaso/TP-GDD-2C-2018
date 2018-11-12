@@ -21,3 +21,9 @@ Cada item de factura es una compra distinta para esa empresa.
 (*1) FK Nullable
 https://stackoverflow.com/a/2366979
 https://social.msdn.microsoft.com/forums/sqlserver/en-us/325c11b9-e5c4-4db7-94e6-f82b44412b9b/is-it-possible-to-allow-null-values-in-foreign-key
+
+
+dudas: 
+-Hay clientes con dni, nombre, etc en null. que hacemos aca? podria ponerselos en estado 'e' (error)
+-Compras con fecha en null, que hacemos con eso?
+-Idem anterior pero con fecha factura
