@@ -156,7 +156,7 @@ CREATE TABLE PEL.Factura (
 	fact_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	fact_fecha DATETIME,
 	fact_comision NUMERIC(18,2),
-	fact_importe NUMERIC(18,2) NOT NULL,
+	fact_importe NUMERIC(18,2) , -- se carga despues, lo que se tiene ya calculado es la comision
 	fact_empr NUMERIC(18,0),
 	fact_numero NUMERIC(18,0), -- agregado por el null de la maestra que rompia con el fact_id
 	PRIMARY KEY (fact_id),
@@ -311,21 +311,21 @@ INSERT INTO PEL.Empresa (empr_razon_social,
 GO
 
 --Factura
-
+-- falta lo del importe: sumatoria del precio de las ubicaciones referenciadas por item_factura
 INSERT INTO PEL.Factura (fact_fecha, 
-						 fact_importe, 
-				--		 fact_id, antes con esto rompia
+						 fact_comision, 
+				--		 fact_id, si esto era asi despues teniamos que controlar la generacion de id, que lo haga el motor
 						 fact_numero,
 						 fact_empr)
 	 SELECT Factura_Fecha, 
-			isnull(Factura_Total,0), 
-			-- aca le agrego el isnull porque no se banca importe null...Podria migrarse igual creo yo y en *Estrategia* mencionar el tratamiento
-			--sobre este, por ej: toda fact con importe null fue creado antes de nuestra migracion y se considera erronea, que es distinto
-			-- a que se facture 0 <- cosa rarisima tambien, creo que cuando hay promos de "regalo" o cosas asi te cobran algo a 14,99 y el otro 0,01
+			Factura_Total,
 			Factura_Nro,
 			(SELECT empr_id FROM PEL.Empresa 
 			where empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit = Espec_Empresa_Cuit)
 	 FROM gd_esquema.Maestra
+	 where Factura_Nro is not null
+	 group by Factura_Fecha, Factura_Total,Factura_Nro
+
 GO
 
 -- Cliente
@@ -345,28 +345,23 @@ INSERT INTO PEL.Cliente (clie_nro_doc,
 						convert(nvarchar,Cli_Piso) +
 						Cli_Depto + Cli_Cod_Postal
 	FROM gd_esquema.Maestra
+	where cli_dni is not null 
 GO 
 
 
 -- Compra
-
+-- que hacemos con los puntos ? O sea hay compras de 2019 y todo xd *Estrategia*
 INSERT INTO PEL.Compra (compr_fecha,
-						compr_total, 
-						compr_detalle, 
+						compr_total,  
 						compr_medio_pago, 
 						compr_publi, 
 						compr_cliente)
 	--Habria que verificar que las cantidades coincidan 
-		--que cantidades? 
-	-- holisss..no cacho el porque ubicacion_precio seria compr_total,
-		-- en todo caso no seria el sum agrupando por las cosinhas que "hacen" a la compra
-			
 	SELECT DISTINCT Compra_Fecha,
-					Ubicacion_Precio, 
-					Item_Factura_Descripcion, 
+					Ubicacion_Precio*Compra_cantidad, -- compra_cantidad siempre es 1 pero bueno (?
 					Forma_Pago_Desc, 
 					Espectaculo_Cod, 
 					(SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
 	FROM gd_esquema.Maestra
+	where cli_dni is not null and compra_fecha is not null and Forma_Pago_Desc is not null
 GO
-
