@@ -417,12 +417,16 @@ GO
 
 INSERT INTO PEL.Item_Factura (item_ubic, item_factura,item_comision)
 	SELECT DISTINCT ubic_id, fact_id, ubic_precio/Item_Factura_Monto
-	FROM  gd_esquema.Maestra join PEL.Ubicacion on Ubicacion_Asiento = ubic_asiento and Ubicacion_Fila = ubic_fila and Ubicacion_Precio = ubic_precio and Ubicacion_Sin_numerar = ubic_sin_numerar and Ubicacion_Tipo_Codigo = ubic_tipo
-							 join PEL.Factura on Factura_nro = fact_numero
+	FROM  gd_esquema.Maestra join PEL.Factura on Factura_nro = fact_numero
+							 join PEL.Ubicacion on Ubicacion_Asiento = ubic_asiento and 
+												   Ubicacion_Fila = ubic_fila and 
+												   Ubicacion_Precio = ubic_precio and 
+												   Ubicacion_Sin_numerar = ubic_sin_numerar and 
+												   Ubicacion_Tipo_Codigo = ubic_tipo and 
+												   Espectaculo_Cod = ubic_publ
 	where Factura_Fecha is not null
 	--idem anterior
 GO
-
 
 -- falta lo del importe: sumatoria del precio de las ubicaciones referenciadas por item_factura
 --resolviending esooo
