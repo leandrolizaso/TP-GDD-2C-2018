@@ -32,7 +32,7 @@ CREATE TABLE PEL.Usuario (
 	usua_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	usua_username NVARCHAR(50) NOT NULL UNIQUE,
 	usua_password NVARCHAR(100) NOT NULL,
-	usua_login_fallidos NUMERIC(1,0) NOT NULL,
+	usua_login_fallidos NUMERIC(1,0) constraint df_fallidos default (0),
 	usua_estado CHAR(1) NOT NULL,
 	PRIMARY KEY (usua_id)
 )
@@ -203,30 +203,14 @@ GO
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
 
---falta:
+--falta: (podemos hacer los sp para llenar estas que faltan)
 	--premio
 	--grado
 	--premio_cliente
-	--rol_funcion
-	--rol_usuario
-	--usuario	
 	
-INSERT INTO PEL.Funcion (func_nombre) values 
-	('ABM DE ROL'),
-    ('ABM DE CLIENTE'),
-    ('ABM DE EMPRESA'),
-    ('ABM DE GRADO'),
-	('ABM DE CATEGORIA')
-GO
-
-INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
-	('Finalizada'),
-	('Activa'),
-	('Borrador')
-GO
-
-
--- Password
+--------------------------------------------------
+-------------Funciones y procedures---------------
+--------------------------------------------------
 
 create function PEL.f_hash (@pass nvarchar(255))
 	returns nvarchar(255)
@@ -242,15 +226,6 @@ begin
 	return
 end
 go
-
--- Rubro: uno solo con cadena vacia
-
-INSERT INTO PEL.Rubro (rubr_descripcion)
-  	SELECT DISTINCT Espectaculo_Rubro_Descripcion
-	FROM gd_esquema.Maestra
-GO
-
--- Publicacion
 
 create function PEL.calcular_publ_estado(@fecha_venc date, @fecha_tope date)
 returns numeric(18,0)
@@ -268,6 +243,53 @@ if( @fecha_venc < @fecha_tope)
 return @id_estado
 end
 go
+
+
+--------------------------------------------------
+-------------Datos--------------------------------
+--------------------------------------------------
+	
+INSERT INTO PEL.Funcion (func_nombre) values 
+	('ABM DE ROL'),
+    ('ABM DE CLIENTE'),
+    ('ABM DE EMPRESA'),
+    ('ABM DE GRADO'),
+	('ABM DE CATEGORIA')
+GO
+
+INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
+	('Finalizada'),
+	('Activa'),
+	('Borrador')
+GO
+
+INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
+	('Administrador General', 'A')
+GO
+
+INSERT INTO PEL.Usuario (usua_username, usua_password, usua_estado) values
+	--A de activo? deberiamos tenerlos en la estrategia 
+	('admin',hashbytes('SHA2_256','w23e'),'A')
+GO
+
+INSERT INTO PEL.Rol_Funcion(rol_func_rol, rol_func_func) values
+	(1,1),
+	(1,2),
+	(1,3),
+	(1,4),
+	(1,5)
+
+GO
+
+INSERT INTO PEL.Rol_Usuario(rol_usua_rol, rol_usua_usua) values
+	(1,1)
+GO
+
+INSERT INTO PEL.Rubro (rubr_descripcion)
+  	SELECT DISTINCT Espectaculo_Rubro_Descripcion
+	FROM gd_esquema.Maestra
+GO
+
 
 INSERT INTO PEL.Publicacion (publ_id,
 							 publ_descripcion, 
@@ -324,7 +346,7 @@ INSERT INTO PEL.Factura (fact_fecha,
 			where empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit = Espec_Empresa_Cuit)
 	 FROM gd_esquema.Maestra
 	 where Factura_Nro is not null
-	 group by Factura_Fecha, Factura_Total,Factura_Nro
+	 group by Factura_Fecha, Factura_Total,Factura_Nro, Espec_Empresa_Razon_Social, Espec_Empresa_Cuit
 
 GO
 
