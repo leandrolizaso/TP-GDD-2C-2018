@@ -404,10 +404,9 @@ INSERT INTO PEL.Ubicacion (ubic_fila,
 					Ubicacion_Precio,
 					Espectaculo_Cod, 
 					Ubicacion_Tipo_Codigo, -- dado que el tipo_ubic_id lo sacamos de ese campo, tambien podria ser algo que manaje el motor y tirar un select
-					compr_id
-	FROM gd_esquema.Maestra JOIN PEL.Compra 
-				on compr_fecha = Compra_Fecha 
-	where compr_cliente = (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni) and Factura_Fecha is null
+					(select compr_id from PEL.Compra where compr_cliente = Cli_DNI)--compr_cliente = (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni) and 
+	FROM gd_esquema.Maestra 
+	where Factura_Fecha is null
 
 	--No se si eso alcanza para conseguir la compra, por ejemplo si el cliente compro varias de la misma publicacion el mismo dia
 			-- aparenta que si (?
