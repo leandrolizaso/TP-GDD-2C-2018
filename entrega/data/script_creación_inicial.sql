@@ -416,7 +416,7 @@ GO
 -- Item_Factura
 
 INSERT INTO PEL.Item_Factura (item_ubic, item_factura,item_comision)
-	SELECT DISTINCT ubic_id, fact_id, ubic_precio/Item_Factura_Monto
+	SELECT DISTINCT ubic_id, fact_id, Item_Factura_Monto
 	FROM  gd_esquema.Maestra join PEL.Factura on Factura_nro = fact_numero
 							 join PEL.Ubicacion on Ubicacion_Asiento = ubic_asiento and 
 												   Ubicacion_Fila = ubic_fila and 
