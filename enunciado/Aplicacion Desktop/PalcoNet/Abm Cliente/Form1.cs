@@ -10,15 +10,11 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Abm_Cliente
 {
-    public partial class ABMCliente : Form
+    public partial class Form1 : Form
     {
-        public ABMCliente()
+        public Form1()
         {
             InitializeComponent();
         }
-
-
-
-
-     }
+    }
 }

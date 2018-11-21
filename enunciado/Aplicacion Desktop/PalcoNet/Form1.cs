@@ -10,18 +10,11 @@ using System.Windows.Forms;
 
 namespace PalcoNet
 {
-    public partial class Funcionalidad : Form
+    public partial class Form1 : Form
     {
-        public Funcionalidad()
+        public Form1()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            new Abm_Cliente.ABMCliente().ShowDialog();
-            this.Show();
         }
     }
 }
