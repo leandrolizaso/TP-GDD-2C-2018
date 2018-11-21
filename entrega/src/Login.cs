@@ -1,4 +1,5 @@
 ﻿using PalcoNet.Registro_de_Usuario;
+using PalcoNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,15 +40,17 @@ namespace PalcoNet
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!dao.esUsuarioActivo(usuario.Text, pass.Text))
+            int idUsuario = dao.esUsuarioActivo(usuario.Text, pass.Text);
+            if (idUsuario <0 )
             {
                 System.Windows.Forms.MessageBox.Show("Credenciales incorrectas para el usuario "+usuario.Text+ ".\nEs posible que el usuario no exista o la contraseña sea incorrecta.\nPor favor, intente de nuevo.");
                 pass.Text = ""; //Por las dudas
                 pass.Focus();
                 return;
             }
+            Globales.idUsuarioOnline = idUsuario; //evaluar si es necesario
             this.Hide();
-            new SeleccionRol().ShowDialog();
+            new SeleccionRol(idUsuario).ShowDialog();
             this.Show();
         }
     }

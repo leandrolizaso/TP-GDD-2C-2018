@@ -12,14 +12,23 @@ namespace PalcoNet
 {
     public partial class SeleccionRol : Form
     {
-        public SeleccionRol()
+        private int usuario;
+
+        public SeleccionRol(int usuario)
         {
+            this.usuario = usuario;
             InitializeComponent();
+            actualizarRoles();
+        }
+
+        private void actualizarRoles()
+        {
+            //RolDAO.getRolesPorIdUsuario(usuario);
+            //roles.DataSource = new DataTable();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Mostrar roles disponibles, seleccion unica
             
         }
 
@@ -29,5 +38,6 @@ namespace PalcoNet
             new Funcionalidad().ShowDialog();
             this.Show();
         }
+
     }
 }
