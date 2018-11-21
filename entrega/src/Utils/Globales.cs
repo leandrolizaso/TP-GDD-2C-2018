@@ -2,7 +2,8 @@
     public static class Globales {
 
         public static string getUrlDB() {
-            return "Data Source=localhost\\SQLSERVER2012;Initial Catalog=GD1C2016;Integrated Security=True";
+            return "Data Source=localhost\\SQLSERVER2012;Initial Catalog=GD2C2018;User ID=gdEspectaculos2018;Password=gd2018";
+            
         }
 
     }

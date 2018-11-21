@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PalcoNet.Registro_de_Usuario;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,13 @@ namespace PalcoNet
 {
     public partial class Login : Form
     {
+
+        private LoginDAO dao;
+
         public Login()
         {
             InitializeComponent();
+            dao = new LoginDAO();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -34,10 +39,13 @@ namespace PalcoNet
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // verificar login
-
-            // tener en cuenta si es un unico rol, si no dar opciones
-
+            if (!dao.esUsuarioActivo(usuario.Text, pass.Text))
+            {
+                System.Windows.Forms.MessageBox.Show("Credenciales incorrectas para el usuario "+usuario.Text+ ".\nEs posible que el usuario no exista o la contraseña sea incorrecta.\nPor favor, intente de nuevo.");
+                pass.Text = ""; //Por las dudas
+                pass.Focus();
+                return;
+            }
             this.Hide();
             new SeleccionRol().ShowDialog();
             this.Show();
