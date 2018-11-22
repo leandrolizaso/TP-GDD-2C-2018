@@ -45,7 +45,6 @@
             this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Usuario";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // usuario
             // 
@@ -54,7 +53,6 @@
             this.usuario.Name = "usuario";
             this.usuario.Size = new System.Drawing.Size(90, 20);
             this.usuario.TabIndex = 1;
-            this.usuario.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // pass
             // 
@@ -85,7 +83,6 @@
             this.label3.Size = new System.Drawing.Size(109, 26);
             this.label3.TabIndex = 4;
             this.label3.Text = "PalcoNet";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // button1
             // 

@@ -23,21 +23,6 @@ namespace PalcoNet
             dao = new LoginDAO();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             Decimal idUsuario = dao.esUsuarioActivo(usuario.Text, pass.Text);

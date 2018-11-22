@@ -24,18 +24,24 @@ namespace PalcoNet
         private void actualizarRoles()
         {
             //RolDAO.getRolesPorIdUsuario(usuario);
-            //roles.DataSource = new DataTable();
-        }
+            var dt = new DataTable();
+            dt.Columns.Add("rol_id");
+            dt.Columns.Add("roles");
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
+            dt.Rows.Add(new object[] { 1, "Ejemplo1" });
+            dt.Rows.Add(new object[] { 2, "Ejemplo2" });
+            dt.Rows.Add(new object[] { 3, "Ejemplo3" });
+
+            roles.ValueMember = "rol_id";
+            roles.DisplayMember = "roles";
+            roles.DataSource = dt.DefaultView;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new Funcionalidad().ShowDialog();
+            System.Windows.Forms.MessageBox.Show(roles.Text + "(" + roles.SelectedValue+")");
+            //new Funcionalidad().ShowDialog();
             this.Show();
         }
 
