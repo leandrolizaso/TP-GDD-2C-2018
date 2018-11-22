@@ -12,9 +12,9 @@ namespace PalcoNet
 {
     public partial class SeleccionRol : Form
     {
-        private int usuario;
+        private Decimal usuario;
 
-        public SeleccionRol(int usuario)
+        public SeleccionRol(Decimal usuario)
         {
             this.usuario = usuario;
             InitializeComponent();
