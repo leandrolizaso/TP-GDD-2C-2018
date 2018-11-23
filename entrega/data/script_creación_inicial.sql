@@ -31,7 +31,7 @@ CREATE TABLE PEL.Rol (
 CREATE TABLE PEL.Usuario (
 	usua_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	usua_username NVARCHAR(50) NOT NULL UNIQUE,
-	usua_password NVARCHAR(100) NOT NULL,
+	usua_password NVARCHAR(255) NOT NULL,
 	usua_login_fallidos NUMERIC(1,0) constraint df_fallidos default (0),
 	usua_estado CHAR(1) NOT NULL,
 	PRIMARY KEY (usua_id)
@@ -420,3 +420,62 @@ update PEL.Ubicacion
 update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
+
+-- Trigger para persistir la password hasheada
+
+go
+create trigger tr_usuario_con_pass_hasheada on PEL.Usuario instead of insert,update
+as
+begin
+	declare @username nvarchar (50),@password nvarchar(255),@estado char(1)
+	declare cUsuarios cursor for select usua_username,usua_password,usua_estado from inserted
+	open cUsuarios 
+	
+	fetch next from cUsuarios into @username,@password,@estado
+	while(@@FETCH_STATUS = 0)
+	begin
+		insert Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash(@password),@estado)
+	fetch next from cUsuarios into @username,@password,@estado
+	end
+
+	close cUsuarios 
+	deallocate cUsuarios 
+end
+
+-- SP para validar el login de un Usuario
+
+go
+create procedure validar_usuario(@username nvarchar(50),@password nvarchar(255),@usua_id numeric(18,0) output,@mensaje nvarchar(255)) 
+as
+begin
+	declare @usua_pass nvarchar(255), @usua_fallidos numeric (1,0), @usua_estado char(1)
+	select @usua_id=usua_id,@usua_pass = usua_password, @usua_fallidos= usua_login_fallidos,@usua_estado = usua_estado from PEL.Usuario where usua_username = @username
+	set @mensaje = 'Logueo con éxito!'
+	if(@usua_estado = 'I')
+		begin
+			if(@usua_fallidos = 3)
+				set @mensaje = 'El usuario esta inhabilitado por tener 3 login fallidos.'
+			else
+				set @mensaje = 'El usuario fue inhabilitado por el Administrador.'
+		set @usua_id = -1
+		return	-- funciona asi esto ? xd
+		end
+
+	if(@usua_pass = PEL.f_hash(@password))
+		set @usua_fallidos = 0
+	else
+		begin
+		set @usua_fallidos = @usua_fallidos + 1
+		if(@usua_fallidos = 3 )
+			begin
+				update PEL.Usuario
+				set  usua_estado = 'I'
+				where usua_username = @username
+			end
+	end
+
+	update PEL.Usuario
+	set usua_login_fallidos = @usua_fallidos
+	where usua_username = @username
+	return
+end
