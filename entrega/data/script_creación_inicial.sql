@@ -259,6 +259,12 @@ INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
 	('Borrador')
 GO
 
+INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje) values
+	('Alta',15),
+	('Media',10),
+	('Baja',5)
+GO
+
 INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
 	('Administrador General', 'A')
 GO
