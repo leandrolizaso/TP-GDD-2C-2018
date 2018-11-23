@@ -99,7 +99,7 @@ CREATE TABLE PEL.Cliente (
 	clie_fecha_nac DATETIME,
 	clie_fecha_crea DATETIME,
 	clie_direccion NVARCHAR(255),
-	clie_datos_tarjeta NVARCHAR,
+	clie_datos_tarjeta NVARCHAR(255),
 	clie_estado CHAR (1),
 	PRIMARY KEY (clie_id),
 	FOREIGN KEY (clie_usuario) REFERENCES PEL.Usuario
@@ -144,6 +144,7 @@ CREATE TABLE PEL.Compra (
 	compr_detalle NVARCHAR(255),
 	compr_total NUMERIC(18,2),
 	compr_descuento NVARCHAR(255),
+	compr_datos_tarjeta NVARCHAR(255),
 	compr_medio_pago NVARCHAR(255),
 	compr_puntos_acum NUMERIC(18,0),
 	compr_puntos_gast NUMERIC(18,0),
