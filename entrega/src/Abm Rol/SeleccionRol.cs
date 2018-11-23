@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PalcoNet
+namespace PalcoNet.Abm_Rol
 {
     public partial class SeleccionRol : Form
     {
@@ -23,17 +23,10 @@ namespace PalcoNet
 
         private void actualizarRoles()
         {
-            //RolDAO.getRolesPorIdUsuario(usuario);
-            var dt = new DataTable();
-            dt.Columns.Add("rol_id");
-            dt.Columns.Add("roles");
-
-            dt.Rows.Add(new object[] { 1, "Ejemplo1" });
-            dt.Rows.Add(new object[] { 2, "Ejemplo2" });
-            dt.Rows.Add(new object[] { 3, "Ejemplo3" });
+            var dt = new RolDAO().obtenerListaRoles(usuario);
 
             roles.ValueMember = "rol_id";
-            roles.DisplayMember = "roles";
+            roles.DisplayMember = "rol_nombre";
             roles.DataSource = dt.DefaultView;
         }
 

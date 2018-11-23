@@ -1,4 +1,4 @@
-﻿namespace PalcoNet
+﻿namespace PalcoNet.Abm_Rol
 {
     partial class SeleccionRol
     {
