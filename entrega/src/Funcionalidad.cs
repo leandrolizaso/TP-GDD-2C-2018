@@ -1,4 +1,5 @@
-﻿using PalcoNet.Abm_Rol;
+﻿using PalcoNet.Abm_Cliente;
+using PalcoNet.Abm_Rol;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,7 +39,33 @@ namespace PalcoNet
 
         private void funcionElegida(object sender, EventArgs e) {
             Button button = (Button)sender;
-            System.Windows.Forms.MessageBox.Show("Click en "+button.Text+"("+button.Name+")");
+
+            Form proximaPantalla = new ListaCliente();
+            
+            switch(button.Name.Substring(6)) {
+                case "1": 
+                    //System.Windows.Forms.MessageBox.Show("ROLES"); 
+                    break;
+                case "2": 
+                    //System.Windows.Forms.MessageBox.Show("CLIENTE"); 
+                    break;
+                case "3": 
+                    //System.Windows.Forms.MessageBox.Show("EMPRESA"); 
+                    break;
+                case "4": 
+                    //System.Windows.Forms.MessageBox.Show("GRADO"); 
+                    break;
+                case "5": 
+                    //System.Windows.Forms.MessageBox.Show("CATEGORIA"); 
+                    break;
+                default: 
+                    //System.Windows.Forms.MessageBox.Show("Ay.. nose."); 
+                    break;
+            }
+
+            this.Hide();
+            proximaPantalla.ShowDialog();
+            this.Show();
         }
 
     }

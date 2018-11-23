@@ -44,11 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abm Cliente\ABMCliente.cs">
+    <Compile Include="Abm Cliente\ListaCliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm Cliente\ABMCliente.Designer.cs">
-      <DependentUpon>ABMCliente.cs</DependentUpon>
+    <Compile Include="Abm Cliente\ListaCliente.Designer.cs">
+      <DependentUpon>ListaCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm Empresa Espectaculo\Form1.cs">
       <SubType>Form</SubType>
@@ -147,8 +147,8 @@
     <Compile Include="Utils\BaseDAO.cs" />
     <Compile Include="Utils\Globales.cs" />
     <Compile Include="Utils\Conexion.cs" />
-    <EmbeddedResource Include="Abm Cliente\ABMCliente.resx">
-      <DependentUpon>ABMCliente.cs</DependentUpon>
+    <EmbeddedResource Include="Abm Cliente\ListaCliente.resx">
+      <DependentUpon>ListaCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Rol\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
