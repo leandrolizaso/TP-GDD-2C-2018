@@ -18,17 +18,7 @@ namespace PalcoNet.Abm_Cliente
         }
 
         private void buscar_Click(object sender, EventArgs e) {
-            //obtener los clientes con un procedure
-            var dt = new DataTable();
-            dt.Columns.Add("clie_id");
-            dt.Columns.Add("clie_nombre");
-            dt.Columns.Add("clie_apellido");
-            
-            dt.Rows.Add(new object[] { 1, "Juan","Perez" });
-            dt.Rows.Add(new object[] { 2, "Pedro","Egûez" });
-            dt.Rows.Add(new object[] { 3, "Miguel","Lizaso" });
-
-            //hacemos magia despues
+            var dt = new ClienteDAO().obtenerClientes("nom", "ape", "dni", "mail");
             datagrid.DataSource = dt;
 
             DataGridViewButtonColumn modify = new DataGridViewButtonColumn();
@@ -59,6 +49,28 @@ namespace PalcoNet.Abm_Cliente
                 }
                 
                 System.Windows.Forms.MessageBox.Show("Row:"+e.RowIndex+", Collumn:"+e.ColumnIndex+"\nID:"+clie_id+"\nAction:"+action); 
+            }
+        }
+
+        
+        private void datagrid_MouseClick(object sender, MouseEventArgs e) {
+            //Repasar esto, salio de google
+            // Al hacer click derecho sale un menu
+            // Seria mejor que la accion de modificar/borrar sea con menu
+            if (e.Button == MouseButtons.Right)
+            {
+                ContextMenu m = new ContextMenu();
+                m.MenuItems.Add(new MenuItem("Modificar"));
+                m.MenuItems.Add(new MenuItem("Eliminar"));
+
+                int currentMouseOverRow = datagrid.HitTest(e.X, e.Y).RowIndex;
+
+                if (currentMouseOverRow >= 0) {
+                    m.MenuItems.Add(new MenuItem(string.Format("Do something to row {0}", currentMouseOverRow.ToString())));
+                }
+
+                m.Show(datagrid, new Point(e.X, e.Y));
+
             }
         }
      }
