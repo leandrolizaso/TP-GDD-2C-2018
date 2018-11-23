@@ -175,24 +175,19 @@ CREATE TABLE PEL.Ubicacion (
 	ubic_fila NVARCHAR(2) NOT NULL,
 	ubic_asiento NUMERIC (2,0),
 	ubic_sin_numerar BIT NOT NULL,
-	ubic_precio NUMERIC(18,0),
+	ubic_precio NUMERIC(18,0), -- se mantiene el tipo por la Maestra
+	ubic_comision numeric (18,2),
+	ubic_item_factura_cantidad NUMERIC (18,0), -- item_factura_cantidad Maestra
+	ubic_item_factura_descripcion nvarchar(60), -- item_factura_descripcion Maestra 
 	ubic_tipo NUMERIC(18,0) NOT NULl,
 	ubic_publ NUMERIC(18,0) NOT NULl,	
 	ubic_compra NUMERIC(18,0),
+	ubic_factura NUMERIC(18,0),
 	PRIMARY KEY (ubic_id),
 	FOREIGN KEY (ubic_tipo) REFERENCES PEL.Tipo_Ubicacion (tipo_ubic_id),
 	FOREIGN KEY (ubic_compra) REFERENCES PEL.Compra(compr_id),
-	FOREIGN KEY (ubic_publ) REFERENCES PEL.Publicacion(publ_id)
-
-)
-
-CREATE TABLE PEL.Item_Factura (
-	item_factura NUMERIC(18,0) NOT NULL,
-	item_ubic NUMERIC(18,0) NOT NULL,
-	item_comision NUMERIC(18,2) NOT NULL,
-	PRIMARY KEY (item_factura,item_ubic),
-	FOREIGN KEY (item_factura) REFERENCES PEL.Factura(fact_id),
-	FOREIGN KEY (item_ubic) REFERENCES PEL.Ubicacion(ubic_id)
+	FOREIGN KEY (ubic_publ) REFERENCES PEL.Publicacion(publ_id),
+	FOREIGN KEY (ubic_factura) REFERENCES PEL.Factura(fact_id)
 )
 
 GO
@@ -389,7 +384,7 @@ INSERT INTO PEL.Compra (compr_fecha,
 	where cli_dni is not null and compra_fecha is not null and Forma_Pago_Desc is not null
 GO
 
--- Ubicacion
+-- Ubicaciones en general
 
 INSERT INTO PEL.Ubicacion (ubic_fila, 
 						   ubic_asiento, 
@@ -404,33 +399,24 @@ INSERT INTO PEL.Ubicacion (ubic_fila,
 					Ubicacion_Precio,
 					Espectaculo_Cod, 
 					Ubicacion_Tipo_Codigo, -- dado que el tipo_ubic_id lo sacamos de ese campo, tambien podria ser algo que manaje el motor y tirar un select
-					(select compr_id from PEL.Compra where compr_cliente = Cli_DNI)--compr_cliente = (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni) and 
-	FROM gd_esquema.Maestra 
+					(select compr_id from PEL.Compra where compr_cliente = Cli_DNI)
+	FROM gd_esquema.Maestra
 	where Factura_Fecha is null
 
 	--No se si eso alcanza para conseguir la compra, por ejemplo si el cliente compro varias de la misma publicacion el mismo dia
 			-- aparenta que si (?
 GO
 
--- Item_Factura
+-- ubicaciones facturadas
 
-INSERT INTO PEL.Item_Factura (item_ubic, item_factura,item_comision)
-	SELECT DISTINCT ubic_id, fact_id, Item_Factura_Monto
-	FROM  gd_esquema.Maestra join PEL.Factura on Factura_nro = fact_numero
-							 join PEL.Ubicacion on Ubicacion_Asiento = ubic_asiento and 
-												   Ubicacion_Fila = ubic_fila and 
-												   Ubicacion_Precio = ubic_precio and 
-												   Ubicacion_Sin_numerar = ubic_sin_numerar and 
-												   Ubicacion_Tipo_Codigo = ubic_tipo and 
-												   Espectaculo_Cod = ubic_publ
-	where Factura_Fecha is not null
-	--idem anterior
-GO
+update PEL.Ubicacion
+	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), ubic_comision = Item_Factura_Monto, ubic_item_factura_cantidad = Item_Factura_Cantidad,ubic_item_factura_descripcion = Item_Factura_Descripcion
+	from gd_esquema.Maestra
+	where Factura_nro is not null and ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and ubic_publ= Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
 
--- falta lo del importe: sumatoria del precio de las ubicaciones referenciadas por item_factura
---resolviending esooo
+
+-- se calcula importe de factura: sumatoria de los precios de cada ubicacion
 
 update PEL.Factura
-set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion join PEL.Item_Factura on item_ubic = ubic_id
-					where fact_id = item_factura
-					group by item_factura)
+set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
+					group by ubic_factura)
