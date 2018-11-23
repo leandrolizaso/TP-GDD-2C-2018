@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PalcoNet.Abm_Rol;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PalcoNet.Abm_Rol
+namespace PalcoNet
 {
     public partial class SeleccionRol : Form
     {
@@ -33,8 +34,8 @@ namespace PalcoNet.Abm_Rol
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            System.Windows.Forms.MessageBox.Show(roles.Text + "(" + roles.SelectedValue+")");
-            //new Funcionalidad().ShowDialog();
+            Decimal idRol = (Decimal) roles.SelectedValue;
+            new Funcionalidad(idRol).ShowDialog();
             this.Show();
         }
 

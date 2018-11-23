@@ -1,4 +1,4 @@
-﻿namespace PalcoNet.Abm_Rol
+﻿namespace PalcoNet
 {
     partial class SeleccionRol
     {
@@ -56,7 +56,6 @@
             // 
             // seleccionar
             // 
-            this.seleccionar.Enabled = false;
             this.seleccionar.Location = new System.Drawing.Point(22, 128);
             this.seleccionar.Margin = new System.Windows.Forms.Padding(2);
             this.seleccionar.Name = "seleccionar";

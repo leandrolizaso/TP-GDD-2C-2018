@@ -29,47 +29,35 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.panel = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(56, 27);
+            this.label1.Location = new System.Drawing.Point(85, 24);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(169, 58);
+            this.label1.Size = new System.Drawing.Size(272, 24);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Seleccionar \r\nfuncionalidad";
+            this.label1.Text = "Seleccion de Funcionalidad";
             // 
-            // button1
+            // panel
             // 
-            this.button1.Location = new System.Drawing.Point(171, 180);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(99, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "seleccionar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(90, 121);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 24);
-            this.comboBox1.TabIndex = 2;
+            this.panel.Location = new System.Drawing.Point(29, 66);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(362, 218);
+            this.panel.TabIndex = 1;
             // 
             // Funcionalidad
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(424, 296);
+            this.Controls.Add(this.panel);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Funcionalidad";
             this.Text = "Funcionalidad";
             this.ResumeLayout(false);
@@ -80,8 +68,7 @@
         #endregion
 
         public System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.FlowLayoutPanel panel;
 
     }
 }
