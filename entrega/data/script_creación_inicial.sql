@@ -619,18 +619,16 @@ end
 -- SP Ver Compras, retorna cursor, hoy en dia solo se ve compr_id
 
 go
-create procedure sp_ver_compras (@clie_id numeric(18,0), @pag int, @offset int, @cursor_compras cursor varying output)
+
+create procedure sp_ver_compras (@clie_id numeric(18,0), @pag int)
 as	
 begin
-declare @id_compra int, @pos int
-set @pos = 0
-set @cursor_compras = cursor for select top ((@pag+1)*@offset) compr_id from Pel.Compra join PEL.Cliente on compr_cliente = @clie_id where @clie_id = clie_id
-open @cursor_compras
-fetch next from @cursor_compras into @id_compra
-while(@@FETCH_STATUS = 0 and @pos < @pag*@offset )
-begin
-	set @pos = @pos + 1
-	fetch next from @cursor_compras into @id_compra
-end
-return
+SELECT  * --ver que datos son necesaris mostrar de la compra
+FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
+          FROM      PEL.Compra inner join PEL.Cliente on compr_cliente = clie_id
+		  WHERE @clie_id = clie_id
+        ) AS RowConstrainedResult
+WHERE   RowNum > (@pag-1)*10 
+    AND RowNum <= @pag*10
+ORDER BY RowNum
 end
