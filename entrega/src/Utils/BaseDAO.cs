@@ -14,8 +14,12 @@ namespace PalcoNet.Utils {
             foreach (var item in queryParams) {
                 cmd.Parameters.AddWithValue(item.Key, item.Value);
             }
-
-            return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            try {
+                return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            }
+            finally {
+                cmd.Dispose();
+            }
         }
 
         protected DataTable aDataTableOf(SqlDataReader reader) {
