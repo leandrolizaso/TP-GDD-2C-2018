@@ -199,21 +199,10 @@ CREATE TABLE PEL.Ubicacion (
 
 GO
 
-
-
-
---------------------------------------------------------------
--------------------Migración de los datos---------------------
---------------------------------------------------------------
-
---falta: (podemos hacer los sp para llenar estas que faltan)
-	--premio
-	--grado
-	--premio_cliente
-	
 --------------------------------------------------
--------------Funciones y procedures---------------
+--------Functions, procedures & triggers----------
 --------------------------------------------------
+
 
 create function PEL.f_hash (@pass nvarchar(255))
 	returns nvarchar(255)
@@ -247,10 +236,212 @@ return @id_estado
 end
 go
 
+create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255)) 
+as
+begin
+	declare @usua_pass nvarchar(255);
+	declare @usua_fallidos numeric (1,0);
+	declare @usua_estado char(1);
+	declare @mensaje nvarchar(255); 
+	declare @usua_id numeric(18,0)
+	
+	select 
+	  @usua_id=usua_id,
+	  @usua_pass = usua_password, 
+	  @usua_fallidos= usua_login_fallidos,
+	  @usua_estado = usua_estado 
+	from PEL.Usuario where usua_username = @username;
 
---------------------------------------------------
--------------Datos--------------------------------
---------------------------------------------------
+	if(@usua_id is null)
+	begin
+	   select -1, 'El usuario o contraseña son incorrectos.';
+	   return;
+	end;
+	
+	set @mensaje = case @usua_estado
+		when 'B' then 'El usuario fue inhabilitado por el Administrador.'
+		when 'I' then 'El usuario esta inhabilitado por tener 3 login fallidos.'
+	end;
+
+	if(@mensaje is not null)
+	begin
+		select -1, @mensaje;
+		return;
+	end;
+
+	if(@usua_pass = PEL.f_hash(@password))
+		begin
+		set @usua_fallidos = 0
+		end
+	else
+		begin
+		set @usua_fallidos = @usua_fallidos + 1
+		if(@usua_fallidos = 3 )
+			begin
+				set @usua_estado = 'I';
+				set @mensaje = 'Debido a 3 intentos fallidos de inicio de sesion su usuario ha sido inhabilitado.';
+				set @usua_id = -1;
+			end
+		else
+		begin
+		    set @mensaje = 'El usuario o contraseña son incorrectos.';
+			set @usua_id = -1;
+		end
+	end
+
+	update PEL.Usuario
+	set usua_login_fallidos = @usua_fallidos,
+	    usua_estado = @usua_estado
+	where usua_username = @username;
+
+	select @usua_id, @mensaje;
+end
+
+
+-- 0:true, 1:false
+go
+create function PEL.f_es_username_valido(@usuario nvarchar(50))
+returns int
+begin
+	declare @respuesta int
+	set @respuesta = 0
+	if(@usuario in (select usua_username from PEL.Usuario))
+		set @respuesta = 1
+	return @respuesta
+end
+
+
+go
+create procedure PEL.generar_username(@data nvarchar(50) output)
+as
+begin
+	set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
+	while(PEL.f_es_username_valido(@data)!=0)
+		set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
+	return
+end
+
+-- Inicialmente se registra a un usuario Cliente unicamente con el Rol Cliente
+go
+create procedure PEL.registrar_usuario_cliente
+		(@username nvarchar(50) output ,@password nvarchar(255) output, 
+		@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255),
+		@usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
+as
+begin
+
+	if(PEL.f_es_username_valido(@username) != 0)
+		begin
+			set @usua_id = -1
+			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
+			return
+		end
+
+	if(@nro_doc in (select clie_nro_doc from PEL.Cliente)) -- es antiguo?
+		begin
+				declare @usuario_cliente numeric(18,0)
+				set @usuario_cliente = (select isnull(clie_usuario,0) from PEL.Cliente where clie_nro_doc = @nro_doc)
+				if( @usuario_cliente != 0) -- tiene usuario?
+					begin
+						set @usua_id = -1
+						set @mensaje= 'El Cliente ya posee un Usuario'
+						return
+					end
+			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
+		end
+
+	if(@username is null and @password is null)
+		begin
+			exec PEL.generar_username @data = @username output;
+			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+		end
+	
+	
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
+	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
+	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Cliente'), @usua_id)
+	update PEL.Cliente 
+		set clie_usuario = @usua_id 
+		where clie_nro_doc = @nro_doc
+	
+	return
+end
+
+
+
+-- Inicialmente se registra a un usuario Empresa unicamente con el Rol Empresa
+
+go
+create procedure PEL.registrar_usuario_empresa
+		(@username nvarchar(50) output ,@password nvarchar(255) output, 
+		 @direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255),
+		 @usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
+as
+begin
+
+	if(PEL.f_es_username_valido(@username) != 0)
+		begin
+			set @usua_id = -1
+			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
+			return
+		end
+
+	if(@cuit in (select empr_cuit from PEL.Empresa)) -- es antiguo?
+		begin
+				declare @usuario_empresa numeric(18,0)
+				set @usuario_empresa= (select isnull(empr_usuario,0) from PEL.Empresa where empr_cuit = @cuit)
+				if( @usuario_empresa != 0) -- tiene usuario?
+					begin
+						set @usua_id = -1
+						set @mensaje= 'El Cliente ya posee un Usuario'
+						return
+					end
+			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
+		end
+
+	if(@username is null and @password is null)
+		begin
+			exec PEL.generar_username @data = @username output;
+			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+		end
+	
+	
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
+	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
+	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Empresa'), @usua_id)
+	update PEL.Empresa 
+		set empr_usuario = @usua_id 
+		where empr_cuit = @cuit
+	
+	return
+end
+
+go
+
+create procedure PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
+as	
+begin
+SELECT  * --ver que datos son necesaris mostrar de la compra
+FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
+          FROM      PEL.Compra inner join PEL.Cliente on compr_cliente = clie_id
+		  WHERE @clie_id = clie_id
+        ) AS RowConstrainedResult
+WHERE   RowNum > (@pag-1)*10 
+    AND RowNum <= @pag*10
+ORDER BY RowNum
+end
+go
+
+
+--------------------------------------------------------------
+-------------------Migración de los datos---------------------
+--------------------------------------------------------------
+
+--falta: (podemos hacer los sp para llenar estas que faltan)
+	--premio
+	--grado
+	--premio_cliente
+
 	
 INSERT INTO PEL.Funcion (func_nombre) values 
 	('ABM DE ROL'),
@@ -280,7 +471,7 @@ GO
 
 INSERT INTO PEL.Usuario (usua_username, usua_password, usua_estado) values
 	--A de activo? deberiamos tenerlos en la estrategia 
-	('admin',hashbytes('SHA2_256','w23e'),'A')
+	('admin',PEL.f_hash('w23e'),'A')
 GO
 
 INSERT INTO PEL.Rol_Funcion(rol_func_rol, rol_func_func) values
@@ -435,204 +626,3 @@ update PEL.Ubicacion
 update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
-
--- Trigger para persistir la password hasheada
-
-go
-create trigger tr_usuario_con_pass_hasheada on PEL.Usuario instead of insert,update
-as
-begin
-	declare @username nvarchar (50),@password nvarchar(255),@estado char(1)
-	declare cUsuarios cursor for select usua_username,usua_password,usua_estado from inserted
-	open cUsuarios 
-	
-	fetch next from cUsuarios into @username,@password,@estado
-	while(@@FETCH_STATUS = 0)
-	begin
-		insert Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash(@password),@estado)
-	fetch next from cUsuarios into @username,@password,@estado
-	end
-
-	close cUsuarios 
-	deallocate cUsuarios 
-end
-
--- SP para validar el login de un Usuario
-
-go
-create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255)) 
-as
-begin
-	declare @usua_pass nvarchar(255), @usua_fallidos numeric (1,0), @usua_estado char(1), @mensaje nvarchar(255), @usua_id numeric(18,0)
-	select @usua_id=usua_id,@usua_pass = usua_password, @usua_fallidos= usua_login_fallidos,@usua_estado = usua_estado from PEL.Usuario where usua_username = @username
-	
-	if(@usua_estado = 'I')
-		begin
-			if(@usua_fallidos = 3)
-				set @mensaje = 'El usuario esta inhabilitado por tener 3 login fallidos.'
-			else
-				set @mensaje = 'El usuario fue inhabilitado por el Administrador.'
-		set @usua_id = -1
-		return	-- funciona asi esto ? xd
-		end
-
-	if(@usua_pass = PEL.f_hash(@password))
-		begin
-		set @usua_fallidos = 0
-		set @mensaje = 'Logueo con éxito!'
-		end
-	else
-		begin
-		set @usua_fallidos = @usua_fallidos + 1
-		if(@usua_fallidos = 3 )
-			begin
-				update PEL.Usuario
-				set  usua_estado = 'I'
-				where usua_username = @username
-			end
-	end
-
-	update PEL.Usuario
-	set usua_login_fallidos = @usua_fallidos
-	where usua_username = @username
-	
-	select @usua_id, @mensaje
-end
-
-
---
-
--- 0:true, 1:false
-go
-create function PEL.f_es_username_valido(@usuario nvarchar(50))
-returns int
-begin
-	declare @respuesta int
-	set @respuesta = 0
-	if(@usuario in (select usua_username from PEL.Usuario))
-		set @respuesta = 1
-	return @respuesta
-end
-
-
-go
-create procedure PEL.generar_username(@data nvarchar(50) output)
-as
-begin
-	set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
-	while(PEL.f_es_username_valido(@data)!=0)
-		set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
-	return
-end
-
--- Inicialmente se registra a un usuario Cliente unicamente con el Rol Cliente
-go
-create procedure PEL.registrar_usuario_cliente
-		(@username nvarchar(50) output ,@password nvarchar(255) output, 
-		@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255),
-		@usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
-as
-begin
-
-	if(PEL.f_es_username_valido(@username) != 0)
-		begin
-			set @usua_id = -1
-			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
-			return
-		end
-
-	if(@nro_doc in (select clie_nro_doc from PEL.Cliente)) -- es antiguo?
-		begin
-				declare @usuario_cliente numeric(18,0)
-				set @usuario_cliente = (select isnull(clie_usuario,0) from PEL.Cliente where clie_nro_doc = @nro_doc)
-				if( @usuario_cliente != 0) -- tiene usuario?
-					begin
-						set @usua_id = -1
-						set @mensaje= 'El Cliente ya posee un Usuario'
-						return
-					end
-			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
-		end
-
-	if(@username is null and @password is null)
-		begin
-			exec PEL.generar_username @data = @username output;
-			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
-		end
-	
-	
-	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
-	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
-	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Cliente'), @usua_id)
-	update PEL.Cliente 
-		set clie_usuario = @usua_id 
-		where clie_nro_doc = @nro_doc
-	
-	return
-end
-
-
-
--- Inicialmente se registra a un usuario Empresa unicamente con el Rol Empresa
-
-go
-create procedure PEL.registrar_usuario_empresa
-		(@username nvarchar(50) output ,@password nvarchar(255) output, 
-		 @direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255),
-		 @usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
-as
-begin
-
-	if(PEL.f_es_username_valido(@username) != 0)
-		begin
-			set @usua_id = -1
-			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
-			return
-		end
-
-	if(@cuit in (select empr_cuit from PEL.Empresa)) -- es antiguo?
-		begin
-				declare @usuario_empresa numeric(18,0)
-				set @usuario_empresa= (select isnull(empr_usuario,0) from PEL.Empresa where empr_cuit = @cuit)
-				if( @usuario_empresa != 0) -- tiene usuario?
-					begin
-						set @usua_id = -1
-						set @mensaje= 'El Cliente ya posee un Usuario'
-						return
-					end
-			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
-		end
-
-	if(@username is null and @password is null)
-		begin
-			exec PEL.generar_username @data = @username output;
-			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
-		end
-	
-	
-	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
-	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
-	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Empresa'), @usua_id)
-	update PEL.Empresa 
-		set empr_usuario = @usua_id 
-		where empr_cuit = @cuit
-	
-	return
-end
-
--- SP Ver Compras, retorna cursor, hoy en dia solo se ve compr_id
-
-go
-
-create procedure sp_ver_compras (@clie_id numeric(18,0), @pag int)
-as	
-begin
-SELECT  * --ver que datos son necesaris mostrar de la compra
-FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
-          FROM      PEL.Compra inner join PEL.Cliente on compr_cliente = clie_id
-		  WHERE @clie_id = clie_id
-        ) AS RowConstrainedResult
-WHERE   RowNum > (@pag-1)*10 
-    AND RowNum <= @pag*10
-ORDER BY RowNum
-end
