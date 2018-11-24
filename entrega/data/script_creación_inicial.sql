@@ -239,40 +239,62 @@ go
 create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255)) 
 as
 begin
-	declare @usua_pass nvarchar(255), @usua_fallidos numeric (1,0), @usua_estado char(1), @mensaje nvarchar(255), @usua_id numeric(18,0)
-	select @usua_id=usua_id,@usua_pass = usua_password, @usua_fallidos= usua_login_fallidos,@usua_estado = usua_estado from PEL.Usuario where usua_username = @username
+	declare @usua_pass nvarchar(255);
+	declare @usua_fallidos numeric (1,0);
+	declare @usua_estado char(1);
+	declare @mensaje nvarchar(255); 
+	declare @usua_id numeric(18,0)
 	
-	if(@usua_estado = 'I')
-		begin
-			if(@usua_fallidos = 3)
-				set @mensaje = 'El usuario esta inhabilitado por tener 3 login fallidos.'
-			else
-				set @mensaje = 'El usuario fue inhabilitado por el Administrador.'
-		set @usua_id = -1
-		return	-- funciona asi esto ? xd
-		end
+	select 
+	  @usua_id=usua_id,
+	  @usua_pass = usua_password, 
+	  @usua_fallidos= usua_login_fallidos,
+	  @usua_estado = usua_estado 
+	from PEL.Usuario where usua_username = @username;
+
+	if(@usua_id is null)
+	begin
+	   select -1, 'El usuario o contraseña son incorrectos.';
+	   return;
+	end;
+	
+	set @mensaje = case @usua_estado
+		when 'B' then 'El usuario fue inhabilitado por el Administrador.'
+		when 'I' then 'El usuario esta inhabilitado por tener 3 login fallidos.'
+	end;
+
+	if(@mensaje is not null)
+	begin
+		select -1, @mensaje;
+		return;
+	end;
 
 	if(@usua_pass = PEL.f_hash(@password))
 		begin
 		set @usua_fallidos = 0
-		set @mensaje = 'Logueo con éxito!'
 		end
 	else
 		begin
 		set @usua_fallidos = @usua_fallidos + 1
 		if(@usua_fallidos = 3 )
 			begin
-				update PEL.Usuario
-				set  usua_estado = 'I'
-				where usua_username = @username
+				set @usua_estado = 'I';
+				set @mensaje = 'Debido a 3 intentos fallidos de inicio de sesion su usuario ha sido inhabilitado.';
+				set @usua_id = -1;
 			end
+		else
+		begin
+		    set @mensaje = 'El usuario o contraseña son incorrectos.';
+			set @usua_id = -1;
+		end
 	end
 
 	update PEL.Usuario
-	set usua_login_fallidos = @usua_fallidos
-	where usua_username = @username
-	
-	select @usua_id, @mensaje
+	set usua_login_fallidos = @usua_fallidos,
+	    usua_estado = @usua_estado
+	where usua_username = @username;
+
+	select @usua_id, @mensaje;
 end
 
 
@@ -449,7 +471,7 @@ GO
 
 INSERT INTO PEL.Usuario (usua_username, usua_password, usua_estado) values
 	--A de activo? deberiamos tenerlos en la estrategia 
-	('admin',hashbytes('SHA2_256','w23e'),'A')
+	('admin',PEL.f_hash('w23e'),'A')
 GO
 
 INSERT INTO PEL.Rol_Funcion(rol_func_rol, rol_func_func) values
@@ -460,7 +482,7 @@ INSERT INTO PEL.Rol_Funcion(rol_func_rol, rol_func_func) values
 	(1,5)
 
 GO
-select * from PEL.Funcion
+
 INSERT INTO PEL.Rol_Usuario(rol_usua_rol, rol_usua_usua) values
 	(1,1)
 GO
