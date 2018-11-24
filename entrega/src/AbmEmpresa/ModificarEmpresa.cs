@@ -1,4 +1,4 @@
-﻿using PalcoNet.AbmCliente;
+﻿using PalcoNet.AbmEmpresa;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,22 +10,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PalcoNet.AbmCliente
+namespace PalcoNet.AbmEmpresa
 {
-    public partial class ModificarCliente : Form
+    public partial class ModificarEmpresa : Form
     {
-        private decimal idCliente;
+        private decimal idEmpresa;
 
-        public ModificarCliente(Decimal idCliente)
+        public ModificarEmpresa(Decimal idEmpresa)
         {
-            this.idCliente = idCliente;
+            this.idEmpresa = idEmpresa;
             InitializeComponent();
             cargarCampos();
         }
 
         private void cargarCampos()
         {
-            var dt = new ClienteDAO().obtenerDatosCliente(idCliente);
+            var dt = new EmpresaDAO().obtenerDatosEmpresa(idEmpresa);
 
             var newline = false;
 
@@ -66,7 +66,7 @@ namespace PalcoNet.AbmCliente
 
             try
             {
-                new ClienteDAO().actualizarDatosCliente(idCliente, dict);
+                new EmpresaDAO().actualizarDatosEmpresa(idEmpresa, dict);
             }
             catch (SqlException ex) {
                 MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);

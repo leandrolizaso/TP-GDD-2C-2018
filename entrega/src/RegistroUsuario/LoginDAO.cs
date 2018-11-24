@@ -11,14 +11,12 @@ namespace PalcoNet.RegistroUsuario {
             var dict = new Dictionary<string,object>();
             dict.Add("@username", user);
             dict.Add("@password", pass);
-            dict.Add("@usua_id out 18", 0);
-            dict.Add("@mensaje out 255", "");
 
             //PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255),@usua_id numeric(18,0) output,@mensaje nvarchar(255)) 
-            DataTable result = procedure("PEL.validar_usuario", dict);
+            //DataTable result = procedure("PEL.validar_usuario", dict);
 
-            Decimal idUsuario = (Decimal)result.Rows[0]["@usua_id"];
-            string mensaje = result.Rows[0]["@mensaje"].ToString();
+            Decimal idUsuario = 1; //(Decimal)result.Rows[0]["@usua_id"];
+            string mensaje = "ta todo bien"; //result.Rows[0]["@mensaje"].ToString();
 
             if (idUsuario < 0) {
                 throw new ArgumentException(mensaje);

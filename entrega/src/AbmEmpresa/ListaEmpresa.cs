@@ -1,4 +1,4 @@
-﻿using PalcoNet.AbmCliente;
+﻿using PalcoNet.AbmEmpresa;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,22 +9,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PalcoNet.AbmCliente
+namespace PalcoNet.AbmEmpresa
 {
-    public partial class ListaCliente : Form
+    public partial class ListaEmpresa : Form
     {
         private decimal id_clickeado;
 
-        public ListaCliente()
+        public ListaEmpresa()
         {
             InitializeComponent();
         }
 
         private void buscar_Click(object sender, EventArgs e) {
-            var dt = new ClienteDAO().obtenerClientes(nombre.Text, apellido.Text, dni.Text, email.Text);
+            var dt = new EmpresaDAO().obtenerEmpresas(razon.Text, cuit.Text, email.Text);
             datagrid.DataSource = dt;
             foreach( DataGridViewColumn column in datagrid.Columns){
-                column.HeaderText = column.HeaderText.Replace("clie_", "").Replace("_", " ").ToUpper();
+                column.HeaderText = column.HeaderText.Replace("empr_", "").Replace("_", " ").ToUpper();
             }
         }
 
@@ -35,12 +35,11 @@ namespace PalcoNet.AbmCliente
                 int currentMouseOverRow = datagrid.HitTest(e.X, e.Y).RowIndex;
 
                 if (currentMouseOverRow >= 0) {
-                    id_clickeado = (decimal)datagrid["clie_id", currentMouseOverRow].Value;
-                    var nombre = datagrid["clie_nombre", currentMouseOverRow].Value;
-                    var apellido = datagrid["clie_apellido", currentMouseOverRow].Value;
+                    id_clickeado = (decimal)datagrid["empr_id", currentMouseOverRow].Value;
+                    var nombre = datagrid["empr_razon_social", currentMouseOverRow].Value;
 
-                    m.MenuItems.Add(new MenuItem(string.Format("Modificar {0} {1}", nombre, apellido), modificar));
-                    m.MenuItems.Add(new MenuItem(string.Format("Eliminar {0} {1}", nombre, apellido),eliminar));
+                    m.MenuItems.Add(new MenuItem(string.Format("Modificar {0}", nombre), modificar));
+                    m.MenuItems.Add(new MenuItem(string.Format("Eliminar {0}", nombre),eliminar));
                 }
 
                 m.Show(datagrid, new Point(e.X, e.Y));
@@ -50,7 +49,7 @@ namespace PalcoNet.AbmCliente
 
         private void modificar(object sender, EventArgs e) {
             this.Hide();
-            new ModificarCliente(id_clickeado).ShowDialog();
+            new ModificarEmpresa(id_clickeado).ShowDialog();
             this.Show();
             buscar_Click(sender,e);
         }
@@ -61,9 +60,8 @@ namespace PalcoNet.AbmCliente
         }
 
         private void limpiar_Click(object sender, EventArgs e) {
-            nombre.Text = "";
-            apellido.Text = "";
-            dni.Text = "";
+            razon.Text = "";
+            cuit.Text = "";
             email.Text = "";
             datagrid.DataSource = null;
         }

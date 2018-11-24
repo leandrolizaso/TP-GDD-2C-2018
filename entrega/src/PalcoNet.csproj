@@ -57,6 +57,19 @@
     <Compile Include="AbmCliente\ModificarCliente.Designer.cs">
       <DependentUpon>ModificarCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmEmpresa\EmpresaDAO.cs" />
+    <Compile Include="AbmEmpresa\ListaEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmEmpresa\ListaEmpresa.Designer.cs">
+      <DependentUpon>ListaEmpresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmEmpresa\ModificarEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmEmpresa\ModificarEmpresa.Designer.cs">
+      <DependentUpon>ModificarEmpresa.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRol\RolDAO.cs" />
     <Compile Include="Funcionalidad.cs">
       <SubType>Form</SubType>
@@ -87,6 +100,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\ModificarCliente.resx">
       <DependentUpon>ModificarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmEmpresa\ListaEmpresa.resx">
+      <DependentUpon>ListaEmpresa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmEmpresa\ModificarEmpresa.resx">
+      <DependentUpon>ModificarEmpresa.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
@@ -121,7 +140,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AbmEmpresa\" />
     <Folder Include="AbmGrado\" />
     <Folder Include="AbmRubro\" />
     <Folder Include="CanjePuntos\" />
