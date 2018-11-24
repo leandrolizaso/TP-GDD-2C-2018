@@ -385,8 +385,6 @@ begin
 	return
 end
 
-
-
 -- Inicialmente se registra a un usuario Empresa unicamente con el Rol Empresa
 
 go
@@ -553,6 +551,9 @@ INSERT INTO PEL.Empresa (empr_razon_social,
 	FROM gd_esquema.Maestra
 GO
 
+update PEL.Empresa
+ set empr_estado = 'M'
+
 --Factura
 -- falta lo del importe: sumatoria del precio de las ubicaciones referenciadas por item_factura
 INSERT INTO PEL.Factura (fact_fecha, 
@@ -591,6 +592,8 @@ INSERT INTO PEL.Cliente (clie_nro_doc,
 	where cli_dni is not null 
 GO 
 
+update PEL.Cliente
+ set clie_estado = 'M'
 
 -- Compra
 -- que hacemos con los puntos ? O sea hay compras de 2019 y todo xd *Estrategia*
