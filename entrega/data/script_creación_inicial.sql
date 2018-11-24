@@ -117,6 +117,7 @@ CREATE TABLE PEL.Empresa (
 	empr_direccion NVARCHAR(255) NOT NULL,
 	empr_razon_social NVARCHAR(200) NOT NULL,	-- bajo la cant de char por problemilla al actualizar tabla por unique
 	empr_cuit NVARCHAR(200) NOT NULL,			-- idem top
+	empr_estado CHAR(1),
 	empr_fecha DATETIME,
 	empr_telefono NVARCHAR(255),			
 	empr_mail NVARCHAR(255) NOT NULL,					
@@ -203,7 +204,7 @@ GO
 --------Functions, procedures & triggers----------
 --------------------------------------------------
 
-CREATE FUNCTION PEL.string_split (@string NVARCHAR(MAX), @delimiter CHAR(1)) 
+CREATE FUNCTION PEL.f_string_split (@string NVARCHAR(MAX), @delimiter CHAR(1)) 
 RETURNS @output TABLE(splitdata NVARCHAR(MAX)) 
 BEGIN 
     DECLARE @start INT, @end INT 
@@ -436,9 +437,9 @@ end
 
 go
 
-create procedure PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
-as	
-begin
+CREATE PROCEDURE PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
+AS	
+BEGIN
 SELECT  * --ver que datos son necesaris mostrar de la compra
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
           FROM      PEL.Compra inner join PEL.Cliente on compr_cliente = clie_id
@@ -447,10 +448,25 @@ FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
 WHERE   RowNum > (@pag-1)*10 
     AND RowNum <= @pag*10
 ORDER BY RowNum
-end
-go
+END
+GO
 
-
+CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle nvarchar,@desde DateTime,@hasta DateTime, @pag int)
+AS
+BEGIN
+SELECT  * 
+FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
+          FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id
+		  WHERE publ_rubro in (PEL.f_string_split(@categorias,','))
+		  and (publ_fecha_publi between @desde and @hasta)
+		  and (publ_fecha_ven between @desde and @hasta)
+		  and contains(publ_descripcion,@detalle)
+        ) AS RowConstrainedResult
+WHERE   RowNum > (@pag-1)*10 
+    AND RowNum <= @pag*10
+ORDER BY RowNum
+END
+GO
 
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
@@ -648,6 +664,4 @@ set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factur
 go
 
 
-
-
-
+exec PEL.sp_ver_publicaciones @categorias = '1', @detalle = '', @desde = '2007-05-08 12:35:29.123', @hasta='2020-05-08 12:35:29.123', @pag =1;
