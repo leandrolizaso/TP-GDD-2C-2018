@@ -25,6 +25,7 @@ CREATE TABLE PEL.Grado (
 	grad_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	grad_descripcion NVARCHAR(255) NOT NULL,
 	grad_porcentaje NUMERIC(18,2) NOT NULL,
+	grad_estado char(1) not null,
 	PRIMARY KEY (grad_id)
 )
 CREATE TABLE PEL.Rol (
@@ -491,10 +492,11 @@ INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
 	('Borrador')
 GO
 
-INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje) values
-	('Alta',15),
-	('Media',10),
-	('Baja',5)
+INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje,grad_estado) values
+	('Alta',15,'A'),
+	('Media',10,'A'),
+	('Baja',5,'A'),
+	('Migrado',0,'B')
 GO
 
 INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
@@ -542,6 +544,7 @@ INSERT INTO PEL.Publicacion (publ_id,
 					PEL.calcular_publ_estado(Espectaculo_Fecha_Venc,getdate())
 	FROM gd_esquema.Maestra
 GO
+
 
 -- Tipo_Ubicacion
 
