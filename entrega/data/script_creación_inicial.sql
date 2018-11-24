@@ -527,7 +527,7 @@ begin
 	if(PEL.f_es_username_valido(@username) != 0)
 		begin
 			set @usua_id = -1
-			set @mensaje='El usuario no es valido'
+			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
 			return
 		end
 
@@ -557,6 +557,55 @@ begin
 	update PEL.Cliente 
 		set clie_usuario = @usua_id 
 		where clie_nro_doc = @nro_doc
+	
+	return
+end
+
+
+
+-- Inicialmente se registra a un usuario Empresa unicamente con el Rol Empresa
+
+go
+create procedure PEL.registrar_usuario_empresa
+		(@username nvarchar(50) output ,@password nvarchar(255) output, 
+		 @direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255),
+		 @usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
+as
+begin
+
+	if(PEL.f_es_username_valido(@username) != 0)
+		begin
+			set @usua_id = -1
+			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
+			return
+		end
+
+	if(@cuit in (select empr_cuit from PEL.Empresa)) -- es antiguo?
+		begin
+				declare @usuario_empresa numeric(18,0)
+				set @usuario_empresa= (select isnull(empr_usuario,0) from PEL.Empresa where empr_cuit = @cuit)
+				if( @usuario_empresa != 0) -- tiene usuario?
+					begin
+						set @usua_id = -1
+						set @mensaje= 'El Cliente ya posee un Usuario'
+						return
+					end
+			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
+		end
+
+	if(@username is null and @password is null)
+		begin
+			exec PEL.generar_username @data = @username output;
+			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+		end
+	
+	
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'A')
+	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
+	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Empresa'), @usua_id)
+	update PEL.Empresa 
+		set empr_usuario = @usua_id 
+		where empr_cuit = @cuit
 	
 	return
 end
