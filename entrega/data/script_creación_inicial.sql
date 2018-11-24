@@ -545,6 +545,10 @@ INSERT INTO PEL.Publicacion (publ_id,
 	FROM gd_esquema.Maestra
 GO
 
+declare @id_grado numeric(18,0)
+set @id_grado = (select grad_id from PEL.Grado where grad_descripcion = 'Migrado')
+update PEL.Publicacion
+	set publ_grado = @id_grado
 
 -- Tipo_Ubicacion
 
