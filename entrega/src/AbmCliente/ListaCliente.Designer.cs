@@ -126,6 +126,7 @@
             this.limpiar.TabIndex = 9;
             this.limpiar.Text = "Limpiar Filtro";
             this.limpiar.UseVisualStyleBackColor = true;
+            this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
             // groupBox1
             // 
@@ -153,7 +154,7 @@
             this.datagrid.Name = "datagrid";
             this.datagrid.Size = new System.Drawing.Size(603, 231);
             this.datagrid.TabIndex = 11;
-            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
+            this.datagrid.MouseClick += new System.Windows.Forms.MouseEventHandler(this.datagrid_MouseClick);
             // 
             // ListaCliente
             // 

@@ -40,32 +40,34 @@ namespace PalcoNet
         private void funcionElegida(object sender, EventArgs e) {
             Button button = (Button)sender;
 
-            Form proximaPantalla = new ListaCliente();
+            Form proximaPantalla = null;
             
             switch(button.Name.Substring(6)) {
-                case "1": 
-                    //System.Windows.Forms.MessageBox.Show("ROLES"); 
+                case "1":  //roles
+                    System.Windows.Forms.MessageBox.Show("ROLES"); 
                     break;
                 case "2": 
-                    //System.Windows.Forms.MessageBox.Show("CLIENTE"); 
+                    proximaPantalla = new ListaCliente();
                     break;
                 case "3": 
-                    //System.Windows.Forms.MessageBox.Show("EMPRESA"); 
+                    System.Windows.Forms.MessageBox.Show("EMPRESA"); 
                     break;
                 case "4": 
-                    //System.Windows.Forms.MessageBox.Show("GRADO"); 
+                    System.Windows.Forms.MessageBox.Show("GRADO"); 
                     break;
                 case "5": 
-                    //System.Windows.Forms.MessageBox.Show("CATEGORIA"); 
+                    System.Windows.Forms.MessageBox.Show("CATEGORIA"); 
                     break;
                 default: 
-                    //System.Windows.Forms.MessageBox.Show("Ay.. nose."); 
+                    System.Windows.Forms.MessageBox.Show("Ay.. nose."); 
                     break;
             }
 
-            this.Hide();
-            proximaPantalla.ShowDialog();
-            this.Show();
+            if (proximaPantalla != null) {
+                this.Hide();
+                proximaPantalla.ShowDialog();
+                this.Show();
+            }
         }
 
     }
