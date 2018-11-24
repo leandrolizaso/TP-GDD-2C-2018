@@ -203,6 +203,24 @@ GO
 --------Functions, procedures & triggers----------
 --------------------------------------------------
 
+CREATE FUNCTION PEL.string_split (@string NVARCHAR(MAX), @delimiter CHAR(1)) 
+RETURNS @output TABLE(splitdata NVARCHAR(MAX)) 
+BEGIN 
+    DECLARE @start INT, @end INT 
+    SELECT @start = 1, @end = CHARINDEX(@delimiter, @string) 
+    WHILE @start < LEN(@string) + 1 BEGIN 
+        IF @end = 0  
+            SET @end = LEN(@string) + 1
+       
+        INSERT INTO @output (splitdata)  
+        VALUES(SUBSTRING(@string, @start, @end - @start)) 
+        SET @start = @end + 1 
+        SET @end = CHARINDEX(@delimiter, @string, @start)
+        
+    END 
+    RETURN 
+END
+go
 
 create function PEL.f_hash (@pass nvarchar(255))
 	returns nvarchar(255)
@@ -433,6 +451,7 @@ end
 go
 
 
+
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
@@ -626,3 +645,9 @@ update PEL.Ubicacion
 update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
+go
+
+
+
+
+
