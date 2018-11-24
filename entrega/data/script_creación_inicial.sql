@@ -210,47 +210,7 @@ GO
 	--premio
 	--grado
 	--premio_cliente
-	
---------------------------------------------------
--------------Funciones y procedures---------------
---------------------------------------------------
 
-create function PEL.f_hash (@pass nvarchar(255))
-	returns nvarchar(255)
-	begin
-		return hashbytes('SHA2_256', @pass);
-	end
-go
-
-create procedure PEL.hash (@pass nvarchar(255),@pass_h nvarchar(255) output)
-as
-begin
-	select @pass_h= hashbytes('SHA2_256', @pass);
-	return
-end
-go
-
-create function PEL.calcular_publ_estado(@fecha_venc date, @fecha_tope date)
-returns numeric(18,0)
-begin
-declare @id_estado numeric(18,0)
-if( @fecha_venc < @fecha_tope)
-		set @id_estado = (select Esta_id from PEL.Estado_Publicacion where Esta_descripcion = 'Finalizada')
-	else
-		set @id_estado = (select Esta_id from PEL.Estado_Publicacion where Esta_descripcion = 'Activa')
-
---alta paja hacer select para eso pero bueno D: podriamos usar la "descricion" y fue, si se quiere agregar 
-	--una descripcion de verdad se pone _detalle :P
-	--PD: "borrador" nnv *Estrategia* 
-	--PD2: y el mail ? que pacho con el estado ? XD
-return @id_estado
-end
-go
-
-
---------------------------------------------------
--------------Datos--------------------------------
---------------------------------------------------
 	
 INSERT INTO PEL.Funcion (func_nombre) values 
 	('ABM DE ROL'),
@@ -435,6 +395,46 @@ update PEL.Ubicacion
 update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
+
+
+
+
+--------------------------------------------------
+--------Functions, procedures & triggers----------
+--------------------------------------------------
+
+
+create function PEL.f_hash (@pass nvarchar(255))
+	returns nvarchar(255)
+	begin
+		return hashbytes('SHA2_256', @pass);
+	end
+go
+
+create procedure PEL.hash (@pass nvarchar(255),@pass_h nvarchar(255) output)
+as
+begin
+	select @pass_h= hashbytes('SHA2_256', @pass);
+	return
+end
+go
+
+create function PEL.calcular_publ_estado(@fecha_venc date, @fecha_tope date)
+returns numeric(18,0)
+begin
+declare @id_estado numeric(18,0)
+if( @fecha_venc < @fecha_tope)
+		set @id_estado = (select Esta_id from PEL.Estado_Publicacion where Esta_descripcion = 'Finalizada')
+	else
+		set @id_estado = (select Esta_id from PEL.Estado_Publicacion where Esta_descripcion = 'Activa')
+
+--alta paja hacer select para eso pero bueno D: podriamos usar la "descricion" y fue, si se quiere agregar 
+	--una descripcion de verdad se pone _detalle :P
+	--PD: "borrador" nnv *Estrategia* 
+	--PD2: y el mail ? que pacho con el estado ? XD
+return @id_estado
+end
+go
 
 -- Trigger para persistir la password hasheada
 
