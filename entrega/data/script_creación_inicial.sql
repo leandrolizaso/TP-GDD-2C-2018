@@ -199,206 +199,6 @@ CREATE TABLE PEL.Ubicacion (
 
 GO
 
-
-
-
---------------------------------------------------------------
--------------------Migración de los datos---------------------
---------------------------------------------------------------
-
---falta: (podemos hacer los sp para llenar estas que faltan)
-	--premio
-	--grado
-	--premio_cliente
-
-	
-INSERT INTO PEL.Funcion (func_nombre) values 
-	('ABM DE ROL'),
-    ('ABM DE CLIENTE'),
-    ('ABM DE EMPRESA'),
-    ('ABM DE GRADO'),
-	('ABM DE CATEGORIA')
-GO
-
-INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
-	('Finalizada'),
-	('Activa'),
-	('Borrador')
-GO
-
-INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje) values
-	('Alta',15),
-	('Media',10),
-	('Baja',5)
-GO
-
-INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
-	('Administrador General', 'A'),
-	('Cliente','A'),
-	('Empresa','A')
-GO
-
-INSERT INTO PEL.Usuario (usua_username, usua_password, usua_estado) values
-	--A de activo? deberiamos tenerlos en la estrategia 
-	('admin',hashbytes('SHA2_256','w23e'),'A')
-GO
-
-INSERT INTO PEL.Rol_Funcion(rol_func_rol, rol_func_func) values
-	(1,1),
-	(1,2),
-	(1,3),
-	(1,4),
-	(1,5)
-
-GO
-
-INSERT INTO PEL.Rol_Usuario(rol_usua_rol, rol_usua_usua) values
-	(1,1)
-GO
-
-INSERT INTO PEL.Rubro (rubr_descripcion)
-  	SELECT DISTINCT Espectaculo_Rubro_Descripcion
-	FROM gd_esquema.Maestra
-GO
-
-
-INSERT INTO PEL.Publicacion (publ_id,
-							 publ_descripcion, 
-							 publ_fecha_publi, 
-							 publ_fecha_ven, 
-							 publ_rubro, 
-							 publ_estado)
-  	SELECT DISTINCT Espectaculo_Cod, 
-					Espectaculo_Descripcion,
-					Espectaculo_Fecha, 
-					Espectaculo_Fecha_Venc, 
-					(SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), 
-				--	(SELECT Esta_id FROM PEL.Estado_Publicacion WHERE Esta_descripcion = 'Activa')
-					PEL.calcular_publ_estado(Espectaculo_Fecha_Venc,getdate())
-	FROM gd_esquema.Maestra
-GO
-
--- Tipo_Ubicacion
-
-INSERT INTO PEL.Tipo_Ubicacion (tipo_ubic_descripcion, tipo_ubic_id)
-	SELECT DISTINCT Ubicacion_Tipo_Descripcion, Ubicacion_Tipo_Codigo
-	FROM gd_esquema.Maestra
-GO
-
--- Empresa
-
-INSERT INTO PEL.Empresa (empr_razon_social, 
-						 empr_cuit, 
-						 empr_fecha, 
-						 empr_mail, 
-						 empr_direccion)
-	SELECT DISTINCT Espec_Empresa_Razon_Social, 
-					Espec_Empresa_Cuit, 
-					Espec_Empresa_Fecha_Creacion, 
-					Espec_Empresa_Mail, 
-					Espec_Empresa_Dom_Calle + 
-						CONVERT(nvarchar,Espec_Empresa_Nro_Calle) + 
-						CONVERT(nvarchar,Espec_Empresa_Piso) + 
-						Espec_Empresa_Depto + Espec_Empresa_Cod_Postal
-	FROM gd_esquema.Maestra
-GO
-
---Factura
--- falta lo del importe: sumatoria del precio de las ubicaciones referenciadas por item_factura
-INSERT INTO PEL.Factura (fact_fecha, 
-						 fact_comision, 
-				--		 fact_id, si esto era asi despues teniamos que controlar la generacion de id, que lo haga el motor
-						 fact_numero,
-						 fact_empr)
-	 SELECT Factura_Fecha, 
-			Factura_Total,
-			Factura_Nro,
-			(SELECT empr_id FROM PEL.Empresa 
-			where empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit = Espec_Empresa_Cuit)
-	 FROM gd_esquema.Maestra
-	 where Factura_Nro is not null
-	 group by Factura_Fecha, Factura_Total,Factura_Nro,Espec_Empresa_Razon_Social,Espec_Empresa_Cuit
-
-GO
-
--- Cliente
-
-INSERT INTO PEL.Cliente (clie_nro_doc, 
-						 clie_apellido, 
-						 clie_nombre, 
-						 clie_fecha_nac, 
-						 clie_mail, 
-						 clie_direccion)
-	SELECT DISTINCT Cli_Dni,
-					Cli_Apeliido, 
-					Cli_Nombre, 
-					Cli_Fecha_Nac, 
-					Cli_Mail, Cli_Dom_Calle + 
-						convert(nvarchar,Cli_Nro_Calle) + 
-						convert(nvarchar,Cli_Piso) +
-						Cli_Depto + Cli_Cod_Postal
-	FROM gd_esquema.Maestra
-	where cli_dni is not null 
-GO 
-
-
--- Compra
--- que hacemos con los puntos ? O sea hay compras de 2019 y todo xd *Estrategia*
-INSERT INTO PEL.Compra (compr_fecha,
-						compr_total,  
-						compr_medio_pago, 
-						compr_publi, 
-						compr_cliente)
-	--Habria que verificar que las cantidades coincidan 
-	SELECT DISTINCT Compra_Fecha,
-					Ubicacion_Precio*Compra_cantidad, -- compra_cantidad siempre es 1 pero bueno (?
-					Forma_Pago_Desc, 
-					Espectaculo_Cod, 
-					(SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
-	FROM gd_esquema.Maestra
-	where cli_dni is not null and compra_fecha is not null and Forma_Pago_Desc is not null
-GO
-
--- Ubicaciones en general
-
-INSERT INTO PEL.Ubicacion (ubic_fila, 
-						   ubic_asiento, 
-						   ubic_sin_numerar, 
-						   ubic_precio, 
-						   ubic_publ, 
-						   ubic_tipo, 
-						   ubic_compra)
-	SELECT DISTINCT Ubicacion_Fila, 
-					Ubicacion_Asiento, 
-					Ubicacion_Sin_numerar,
-					Ubicacion_Precio,
-					Espectaculo_Cod, 
-					Ubicacion_Tipo_Codigo, -- dado que el tipo_ubic_id lo sacamos de ese campo, tambien podria ser algo que manaje el motor y tirar un select
-					(select compr_id from PEL.Compra where compr_cliente = Cli_DNI)
-	FROM gd_esquema.Maestra
-	where Factura_Fecha is null
-
-	--No se si eso alcanza para conseguir la compra, por ejemplo si el cliente compro varias de la misma publicacion el mismo dia
-			-- aparenta que si (?
-GO
-
--- ubicaciones facturadas
-
-update PEL.Ubicacion
-	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), ubic_comision = Item_Factura_Monto, ubic_item_factura_cantidad = Item_Factura_Cantidad,ubic_item_factura_descripcion = Item_Factura_Descripcion
-	from gd_esquema.Maestra
-	where Factura_nro is not null and ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and ubic_publ= Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
-
-
--- se calcula importe de factura: sumatoria de los precios de cada ubicacion
-
-update PEL.Factura
-set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
-					group by ubic_factura)
-
-
-
-
 --------------------------------------------------
 --------Functions, procedures & triggers----------
 --------------------------------------------------
@@ -435,11 +235,6 @@ if( @fecha_venc < @fecha_tope)
 return @id_estado
 end
 go
-
--- Trigger para persistir la password hasheada
-
-go
-
 
 create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255)) 
 as
@@ -613,3 +408,199 @@ WHERE   RowNum > (@pag-1)*10
     AND RowNum <= @pag*10
 ORDER BY RowNum
 end
+go
+
+
+--------------------------------------------------------------
+-------------------Migración de los datos---------------------
+--------------------------------------------------------------
+
+--falta: (podemos hacer los sp para llenar estas que faltan)
+	--premio
+	--grado
+	--premio_cliente
+
+	
+INSERT INTO PEL.Funcion (func_nombre) values 
+	('ABM DE ROL'),
+    ('ABM DE CLIENTE'),
+    ('ABM DE EMPRESA'),
+    ('ABM DE GRADO'),
+	('ABM DE CATEGORIA')
+GO
+
+INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
+	('Finalizada'),
+	('Activa'),
+	('Borrador')
+GO
+
+INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje) values
+	('Alta',15),
+	('Media',10),
+	('Baja',5)
+GO
+
+INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
+	('Administrador General', 'A'),
+	('Cliente','A'),
+	('Empresa','A')
+GO
+
+INSERT INTO PEL.Usuario (usua_username, usua_password, usua_estado) values
+	--A de activo? deberiamos tenerlos en la estrategia 
+	('admin',hashbytes('SHA2_256','w23e'),'A')
+GO
+
+INSERT INTO PEL.Rol_Funcion(rol_func_rol, rol_func_func) values
+	(1,1),
+	(1,2),
+	(1,3),
+	(1,4),
+	(1,5)
+
+GO
+select * from PEL.Funcion
+INSERT INTO PEL.Rol_Usuario(rol_usua_rol, rol_usua_usua) values
+	(1,1)
+GO
+
+INSERT INTO PEL.Rubro (rubr_descripcion)
+  	SELECT DISTINCT Espectaculo_Rubro_Descripcion
+	FROM gd_esquema.Maestra
+GO
+
+
+INSERT INTO PEL.Publicacion (publ_id,
+							 publ_descripcion, 
+							 publ_fecha_publi, 
+							 publ_fecha_ven, 
+							 publ_rubro, 
+							 publ_estado)
+  	SELECT DISTINCT Espectaculo_Cod, 
+					Espectaculo_Descripcion,
+					Espectaculo_Fecha, 
+					Espectaculo_Fecha_Venc, 
+					(SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), 
+				--	(SELECT Esta_id FROM PEL.Estado_Publicacion WHERE Esta_descripcion = 'Activa')
+					PEL.calcular_publ_estado(Espectaculo_Fecha_Venc,getdate())
+	FROM gd_esquema.Maestra
+GO
+
+-- Tipo_Ubicacion
+
+INSERT INTO PEL.Tipo_Ubicacion (tipo_ubic_descripcion, tipo_ubic_id)
+	SELECT DISTINCT Ubicacion_Tipo_Descripcion, Ubicacion_Tipo_Codigo
+	FROM gd_esquema.Maestra
+GO
+
+-- Empresa
+
+INSERT INTO PEL.Empresa (empr_razon_social, 
+						 empr_cuit, 
+						 empr_fecha, 
+						 empr_mail, 
+						 empr_direccion)
+	SELECT DISTINCT Espec_Empresa_Razon_Social, 
+					Espec_Empresa_Cuit, 
+					Espec_Empresa_Fecha_Creacion, 
+					Espec_Empresa_Mail, 
+					Espec_Empresa_Dom_Calle + 
+						CONVERT(nvarchar,Espec_Empresa_Nro_Calle) + 
+						CONVERT(nvarchar,Espec_Empresa_Piso) + 
+						Espec_Empresa_Depto + Espec_Empresa_Cod_Postal
+	FROM gd_esquema.Maestra
+GO
+
+--Factura
+-- falta lo del importe: sumatoria del precio de las ubicaciones referenciadas por item_factura
+INSERT INTO PEL.Factura (fact_fecha, 
+						 fact_comision, 
+				--		 fact_id, si esto era asi despues teniamos que controlar la generacion de id, que lo haga el motor
+						 fact_numero,
+						 fact_empr)
+	 SELECT Factura_Fecha, 
+			Factura_Total,
+			Factura_Nro,
+			(SELECT empr_id FROM PEL.Empresa 
+			where empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit = Espec_Empresa_Cuit)
+	 FROM gd_esquema.Maestra
+	 where Factura_Nro is not null
+	 group by Factura_Fecha, Factura_Total,Factura_Nro,Espec_Empresa_Razon_Social,Espec_Empresa_Cuit
+
+GO
+
+-- Cliente
+
+INSERT INTO PEL.Cliente (clie_nro_doc, 
+						 clie_apellido, 
+						 clie_nombre, 
+						 clie_fecha_nac, 
+						 clie_mail, 
+						 clie_direccion)
+	SELECT DISTINCT Cli_Dni,
+					Cli_Apeliido, 
+					Cli_Nombre, 
+					Cli_Fecha_Nac, 
+					Cli_Mail, Cli_Dom_Calle + 
+						convert(nvarchar,Cli_Nro_Calle) + 
+						convert(nvarchar,Cli_Piso) +
+						Cli_Depto + Cli_Cod_Postal
+	FROM gd_esquema.Maestra
+	where cli_dni is not null 
+GO 
+
+
+-- Compra
+-- que hacemos con los puntos ? O sea hay compras de 2019 y todo xd *Estrategia*
+INSERT INTO PEL.Compra (compr_fecha,
+						compr_total,  
+						compr_medio_pago, 
+						compr_publi, 
+						compr_cliente)
+	--Habria que verificar que las cantidades coincidan 
+	SELECT DISTINCT Compra_Fecha,
+					Ubicacion_Precio*Compra_cantidad, -- compra_cantidad siempre es 1 pero bueno (?
+					Forma_Pago_Desc, 
+					Espectaculo_Cod, 
+					(SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
+	FROM gd_esquema.Maestra
+	where cli_dni is not null and compra_fecha is not null and Forma_Pago_Desc is not null
+GO
+
+-- Ubicaciones en general
+
+INSERT INTO PEL.Ubicacion (ubic_fila, 
+						   ubic_asiento, 
+						   ubic_sin_numerar, 
+						   ubic_precio, 
+						   ubic_publ, 
+						   ubic_tipo, 
+						   ubic_compra)
+	SELECT DISTINCT Ubicacion_Fila, 
+					Ubicacion_Asiento, 
+					Ubicacion_Sin_numerar,
+					Ubicacion_Precio,
+					Espectaculo_Cod, 
+					Ubicacion_Tipo_Codigo, -- dado que el tipo_ubic_id lo sacamos de ese campo, tambien podria ser algo que manaje el motor y tirar un select
+					(select compr_id from PEL.Compra where compr_cliente = Cli_DNI)
+	FROM gd_esquema.Maestra
+	where Factura_Fecha is null
+
+	--No se si eso alcanza para conseguir la compra, por ejemplo si el cliente compro varias de la misma publicacion el mismo dia
+			-- aparenta que si (?
+GO
+
+-- ubicaciones facturadas
+
+update PEL.Ubicacion
+	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), ubic_comision = Item_Factura_Monto, ubic_item_factura_cantidad = Item_Factura_Cantidad,ubic_item_factura_descripcion = Item_Factura_Descripcion
+	from gd_esquema.Maestra
+	where Factura_nro is not null and ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and ubic_publ= Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
+
+
+-- se calcula importe de factura: sumatoria de los precios de cada ubicacion
+
+update PEL.Factura
+set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
+					group by ubic_factura)
