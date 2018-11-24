@@ -7,6 +7,12 @@ CREATE SCHEMA PEL AUTHORIZATION gdEspectaculos2018
 GO 
 
 --------------------------------------------------------------
+------------------ Creación de las Secuencias-----------------
+--------------------------------------------------------------
+
+create sequence PEL.Compra_seq start with 1 increment by 1
+
+--------------------------------------------------------------
 -------------------Creación de las tablas---------------------
 --------------------------------------------------------------
 
@@ -31,7 +37,7 @@ CREATE TABLE PEL.Rol (
 CREATE TABLE PEL.Usuario (
 	usua_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	usua_username NVARCHAR(50) NOT NULL UNIQUE,
-	usua_password NVARCHAR(100) NOT NULL,
+	usua_password NVARCHAR(255) NOT NULL,
 	usua_login_fallidos NUMERIC(1,0) constraint df_fallidos default (0),
 	usua_estado CHAR(1) NOT NULL,
 	PRIMARY KEY (usua_id)
@@ -99,7 +105,7 @@ CREATE TABLE PEL.Cliente (
 	clie_fecha_nac DATETIME,
 	clie_fecha_crea DATETIME,
 	clie_direccion NVARCHAR(255),
-	clie_datos_tarjeta NVARCHAR,
+	clie_datos_tarjeta NVARCHAR(255),
 	clie_estado CHAR (1),
 	PRIMARY KEY (clie_id),
 	FOREIGN KEY (clie_usuario) REFERENCES PEL.Usuario
@@ -137,13 +143,14 @@ CREATE TABLE PEL.Premio_Cliente (
 )
 
 CREATE TABLE PEL.Compra (
-	compr_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
+	compr_id int not null default next value for PEL.Compra_seq,
 	compr_cliente NUMERIC(18,0),
 	compr_publi NUMERIC(18,0),
 	compr_fecha DATETIME,
 	compr_detalle NVARCHAR(255),
 	compr_total NUMERIC(18,2),
 	compr_descuento NVARCHAR(255),
+	compr_datos_tarjeta NVARCHAR(255),
 	compr_medio_pago NVARCHAR(255),
 	compr_puntos_acum NUMERIC(18,0),
 	compr_puntos_gast NUMERIC(18,0),
@@ -175,24 +182,19 @@ CREATE TABLE PEL.Ubicacion (
 	ubic_fila NVARCHAR(2) NOT NULL,
 	ubic_asiento NUMERIC (2,0),
 	ubic_sin_numerar BIT NOT NULL,
-	ubic_precio NUMERIC(18,0),
+	ubic_precio NUMERIC(18,0), -- se mantiene el tipo por la Maestra
+	ubic_comision numeric (18,2),
+	ubic_item_factura_cantidad NUMERIC (18,0), -- item_factura_cantidad Maestra
+	ubic_item_factura_descripcion nvarchar(60), -- item_factura_descripcion Maestra 
 	ubic_tipo NUMERIC(18,0) NOT NULl,
 	ubic_publ NUMERIC(18,0) NOT NULl,	
-	ubic_compra NUMERIC(18,0),
+	ubic_compra int,
+	ubic_factura NUMERIC(18,0),
 	PRIMARY KEY (ubic_id),
 	FOREIGN KEY (ubic_tipo) REFERENCES PEL.Tipo_Ubicacion (tipo_ubic_id),
 	FOREIGN KEY (ubic_compra) REFERENCES PEL.Compra(compr_id),
-	FOREIGN KEY (ubic_publ) REFERENCES PEL.Publicacion(publ_id)
-
-)
-
-CREATE TABLE PEL.Item_Factura (
-	item_factura NUMERIC(18,0) NOT NULL,
-	item_ubic NUMERIC(18,0) NOT NULL,
-	item_comision NUMERIC(18,2) NOT NULL,
-	PRIMARY KEY (item_factura,item_ubic),
-	FOREIGN KEY (item_factura) REFERENCES PEL.Factura(fact_id),
-	FOREIGN KEY (item_ubic) REFERENCES PEL.Ubicacion(ubic_id)
+	FOREIGN KEY (ubic_publ) REFERENCES PEL.Publicacion(publ_id),
+	FOREIGN KEY (ubic_factura) REFERENCES PEL.Factura(fact_id)
 )
 
 GO
@@ -264,8 +266,16 @@ INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
 	('Borrador')
 GO
 
+INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje) values
+	('Alta',15),
+	('Media',10),
+	('Baja',5)
+GO
+
 INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
-	('Administrador General', 'A')
+	('Administrador General', 'A'),
+	('Cliente','A'),
+	('Empresa','A')
 GO
 
 INSERT INTO PEL.Usuario (usua_username, usua_password, usua_estado) values
@@ -389,7 +399,7 @@ INSERT INTO PEL.Compra (compr_fecha,
 	where cli_dni is not null and compra_fecha is not null and Forma_Pago_Desc is not null
 GO
 
--- Ubicacion
+-- Ubicaciones en general
 
 INSERT INTO PEL.Ubicacion (ubic_fila, 
 						   ubic_asiento, 
@@ -404,33 +414,204 @@ INSERT INTO PEL.Ubicacion (ubic_fila,
 					Ubicacion_Precio,
 					Espectaculo_Cod, 
 					Ubicacion_Tipo_Codigo, -- dado que el tipo_ubic_id lo sacamos de ese campo, tambien podria ser algo que manaje el motor y tirar un select
-					(select compr_id from PEL.Compra where compr_cliente = Cli_DNI)--compr_cliente = (SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni) and 
-	FROM gd_esquema.Maestra 
+					(select compr_id from PEL.Compra where compr_cliente = Cli_DNI)
+	FROM gd_esquema.Maestra
 	where Factura_Fecha is null
 
 	--No se si eso alcanza para conseguir la compra, por ejemplo si el cliente compro varias de la misma publicacion el mismo dia
 			-- aparenta que si (?
 GO
 
--- Item_Factura
+-- ubicaciones facturadas
 
-INSERT INTO PEL.Item_Factura (item_ubic, item_factura,item_comision)
-	SELECT DISTINCT ubic_id, fact_id, Item_Factura_Monto
-	FROM  gd_esquema.Maestra join PEL.Factura on Factura_nro = fact_numero
-							 join PEL.Ubicacion on Ubicacion_Asiento = ubic_asiento and 
-												   Ubicacion_Fila = ubic_fila and 
-												   Ubicacion_Precio = ubic_precio and 
-												   Ubicacion_Sin_numerar = ubic_sin_numerar and 
-												   Ubicacion_Tipo_Codigo = ubic_tipo and 
-												   Espectaculo_Cod = ubic_publ
-	where Factura_Fecha is not null
-	--idem anterior
-GO
+update PEL.Ubicacion
+	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), ubic_comision = Item_Factura_Monto, ubic_item_factura_cantidad = Item_Factura_Cantidad,ubic_item_factura_descripcion = Item_Factura_Descripcion
+	from gd_esquema.Maestra
+	where Factura_nro is not null and ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and ubic_publ= Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
 
--- falta lo del importe: sumatoria del precio de las ubicaciones referenciadas por item_factura
---resolviending esooo
+
+-- se calcula importe de factura: sumatoria de los precios de cada ubicacion
 
 update PEL.Factura
-set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion join PEL.Item_Factura on item_ubic = ubic_id
-					where fact_id = item_factura
-					group by item_factura)
+set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
+					group by ubic_factura)
+
+-- Trigger para persistir la password hasheada
+
+go
+create trigger tr_usuario_con_pass_hasheada on PEL.Usuario instead of insert,update
+as
+begin
+	declare @username nvarchar (50),@password nvarchar(255),@estado char(1)
+	declare cUsuarios cursor for select usua_username,usua_password,usua_estado from inserted
+	open cUsuarios 
+	
+	fetch next from cUsuarios into @username,@password,@estado
+	while(@@FETCH_STATUS = 0)
+	begin
+		insert Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash(@password),@estado)
+	fetch next from cUsuarios into @username,@password,@estado
+	end
+
+	close cUsuarios 
+	deallocate cUsuarios 
+end
+
+-- SP para validar el login de un Usuario
+
+go
+create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255),@usua_id numeric(18,0) output,@mensaje nvarchar(255)) 
+as
+begin
+	declare @usua_pass nvarchar(255), @usua_fallidos numeric (1,0), @usua_estado char(1)
+	select @usua_id=usua_id,@usua_pass = usua_password, @usua_fallidos= usua_login_fallidos,@usua_estado = usua_estado from PEL.Usuario where usua_username = @username
+	set @mensaje = 'Logueo con éxito!'
+	if(@usua_estado = 'I')
+		begin
+			if(@usua_fallidos = 3)
+				set @mensaje = 'El usuario esta inhabilitado por tener 3 login fallidos.'
+			else
+				set @mensaje = 'El usuario fue inhabilitado por el Administrador.'
+		set @usua_id = -1
+		return	-- funciona asi esto ? xd
+		end
+
+	if(@usua_pass = PEL.f_hash(@password))
+		set @usua_fallidos = 0
+	else
+		begin
+		set @usua_fallidos = @usua_fallidos + 1
+		if(@usua_fallidos = 3 )
+			begin
+				update PEL.Usuario
+				set  usua_estado = 'I'
+				where usua_username = @username
+			end
+	end
+
+	update PEL.Usuario
+	set usua_login_fallidos = @usua_fallidos
+	where usua_username = @username
+	return
+end
+
+
+--
+
+-- 0:true, 1:false
+go
+create function PEL.f_es_username_valido(@usuario nvarchar(50))
+returns int
+begin
+	declare @respuesta int
+	set @respuesta = 0
+	if(@usuario in (select usua_username from PEL.Usuario))
+		set @respuesta = 1
+	return @respuesta
+end
+
+
+go
+create procedure PEL.generar_username(@data nvarchar(50) output)
+as
+begin
+	set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
+	while(PEL.f_es_username_valido(@data)!=0)
+		set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
+	return
+end
+
+-- Inicialmente se registra a un usuario Cliente unicamente con el Rol Cliente
+go
+create procedure PEL.registrar_usuario_cliente
+		(@username nvarchar(50) output ,@password nvarchar(255) output, 
+		@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255),
+		@usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
+as
+begin
+
+	if(PEL.f_es_username_valido(@username) != 0)
+		begin
+			set @usua_id = -1
+			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
+			return
+		end
+
+	if(@nro_doc in (select clie_nro_doc from PEL.Cliente)) -- es antiguo?
+		begin
+				declare @usuario_cliente numeric(18,0)
+				set @usuario_cliente = (select isnull(clie_usuario,0) from PEL.Cliente where clie_nro_doc = @nro_doc)
+				if( @usuario_cliente != 0) -- tiene usuario?
+					begin
+						set @usua_id = -1
+						set @mensaje= 'El Cliente ya posee un Usuario'
+						return
+					end
+			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
+		end
+
+	if(@username is null and @password is null)
+		begin
+			exec PEL.generar_username @data = @username output;
+			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+		end
+	
+	
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
+	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
+	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Cliente'), @usua_id)
+	update PEL.Cliente 
+		set clie_usuario = @usua_id 
+		where clie_nro_doc = @nro_doc
+	
+	return
+end
+
+
+
+-- Inicialmente se registra a un usuario Empresa unicamente con el Rol Empresa
+
+go
+create procedure PEL.registrar_usuario_empresa
+		(@username nvarchar(50) output ,@password nvarchar(255) output, 
+		 @direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255),
+		 @usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
+as
+begin
+
+	if(PEL.f_es_username_valido(@username) != 0)
+		begin
+			set @usua_id = -1
+			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
+			return
+		end
+
+	if(@cuit in (select empr_cuit from PEL.Empresa)) -- es antiguo?
+		begin
+				declare @usuario_empresa numeric(18,0)
+				set @usuario_empresa= (select isnull(empr_usuario,0) from PEL.Empresa where empr_cuit = @cuit)
+				if( @usuario_empresa != 0) -- tiene usuario?
+					begin
+						set @usua_id = -1
+						set @mensaje= 'El Cliente ya posee un Usuario'
+						return
+					end
+			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
+		end
+
+	if(@username is null and @password is null)
+		begin
+			exec PEL.generar_username @data = @username output;
+			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+		end
+	
+	
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
+	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
+	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Empresa'), @usua_id)
+	update PEL.Empresa 
+		set empr_usuario = @usua_id 
+		where empr_cuit = @cuit
+	
+	return
+end
