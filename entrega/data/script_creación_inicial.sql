@@ -386,8 +386,6 @@ begin
 	return
 end
 
-
-
 -- Inicialmente se registra a un usuario Empresa unicamente con el Rol Empresa
 
 go
@@ -457,10 +455,10 @@ BEGIN
 SELECT  * 
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id
-		  WHERE publ_rubro in (PEL.f_string_split(@categorias,','))
+		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
 		  and (publ_fecha_publi between @desde and @hasta)
 		  and (publ_fecha_ven between @desde and @hasta)
-		  and contains(publ_descripcion,@detalle)
+		  and publ_descripcion like '%' + @detalle + '%'
         ) AS RowConstrainedResult
 WHERE   RowNum > (@pag-1)*10 
     AND RowNum <= @pag*10
@@ -569,6 +567,9 @@ INSERT INTO PEL.Empresa (empr_razon_social,
 	FROM gd_esquema.Maestra
 GO
 
+update PEL.Empresa
+ set empr_estado = 'M'
+
 --Factura
 -- falta lo del importe: sumatoria del precio de las ubicaciones referenciadas por item_factura
 INSERT INTO PEL.Factura (fact_fecha, 
@@ -607,6 +608,8 @@ INSERT INTO PEL.Cliente (clie_nro_doc,
 	where cli_dni is not null 
 GO 
 
+update PEL.Cliente
+ set clie_estado = 'M'
 
 -- Compra
 -- que hacemos con los puntos ? O sea hay compras de 2019 y todo xd *Estrategia*
@@ -663,5 +666,3 @@ set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factur
 					group by ubic_factura)
 go
 
-
-exec PEL.sp_ver_publicaciones @categorias = '1', @detalle = '', @desde = '2007-05-08 12:35:29.123', @hasta='2020-05-08 12:35:29.123', @pag =1;
