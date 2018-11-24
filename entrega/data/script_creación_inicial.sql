@@ -121,8 +121,7 @@ CREATE TABLE PEL.Empresa (
 	empr_estado CHAR(1),
 	empr_fecha DATETIME,
 	empr_telefono NVARCHAR(255),			
-	empr_mail NVARCHAR(255) NOT NULL,					
-	empr_estado char(1),
+	empr_mail NVARCHAR(255) NOT NULL,		
 	PRIMARY KEY (empr_id),
 	FOREIGN KEY (empr_usuario) REFERENCES PEL.Usuario(usua_id),
 	CONSTRAINT empr_un UNIQUE(empr_cuit, empr_razon_social)
@@ -673,4 +672,3 @@ update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
 go
-
