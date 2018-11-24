@@ -460,12 +460,12 @@ end
 -- SP para validar el login de un Usuario
 
 go
-create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255),@usua_id numeric(18,0) output,@mensaje nvarchar(255)) 
+create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255)) 
 as
 begin
-	declare @usua_pass nvarchar(255), @usua_fallidos numeric (1,0), @usua_estado char(1)
+	declare @usua_pass nvarchar(255), @usua_fallidos numeric (1,0), @usua_estado char(1), @mensaje nvarchar(255), @usua_id numeric(18,0)
 	select @usua_id=usua_id,@usua_pass = usua_password, @usua_fallidos= usua_login_fallidos,@usua_estado = usua_estado from PEL.Usuario where usua_username = @username
-	set @mensaje = 'Logueo con éxito!'
+	
 	if(@usua_estado = 'I')
 		begin
 			if(@usua_fallidos = 3)
@@ -477,7 +477,10 @@ begin
 		end
 
 	if(@usua_pass = PEL.f_hash(@password))
+		begin
 		set @usua_fallidos = 0
+		set @mensaje = 'Logueo con éxito!'
+		end
 	else
 		begin
 		set @usua_fallidos = @usua_fallidos + 1
@@ -492,7 +495,8 @@ begin
 	update PEL.Usuario
 	set usua_login_fallidos = @usua_fallidos
 	where usua_username = @username
-	return
+	
+	select @usua_id, @mensaje
 end
 
 
@@ -614,4 +618,21 @@ begin
 		where empr_cuit = @cuit
 	
 	return
+end
+
+-- SP Ver Compras, retorna cursor, hoy en dia solo se ve compr_id
+
+go
+
+create procedure sp_ver_compras (@clie_id numeric(18,0), @pag int)
+as	
+begin
+SELECT  * --ver que datos son necesaris mostrar de la compra
+FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
+          FROM      PEL.Compra inner join PEL.Cliente on compr_cliente = clie_id
+		  WHERE @clie_id = clie_id
+        ) AS RowConstrainedResult
+WHERE   RowNum > (@pag-1)*10 
+    AND RowNum <= @pag*10
+ORDER BY RowNum
 end
