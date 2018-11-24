@@ -7,6 +7,12 @@ CREATE SCHEMA PEL AUTHORIZATION gdEspectaculos2018
 GO 
 
 --------------------------------------------------------------
+------------------ Creación de las Secuencias-----------------
+--------------------------------------------------------------
+
+create sequence PEL.Compra_seq start with 1 increment by 1
+
+--------------------------------------------------------------
 -------------------Creación de las tablas---------------------
 --------------------------------------------------------------
 
@@ -137,7 +143,7 @@ CREATE TABLE PEL.Premio_Cliente (
 )
 
 CREATE TABLE PEL.Compra (
-	compr_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
+	compr_id int not null default next value for PEL.Compra_seq,
 	compr_cliente NUMERIC(18,0),
 	compr_publi NUMERIC(18,0),
 	compr_fecha DATETIME,
@@ -182,7 +188,7 @@ CREATE TABLE PEL.Ubicacion (
 	ubic_item_factura_descripcion nvarchar(60), -- item_factura_descripcion Maestra 
 	ubic_tipo NUMERIC(18,0) NOT NULl,
 	ubic_publ NUMERIC(18,0) NOT NULl,	
-	ubic_compra NUMERIC(18,0),
+	ubic_compra int,
 	ubic_factura NUMERIC(18,0),
 	PRIMARY KEY (ubic_id),
 	FOREIGN KEY (ubic_tipo) REFERENCES PEL.Tipo_Ubicacion (tipo_ubic_id),
