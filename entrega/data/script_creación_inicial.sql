@@ -457,7 +457,7 @@ begin
 		return	-- funciona asi esto ? xd
 		end
 
-	if(@usua_pass = @password)
+	if(@usua_pass = PEL.f_hash(@password))
 		begin
 		set @usua_fallidos = 0
 		set @mensaje = 'Logueo con éxito!'
