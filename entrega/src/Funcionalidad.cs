@@ -1,5 +1,5 @@
-﻿using PalcoNet.Abm_Cliente;
-using PalcoNet.Abm_Rol;
+﻿using PalcoNet.AbmCliente;
+using PalcoNet.AbmRol;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

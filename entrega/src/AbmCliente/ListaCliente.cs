@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PalcoNet.AbmCliente;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,10 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PalcoNet.Abm_Cliente
+namespace PalcoNet.AbmCliente
 {
     public partial class ListaCliente : Form
     {
+        private decimal clie_id_clickeado;
+
         public ListaCliente()
         {
             InitializeComponent();
@@ -20,7 +23,9 @@ namespace PalcoNet.Abm_Cliente
         private void buscar_Click(object sender, EventArgs e) {
             var dt = new ClienteDAO().obtenerClientes(nombre.Text, apellido.Text, dni.Text, email.Text);
             datagrid.DataSource = dt;
-
+            foreach( DataGridViewColumn column in datagrid.Columns){
+                column.HeaderText = column.HeaderText.Replace("clie_", "").Replace("_", " ").ToUpper();
+            }
         }
 
         private void datagrid_MouseClick(object sender, MouseEventArgs e) {
@@ -30,7 +35,7 @@ namespace PalcoNet.Abm_Cliente
                 int currentMouseOverRow = datagrid.HitTest(e.X, e.Y).RowIndex;
 
                 if (currentMouseOverRow >= 0) {
-                    var clie_id = datagrid["clie_id", currentMouseOverRow].Value;
+                    clie_id_clickeado = (decimal)datagrid["clie_id", currentMouseOverRow].Value;
                     var nombre = datagrid["clie_nombre", currentMouseOverRow].Value;
                     var apellido = datagrid["clie_apellido", currentMouseOverRow].Value;
 
@@ -43,11 +48,14 @@ namespace PalcoNet.Abm_Cliente
             }
         }
 
-        private void modificar(object sender, EventArgs e) { 
-            
+        private void modificar(object sender, EventArgs e) {
+            this.Hide();
+            new ModificarCliente(clie_id_clickeado).ShowDialog();
+            this.Show();
         }
 
         private void eliminar(object sender, EventArgs e) {
+            System.Windows.Forms.MessageBox.Show("Not yet" + clie_id_clickeado); 
         }
 
         private void limpiar_Click(object sender, EventArgs e) {
@@ -57,6 +65,7 @@ namespace PalcoNet.Abm_Cliente
             email.Text = "";
             datagrid.DataSource = null;
         }
+
      }
 
 }

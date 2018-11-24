@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace PalcoNet.Registro_de_Usuario {
+namespace PalcoNet.RegistroUsuario {
     public class LoginDAO : BaseDAO{
 
         public Decimal esUsuarioActivo(string user, string pass) {
@@ -11,7 +11,7 @@ namespace PalcoNet.Registro_de_Usuario {
             dict.Add("@user", user);
             dict.Add("@pass", pass);
 
-            SqlDataReader reader = runQuery("select usua_id from pel.usuario where usua_username = @user and usua_password = @pass", dict);
+            SqlDataReader reader = query("select usua_id from pel.usuario where usua_username = @user and usua_password = @pass", dict);
 
             Decimal idUsuario = -1;
 

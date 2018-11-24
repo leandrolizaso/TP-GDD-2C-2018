@@ -1,5 +1,5 @@
-﻿using PalcoNet.Abm_Rol;
-using PalcoNet.Registro_de_Usuario;
+﻿using PalcoNet.AbmRol;
+using PalcoNet.RegistroUsuario;
 using PalcoNet.Utils;
 using System;
 using System.Collections.Generic;

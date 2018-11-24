@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 namespace PalcoNet.Utils {
     public class BaseDAO { 
 
-        public SqlDataReader runQuery(string query, Dictionary<string,object> queryParams){
+        protected SqlDataReader query(string query, Dictionary<string,object> queryParams){
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
             cmd.CommandType = CommandType.Text;
@@ -16,6 +16,14 @@ namespace PalcoNet.Utils {
             }
 
             return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+
+        protected DataTable aDataTableOf(SqlDataReader reader) {
+            var dt = new DataTable();
+            if (reader.HasRows) {
+                dt.Load(reader);
+            }
+            return dt;
         }
 
     }
