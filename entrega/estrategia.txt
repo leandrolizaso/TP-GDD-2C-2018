@@ -1,29 +1,31 @@
-- El estado de la publicacion es un nvarchar(255) porque es el tipo de datos de la tabla maestra.
-  <FALTA REFERENCIA AL TP DONDE DICE QUE HAY QUE RESPETAR ESTO>
-
-
 - Puntos canje: Se guarda en la compra, cuantos puntos dio y cuantos se gastaron de los mismos.
-  Se hace la consulta de las ultimas N compras (o de las compras en los ultimos N dias).
+  Se hace la consulta de las compras en los ultimos 30 dias.
   Se acumulan los puntos, restando los ya gastados.
   Cuando los puntos se gastan, primero se van gastando de la compra mas antigua de las validas.
 
-- Las compras se pueden realizar en una unica publicacion. 
+- Las compras se pueden realizar para una unica publicacion. 
   Esto facilita la facturacion: "los administradores del sistema determinarán cuantas compras quieren rendir."
 
-** NOTA
+- Estados:
+  - Usuario:
+    - A: Alta
+	- B: Baja, por inabilitacion del administrador.
+	- I: Inhabilitado por logins incorrectos.
+	- R: Restablecer contraseña (para los casos en los que el administrador genera el usuario).
+  - Cliente
+    - A: Alta
+	- B: Baja, por administrador
+	- M: Cliente migrado, a la espera de un registro de usuario.
+  - Empresa
+    - A: Alta
+	- B: Baja, por administrador
+	- M: Empresa migrada, a la espera de un registro de usuario.
 
-Una factura tiene una empresa.
-Cada item de factura es una compra distinta para esa empresa.
-(de una sola publicacion? de varias publicaciones de la misma empresa? <ver foro, definir>)
+- ABMS
+  Se opta por agregar las funcionalidades de "modificar/eliminar" con un menu contextual (click derecho) en lugar de disponer de botones.
 
-"Te comento, tengan en cuenta que esto es rendición de comisiones, y justamente dejamos un poco abierto la solución para no restringir a una unica solución. Uds podrían generar las rendiciones de todas las ventas independientemente sea la empresa (ABAA) y luego (en otra etapa del sistema) generar el pago propiamente dicho a cada empresa, o bien, generar las rendiciones para una empresa ej AAA y luego la rendición para B. El criterio lo determinan uds, eso por fa comentenló en doc de estrategia para saber que rumbo toman."
-
-(*1) FK Nullable
-https://stackoverflow.com/a/2366979
-https://social.msdn.microsoft.com/forums/sqlserver/en-us/325c11b9-e5c4-4db7-94e6-f82b44412b9b/is-it-possible-to-allow-null-values-in-foreign-key
-
-
-dudas: 
--Hay clientes con dni, nombre, etc en null. que hacemos aca? podria ponerselos en estado 'e' (error)
--Compras con fecha en null, que hacemos con eso?
--Idem anterior pero con fecha factura
+- Grado de publicacion
+  Se definen los grados "Alta", "Media" y "Baja" de manera arbitraria.
+  Los datos migrados tiene un grado especial (dado de baja) llamado "Migracion" puesto que los porcentajes de comision no tienen una razon precio/comision constante.
+  Las publicaciones se ordenan en base a su porcentaje de comision.
+  ISSUE #4: Quien usa el abm? la empresa? el admin?
