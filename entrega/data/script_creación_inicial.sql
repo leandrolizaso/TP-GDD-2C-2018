@@ -439,27 +439,8 @@ go
 -- Trigger para persistir la password hasheada
 
 go
-create trigger tr_usuario_con_pass_hasheada on PEL.Usuario instead of insert,update
-as
-begin
-	declare @username nvarchar (50),@password nvarchar(255),@estado char(1)
-	declare cUsuarios cursor for select usua_username,usua_password,usua_estado from inserted
-	open cUsuarios 
-	
-	fetch next from cUsuarios into @username,@password,@estado
-	while(@@FETCH_STATUS = 0)
-	begin
-		insert Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash(@password),@estado)
-	fetch next from cUsuarios into @username,@password,@estado
-	end
 
-	close cUsuarios 
-	deallocate cUsuarios 
-end
 
--- SP para validar el login de un Usuario
-
-go
 create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255)) 
 as
 begin
@@ -476,7 +457,7 @@ begin
 		return	-- funciona asi esto ? xd
 		end
 
-	if(@usua_pass = PEL.f_hash(@password))
+	if(@usua_pass = @password)
 		begin
 		set @usua_fallidos = 0
 		set @mensaje = 'Logueo con éxito!'
@@ -499,8 +480,6 @@ begin
 	select @usua_id, @mensaje
 end
 
-
---
 
 -- 0:true, 1:false
 go
