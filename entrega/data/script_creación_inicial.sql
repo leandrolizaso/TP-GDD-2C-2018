@@ -1,4 +1,4 @@
---------------------------------------------------------------
+5--------------------------------------------------------------
 -------------------Creación del esquema-----------------------
 --------------------------------------------------------------
 
@@ -267,7 +267,9 @@ INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje) values
 GO
 
 INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
-	('Administrador General', 'A')
+	('Administrador General', 'A'),
+	('Cliente','A'),
+	('Empresa','A')
 GO
 
 INSERT INTO PEL.Usuario (usua_username, usua_password, usua_estado) values
@@ -452,7 +454,7 @@ end
 -- SP para validar el login de un Usuario
 
 go
-create procedure validar_usuario(@username nvarchar(50),@password nvarchar(255),@usua_id numeric(18,0) output,@mensaje nvarchar(255)) 
+create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255),@usua_id numeric(18,0) output,@mensaje nvarchar(255)) 
 as
 begin
 	declare @usua_pass nvarchar(255), @usua_fallidos numeric (1,0), @usua_estado char(1)
@@ -484,5 +486,77 @@ begin
 	update PEL.Usuario
 	set usua_login_fallidos = @usua_fallidos
 	where usua_username = @username
+	return
+end
+
+
+--
+
+-- 0:true, 1:false
+go
+create function PEL.f_es_username_valido(@usuario nvarchar(50))
+returns int
+begin
+	declare @respuesta int
+	set @respuesta = 0
+	if(@usuario in (select usua_username from PEL.Usuario))
+		set @respuesta = 1
+	return @respuesta
+end
+
+
+go
+create procedure PEL.generar_username(@data nvarchar(50) output)
+as
+begin
+	set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
+	while(PEL.f_es_username_valido(@data)!=0)
+		set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
+	return
+end
+
+-- Inicialmente se registra a un usuario Cliente unicamente con el Rol Cliente
+go
+create procedure PEL.registrar_usuario_cliente
+		(@username nvarchar(50) output ,@password nvarchar(255) output, 
+		@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255),
+		@usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
+as
+begin
+
+	if(PEL.f_es_username_valido(@username) != 0)
+		begin
+			set @usua_id = -1
+			set @mensaje='El usuario no es valido'
+			return
+		end
+
+	if(@nro_doc in (select clie_nro_doc from PEL.Cliente)) -- es antiguo?
+		begin
+				declare @usuario_cliente numeric(18,0)
+				set @usuario_cliente = (select isnull(clie_usuario,0) from PEL.Cliente where clie_nro_doc = @nro_doc)
+				if( @usuario_cliente != 0) -- tiene usuario?
+					begin
+						set @usua_id = -1
+						set @mensaje= 'El Cliente ya posee un Usuario'
+						return
+					end
+			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
+		end
+
+	if(@username is null and @password is null)
+		begin
+			exec PEL.generar_username @data = @username output;
+			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+		end
+	
+	
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'A')
+	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
+	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Cliente'), @usua_id)
+	update PEL.Cliente 
+		set clie_usuario = @usua_id 
+		where clie_nro_doc = @nro_doc
+	
 	return
 end
