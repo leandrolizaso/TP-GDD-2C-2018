@@ -47,6 +47,7 @@
             this.modificar.TabIndex = 1;
             this.modificar.Text = "Modificar";
             this.modificar.UseVisualStyleBackColor = true;
+            this.modificar.Click += new System.EventHandler(this.modificar_Click);
             // 
             // ModificarCliente
             // 

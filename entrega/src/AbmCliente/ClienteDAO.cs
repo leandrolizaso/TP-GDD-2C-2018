@@ -35,5 +35,22 @@ namespace PalcoNet.AbmCliente
                 , dict));
         }
 
+
+        public void actualizarDatosCliente(decimal idCliente, Dictionary<string, object> dict)
+        {
+            var reader = query(updateClienteString(idCliente, dict), dict);
+            reader.Dispose();
+        }
+
+        private string updateClienteString(decimal idCliente, Dictionary<string, object> dict) {
+            string query = "update PEL.cliente set ";
+            foreach (var entry in dict)
+            {
+                query += entry.Key+" = @"+entry.Key+" ,";
+            }
+            query = query.TrimEnd(',');
+            query += "where clie_id = " + idCliente;
+            return query;
+        }
     }
 }

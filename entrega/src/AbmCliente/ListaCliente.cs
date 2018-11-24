@@ -52,10 +52,12 @@ namespace PalcoNet.AbmCliente
             this.Hide();
             new ModificarCliente(clie_id_clickeado).ShowDialog();
             this.Show();
+            buscar_Click(sender,e);
         }
 
         private void eliminar(object sender, EventArgs e) {
-            System.Windows.Forms.MessageBox.Show("Not yet" + clie_id_clickeado); 
+            System.Windows.Forms.MessageBox.Show("Not yet" + clie_id_clickeado);
+            buscar_Click(sender, e);
         }
 
         private void limpiar_Click(object sender, EventArgs e) {

@@ -29,14 +29,12 @@ namespace PalcoNet.AbmCliente
             var newline = false;
 
             foreach (DataColumn col in dt.Columns) {
-                var nombre = col.ToString().Replace("clie_", "").Replace("_", " ").ToUpper();
-
                 var label = new Label();
-                label.Text = nombre;
+                label.Text = col.ToString().Replace("clie_", "").Replace("_", " ").ToUpper();
                 panel.Controls.Add(label);
 
                 var textbox = new TextBox();
-                textbox.Name = nombre;
+                textbox.Name = col.ToString();
                 textbox.Text = dt.Rows[0][col.ToString()].ToString();
                 textbox.Width = 200;
 
@@ -46,6 +44,21 @@ namespace PalcoNet.AbmCliente
                 }
                 newline = !newline;
             }
+        }
+
+        private void modificar_Click(object sender, EventArgs e) {
+            var dict = new Dictionary<string, object>();
+
+            foreach (var control in panel.Controls) {
+                if (control is TextBox) { 
+                    TextBox textbox = (TextBox) control;
+                    dict.Add(textbox.Name, textbox.Text);
+                }
+            }
+
+            new ClienteDAO().actualizarDatosCliente(idCliente, dict);
+            
+            this.Hide();
         }
     }
 }
