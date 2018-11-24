@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,18 +23,20 @@ namespace PalcoNet
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Decimal idUsuario = new LoginDAO().esUsuarioActivo(usuario.Text, pass.Text);
-            if (idUsuario <0 )
+            try
             {
-                System.Windows.Forms.MessageBox.Show("Credenciales incorrectas para el usuario "+usuario.Text+ ".\nEs posible que el usuario no exista o la contraseña sea incorrecta.\nPor favor, intente de nuevo.");
+                Decimal idUsuario = new LoginDAO().esUsuarioActivo(usuario.Text, pass.Text);
+                this.Hide();
+                new SeleccionRol(idUsuario).ShowDialog();
+                this.Show();
+            }
+            catch (ArgumentException ex) {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
                 pass.Text = ""; //Por las dudas
                 pass.Focus();
                 return;
             }
-            Globales.idUsuarioOnline = idUsuario; //evaluar si es necesario
-            this.Hide();
-            new SeleccionRol(idUsuario).ShowDialog();
-            this.Show();
+           
         }
     }
 }

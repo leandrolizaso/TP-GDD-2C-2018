@@ -6,8 +6,6 @@ namespace PalcoNet.Utils {
     public static class Globales {
         private static Dictionary<string, string> data;
 
-        public static Decimal idUsuarioOnline { get; set; }
-
         public static string getUrlDB() {
             string server = getProperty("Data Source");
             string catalog = getProperty("Initial Catalog");

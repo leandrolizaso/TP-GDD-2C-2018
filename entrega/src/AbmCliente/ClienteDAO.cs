@@ -11,10 +11,10 @@ namespace PalcoNet.AbmCliente
         public DataTable obtenerDatosCliente(decimal idCliente) {
             var dict = new Dictionary<string, object>();
             dict.Add("@clie_id", idCliente);
-            return aDataTableOf(query("select clie_nombre, clie_apellido, clie_tipo_doc, "
+            return query("select clie_nombre, clie_apellido, clie_tipo_doc, "
                                     +"clie_nro_doc, clie_cuil, clie_mail, clie_telefono, "
                                     +"clie_direccion,clie_fecha_nac, clie_fecha_crea, clie_datos_tarjeta "
-                                    +"from pel.cliente where clie_id  = @clie_id", dict));
+                                    +"from pel.cliente where clie_id  = @clie_id", dict);
         }
 
         public DataTable obtenerClientes(string nombre, string apellido, string dni, string mail)
@@ -25,14 +25,14 @@ namespace PalcoNet.AbmCliente
             dict.Add("@dni", dni);
             dict.Add("@mail", mail);
 
-            return aDataTableOf(query("select clie_id, clie_nombre, clie_apellido,clie_nro_doc, "
+            return query("select clie_id, clie_nombre, clie_apellido,clie_nro_doc, "
                 + "clie_mail, clie_telefono, clie_fecha_nac, clie_direccion, clie_datos_tarjeta "
                 + "from PEL.cliente "
                 + "where clie_nombre like case when @nombre != '' then '%'+@nombre+'%' else clie_nombre end "
                 + "and clie_apellido like case when @apellido != '' then '%'+@apellido+'%' else clie_apellido end "
                 + "and clie_nro_doc = isnull(nullif(@dni,''),clie_nro_doc) " //match exacto
                 + "and clie_mail like case when @mail != '' then '%'+@mail+'%' else clie_mail end "
-                , dict));
+                , dict);
         }
 
 
