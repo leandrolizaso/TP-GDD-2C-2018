@@ -620,11 +620,9 @@ begin
 	return
 end
 
--- SP Ver Compras, retorna cursor, hoy en dia solo se ve compr_id
-
 go
 
-create procedure sp_ver_compras (@clie_id numeric(18,0), @pag int)
+create procedure PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
 as	
 begin
 SELECT  * --ver que datos son necesaris mostrar de la compra
