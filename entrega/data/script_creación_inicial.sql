@@ -460,12 +460,12 @@ end
 -- SP para validar el login de un Usuario
 
 go
-create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255),@usua_id numeric(18,0) output,@mensaje nvarchar(255)) 
+create procedure PEL.validar_usuario(@username nvarchar(50),@password nvarchar(255)) 
 as
 begin
-	declare @usua_pass nvarchar(255), @usua_fallidos numeric (1,0), @usua_estado char(1)
+	declare @usua_pass nvarchar(255), @usua_fallidos numeric (1,0), @usua_estado char(1), @mensaje nvarchar(255), @usua_id numeric(18,0)
 	select @usua_id=usua_id,@usua_pass = usua_password, @usua_fallidos= usua_login_fallidos,@usua_estado = usua_estado from PEL.Usuario where usua_username = @username
-	set @mensaje = 'Logueo con éxito!'
+	
 	if(@usua_estado = 'I')
 		begin
 			if(@usua_fallidos = 3)
@@ -477,7 +477,10 @@ begin
 		end
 
 	if(@usua_pass = PEL.f_hash(@password))
+		begin
 		set @usua_fallidos = 0
+		set @mensaje = 'Logueo con éxito!'
+		end
 	else
 		begin
 		set @usua_fallidos = @usua_fallidos + 1
@@ -492,7 +495,8 @@ begin
 	update PEL.Usuario
 	set usua_login_fallidos = @usua_fallidos
 	where usua_username = @username
-	return
+	
+	select @usua_id, @mensaje
 end
 
 
