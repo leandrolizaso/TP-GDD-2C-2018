@@ -551,7 +551,7 @@ begin
 		end
 	
 	
-	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'A')
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
 	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Cliente'), @usua_id)
 	update PEL.Cliente 
@@ -600,7 +600,7 @@ begin
 		end
 	
 	
-	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'A')
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
 	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Empresa'), @usua_id)
 	update PEL.Empresa 
