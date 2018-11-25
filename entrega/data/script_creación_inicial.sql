@@ -81,7 +81,6 @@ CREATE TABLE PEL.Publicacion (
 	publ_estado NUMERIC(18,0),
 	publ_fecha_publi DATETIME,
 	publ_fecha_ven DATETIME,
-	publ_fecha_hora DATETIME,
 	publ_rubro NUMERIC(18,0),
 	publ_direccion NVARCHAR(255),
 	publ_grado NUMERIC(18,0),
@@ -466,7 +465,29 @@ WHERE   RowNum > (@pag-1)*10
 ORDER BY RowNum
 END
 GO
+				
+CREATE PROCEDURE PEL.sp_clientes_puntos_vencidos (@fecha DATETIME, @fecha_desde DATETIME, @fecha_hasta DATETIME)
+AS												--La primer fecha es la actual, las otras por el trimestre de consulta
+BEGIN
+SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, sum(compr_puntos_acum - compr_puntos_gast) as puntos 
+	FROM PEL.Cliente join Compra on compr_cliente = clie_id
+		where DATEDIFF(day, @fecha, compr_fecha) > 30
+		and compr_fecha between @fecha_desde and @fecha_hasta
+		group by clie_id, clie_nombre, clie_apellido, clie_nro_doc
+		order by puntos desc
+END
+GO
 
+CREATE PROCEDURE PEL.sp_clientes_mayor_compra (@fecha_desde DATETIME, @fecha_hasta DATETIME)
+AS
+BEGIN
+SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, count(compr_id) as [Cantidad de compras]
+	FROM PEL.Cliente join PEL.Compra on compr_cliente = clie_id join PEL.Publicacion on publ_id=compr_publi
+	where compr_fecha between @fecha_desde and @fecha_hasta
+	group by clie_id, clie_nombre, clie_apellido, clie_nro_doc, publ_usua_resp
+	order by count(compr_id) desc
+END
+GO
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
