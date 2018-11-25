@@ -465,6 +465,22 @@ WHERE   RowNum > (@pag-1)*10
 ORDER BY RowNum
 END
 GO
+
+--Listados estadisticos
+
+CREATE PROCEDURE PEL.sp_listado_no_vendidas (@grado numeric(18,0), @fecha DATETIME)
+AS                                                                 --Es la fecha del mes y año que seleccionaron en el abm
+BEGIN
+SELECT TOP 5 publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion 
+			   FROM PEL.Publicacion join PEL.Grado on grad_id = publ_grado
+			   join Ubicacion on ubic_publ = publ_id 
+			   WHERE ubic_compra is null
+			   and YEAR(@fecha) = YEAR(publ_fecha_ven)
+			   and MONTH(@fecha) = MONTH(publ_fecha_ven)
+			   group by publ_usua_resp, publ_id, publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion, grad_porcentaje
+			   order by count(ubic_id) desc,publ_fecha_ven desc, grad_porcentaje desc
+END
+GO
 				
 CREATE PROCEDURE PEL.sp_clientes_puntos_vencidos (@fecha DATETIME, @fecha_desde DATETIME, @fecha_hasta DATETIME)
 AS												--La primer fecha es la actual, las otras por el trimestre de consulta
@@ -488,6 +504,8 @@ SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, count(compr_id) as [Canti
 	order by count(compr_id) desc
 END
 GO
+
+
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
