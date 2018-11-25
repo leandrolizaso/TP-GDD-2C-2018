@@ -663,29 +663,30 @@ INSERT INTO PEL.Ubicacion (ubic_fila,
 						   ubic_sin_numerar, 
 						   ubic_precio, 
 						   ubic_publ, 
-						   ubic_tipo, 
-						   ubic_compra)
+						   ubic_tipo)
 	SELECT DISTINCT Ubicacion_Fila, 
 					Ubicacion_Asiento, 
 					Ubicacion_Sin_numerar,
 					Ubicacion_Precio,
 					Espectaculo_Cod, 
-					Ubicacion_Tipo_Codigo, -- dado que el tipo_ubic_id lo sacamos de ese campo, tambien podria ser algo que manaje el motor y tirar un select
-					(select compr_id from PEL.Compra where compr_cliente = Cli_DNI)
-	FROM gd_esquema.Maestra
+					Ubicacion_Tipo_Codigo -- dado que el tipo_ubic_id lo sacamos de ese campo, tambien podria ser algo que manaje el motor y tirar un select
+	FROM gd_esquema.Maestra 
 	where Factura_Fecha is null
-
 	--No se si eso alcanza para conseguir la compra, por ejemplo si el cliente compro varias de la misma publicacion el mismo dia
 			-- aparenta que si (?
 GO
 
--- ubicaciones facturadas
+-- se pone fk correspondientes a Ubicaciones facturadas y compradas
 
 update PEL.Ubicacion
-	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), ubic_comision = Item_Factura_Monto, ubic_item_factura_cantidad = Item_Factura_Cantidad,ubic_item_factura_descripcion = Item_Factura_Descripcion
-	from gd_esquema.Maestra
+	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), 
+		ubic_comision = Item_Factura_Monto,
+		ubic_item_factura_cantidad = Item_Factura_Cantidad,
+		ubic_item_factura_descripcion = Item_Factura_Descripcion,
+		ubic_compra = compr_id
+	from gd_esquema.Maestra join PEL.Compra on compr_fecha = Compra_Fecha 
+							join PEL.Cliente on clie_nro_doc = Cli_Dni
 	where Factura_nro is not null and ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and ubic_publ= Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
-
 
 -- se calcula importe de factura: sumatoria de los precios de cada ubicacion
 
