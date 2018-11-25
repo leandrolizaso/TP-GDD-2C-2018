@@ -606,10 +606,10 @@ INSERT INTO PEL.Empresa (empr_razon_social,
 					Espec_Empresa_Cuit, 
 					Espec_Empresa_Fecha_Creacion, 
 					Espec_Empresa_Mail, 
-					Espec_Empresa_Dom_Calle + 
-						CONVERT(nvarchar,Espec_Empresa_Nro_Calle) + 
-						CONVERT(nvarchar,Espec_Empresa_Piso) + 
-						Espec_Empresa_Depto + Espec_Empresa_Cod_Postal
+					Espec_Empresa_Dom_Calle + ' '  + 
+						CONVERT(nvarchar,Espec_Empresa_Nro_Calle) + ' '  + 
+						CONVERT(nvarchar,Espec_Empresa_Piso) + ' '  +
+						Espec_Empresa_Depto + ' '  + Espec_Empresa_Cod_Postal
 	FROM gd_esquema.Maestra
 GO
 
@@ -646,10 +646,10 @@ INSERT INTO PEL.Cliente (clie_nro_doc,
 					Cli_Apeliido, 
 					Cli_Nombre, 
 					Cli_Fecha_Nac, 
-					Cli_Mail, Cli_Dom_Calle + 
-						convert(nvarchar,Cli_Nro_Calle) + 
-						convert(nvarchar,Cli_Piso) +
-						Cli_Depto + Cli_Cod_Postal
+					Cli_Mail, Cli_Dom_Calle + ' '  + 
+						convert(nvarchar,Cli_Nro_Calle) + ' '  +
+						convert(nvarchar,Cli_Piso) + ' '  +
+						Cli_Depto + ' '  + Cli_Cod_Postal
 	FROM gd_esquema.Maestra
 	where cli_dni is not null 
 GO 
