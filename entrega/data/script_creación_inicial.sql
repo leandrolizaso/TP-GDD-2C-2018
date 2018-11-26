@@ -130,18 +130,19 @@ CREATE TABLE PEL.Publicacion (
 CREATE TABLE PEL.Premio(
 	prem_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	prem_descripcion NVARCHAR(255) NOT NULL,
-	prem_porcentaje NUMERIC(18,2) NOT NULL,
-	prem_cliente NUMERIC(18,0) NOT NULL,
-	PRIMARY KEY (prem_id),
-	FOREIGN KEY (prem_cliente) REFERENCES PEL.Cliente(clie_id)
+	prem_costo_puntos NUMERIC(18,2) NOT NULL,
+	PRIMARY KEY (prem_id)
 )
 
-CREATE TABLE PEL.Premio_Cliente (
-	prem_clie_clie NUMERIC(18,0) NOT NULL,
-	prem_clie_prem NUMERIC(18,0) NOT NULL,
-	PRIMARY KEY (prem_clie_clie,prem_clie_prem),
-	FOREIGN KEY (prem_clie_clie) REFERENCES PEL.Cliente(clie_id),
-	FOREIGN KEY (prem_clie_prem) REFERENCES PEL.Premio(prem_id)
+CREATE TABLE PEL.Canje (
+	canje_id numeric(18,0) identity(1,1) not null,
+	canje_cliente NUMERIC(18,0) NOT NULL,
+	canje_premio NUMERIC(18,0) NOT NULL,
+	canje_fecha datetime not null,
+	canje_puntos_gastados numeric(18,0) not null,
+	PRIMARY KEY (canje_id),
+	FOREIGN KEY (canje_cliente) REFERENCES PEL.Cliente(clie_id),
+	FOREIGN KEY (canje_premio) REFERENCES PEL.Premio(prem_id)
 )
 
 CREATE TABLE PEL.Compra (
