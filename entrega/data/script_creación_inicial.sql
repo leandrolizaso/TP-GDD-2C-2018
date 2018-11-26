@@ -25,6 +25,7 @@ CREATE TABLE PEL.Grado (
 	grad_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	grad_descripcion NVARCHAR(255) NOT NULL,
 	grad_porcentaje NUMERIC(18,2) NOT NULL,
+	grad_estado char(1) not null,
 	PRIMARY KEY (grad_id)
 )
 CREATE TABLE PEL.Rol (
@@ -74,31 +75,13 @@ CREATE TABLE PEL.Estado_Publicacion (
 	PRIMARY KEY(Esta_id)
 )
 
-CREATE TABLE PEL.Publicacion (
-	publ_id NUMERIC(18,0) NOT NULL,
-	publ_descripcion NVARCHAR(255) NOT NULL,
-	publ_estado NUMERIC(18,0),
-	publ_fecha_publi DATETIME,
-	publ_fecha_ven DATETIME,
-	publ_fecha_hora DATETIME,
-	publ_rubro NUMERIC(18,0),
-	publ_direccion NVARCHAR(255),
-	publ_grado NUMERIC(18,0),
-	publ_usua_resp NUMERIC(18,0),
-	PRIMARY KEY (publ_id),
-	FOREIGN KEY (publ_rubro) REFERENCES PEL.Rubro (rubr_id),
-	FOREIGN KEY (publ_grado) REFERENCES PEL.Grado (grad_id),
-	FOREIGN KEY (publ_usua_resp) REFERENCES PEL.Usuario (usua_id),
-	FOREIGN KEY (publ_estado) REFERENCES PEL.Estado_Publicacion (Esta_id)
-)
-
 CREATE TABLE PEL.Cliente (
 	clie_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	clie_usuario NUMERIC(18,0),
 	clie_nombre NVARCHAR(255),
 	clie_apellido NVARCHAR(255),
 	clie_tipo_doc NVARCHAR(255),
-	clie_nro_doc NVARCHAR(255),
+	clie_nro_doc NVARCHAR(255) not null,
 	clie_cuil NVARCHAR(255),
 	clie_mail NVARCHAR(255),
 	clie_telefono NVARCHAR(255),
@@ -117,29 +100,49 @@ CREATE TABLE PEL.Empresa (
 	empr_direccion NVARCHAR(255) NOT NULL,
 	empr_razon_social NVARCHAR(200) NOT NULL,	-- bajo la cant de char por problemilla al actualizar tabla por unique
 	empr_cuit NVARCHAR(200) NOT NULL,			-- idem top
+	empr_estado CHAR(1),
 	empr_fecha DATETIME,
 	empr_telefono NVARCHAR(255),			
-	empr_mail NVARCHAR(255) NOT NULL,					
+	empr_mail NVARCHAR(255) NOT NULL,
 	PRIMARY KEY (empr_id),
 	FOREIGN KEY (empr_usuario) REFERENCES PEL.Usuario(usua_id),
 	CONSTRAINT empr_un UNIQUE(empr_cuit, empr_razon_social)
 )
 
+CREATE TABLE PEL.Publicacion (
+	publ_id NUMERIC(18,0) NOT NULL,
+	publ_descripcion NVARCHAR(255) NOT NULL,
+	publ_estado NUMERIC(18,0),
+	publ_fecha_publi DATETIME,
+	publ_fecha_ven DATETIME,
+	publ_rubro NUMERIC(18,0),
+	publ_direccion NVARCHAR(255),
+	publ_grado NUMERIC(18,0),
+	publ_empresa_resp NUMERIC(18,0),
+	PRIMARY KEY (publ_id),
+	FOREIGN KEY (publ_rubro) REFERENCES PEL.Rubro (rubr_id),
+	FOREIGN KEY (publ_grado) REFERENCES PEL.Grado (grad_id),
+	FOREIGN KEY (publ_empresa_resp) REFERENCES PEL.Empresa (empr_id),
+	FOREIGN KEY (publ_estado) REFERENCES PEL.Estado_Publicacion (Esta_id)
+)
+
+
 CREATE TABLE PEL.Premio(
 	prem_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	prem_descripcion NVARCHAR(255) NOT NULL,
-	prem_porcentaje NUMERIC(18,2) NOT NULL,
-	prem_cliente NUMERIC(18,0) NOT NULL,
-	PRIMARY KEY (prem_id),
-	FOREIGN KEY (prem_cliente) REFERENCES PEL.Cliente(clie_id)
+	prem_costo_puntos NUMERIC(18,2) NOT NULL,
+	PRIMARY KEY (prem_id)
 )
 
-CREATE TABLE PEL.Premio_Cliente (
-	prem_clie_clie NUMERIC(18,0) NOT NULL,
-	prem_clie_prem NUMERIC(18,0) NOT NULL,
-	PRIMARY KEY (prem_clie_clie,prem_clie_prem),
-	FOREIGN KEY (prem_clie_clie) REFERENCES PEL.Cliente(clie_id),
-	FOREIGN KEY (prem_clie_prem) REFERENCES PEL.Premio(prem_id)
+CREATE TABLE PEL.Canje (
+	canje_id numeric(18,0) identity(1,1) not null,
+	canje_cliente NUMERIC(18,0) NOT NULL,
+	canje_premio NUMERIC(18,0) NOT NULL,
+	canje_fecha datetime not null,
+	canje_puntos_gastados numeric(18,0) not null,
+	PRIMARY KEY (canje_id),
+	FOREIGN KEY (canje_cliente) REFERENCES PEL.Cliente(clie_id),
+	FOREIGN KEY (canje_premio) REFERENCES PEL.Premio(prem_id)
 )
 
 CREATE TABLE PEL.Compra (
@@ -203,6 +206,24 @@ GO
 --------Functions, procedures & triggers----------
 --------------------------------------------------
 
+CREATE FUNCTION PEL.f_string_split (@string NVARCHAR(MAX), @delimiter CHAR(1)) 
+RETURNS @output TABLE(splitdata NVARCHAR(MAX)) 
+BEGIN 
+    DECLARE @start INT, @end INT 
+    SELECT @start = 1, @end = CHARINDEX(@delimiter, @string) 
+    WHILE @start < LEN(@string) + 1 BEGIN 
+        IF @end = 0  
+            SET @end = LEN(@string) + 1
+       
+        INSERT INTO @output (splitdata)  
+        VALUES(SUBSTRING(@string, @start, @end - @start)) 
+        SET @start = @end + 1 
+        SET @end = CHARINDEX(@delimiter, @string, @start)
+        
+    END 
+    RETURN 
+END
+go
 
 create function PEL.f_hash (@pass nvarchar(255))
 	returns nvarchar(255)
@@ -322,7 +343,7 @@ begin
 end
 
 -- Inicialmente se registra a un usuario Cliente unicamente con el Rol Cliente
-go
+go 
 create procedure PEL.registrar_usuario_cliente
 		(@username nvarchar(50) output ,@password nvarchar(255) output, 
 		@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255),
@@ -330,10 +351,19 @@ create procedure PEL.registrar_usuario_cliente
 as
 begin
 
+	if(@nro_doc is null)
+		begin
+			set @usua_id = -1
+			set @mensaje='Recuerde que es obligatorio que ingrese su DNI.'
+			select @username,@password,@usua_id,@mensaje
+			return
+		end	
+
 	if(PEL.f_es_username_valido(@username) != 0)
 		begin
 			set @usua_id = -1
 			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
+			select @username,@password,@usua_id,@mensaje
 			return
 		end
 
@@ -345,6 +375,7 @@ begin
 					begin
 						set @usua_id = -1
 						set @mensaje= 'El Cliente ya posee un Usuario'
+						select @username,@password,@usua_id,@mensaje
 						return
 					end
 			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
@@ -354,8 +385,10 @@ begin
 		begin
 			exec PEL.generar_username @data = @username output;
 			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+			insert PEL.Cliente (clie_apellido,clie_tipo_doc,clie_nro_doc,clie_cuil,clie_mail,clie_telefono,clie_fecha_nac,clie_fecha_crea,clie_direccion,clie_datos_tarjeta)
+			values(@apellido ,@tipo_doc ,@nro_doc ,@cuil ,@mail,@telefono,@fecha_nac,@fecha_crea,@direccion ,@datos_tarjeta)
 		end
-	
+
 	
 	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
@@ -364,10 +397,9 @@ begin
 		set clie_usuario = @usua_id 
 		where clie_nro_doc = @nro_doc
 	
+	select @username,@password,@usua_id,@mensaje
 	return
 end
-
-
 
 -- Inicialmente se registra a un usuario Empresa unicamente con el Rol Empresa
 
@@ -379,10 +411,19 @@ create procedure PEL.registrar_usuario_empresa
 as
 begin
 
+	if(@direccion is null or @razon_social is null or @cuit is null or @mail is null)
+		begin
+			set @usua_id = -1
+			set @mensaje='Recuerde que es obligatorio que complete los siguientes campos: direccion,razon social,cuit,mail.'
+			select @username,@password,@usua_id,@mensaje
+			return
+		end
+
 	if(PEL.f_es_username_valido(@username) != 0)
 		begin
 			set @usua_id = -1
 			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
+			select @username,@password,@usua_id,@mensaje
 			return
 		end
 
@@ -393,7 +434,8 @@ begin
 				if( @usuario_empresa != 0) -- tiene usuario?
 					begin
 						set @usua_id = -1
-						set @mensaje= 'El Cliente ya posee un Usuario'
+						set @mensaje= 'La Empresa ya posee un Usuario'
+						select @username,@password,@usua_id,@mensaje
 						return
 					end
 			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
@@ -403,7 +445,10 @@ begin
 		begin
 			exec PEL.generar_username @data = @username output;
 			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+			insert PEL.Empresa (empr_direccion,empr_razon_social,empr_cuit,empr_fecha,empr_telefono,empr_mail) 
+			values(@direccion,@razon_social,@cuit,@fecha,@telefono,@mail)
 		end
+
 	
 	
 	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
@@ -413,14 +458,15 @@ begin
 		set empr_usuario = @usua_id 
 		where empr_cuit = @cuit
 	
+	select @username,@password,@usua_id,@mensaje
 	return
 end
 
 go
 
-create procedure PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
-as	
-begin
+CREATE PROCEDURE PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
+AS	
+BEGIN
 SELECT  * --ver que datos son necesaris mostrar de la compra
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
           FROM      PEL.Compra inner join PEL.Cliente on compr_cliente = clie_id
@@ -429,10 +475,65 @@ FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
 WHERE   RowNum > (@pag-1)*10 
     AND RowNum <= @pag*10
 ORDER BY RowNum
-end
-go
+END
+GO
 
+CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle nvarchar,@desde Date,@hasta Date, @pag int)
+AS
+BEGIN
+SELECT  * 
+FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
+          FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id
+		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
+		  and (convert(date,publ_fecha_publi) between @desde and @hasta)
+		  and (convert(date,publ_fecha_ven) between @desde and @hasta)
+		  and publ_descripcion like '%' + @detalle + '%'
+        ) AS RowConstrainedResult
+WHERE   RowNum > (@pag-1)*10 
+    AND RowNum <= @pag*10
+ORDER BY RowNum
+END
+GO
 
+--Listados estadisticos
+
+CREATE PROCEDURE PEL.sp_listado_no_vendidas (@grado numeric(18,0), @fecha DATETIME)
+AS                                                                 --Es la fecha del mes y año que seleccionaron en el abm
+BEGIN
+SELECT TOP 5 publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion 
+			   FROM PEL.Publicacion join PEL.Grado on grad_id = publ_grado and @grado = publ_grado
+			   join Ubicacion on ubic_publ = publ_id 
+			   WHERE ubic_compra is null
+			   and YEAR(@fecha) = YEAR(publ_fecha_ven)
+			   and MONTH(@fecha) = MONTH(publ_fecha_ven)
+			   group by publ_empresa_resp, publ_id, publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion, grad_porcentaje
+			   order by count(ubic_id) desc,publ_fecha_ven desc, grad_porcentaje desc
+END
+GO
+				
+CREATE PROCEDURE PEL.sp_clientes_puntos_vencidos (@fecha DATE, @fecha_desde DATE, @fecha_hasta DATE)
+AS												--La primer fecha es la actual, las otras por el trimestre de consulta
+BEGIN
+SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, sum(compr_puntos_acum - compr_puntos_gast) as puntos 
+	FROM PEL.Cliente join Compra on compr_cliente = clie_id
+		where DATEDIFF(day, @fecha, compr_fecha) > 30
+		and convert(date,compr_fecha) between @fecha_desde and @fecha_hasta
+		group by clie_id, clie_nombre, clie_apellido, clie_nro_doc
+		order by puntos desc
+END
+GO
+
+CREATE PROCEDURE PEL.sp_clientes_mayor_compra (@fecha_desde date, @fecha_hasta date)
+AS
+BEGIN
+SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, count(compr_id) as [Cantidad de compras]
+	FROM PEL.Cliente join PEL.Compra on compr_cliente = clie_id join PEL.Publicacion on publ_id=compr_publi
+	where convert(date,compr_fecha) between @fecha_desde and @fecha_hasta
+	group by clie_id, clie_nombre, clie_apellido, clie_nro_doc, publ_empresa_resp
+	order by count(compr_id) desc
+END
+GO
+ 
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
@@ -457,10 +558,11 @@ INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
 	('Borrador')
 GO
 
-INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje) values
-	('Alta',15),
-	('Media',10),
-	('Baja',5)
+INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje,grad_estado) values
+	('Alta',15,'A'),
+	('Media',10,'A'),
+	('Baja',5,'A'),
+	('Migrado',0,'B')
 GO
 
 INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
@@ -492,30 +594,6 @@ INSERT INTO PEL.Rubro (rubr_descripcion)
 	FROM gd_esquema.Maestra
 GO
 
-
-INSERT INTO PEL.Publicacion (publ_id,
-							 publ_descripcion, 
-							 publ_fecha_publi, 
-							 publ_fecha_ven, 
-							 publ_rubro, 
-							 publ_estado)
-  	SELECT DISTINCT Espectaculo_Cod, 
-					Espectaculo_Descripcion,
-					Espectaculo_Fecha, 
-					Espectaculo_Fecha_Venc, 
-					(SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), 
-				--	(SELECT Esta_id FROM PEL.Estado_Publicacion WHERE Esta_descripcion = 'Activa')
-					PEL.calcular_publ_estado(Espectaculo_Fecha_Venc,getdate())
-	FROM gd_esquema.Maestra
-GO
-
--- Tipo_Ubicacion
-
-INSERT INTO PEL.Tipo_Ubicacion (tipo_ubic_descripcion, tipo_ubic_id)
-	SELECT DISTINCT Ubicacion_Tipo_Descripcion, Ubicacion_Tipo_Codigo
-	FROM gd_esquema.Maestra
-GO
-
 -- Empresa
 
 INSERT INTO PEL.Empresa (empr_razon_social, 
@@ -527,10 +605,44 @@ INSERT INTO PEL.Empresa (empr_razon_social,
 					Espec_Empresa_Cuit, 
 					Espec_Empresa_Fecha_Creacion, 
 					Espec_Empresa_Mail, 
-					Espec_Empresa_Dom_Calle + 
-						CONVERT(nvarchar,Espec_Empresa_Nro_Calle) + 
-						CONVERT(nvarchar,Espec_Empresa_Piso) + 
-						Espec_Empresa_Depto + Espec_Empresa_Cod_Postal
+					Espec_Empresa_Dom_Calle + ' '  + 
+						CONVERT(nvarchar,Espec_Empresa_Nro_Calle) + ' '  + 
+						CONVERT(nvarchar,Espec_Empresa_Piso) + ' '  +
+						Espec_Empresa_Depto + ' '  + Espec_Empresa_Cod_Postal
+	FROM gd_esquema.Maestra
+GO
+
+update PEL.Empresa
+ set empr_estado = 'M'
+
+
+INSERT INTO PEL.Publicacion (publ_id,
+							 publ_descripcion, 
+							 publ_fecha_publi, 
+							 publ_fecha_ven, 
+							 publ_rubro, 
+							 publ_estado,
+							 publ_empresa_resp)
+  	SELECT DISTINCT Espectaculo_Cod, 
+					Espectaculo_Descripcion,
+					Espectaculo_Fecha, 
+					Espectaculo_Fecha_Venc, 
+					(SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), 
+				--	(SELECT Esta_id FROM PEL.Estado_Publicacion WHERE Esta_descripcion = 'Activa')
+					PEL.calcular_publ_estado(Espectaculo_Fecha_Venc,getdate()),
+					(select empr_id from PEL.Empresa where empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit =  Espec_Empresa_Cuit)
+	FROM gd_esquema.Maestra
+GO
+
+declare @id_grado numeric(18,0)
+set @id_grado = (select grad_id from PEL.Grado where grad_descripcion = 'Migrado')
+update PEL.Publicacion
+	set publ_grado = @id_grado
+
+-- Tipo_Ubicacion
+
+INSERT INTO PEL.Tipo_Ubicacion (tipo_ubic_descripcion, tipo_ubic_id)
+	SELECT DISTINCT Ubicacion_Tipo_Descripcion, Ubicacion_Tipo_Codigo
 	FROM gd_esquema.Maestra
 GO
 
@@ -564,14 +676,16 @@ INSERT INTO PEL.Cliente (clie_nro_doc,
 					Cli_Apeliido, 
 					Cli_Nombre, 
 					Cli_Fecha_Nac, 
-					Cli_Mail, Cli_Dom_Calle + 
-						convert(nvarchar,Cli_Nro_Calle) + 
-						convert(nvarchar,Cli_Piso) +
-						Cli_Depto + Cli_Cod_Postal
+					Cli_Mail, Cli_Dom_Calle + ' '  + 
+						convert(nvarchar,Cli_Nro_Calle) + ' '  +
+						convert(nvarchar,Cli_Piso) + ' '  +
+						Cli_Depto + ' '  + Cli_Cod_Postal
 	FROM gd_esquema.Maestra
 	where cli_dni is not null 
 GO 
 
+update PEL.Cliente
+ set clie_estado = 'M'
 
 -- Compra
 -- que hacemos con los puntos ? O sea hay compras de 2019 y todo xd *Estrategia*
@@ -590,6 +704,9 @@ INSERT INTO PEL.Compra (compr_fecha,
 	where cli_dni is not null and compra_fecha is not null and Forma_Pago_Desc is not null
 GO
 
+update PEL.Compra
+	set compr_puntos_acum = (select round(compr_total/100,0))
+
 -- Ubicaciones en general
 
 INSERT INTO PEL.Ubicacion (ubic_fila, 
@@ -597,32 +714,36 @@ INSERT INTO PEL.Ubicacion (ubic_fila,
 						   ubic_sin_numerar, 
 						   ubic_precio, 
 						   ubic_publ, 
-						   ubic_tipo, 
-						   ubic_compra)
+						   ubic_tipo)
 	SELECT DISTINCT Ubicacion_Fila, 
 					Ubicacion_Asiento, 
 					Ubicacion_Sin_numerar,
 					Ubicacion_Precio,
 					Espectaculo_Cod, 
-					Ubicacion_Tipo_Codigo, -- dado que el tipo_ubic_id lo sacamos de ese campo, tambien podria ser algo que manaje el motor y tirar un select
-					(select compr_id from PEL.Compra where compr_cliente = Cli_DNI)
-	FROM gd_esquema.Maestra
+					Ubicacion_Tipo_Codigo -- dado que el tipo_ubic_id lo sacamos de ese campo, tambien podria ser algo que manaje el motor y tirar un select
+	FROM gd_esquema.Maestra 
 	where Factura_Fecha is null
-
 	--No se si eso alcanza para conseguir la compra, por ejemplo si el cliente compro varias de la misma publicacion el mismo dia
 			-- aparenta que si (?
 GO
 
--- ubicaciones facturadas
+-- se pone fk correspondientes a Ubicaciones facturadas y compradas
 
 update PEL.Ubicacion
-	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), ubic_comision = Item_Factura_Monto, ubic_item_factura_cantidad = Item_Factura_Cantidad,ubic_item_factura_descripcion = Item_Factura_Descripcion
-	from gd_esquema.Maestra
+	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), 
+		ubic_comision = Item_Factura_Monto,
+		ubic_item_factura_cantidad = Item_Factura_Cantidad,
+		ubic_item_factura_descripcion = Item_Factura_Descripcion,
+		ubic_compra = compr_id
+	from gd_esquema.Maestra join PEL.Compra on compr_fecha = Compra_Fecha 
+							join PEL.Cliente on clie_nro_doc = Cli_Dni
 	where Factura_nro is not null and ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and ubic_publ= Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
-
 
 -- se calcula importe de factura: sumatoria de los precios de cada ubicacion
 
 update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
+go
+
+
