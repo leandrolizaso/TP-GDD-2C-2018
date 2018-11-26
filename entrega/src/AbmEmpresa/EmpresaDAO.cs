@@ -11,8 +11,8 @@ namespace PalcoNet.AbmEmpresa
         public DataTable obtenerDatosEmpresa(decimal idEmpresa) {
             var dict = new Dictionary<string, object>();
             dict.Add("@empr_id", idEmpresa);
-            return query("select empr_razon_social, empr_mail,"
-                        +"empr_telefono, empr_direccion,empr_cuit "
+            return query("select empr_razon_social, empr_mail, empr_telefono, "
+                        +"empr_direccion,empr_cuit, empr_estado "
                         +"from pel.empresa where empr_id = @empr_id", dict);
         }
 
@@ -24,7 +24,7 @@ namespace PalcoNet.AbmEmpresa
             dict.Add("@mail", mail);
 
             return query("select empr_id, empr_razon_social,empr_mail,"
-                        +"empr_telefono,empr_direccion,empr_cuit "
+                        +"empr_telefono,empr_direccion,empr_cuit, empr_estado "
                         +"from pel.empresa "
                         + "where empr_razon_social like case when @razon != '' then '%'+@razon+'%' else empr_razon_social end "
                         + "and empr_cuit = isnull(nullif(@cuit,''),empr_cuit) " //match exacto

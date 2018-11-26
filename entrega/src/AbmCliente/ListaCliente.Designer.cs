@@ -40,6 +40,7 @@
             this.limpiar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.datagrid = new System.Windows.Forms.DataGridView();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).BeginInit();
             this.SuspendLayout();
@@ -154,11 +155,22 @@
             this.datagrid.Name = "datagrid";
             this.datagrid.Size = new System.Drawing.Size(603, 231);
             this.datagrid.TabIndex = 11;
-            this.datagrid.MouseClick += new System.Windows.Forms.MouseEventHandler(this.datagrid_MouseClick);
+            this.datagrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellDoubleClick);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(10, 108);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(171, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Doble click en la fila para modificar";
             // 
             // ListaCliente
             // 
             this.ClientSize = new System.Drawing.Size(633, 375);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.datagrid);
             this.Controls.Add(this.groupBox1);
             this.Name = "ListaCliente";
@@ -167,6 +179,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -184,6 +197,7 @@
         private System.Windows.Forms.Button limpiar;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView datagrid;
+        private System.Windows.Forms.Label label5;
 
     }
 }

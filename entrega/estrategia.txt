@@ -9,20 +9,20 @@
 - Estados:
   - Usuario:
     - A: Alta
-	- B: Baja, por inabilitacion del administrador.
-	- I: Inhabilitado por logins incorrectos.
-	- R: Restablecer contraseña (para los casos en los que el administrador genera el usuario).
+    - B: Baja, por inabilitacion del administrador.
+    - I: Inhabilitado por logins incorrectos.
+    - R: Restablecer contraseña (para los casos en los que el administrador genera el usuario).
   - Cliente
     - A: Alta
-	- B: Baja, por administrador
-	- M: Cliente migrado, a la espera de un registro de usuario.
+    - B: Baja, por administrador
+    - M: Cliente migrado, a la espera de un registro de usuario.
   - Empresa
     - A: Alta
-	- B: Baja, por administrador
-	- M: Empresa migrada, a la espera de un registro de usuario.
+    - B: Baja, por administrador
+    - M: Empresa migrada, a la espera de un registro de usuario.
 
 - ABMS
-  Se opta por agregar las funcionalidades de "modificar/eliminar" con un menu contextual (click derecho) en lugar de disponer de botones.
+  Se opta por agregar las funcionalidades de "modificar/eliminar" con un menu contextual (doble click) en lugar de disponer de botones.
 
 - Grado de publicacion
   Se definen los grados "Alta", "Media" y "Baja" de manera arbitraria.

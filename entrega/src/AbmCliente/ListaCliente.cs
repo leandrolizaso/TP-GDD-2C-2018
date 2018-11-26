@@ -28,44 +28,20 @@ namespace PalcoNet.AbmCliente
             }
         }
 
-        private void datagrid_MouseClick(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Right) {
-                ContextMenu m = new ContextMenu();
-
-                int currentMouseOverRow = datagrid.HitTest(e.X, e.Y).RowIndex;
-
-                if (currentMouseOverRow >= 0) {
-                    id_clickeado = (decimal)datagrid["clie_id", currentMouseOverRow].Value;
-                    var nombre = datagrid["clie_nombre", currentMouseOverRow].Value;
-                    var apellido = datagrid["clie_apellido", currentMouseOverRow].Value;
-
-                    m.MenuItems.Add(new MenuItem(string.Format("Modificar {0} {1}", nombre, apellido), modificar));
-                    m.MenuItems.Add(new MenuItem(string.Format("Eliminar {0} {1}", nombre, apellido),eliminar));
-                }
-
-                m.Show(datagrid, new Point(e.X, e.Y));
-
-            }
-        }
-
-        private void modificar(object sender, EventArgs e) {
-            this.Hide();
-            new ModificarCliente(id_clickeado).ShowDialog();
-            this.Show();
-            buscar_Click(sender,e);
-        }
-
-        private void eliminar(object sender, EventArgs e) {
-            System.Windows.Forms.MessageBox.Show("Not yet " + id_clickeado);
-            buscar_Click(sender, e);
-        }
-
         private void limpiar_Click(object sender, EventArgs e) {
             nombre.Text = "";
             apellido.Text = "";
             dni.Text = "";
             email.Text = "";
             datagrid.DataSource = null;
+        }
+
+        private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            id_clickeado = (decimal)datagrid["clie_id", e.RowIndex].Value;
+            this.Hide();
+            new ModificarCliente(id_clickeado).ShowDialog();
+            this.Show();
+            buscar_Click(sender, e);
         }
 
      }
