@@ -44,6 +44,12 @@ namespace PalcoNet.AbmCliente
             buscar_Click(sender, e);
         }
 
+        private void crear_Click(object sender, EventArgs e) {
+            this.Hide();
+            new ModificarCliente().ShowDialog();
+            this.Show();
+        }
+
      }
 
 }

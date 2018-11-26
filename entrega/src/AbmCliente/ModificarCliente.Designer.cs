@@ -28,43 +28,301 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel = new System.Windows.Forms.FlowLayoutPanel();
             this.modificar = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.clie_nombre = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.clie_tipo_doc = new System.Windows.Forms.TextBox();
+            this.clie_telefono = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.clie_cuil = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.clie_datos_tarjeta = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.clie_direccion = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.clie_mail = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.clie_nro_doc = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.clie_apellido = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.clie_estado = new System.Windows.Forms.ComboBox();
+            this.clie_fecha_nac = new System.Windows.Forms.DateTimePicker();
+            this.clie_fecha_crea = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
-            // 
-            // panel
-            // 
-            this.panel.Location = new System.Drawing.Point(23, 20);
-            this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(636, 241);
-            this.panel.TabIndex = 0;
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(257, 289);
+            this.modificar.Location = new System.Drawing.Point(72, 323);
             this.modificar.Name = "modificar";
-            this.modificar.Size = new System.Drawing.Size(147, 43);
+            this.modificar.Size = new System.Drawing.Size(537, 43);
             this.modificar.TabIndex = 1;
-            this.modificar.Text = "Modificar";
+            this.modificar.Text = "Guardar";
             this.modificar.UseVisualStyleBackColor = true;
             this.modificar.Click += new System.EventHandler(this.modificar_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(69, 34);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Nombre";
+            // 
+            // clie_nombre
+            // 
+            this.clie_nombre.Location = new System.Drawing.Point(153, 31);
+            this.clie_nombre.Name = "clie_nombre";
+            this.clie_nombre.Size = new System.Drawing.Size(162, 20);
+            this.clie_nombre.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(69, 84);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(54, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Tipo Doc.";
+            // 
+            // clie_tipo_doc
+            // 
+            this.clie_tipo_doc.Location = new System.Drawing.Point(153, 81);
+            this.clie_tipo_doc.Name = "clie_tipo_doc";
+            this.clie_tipo_doc.Size = new System.Drawing.Size(162, 20);
+            this.clie_tipo_doc.TabIndex = 5;
+            // 
+            // clie_telefono
+            // 
+            this.clie_telefono.Location = new System.Drawing.Point(153, 185);
+            this.clie_telefono.Name = "clie_telefono";
+            this.clie_telefono.Size = new System.Drawing.Size(162, 20);
+            this.clie_telefono.TabIndex = 9;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(69, 188);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(49, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Telefono";
+            // 
+            // clie_cuil
+            // 
+            this.clie_cuil.Location = new System.Drawing.Point(153, 135);
+            this.clie_cuil.Name = "clie_cuil";
+            this.clie_cuil.Size = new System.Drawing.Size(162, 20);
+            this.clie_cuil.TabIndex = 7;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(69, 138);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(24, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Cuil";
+            // 
+            // clie_datos_tarjeta
+            // 
+            this.clie_datos_tarjeta.Location = new System.Drawing.Point(153, 286);
+            this.clie_datos_tarjeta.Name = "clie_datos_tarjeta";
+            this.clie_datos_tarjeta.Size = new System.Drawing.Size(162, 20);
+            this.clie_datos_tarjeta.TabIndex = 13;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(69, 289);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(71, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Datos Tarjeta";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(69, 239);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(63, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Fecha Nac.";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(363, 289);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(40, 13);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Estado";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(363, 239);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(82, 13);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "Fecha Creacion";
+            // 
+            // clie_direccion
+            // 
+            this.clie_direccion.Location = new System.Drawing.Point(447, 185);
+            this.clie_direccion.Name = "clie_direccion";
+            this.clie_direccion.Size = new System.Drawing.Size(162, 20);
+            this.clie_direccion.TabIndex = 21;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(363, 188);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(52, 13);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "Direccion";
+            // 
+            // clie_mail
+            // 
+            this.clie_mail.Location = new System.Drawing.Point(447, 135);
+            this.clie_mail.Name = "clie_mail";
+            this.clie_mail.Size = new System.Drawing.Size(162, 20);
+            this.clie_mail.TabIndex = 19;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(363, 138);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(26, 13);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "Mail";
+            // 
+            // clie_nro_doc
+            // 
+            this.clie_nro_doc.Location = new System.Drawing.Point(447, 81);
+            this.clie_nro_doc.Name = "clie_nro_doc";
+            this.clie_nro_doc.Size = new System.Drawing.Size(162, 20);
+            this.clie_nro_doc.TabIndex = 17;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(363, 84);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(45, 13);
+            this.label11.TabIndex = 16;
+            this.label11.Text = "Nº Doc.";
+            // 
+            // clie_apellido
+            // 
+            this.clie_apellido.Location = new System.Drawing.Point(447, 31);
+            this.clie_apellido.Name = "clie_apellido";
+            this.clie_apellido.Size = new System.Drawing.Size(162, 20);
+            this.clie_apellido.TabIndex = 15;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(363, 34);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(44, 13);
+            this.label12.TabIndex = 14;
+            this.label12.Text = "Apellido";
+            // 
+            // clie_estado
+            // 
+            this.clie_estado.FormattingEnabled = true;
+            this.clie_estado.Location = new System.Drawing.Point(447, 284);
+            this.clie_estado.Name = "clie_estado";
+            this.clie_estado.Size = new System.Drawing.Size(161, 21);
+            this.clie_estado.TabIndex = 25;
+            // 
+            // clie_fecha_nac
+            // 
+            this.clie_fecha_nac.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.clie_fecha_nac.Location = new System.Drawing.Point(154, 237);
+            this.clie_fecha_nac.Name = "clie_fecha_nac";
+            this.clie_fecha_nac.Size = new System.Drawing.Size(160, 20);
+            this.clie_fecha_nac.TabIndex = 26;
+            // 
+            // clie_fecha_crea
+            // 
+            this.clie_fecha_crea.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.clie_fecha_crea.Location = new System.Drawing.Point(451, 237);
+            this.clie_fecha_crea.Name = "clie_fecha_crea";
+            this.clie_fecha_crea.Size = new System.Drawing.Size(160, 20);
+            this.clie_fecha_crea.TabIndex = 27;
             // 
             // ModificarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 378);
+            this.Controls.Add(this.clie_fecha_crea);
+            this.Controls.Add(this.clie_fecha_nac);
+            this.Controls.Add(this.clie_estado);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.clie_direccion);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.clie_mail);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.clie_nro_doc);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.clie_apellido);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.clie_datos_tarjeta);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.clie_telefono);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.clie_cuil);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.clie_tipo_doc);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.clie_nombre);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.modificar);
-            this.Controls.Add(this.panel);
             this.Name = "ModificarCliente";
-            this.Text = "ModificarCliente";
+            this.Text = "Datos Cliente";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel panel;
         private System.Windows.Forms.Button modificar;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox clie_nombre;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox clie_tipo_doc;
+        private System.Windows.Forms.TextBox clie_telefono;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox clie_cuil;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox clie_datos_tarjeta;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox clie_direccion;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox clie_mail;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox clie_nro_doc;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox clie_apellido;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox clie_estado;
+        private System.Windows.Forms.DateTimePicker clie_fecha_nac;
+        private System.Windows.Forms.DateTimePicker clie_fecha_crea;
     }
 }

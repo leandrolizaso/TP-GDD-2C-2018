@@ -36,9 +36,16 @@ namespace PalcoNet.AbmCliente
         }
 
 
-        public void actualizarDatosCliente(decimal idCliente, Dictionary<string, object> dict)
+        public void upsertDatosCliente(decimal idCliente, Dictionary<string, object> dict)
         {
-            var reader = query(updateClienteString(idCliente, dict), dict);
+            string queryStr;
+            if (idCliente == -1) {
+                queryStr = insertClienteString(dict);
+            } else {
+                queryStr = updateClienteString(idCliente, dict);
+            }
+            //System.Diagnostics.Debug.WriteLine(queryStr);
+            var reader = query(queryStr, dict);
             reader.Dispose();
         }
 
@@ -50,6 +57,24 @@ namespace PalcoNet.AbmCliente
             }
             query = query.TrimEnd(',');
             query += "where clie_id = " + idCliente;
+            return query;
+        }
+
+        private string insertClienteString(Dictionary<string, object> dict)
+        {
+            string query = "insert PEL.cliente (";
+            foreach (var entry in dict)
+            {
+                query += entry.Key + " ,";
+            }
+            query = query.TrimEnd(',');
+            query += ") values (";
+            foreach (var entry in dict)
+            {
+                query += "@"+entry.Key + " ,";
+            }
+            query = query.TrimEnd(',');
+            query += ")";
             return query;
         }
     }
