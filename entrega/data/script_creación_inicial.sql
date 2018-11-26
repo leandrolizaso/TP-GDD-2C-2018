@@ -75,23 +75,6 @@ CREATE TABLE PEL.Estado_Publicacion (
 	PRIMARY KEY(Esta_id)
 )
 
-CREATE TABLE PEL.Publicacion (
-	publ_id NUMERIC(18,0) NOT NULL,
-	publ_descripcion NVARCHAR(255) NOT NULL,
-	publ_estado NUMERIC(18,0),
-	publ_fecha_publi DATETIME,
-	publ_fecha_ven DATETIME,
-	publ_rubro NUMERIC(18,0),
-	publ_direccion NVARCHAR(255),
-	publ_grado NUMERIC(18,0),
-	publ_usua_resp NUMERIC(18,0),
-	PRIMARY KEY (publ_id),
-	FOREIGN KEY (publ_rubro) REFERENCES PEL.Rubro (rubr_id),
-	FOREIGN KEY (publ_grado) REFERENCES PEL.Grado (grad_id),
-	FOREIGN KEY (publ_usua_resp) REFERENCES PEL.Usuario (usua_id),
-	FOREIGN KEY (publ_estado) REFERENCES PEL.Estado_Publicacion (Esta_id)
-)
-
 CREATE TABLE PEL.Cliente (
 	clie_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	clie_usuario NUMERIC(18,0),
@@ -125,6 +108,24 @@ CREATE TABLE PEL.Empresa (
 	FOREIGN KEY (empr_usuario) REFERENCES PEL.Usuario(usua_id),
 	CONSTRAINT empr_un UNIQUE(empr_cuit, empr_razon_social)
 )
+
+CREATE TABLE PEL.Publicacion (
+	publ_id NUMERIC(18,0) NOT NULL,
+	publ_descripcion NVARCHAR(255) NOT NULL,
+	publ_estado NUMERIC(18,0),
+	publ_fecha_publi DATETIME,
+	publ_fecha_ven DATETIME,
+	publ_rubro NUMERIC(18,0),
+	publ_direccion NVARCHAR(255),
+	publ_grado NUMERIC(18,0),
+	publ_empresa_resp NUMERIC(18,0),
+	PRIMARY KEY (publ_id),
+	FOREIGN KEY (publ_rubro) REFERENCES PEL.Rubro (rubr_id),
+	FOREIGN KEY (publ_grado) REFERENCES PEL.Grado (grad_id),
+	FOREIGN KEY (publ_empresa_resp) REFERENCES PEL.Empresa (empr_id),
+	FOREIGN KEY (publ_estado) REFERENCES PEL.Estado_Publicacion (Esta_id)
+)
+
 
 CREATE TABLE PEL.Premio(
 	prem_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
@@ -477,7 +478,7 @@ SELECT TOP 5 publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion
 			   WHERE ubic_compra is null
 			   and YEAR(@fecha) = YEAR(publ_fecha_ven)
 			   and MONTH(@fecha) = MONTH(publ_fecha_ven)
-			   group by publ_usua_resp, publ_id, publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion, grad_porcentaje
+			   group by publ_empresa_resp, publ_id, publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion, grad_porcentaje
 			   order by count(ubic_id) desc,publ_fecha_ven desc, grad_porcentaje desc
 END
 GO
@@ -500,7 +501,7 @@ BEGIN
 SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, count(compr_id) as [Cantidad de compras]
 	FROM PEL.Cliente join PEL.Compra on compr_cliente = clie_id join PEL.Publicacion on publ_id=compr_publi
 	where compr_fecha between @fecha_desde and @fecha_hasta
-	group by clie_id, clie_nombre, clie_apellido, clie_nro_doc, publ_usua_resp
+	group by clie_id, clie_nombre, clie_apellido, clie_nro_doc, publ_empresa_resp
 	order by count(compr_id) desc
 END
 GO
@@ -566,35 +567,6 @@ INSERT INTO PEL.Rubro (rubr_descripcion)
 	FROM gd_esquema.Maestra
 GO
 
-
-INSERT INTO PEL.Publicacion (publ_id,
-							 publ_descripcion, 
-							 publ_fecha_publi, 
-							 publ_fecha_ven, 
-							 publ_rubro, 
-							 publ_estado)
-  	SELECT DISTINCT Espectaculo_Cod, 
-					Espectaculo_Descripcion,
-					Espectaculo_Fecha, 
-					Espectaculo_Fecha_Venc, 
-					(SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), 
-				--	(SELECT Esta_id FROM PEL.Estado_Publicacion WHERE Esta_descripcion = 'Activa')
-					PEL.calcular_publ_estado(Espectaculo_Fecha_Venc,getdate())
-	FROM gd_esquema.Maestra
-GO
-
-declare @id_grado numeric(18,0)
-set @id_grado = (select grad_id from PEL.Grado where grad_descripcion = 'Migrado')
-update PEL.Publicacion
-	set publ_grado = @id_grado
-
--- Tipo_Ubicacion
-
-INSERT INTO PEL.Tipo_Ubicacion (tipo_ubic_descripcion, tipo_ubic_id)
-	SELECT DISTINCT Ubicacion_Tipo_Descripcion, Ubicacion_Tipo_Codigo
-	FROM gd_esquema.Maestra
-GO
-
 -- Empresa
 
 INSERT INTO PEL.Empresa (empr_razon_social, 
@@ -615,6 +587,37 @@ GO
 
 update PEL.Empresa
  set empr_estado = 'M'
+
+
+INSERT INTO PEL.Publicacion (publ_id,
+							 publ_descripcion, 
+							 publ_fecha_publi, 
+							 publ_fecha_ven, 
+							 publ_rubro, 
+							 publ_estado,
+							 publ_empresa_resp)
+  	SELECT DISTINCT Espectaculo_Cod, 
+					Espectaculo_Descripcion,
+					Espectaculo_Fecha, 
+					Espectaculo_Fecha_Venc, 
+					(SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), 
+				--	(SELECT Esta_id FROM PEL.Estado_Publicacion WHERE Esta_descripcion = 'Activa')
+					PEL.calcular_publ_estado(Espectaculo_Fecha_Venc,getdate()),
+					(select empr_id from PEL.Empresa where empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit =  Espec_Empresa_Cuit)
+	FROM gd_esquema.Maestra
+GO
+
+declare @id_grado numeric(18,0)
+set @id_grado = (select grad_id from PEL.Grado where grad_descripcion = 'Migrado')
+update PEL.Publicacion
+	set publ_grado = @id_grado
+
+-- Tipo_Ubicacion
+
+INSERT INTO PEL.Tipo_Ubicacion (tipo_ubic_descripcion, tipo_ubic_id)
+	SELECT DISTINCT Ubicacion_Tipo_Descripcion, Ubicacion_Tipo_Codigo
+	FROM gd_esquema.Maestra
+GO
 
 --Factura
 -- falta lo del importe: sumatoria del precio de las ubicaciones referenciadas por item_factura
