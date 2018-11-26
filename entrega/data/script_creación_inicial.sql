@@ -81,7 +81,7 @@ CREATE TABLE PEL.Cliente (
 	clie_nombre NVARCHAR(255),
 	clie_apellido NVARCHAR(255),
 	clie_tipo_doc NVARCHAR(255),
-	clie_nro_doc NVARCHAR(255),
+	clie_nro_doc NVARCHAR(255) not null,
 	clie_cuil NVARCHAR(255),
 	clie_mail NVARCHAR(255),
 	clie_telefono NVARCHAR(255),
@@ -103,7 +103,7 @@ CREATE TABLE PEL.Empresa (
 	empr_estado CHAR(1),
 	empr_fecha DATETIME,
 	empr_telefono NVARCHAR(255),			
-	empr_mail NVARCHAR(255) NOT NULL,		
+	empr_mail NVARCHAR(255) NOT NULL,
 	PRIMARY KEY (empr_id),
 	FOREIGN KEY (empr_usuario) REFERENCES PEL.Usuario(usua_id),
 	CONSTRAINT empr_un UNIQUE(empr_cuit, empr_razon_social)
@@ -342,7 +342,7 @@ begin
 end
 
 -- Inicialmente se registra a un usuario Cliente unicamente con el Rol Cliente
-go
+go 
 create procedure PEL.registrar_usuario_cliente
 		(@username nvarchar(50) output ,@password nvarchar(255) output, 
 		@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255),
@@ -350,10 +350,19 @@ create procedure PEL.registrar_usuario_cliente
 as
 begin
 
+	if(@nro_doc is null)
+		begin
+			set @usua_id = -1
+			set @mensaje='Recuerde que es obligatorio que ingrese su DNI.'
+			select @username,@password,@usua_id,@mensaje
+			return
+		end	
+
 	if(PEL.f_es_username_valido(@username) != 0)
 		begin
 			set @usua_id = -1
 			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
+			select @username,@password,@usua_id,@mensaje
 			return
 		end
 
@@ -365,6 +374,7 @@ begin
 					begin
 						set @usua_id = -1
 						set @mensaje= 'El Cliente ya posee un Usuario'
+						select @username,@password,@usua_id,@mensaje
 						return
 					end
 			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
@@ -374,8 +384,10 @@ begin
 		begin
 			exec PEL.generar_username @data = @username output;
 			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+			insert PEL.Cliente (clie_apellido,clie_tipo_doc,clie_nro_doc,clie_cuil,clie_mail,clie_telefono,clie_fecha_nac,clie_fecha_crea,clie_direccion,clie_datos_tarjeta)
+			values(@apellido ,@tipo_doc ,@nro_doc ,@cuil ,@mail,@telefono,@fecha_nac,@fecha_crea,@direccion ,@datos_tarjeta)
 		end
-	
+
 	
 	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
@@ -384,6 +396,7 @@ begin
 		set clie_usuario = @usua_id 
 		where clie_nro_doc = @nro_doc
 	
+	select @username,@password,@usua_id,@mensaje
 	return
 end
 
@@ -397,10 +410,19 @@ create procedure PEL.registrar_usuario_empresa
 as
 begin
 
+	if(@direccion is null or @razon_social is null or @cuit is null or @mail is null)
+		begin
+			set @usua_id = -1
+			set @mensaje='Recuerde que es obligatorio que complete los siguientes campos: direccion,razon social,cuit,mail.'
+			select @username,@password,@usua_id,@mensaje
+			return
+		end
+
 	if(PEL.f_es_username_valido(@username) != 0)
 		begin
 			set @usua_id = -1
 			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
+			select @username,@password,@usua_id,@mensaje
 			return
 		end
 
@@ -411,7 +433,8 @@ begin
 				if( @usuario_empresa != 0) -- tiene usuario?
 					begin
 						set @usua_id = -1
-						set @mensaje= 'El Cliente ya posee un Usuario'
+						set @mensaje= 'La Empresa ya posee un Usuario'
+						select @username,@password,@usua_id,@mensaje
 						return
 					end
 			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
@@ -421,7 +444,10 @@ begin
 		begin
 			exec PEL.generar_username @data = @username output;
 			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+			insert PEL.Empresa (empr_direccion,empr_razon_social,empr_cuit,empr_fecha,empr_telefono,empr_mail) 
+			values(@direccion,@razon_social,@cuit,@fecha,@telefono,@mail)
 		end
+
 	
 	
 	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
@@ -431,6 +457,7 @@ begin
 		set empr_usuario = @usua_id 
 		where empr_cuit = @cuit
 	
+	select @username,@password,@usua_id,@mensaje
 	return
 end
 
