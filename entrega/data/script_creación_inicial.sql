@@ -705,6 +705,9 @@ INSERT INTO PEL.Compra (compr_fecha,
 	where cli_dni is not null and compra_fecha is not null and Forma_Pago_Desc is not null
 GO
 
+update PEL.Compra
+	set compr_puntos_acum = (select round(compr_total/100,0))
+
 -- Ubicaciones en general
 
 INSERT INTO PEL.Ubicacion (ubic_fila, 
