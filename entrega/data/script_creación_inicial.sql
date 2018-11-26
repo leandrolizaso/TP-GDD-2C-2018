@@ -478,15 +478,15 @@ ORDER BY RowNum
 END
 GO
 
-CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle nvarchar,@desde DateTime,@hasta DateTime, @pag int)
+CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle nvarchar,@desde Date,@hasta Date, @pag int)
 AS
 BEGIN
 SELECT  * 
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id
 		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
-		  and (publ_fecha_publi between @desde and @hasta)
-		  and (publ_fecha_ven between @desde and @hasta)
+		  and (convert(date,publ_fecha_publi) between @desde and @hasta)
+		  and (convert(date,publ_fecha_ven) between @desde and @hasta)
 		  and publ_descripcion like '%' + @detalle + '%'
         ) AS RowConstrainedResult
 WHERE   RowNum > (@pag-1)*10 
@@ -511,30 +511,29 @@ SELECT TOP 5 publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion
 END
 GO
 				
-CREATE PROCEDURE PEL.sp_clientes_puntos_vencidos (@fecha DATETIME, @fecha_desde DATETIME, @fecha_hasta DATETIME)
+CREATE PROCEDURE PEL.sp_clientes_puntos_vencidos (@fecha DATE, @fecha_desde DATE, @fecha_hasta DATE)
 AS												--La primer fecha es la actual, las otras por el trimestre de consulta
 BEGIN
 SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, sum(compr_puntos_acum - compr_puntos_gast) as puntos 
 	FROM PEL.Cliente join Compra on compr_cliente = clie_id
 		where DATEDIFF(day, @fecha, compr_fecha) > 30
-		and compr_fecha between @fecha_desde and @fecha_hasta
+		and convert(date,compr_fecha) between @fecha_desde and @fecha_hasta
 		group by clie_id, clie_nombre, clie_apellido, clie_nro_doc
 		order by puntos desc
 END
 GO
 
-CREATE PROCEDURE PEL.sp_clientes_mayor_compra (@fecha_desde DATETIME, @fecha_hasta DATETIME)
+CREATE PROCEDURE PEL.sp_clientes_mayor_compra (@fecha_desde date, @fecha_hasta date)
 AS
 BEGIN
 SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, count(compr_id) as [Cantidad de compras]
 	FROM PEL.Cliente join PEL.Compra on compr_cliente = clie_id join PEL.Publicacion on publ_id=compr_publi
-	where compr_fecha between @fecha_desde and @fecha_hasta
+	where convert(date,compr_fecha) between @fecha_desde and @fecha_hasta
 	group by clie_id, clie_nombre, clie_apellido, clie_nro_doc, publ_empresa_resp
 	order by count(compr_id) desc
 END
 GO
-
-
+ 
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
@@ -746,6 +745,5 @@ update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
 go
-
 
 
