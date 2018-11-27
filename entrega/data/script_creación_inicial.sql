@@ -637,6 +637,13 @@ begin
 	return
 end
 
+CREATE PROCEDURE PEL.sp_canjear_premio (@cliente numeric(18,0), @premio numeric(18,0))
+AS
+BEGIN
+	DECLARE @puntos numeric(18,2)
+	select @puntos = prem_costo_puntos from PEL.Premio where prem_id = @premio
+	INSERT INTO PEL.Canje values (@cliente, @premio, GETDATE(),@puntos)
+END
 
 
 --------------------------------------------------------------
