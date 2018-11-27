@@ -98,8 +98,8 @@ CREATE TABLE PEL.Empresa (
 	empr_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	empr_usuario NUMERIC(18,0),
 	empr_direccion NVARCHAR(255) NOT NULL,
-	empr_razon_social NVARCHAR(200) NOT NULL,	-- bajo la cant de char por problemilla al actualizar tabla por unique
-	empr_cuit NVARCHAR(200) NOT NULL,			-- idem top
+	empr_razon_social NVARCHAR(200) NOT NULL,
+	empr_cuit NVARCHAR(200) NOT NULL UNIQUE,			
 	empr_estado CHAR(1),
 	empr_fecha DATETIME,
 	empr_telefono NVARCHAR(255),			
