@@ -591,6 +591,18 @@ BEGIN
 END
 GO
 
+go
+create procedure PEL.sp_ver_puntos (@usua_id numeric (18,0),@fecha nvarchar(50))
+as
+begin
+	declare @temp table (puntos_disponibles numeric (18, 0),fecha_vencimiento date)
+	insert into @temp 
+		select compr_puntos_acum - compr_puntos_gast as puntos_disponibles , DATEADD(day,30,compr_fecha) as fecha_vencimiento
+		from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
+		where compr_fecha between dateadd(day,-30,convert(date,@fecha)) and convert(date,@fecha) and compr_puntos_acum - compr_puntos_gast > 0
+	select puntos_disponibles,fecha_vencimiento,(select sum(t.puntos_disponibles) from @temp t) as puntos_totales from @temp
+	return
+end
 
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
