@@ -636,6 +636,7 @@ begin
 	deallocate cCompras
 	return
 end
+go
 
 CREATE PROCEDURE PEL.sp_canjear_premio (@cliente numeric(18,0), @premio numeric(18,0))
 AS
@@ -644,7 +645,7 @@ BEGIN
 	select @puntos = prem_costo_puntos from PEL.Premio where prem_id = @premio
 	INSERT INTO PEL.Canje values (@cliente, @premio, GETDATE(),@puntos)
 END
-
+GO
 
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
