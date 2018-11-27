@@ -98,8 +98,8 @@ CREATE TABLE PEL.Empresa (
 	empr_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	empr_usuario NUMERIC(18,0),
 	empr_direccion NVARCHAR(255) NOT NULL,
-	empr_razon_social NVARCHAR(200) NOT NULL,	-- bajo la cant de char por problemilla al actualizar tabla por unique
-	empr_cuit NVARCHAR(200) NOT NULL,			-- idem top
+	empr_razon_social NVARCHAR(200) NOT NULL,
+	empr_cuit NVARCHAR(200) NOT NULL UNIQUE,			
 	empr_estado CHAR(1),
 	empr_fecha DATETIME,
 	empr_telefono NVARCHAR(255),			
@@ -166,9 +166,9 @@ CREATE TABLE PEL.Factura (
 	fact_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	fact_fecha DATETIME,
 	fact_comision NUMERIC(18,2),
-	fact_importe NUMERIC(18,2) , -- se carga despues, lo que se tiene ya calculado es la comision
+	fact_importe NUMERIC(18,2) , 
 	fact_empr NUMERIC(18,0),
-	fact_numero NUMERIC(18,0), -- agregado por el null de la maestra que rompia con el fact_id
+	fact_numero NUMERIC(18,0), 
 	PRIMARY KEY (fact_id),
 	FOREIGN KEY (fact_empr) REFERENCES PEL.Empresa(empr_id)
 )
@@ -185,10 +185,10 @@ CREATE TABLE PEL.Ubicacion (
 	ubic_fila NVARCHAR(2) NOT NULL,
 	ubic_asiento NUMERIC (2,0),
 	ubic_sin_numerar BIT NOT NULL,
-	ubic_precio NUMERIC(18,0), -- se mantiene el tipo por la Maestra
+	ubic_precio NUMERIC(18,0), 
 	ubic_comision numeric (18,2),
-	ubic_item_factura_cantidad NUMERIC (18,0), -- item_factura_cantidad Maestra
-	ubic_item_factura_descripcion nvarchar(60), -- item_factura_descripcion Maestra 
+	ubic_item_factura_cantidad NUMERIC (18,0),
+	ubic_item_factura_descripcion nvarchar(60),
 	ubic_tipo NUMERIC(18,0) NOT NULl,
 	ubic_publ NUMERIC(18,0) NOT NULl,	
 	ubic_compra int,
@@ -248,11 +248,6 @@ if( @fecha_venc < @fecha_tope)
 		set @id_estado = (select Esta_id from PEL.Estado_Publicacion where Esta_descripcion = 'Finalizada')
 	else
 		set @id_estado = (select Esta_id from PEL.Estado_Publicacion where Esta_descripcion = 'Activa')
-
---alta paja hacer select para eso pero bueno D: podriamos usar la "descricion" y fue, si se quiere agregar 
-	--una descripcion de verdad se pone _detalle :P
-	--PD: "borrador" nnv *Estrategia* 
-	--PD2: y el mail ? que pacho con el estado ? XD
 return @id_estado
 end
 go
@@ -461,8 +456,10 @@ begin
 	select @username,@password,@usua_id,@mensaje
 	return
 end
+GO
 
-go
+
+--Historial de cliente paginado
 
 CREATE PROCEDURE PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
 AS	
@@ -477,6 +474,9 @@ WHERE   RowNum > (@pag-1)*10
 ORDER BY RowNum
 END
 GO
+
+
+--Listado de publicaciones paginado
 
 CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle nvarchar,@desde Date,@hasta Date, @pag int)
 AS
@@ -494,6 +494,7 @@ WHERE   RowNum > (@pag-1)*10
 ORDER BY RowNum
 END
 GO
+
 
 --Listados estadisticos
 
@@ -533,17 +534,134 @@ SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, count(compr_id) as [Canti
 	order by count(compr_id) desc
 END
 GO
- 
+
+
+CREATE PROCEDURE PEL.sp_generar_rendiciones (@cantidad int, @empresa numeric(18,0))
+AS
+BEGIN
+DECLARE c_ubicaciones CURSOR FOR
+	SELECT TOP (@cantidad) ubic_id FROM PEL.Ubicacion join PEL.Publicacion ON ubic_publ = publ_id and publ_empresa_resp = @empresa join PEL.Compra ON compr_id = ubic_compra
+	WHERE ubic_factura is null and ubic_compra is not null
+	GROUP BY ubic_id, compr_fecha
+	ORDER BY compr_fecha ASC
+
+	INSERT INTO PEL.Factura (fact_fecha, fact_numero, fact_empr) 
+		 values (GETDATE(),
+		(select (max(fact_numero)+1) from PEL.Factura),
+	     @empresa)
+
+	DECLARE @factura numeric(18,0)
+	SELECT @factura = fact_id FROM PEL.Factura where fact_numero = (select max(fact_numero) from PEL.Factura)
+
+	DECLARE @ubicacion numeric(18,0)
+
+	OPEN c_ubicaciones 
+	FETCH NEXT FROM c_ubicaciones INTO @ubicacion
+	WHILE(@@FETCH_STATUS=0)
+		BEGIN
+		UPDATE PEL.Ubicacion
+		set ubic_factura = @factura, ubic_comision = ubic_precio/(select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ)
+		FETCH NEXT FROM c_ubicaciones INTO @ubicacion
+		END
+	
+
+	UPDATE PEL.Factura
+	set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id and fact_id = @factura group by ubic_factura),
+		fact_comision = (select sum(ubic_comision) from PEL.Ubicacion where ubic_factura = fact_id)
+
+	CLOSE c_ubicaciones
+	DEALLOCATE c_ubicaciones 
+	SELECT @factura
+END
+GO
+
+CREATE PROCEDURE PEL.sp_empresas_por_rendir
+AS
+BEGIN
+	SELECT empr_id, empr_razon_social, count(ubic_id) as cantidad FROM PEL.Ubicacion join PEL.Publicacion ON publ_id = ubic_publ join PEL.Empresa ON publ_empresa_resp = empr_id
+	WHERE ubic_factura is null and ubic_compra is not null
+	GROUP BY empr_id, empr_razon_social
+	ORDER BY 1
+
+END
+GO
+
+
+create procedure PEL.sp_ver_puntos (@usua_id numeric (18,0),@fecha nvarchar(50))
+as
+begin
+	select compr_puntos_acum - compr_puntos_gast as puntos_disponibles , DATEADD(day,30,compr_fecha) as fecha_vencimiento
+	from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
+	where compr_fecha between dateadd(day,-30,convert(date,@fecha)) and convert(date,@fecha) and compr_puntos_acum - compr_puntos_gast > 0
+	order by 2
+end
+go
+
+
+create procedure PEL.sp_descontar_puntos (@usua_id numeric (18,0),@fecha nvarchar(50),@puntos_a_gastar numeric (18,0))
+as
+begin
+
+	declare @id_compra int,@puntos_acum numeric (18,0), @puntos_gast numeric (18,0)
+	declare cCompras cursor for 
+		select compr_id ,compr_puntos_acum,compr_puntos_gast
+		from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
+		where compr_fecha between dateadd(day,-30,convert(date,@fecha)) and convert(date,@fecha)
+		order by compr_fecha
+		
+	open cCompras
+	fetch cCompras into @id_compra,@puntos_acum,@puntos_gast
+	
+	while(@@FETCH_STATUS=0 and @puntos_a_gastar > 0)
+	begin
+		declare @puntos_disponibles numeric(18,0)
+		set @puntos_disponibles = @puntos_acum - @puntos_gast
+		if(@puntos_a_gastar > @puntos_disponibles)
+			begin
+				update PEL.Compra
+				set compr_puntos_gast = @puntos_acum
+				where compr_id = @id_compra
+				set @puntos_a_gastar = @puntos_a_gastar - @puntos_disponibles
+			end
+		else
+			begin
+				update PEL.Compra
+				set compr_puntos_gast = @puntos_gast + @puntos_a_gastar
+				where compr_id = @id_compra
+				set @puntos_a_gastar = 0
+			end
+		fetch cCompras into @id_compra,@puntos_acum,@puntos_gast
+	end
+	close cCompras
+	deallocate cCompras
+	return
+end
+go
+
+CREATE PROCEDURE PEL.sp_canjear_premio (@cliente numeric(18,0), @premio numeric(18,0))
+AS
+BEGIN
+	DECLARE @puntos numeric(18,2)
+	select @puntos = prem_costo_puntos from PEL.Premio where prem_id = @premio
+	INSERT INTO PEL.Canje values (@cliente, @premio, GETDATE(),@puntos)
+END
+GO
+
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
 
 --falta: (podemos hacer los sp para llenar estas que faltan)
-	--premio
-	--grado
 	--premio_cliente
 
-	
+INSERT INTO PEL.Premio (prem_descripcion,prem_costo_puntos) values
+	('Televisor 7K', '1000'),
+	('Celular C6','200'),
+	('Juego de té', '100'),
+	('Peluche', '55'),
+	('Juego de ingenio','25')
+GO	
+
 INSERT INTO PEL.Funcion (func_nombre) values 
 	('ABM DE ROL'),
     ('ABM DE CLIENTE'),
@@ -572,7 +690,6 @@ INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
 GO
 
 INSERT INTO PEL.Usuario (usua_username, usua_password, usua_estado) values
-	--A de activo? deberiamos tenerlos en la estrategia 
 	('admin',PEL.f_hash('w23e'),'A')
 GO
 
@@ -594,7 +711,6 @@ INSERT INTO PEL.Rubro (rubr_descripcion)
 	FROM gd_esquema.Maestra
 GO
 
--- Empresa
 
 INSERT INTO PEL.Empresa (empr_razon_social, 
 						 empr_cuit, 
@@ -628,7 +744,6 @@ INSERT INTO PEL.Publicacion (publ_id,
 					Espectaculo_Fecha, 
 					Espectaculo_Fecha_Venc, 
 					(SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), 
-				--	(SELECT Esta_id FROM PEL.Estado_Publicacion WHERE Esta_descripcion = 'Activa')
 					PEL.calcular_publ_estado(Espectaculo_Fecha_Venc,getdate()),
 					(select empr_id from PEL.Empresa where empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit =  Espec_Empresa_Cuit)
 	FROM gd_esquema.Maestra
@@ -639,18 +754,17 @@ set @id_grado = (select grad_id from PEL.Grado where grad_descripcion = 'Migrado
 update PEL.Publicacion
 	set publ_grado = @id_grado
 
--- Tipo_Ubicacion
+
 
 INSERT INTO PEL.Tipo_Ubicacion (tipo_ubic_descripcion, tipo_ubic_id)
 	SELECT DISTINCT Ubicacion_Tipo_Descripcion, Ubicacion_Tipo_Codigo
 	FROM gd_esquema.Maestra
 GO
 
---Factura
--- falta lo del importe: sumatoria del precio de las ubicaciones referenciadas por item_factura
+
+
 INSERT INTO PEL.Factura (fact_fecha, 
 						 fact_comision, 
-				--		 fact_id, si esto era asi despues teniamos que controlar la generacion de id, que lo haga el motor
 						 fact_numero,
 						 fact_empr)
 	 SELECT Factura_Fecha, 
@@ -664,7 +778,6 @@ INSERT INTO PEL.Factura (fact_fecha,
 
 GO
 
--- Cliente
 
 INSERT INTO PEL.Cliente (clie_nro_doc, 
 						 clie_apellido, 
@@ -687,8 +800,8 @@ GO
 update PEL.Cliente
  set clie_estado = 'M'
 
--- Compra
--- que hacemos con los puntos ? O sea hay compras de 2019 y todo xd *Estrategia*
+
+
 INSERT INTO PEL.Compra (compr_fecha,
 						compr_total,  
 						compr_medio_pago, 
@@ -696,7 +809,7 @@ INSERT INTO PEL.Compra (compr_fecha,
 						compr_cliente)
 	--Habria que verificar que las cantidades coincidan 
 	SELECT DISTINCT Compra_Fecha,
-					Ubicacion_Precio*Compra_cantidad, -- compra_cantidad siempre es 1 pero bueno (?
+					Ubicacion_Precio*Compra_cantidad, 
 					Forma_Pago_Desc, 
 					Espectaculo_Cod, 
 					(SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
@@ -705,9 +818,9 @@ INSERT INTO PEL.Compra (compr_fecha,
 GO
 
 update PEL.Compra
-	set compr_puntos_acum = (select round(compr_total/100,0))
+	set compr_puntos_acum = (select round(compr_total/100,0)),compr_puntos_gast = 0
 
--- Ubicaciones en general
+
 
 INSERT INTO PEL.Ubicacion (ubic_fila, 
 						   ubic_asiento, 
@@ -720,14 +833,12 @@ INSERT INTO PEL.Ubicacion (ubic_fila,
 					Ubicacion_Sin_numerar,
 					Ubicacion_Precio,
 					Espectaculo_Cod, 
-					Ubicacion_Tipo_Codigo -- dado que el tipo_ubic_id lo sacamos de ese campo, tambien podria ser algo que manaje el motor y tirar un select
+					Ubicacion_Tipo_Codigo 
 	FROM gd_esquema.Maestra 
 	where Factura_Fecha is null
-	--No se si eso alcanza para conseguir la compra, por ejemplo si el cliente compro varias de la misma publicacion el mismo dia
-			-- aparenta que si (?
 GO
 
--- se pone fk correspondientes a Ubicaciones facturadas y compradas
+
 
 update PEL.Ubicacion
 	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), 
@@ -739,11 +850,9 @@ update PEL.Ubicacion
 							join PEL.Cliente on clie_nro_doc = Cli_Dni
 	where Factura_nro is not null and ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and ubic_publ= Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
 
--- se calcula importe de factura: sumatoria de los precios de cada ubicacion
+
 
 update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
 go
-
-
