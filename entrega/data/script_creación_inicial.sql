@@ -338,19 +338,21 @@ begin
 end
 
 -- Inicialmente se registra a un usuario Cliente unicamente con el Rol Cliente
+
 go 
 create procedure PEL.registrar_usuario_cliente
-		(@username nvarchar(50) output ,@password nvarchar(255) output, 
-		@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255),
-		@usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
+		(@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),
+		@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255))
 as
 begin
 
+	declare @username nvarchar(50),@password nvarchar(255),@usua_id numeric (18,0),@mensaje nvarchar(255)
+	 
 	if(@nro_doc is null)
 		begin
 			set @usua_id = -1
 			set @mensaje='Recuerde que es obligatorio que ingrese su DNI.'
-			select @username,@password,@usua_id,@mensaje
+			select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 			return
 		end	
 
@@ -358,7 +360,7 @@ begin
 		begin
 			set @usua_id = -1
 			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
-			select @username,@password,@usua_id,@mensaje
+			select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 			return
 		end
 
@@ -370,7 +372,7 @@ begin
 					begin
 						set @usua_id = -1
 						set @mensaje= 'El Cliente ya posee un Usuario'
-						select @username,@password,@usua_id,@mensaje
+						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 						return
 					end
 			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
@@ -392,7 +394,7 @@ begin
 		set clie_usuario = @usua_id 
 		where clie_nro_doc = @nro_doc
 	
-	select @username,@password,@usua_id,@mensaje
+	select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 	return
 end
 
@@ -400,17 +402,17 @@ end
 
 go
 create procedure PEL.registrar_usuario_empresa
-		(@username nvarchar(50) output ,@password nvarchar(255) output, 
-		 @direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255),
-		 @usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
+		(@direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255))
 as
 begin
+	
+	declare @username nvarchar(50),@password nvarchar(255),@usua_id numeric (18,0),@mensaje nvarchar(255)
 
 	if(@direccion is null or @razon_social is null or @cuit is null or @mail is null)
 		begin
 			set @usua_id = -1
 			set @mensaje='Recuerde que es obligatorio que complete los siguientes campos: direccion,razon social,cuit,mail.'
-			select @username,@password,@usua_id,@mensaje
+			select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 			return
 		end
 
@@ -418,7 +420,7 @@ begin
 		begin
 			set @usua_id = -1
 			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
-			select @username,@password,@usua_id,@mensaje
+			select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 			return
 		end
 
@@ -430,7 +432,7 @@ begin
 					begin
 						set @usua_id = -1
 						set @mensaje= 'La Empresa ya posee un Usuario'
-						select @username,@password,@usua_id,@mensaje
+						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 						return
 					end
 			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
@@ -453,7 +455,7 @@ begin
 		set empr_usuario = @usua_id 
 		where empr_cuit = @cuit
 	
-	select @username,@password,@usua_id,@mensaje
+	select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 	return
 end
 GO
