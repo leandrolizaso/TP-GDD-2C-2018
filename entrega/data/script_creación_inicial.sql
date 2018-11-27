@@ -600,7 +600,48 @@ begin
 		select compr_puntos_acum - compr_puntos_gast as puntos_disponibles , DATEADD(day,30,compr_fecha) as fecha_vencimiento
 		from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
 		where compr_fecha between dateadd(day,-30,convert(date,@fecha)) and convert(date,@fecha) and compr_puntos_acum - compr_puntos_gast > 0
-	select puntos_disponibles,fecha_vencimiento,(select sum(t.puntos_disponibles) from @temp t) as puntos_totales from @temp
+
+	select puntos_disponibles,fecha_vencimiento,(select sum(t.puntos_disponibles) from @temp t) as puntos_totales from @temp order by fecha_vencimiento
+	return
+end
+
+go
+create procedure PEL.sp_descontar_puntos (@usua_id numeric (18,0),@fecha nvarchar(50),@puntos_a_gastar numeric (18,0))
+as
+begin
+
+	declare @id_compra int,@puntos_acum numeric (18,0), @puntos_gast numeric (18,0)
+	declare cCompras cursor for 
+		select compr_id ,compr_puntos_acum,compr_puntos_gast
+		from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
+		where compr_fecha between dateadd(day,-30,convert(date,@fecha)) and convert(date,@fecha)
+		order by compr_fecha
+		
+	open cCompras
+	fetch cCompras into @id_compra,@puntos_acum,@puntos_gast
+	
+	while(@@FETCH_STATUS=0 and @puntos_a_gastar > 0)
+	begin
+		declare @puntos_disponibles numeric(18,0)
+		set @puntos_disponibles = @puntos_acum - @puntos_gast
+		if(@puntos_a_gastar > @puntos_disponibles)
+			begin
+				update PEL.Compra
+				set compr_puntos_gast = @puntos_acum
+				where compr_id = @id_compra
+				set @puntos_a_gastar = @puntos_a_gastar - @puntos_disponibles
+			end
+		else
+			begin
+				update PEL.Compra
+				set compr_puntos_gast = @puntos_gast + @puntos_a_gastar
+				where compr_id = @id_compra
+				set @puntos_a_gastar = 0
+			end
+		fetch cCompras into @id_compra,@puntos_acum,@puntos_gast
+	end
+	close cCompras
+	deallocate cCompras
 	return
 end
 
@@ -613,7 +654,7 @@ end
 	--grado
 	--premio_cliente
 
-	
+GO	
 INSERT INTO PEL.Funcion (func_nombre) values 
 	('ABM DE ROL'),
     ('ABM DE CLIENTE'),
