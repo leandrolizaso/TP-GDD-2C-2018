@@ -232,14 +232,6 @@ create function PEL.f_hash (@pass nvarchar(255))
 	end
 go
 
-create procedure PEL.hash (@pass nvarchar(255),@pass_h nvarchar(255) output)
-as
-begin
-	select @pass_h= hashbytes('SHA2_256', @pass);
-	return
-end
-go
-
 create function PEL.calcular_publ_estado(@fecha_venc date, @fecha_tope date)
 returns numeric(18,0)
 begin
@@ -796,7 +788,7 @@ INSERT INTO PEL.Cliente (clie_nro_doc,
 						convert(nvarchar,Cli_Piso) + ' '  +
 						Cli_Depto + ' '  + Cli_Cod_Postal
 	FROM gd_esquema.Maestra
-	where cli_dni is not null and Compra_Fecha is not null and Factura_Nro is null 
+	where cli_dni is not null
 GO 
 
 update PEL.Cliente
