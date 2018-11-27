@@ -461,8 +461,10 @@ begin
 	select @username,@password,@usua_id,@mensaje
 	return
 end
+GO
 
-go
+
+--Historial de cliente paginado
 
 CREATE PROCEDURE PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
 AS	
@@ -477,6 +479,9 @@ WHERE   RowNum > (@pag-1)*10
 ORDER BY RowNum
 END
 GO
+
+
+--Listado de publicaciones paginado
 
 CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle nvarchar,@desde Date,@hasta Date, @pag int)
 AS
@@ -494,6 +499,7 @@ WHERE   RowNum > (@pag-1)*10
 ORDER BY RowNum
 END
 GO
+
 
 --Listados estadisticos
 
@@ -533,7 +539,48 @@ SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, count(compr_id) as [Canti
 	order by count(compr_id) desc
 END
 GO
- 
+
+
+CREATE PROCEDURE PEL.sp_generar_rendiciones (@cantidad int, @empresa numeric(18,0))
+AS
+BEGIN
+DECLARE c_ubicaciones CURSOR FOR
+	SELECT TOP (@cantidad) ubic_id FROM PEL.Ubicacion join PEL.Publicacion ON ubic_publ = publ_id and publ_empresa_resp = @empresa join PEL.Compra ON compr_id = ubic_compra
+	WHERE ubic_factura is null
+	GROUP BY ubic_id, compr_fecha
+	ORDER BY compr_fecha ASC
+
+	INSERT INTO PEL.Factura (fact_fecha, fact_numero, fact_empr) 
+		 values (GETDATE(),
+		(select (max(fact_numero)+1) from PEL.Factura),
+	     @empresa)
+
+	DECLARE @factura numeric(18,0)
+	SELECT @factura = fact_id FROM PEL.Factura where fact_numero = (select max(fact_numero) from PEL.Factura)
+
+	DECLARE @ubicacion numeric(18,0)
+
+	OPEN c_ubicaciones 
+	FETCH NEXT FROM c_ubicaciones INTO @ubicacion
+	WHILE(@@FETCH_STATUS=0)
+		BEGIN
+		UPDATE PEL.Ubicacion
+		set ubic_factura = @factura, ubic_comision = ubic_precio/(select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ)
+		FETCH NEXT FROM c_ubicaciones INTO @ubicacion
+		END
+	
+	UPDATE PEL.Factura
+	set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id and fact_id = @factura group by ubic_factura),
+		fact_comision = (select sum(ubic_comision) from PEL.Ubicacion where ubic_factura = fact_id)
+
+
+	SELECT @factura
+END
+GO
+
+
+
+
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
