@@ -763,7 +763,7 @@ INSERT INTO PEL.Compra (compr_fecha,
 GO
 
 update PEL.Compra
-	set compr_puntos_acum = (select round(compr_total/100,0))
+	set compr_puntos_acum = (select round(compr_total/100,0)),compr_puntos_gast = 0
 
 -- Ubicaciones en general
 
