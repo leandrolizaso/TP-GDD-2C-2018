@@ -641,12 +641,20 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE PEL.sp_baja_rol (@rol numeric(18,0))
+AS
+BEGIN
+
+DELETE FROM PEL.Rol_Usuario WHERE rol_usua_rol = @rol
+
+UPDATE PEL.Rol
+SET rol_estado = 'B' where rol_id = @rol
+
+END
+GO
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
-
---falta: (podemos hacer los sp para llenar estas que faltan)
-	--premio_cliente
 
 INSERT INTO PEL.Premio (prem_descripcion,prem_costo_puntos) values
 	('Televisor 7K', '1000'),
