@@ -81,7 +81,7 @@ CREATE TABLE PEL.Cliente (
 	clie_nombre NVARCHAR(255),
 	clie_apellido NVARCHAR(255),
 	clie_tipo_doc NVARCHAR(255),
-	clie_nro_doc NVARCHAR(255) not null,
+	clie_nro_doc NVARCHAR(255) not null unique ,
 	clie_cuil NVARCHAR(255),
 	clie_mail NVARCHAR(255),
 	clie_telefono NVARCHAR(255),
@@ -794,13 +794,11 @@ INSERT INTO PEL.Cliente (clie_nro_doc,
 						convert(nvarchar,Cli_Piso) + ' '  +
 						Cli_Depto + ' '  + Cli_Cod_Postal
 	FROM gd_esquema.Maestra
-	where cli_dni is not null 
+	where cli_dni is not null and Compra_Fecha is not null and Factura_Nro is null 
 GO 
 
 update PEL.Cliente
  set clie_estado = 'M'
-
-
 
 INSERT INTO PEL.Compra (compr_fecha,
 						compr_total,  
