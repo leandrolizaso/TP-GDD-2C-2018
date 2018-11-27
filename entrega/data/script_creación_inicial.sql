@@ -546,7 +546,7 @@ AS
 BEGIN
 DECLARE c_ubicaciones CURSOR FOR
 	SELECT TOP (@cantidad) ubic_id FROM PEL.Ubicacion join PEL.Publicacion ON ubic_publ = publ_id and publ_empresa_resp = @empresa join PEL.Compra ON compr_id = ubic_compra
-	WHERE ubic_factura is null
+	WHERE ubic_factura is null and ubic_compra is not null
 	GROUP BY ubic_id, compr_fecha
 	ORDER BY compr_fecha ASC
 
@@ -569,16 +569,27 @@ DECLARE c_ubicaciones CURSOR FOR
 		FETCH NEXT FROM c_ubicaciones INTO @ubicacion
 		END
 	
+
 	UPDATE PEL.Factura
 	set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id and fact_id = @factura group by ubic_factura),
 		fact_comision = (select sum(ubic_comision) from PEL.Ubicacion where ubic_factura = fact_id)
 
-
+	CLOSE c_ubicaciones
+	DEALLOCATE c_ubicaciones 
 	SELECT @factura
 END
 GO
 
+CREATE PROCEDURE PEL.sp_empresas_por_rendir
+AS
+BEGIN
+	SELECT empr_id, empr_razon_social, count(ubic_id) as cantidad FROM PEL.Ubicacion join PEL.Publicacion ON publ_id = ubic_publ join PEL.Empresa ON publ_empresa_resp = empr_id
+	WHERE ubic_factura is null and ubic_compra is not null
+	GROUP BY empr_id, empr_razon_social
+	ORDER BY 1
 
+END
+GO
 
 
 --------------------------------------------------------------
@@ -792,5 +803,4 @@ update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
 go
-
 
