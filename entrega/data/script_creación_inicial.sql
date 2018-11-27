@@ -642,16 +642,23 @@ begin
 	return
 end
 
+
+
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
 
 --falta: (podemos hacer los sp para llenar estas que faltan)
-	--premio
-	--grado
 	--premio_cliente
 
+INSERT INTO PEL.Premio (prem_descripcion,prem_costo_puntos) values
+	('Televisor 7K', '1000'),
+	('Celular C6','200'),
+	('Juego de té', '100'),
+	('Peluche', '55'),
+	('Juego de ingenio','25')
 GO	
+
 INSERT INTO PEL.Funcion (func_nombre) values 
 	('ABM DE ROL'),
     ('ABM DE CLIENTE'),
@@ -853,4 +860,3 @@ update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
 go
-
