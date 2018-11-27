@@ -14,6 +14,7 @@ namespace PalcoNet.AbmEmpresa
             return query("select empr_razon_social, empr_mail, empr_telefono, "
                         +"empr_direccion,empr_cuit, empr_estado "
                         +"from pel.empresa where empr_id = @empr_id", dict);
+
         }
 
         public DataTable obtenerEmpresas(string razon, string cuit, string mail)
@@ -29,24 +30,49 @@ namespace PalcoNet.AbmEmpresa
                         + "where empr_razon_social like case when @razon != '' then '%'+@razon+'%' else empr_razon_social end "
                         + "and empr_cuit = isnull(nullif(@cuit,''),empr_cuit) " //match exacto
                         + "and empr_mail like case when @mail != '' then '%'+@mail+'%' else empr_mail end "
-                , dict);
+                        , dict);
         }
 
 
-        public void actualizarDatosEmpresa(decimal idCliente, Dictionary<string, object> dict)
+        public void upsertDatosEmpresa(decimal idEmpresa, Dictionary<string, object> dict)
         {
-            var reader = query(updateEmpresaString(idCliente, dict), dict);
+            string queryStr;
+            if (idEmpresa == -1) {
+                queryStr = insertEmpresaString(dict);
+            } else {
+                queryStr = updateEmpresaString(idEmpresa, dict);
+            }
+            //System.Diagnostics.Debug.WriteLine(queryStr);
+            var reader = query(queryStr, dict);
             reader.Dispose();
         }
 
-        private string updateEmpresaString(decimal idCliente, Dictionary<string, object> dict) {
-            string query = "update PEL.empresa set ";
+        private string updateEmpresaString(decimal idEmpresa, Dictionary<string, object> dict) {
+            string query = "update PEL.Empresa set ";
             foreach (var entry in dict)
             {
                 query += entry.Key+" = @"+entry.Key+" ,";
             }
             query = query.TrimEnd(',');
-            query += "where empr_id = " + idCliente;
+            query += "where empr_id = " + idEmpresa;
+            return query;
+        }
+
+        private string insertEmpresaString(Dictionary<string, object> dict)
+        {
+            string query = "insert PEL.Empresa (";
+            foreach (var entry in dict)
+            {
+                query += entry.Key + " ,";
+            }
+            query = query.TrimEnd(',');
+            query += ") values (";
+            foreach (var entry in dict)
+            {
+                query += "@"+entry.Key + " ,";
+            }
+            query = query.TrimEnd(',');
+            query += ")";
             return query;
         }
     }

@@ -28,8 +28,14 @@ namespace PalcoNet.AbmEmpresa
             }
         }
 
-        private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
+        private void limpiar_Click(object sender, EventArgs e) {
+            razon.Text = "";
+            cuit.Text = "";
+            email.Text = "";
+            datagrid.DataSource = null;
+        }
+
+        private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             id_clickeado = (decimal)datagrid["empr_id", e.RowIndex].Value;
             this.Hide();
             new ModificarEmpresa(id_clickeado).ShowDialog();
@@ -37,12 +43,11 @@ namespace PalcoNet.AbmEmpresa
             buscar_Click(sender, e);
         }
 
-
-        private void limpiar_Click(object sender, EventArgs e) {
-            razon.Text = "";
-            cuit.Text = "";
-            email.Text = "";
-            datagrid.DataSource = null;
+        private void crear_Click(object sender, EventArgs e) {
+            this.Hide();
+            new ModificarEmpresa().ShowDialog();
+            this.Show();
+            buscar_Click(sender, e);
         }
 
      }

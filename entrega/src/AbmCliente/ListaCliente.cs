@@ -48,6 +48,7 @@ namespace PalcoNet.AbmCliente
             this.Hide();
             new ModificarCliente().ShowDialog();
             this.Show();
+            buscar_Click(sender, e);
         }
 
      }
