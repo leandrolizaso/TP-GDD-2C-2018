@@ -470,13 +470,20 @@ ORDER BY RowNum
 END
 GO
 
-
 --Listado de publicaciones paginado
 
 CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle nvarchar,@desde Date,@hasta Date, @pag int)
 AS
 BEGIN
-SELECT  * 
+DECLARE @total INT
+SELECT @total = count(publ_id)
+		  FROM      PEL.Publicacion 
+		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
+		  and (convert(date,publ_fecha_publi) between @desde and @hasta)
+		  and (convert(date,publ_fecha_ven) between @desde and @hasta)
+		  and publ_descripcion like '%' + @detalle + '%'
+		  
+SELECT  * , @total
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id
 		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
