@@ -81,7 +81,7 @@ CREATE TABLE PEL.Cliente (
 	clie_nombre NVARCHAR(255),
 	clie_apellido NVARCHAR(255),
 	clie_tipo_doc NVARCHAR(255),
-	clie_nro_doc NVARCHAR(255) not null,
+	clie_nro_doc NVARCHAR(255) not null unique ,
 	clie_cuil NVARCHAR(255),
 	clie_mail NVARCHAR(255),
 	clie_telefono NVARCHAR(255),
@@ -232,14 +232,6 @@ create function PEL.f_hash (@pass nvarchar(255))
 	end
 go
 
-create procedure PEL.hash (@pass nvarchar(255),@pass_h nvarchar(255) output)
-as
-begin
-	select @pass_h= hashbytes('SHA2_256', @pass);
-	return
-end
-go
-
 create function PEL.calcular_publ_estado(@fecha_venc date, @fecha_tope date)
 returns numeric(18,0)
 begin
@@ -338,19 +330,21 @@ begin
 end
 
 -- Inicialmente se registra a un usuario Cliente unicamente con el Rol Cliente
+
 go 
 create procedure PEL.registrar_usuario_cliente
-		(@username nvarchar(50) output ,@password nvarchar(255) output, 
-		@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255),
-		@usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
+		(@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),
+		@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255))
 as
 begin
 
+	declare @username nvarchar(50),@password nvarchar(255),@usua_id numeric (18,0),@mensaje nvarchar(255)
+	 
 	if(@nro_doc is null)
 		begin
 			set @usua_id = -1
 			set @mensaje='Recuerde que es obligatorio que ingrese su DNI.'
-			select @username,@password,@usua_id,@mensaje
+			select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 			return
 		end	
 
@@ -358,7 +352,7 @@ begin
 		begin
 			set @usua_id = -1
 			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
-			select @username,@password,@usua_id,@mensaje
+			select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 			return
 		end
 
@@ -370,7 +364,7 @@ begin
 					begin
 						set @usua_id = -1
 						set @mensaje= 'El Cliente ya posee un Usuario'
-						select @username,@password,@usua_id,@mensaje
+						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 						return
 					end
 			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
@@ -392,7 +386,7 @@ begin
 		set clie_usuario = @usua_id 
 		where clie_nro_doc = @nro_doc
 	
-	select @username,@password,@usua_id,@mensaje
+	select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 	return
 end
 
@@ -400,17 +394,17 @@ end
 
 go
 create procedure PEL.registrar_usuario_empresa
-		(@username nvarchar(50) output ,@password nvarchar(255) output, 
-		 @direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255),
-		 @usua_id numeric (18,0) output,@mensaje nvarchar(255) output)
+		(@direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255))
 as
 begin
+	
+	declare @username nvarchar(50),@password nvarchar(255),@usua_id numeric (18,0),@mensaje nvarchar(255)
 
 	if(@direccion is null or @razon_social is null or @cuit is null or @mail is null)
 		begin
 			set @usua_id = -1
 			set @mensaje='Recuerde que es obligatorio que complete los siguientes campos: direccion,razon social,cuit,mail.'
-			select @username,@password,@usua_id,@mensaje
+			select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 			return
 		end
 
@@ -418,7 +412,7 @@ begin
 		begin
 			set @usua_id = -1
 			set @mensaje='El usuario no es valido, ya se encuentra en uso.'
-			select @username,@password,@usua_id,@mensaje
+			select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 			return
 		end
 
@@ -430,7 +424,7 @@ begin
 					begin
 						set @usua_id = -1
 						set @mensaje= 'La Empresa ya posee un Usuario'
-						select @username,@password,@usua_id,@mensaje
+						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 						return
 					end
 			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
@@ -453,7 +447,7 @@ begin
 		set empr_usuario = @usua_id 
 		where empr_cuit = @cuit
 	
-	select @username,@password,@usua_id,@mensaje
+	select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 	return
 end
 GO
@@ -464,13 +458,14 @@ GO
 CREATE PROCEDURE PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
 AS	
 BEGIN
-SELECT  * --ver que datos son necesaris mostrar de la compra
+SELECT  compr_fecha, compr_detalle, compr_medio_pago, compr_puntos_acum, (select count(compr_id) FROM PEL.Compra where compr_cliente = @clie_id) as total_compras
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
           FROM      PEL.Compra inner join PEL.Cliente on compr_cliente = clie_id
 		  WHERE @clie_id = clie_id
         ) AS RowConstrainedResult
 WHERE   RowNum > (@pag-1)*10 
     AND RowNum <= @pag*10
+GROUP BY compr_fecha, compr_detalle, compr_medio_pago, compr_puntos_acum, RowNum
 ORDER BY RowNum
 END
 GO
@@ -494,7 +489,6 @@ WHERE   RowNum > (@pag-1)*10
 ORDER BY RowNum
 END
 GO
-
 
 --Listados estadisticos
 
@@ -647,12 +641,20 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE PEL.sp_baja_rol (@rol numeric(18,0))
+AS
+BEGIN
+
+DELETE FROM PEL.Rol_Usuario WHERE rol_usua_rol = @rol
+
+UPDATE PEL.Rol
+SET rol_estado = 'B' where rol_id = @rol
+
+END
+GO
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
-
---falta: (podemos hacer los sp para llenar estas que faltan)
-	--premio_cliente
 
 INSERT INTO PEL.Premio (prem_descripcion,prem_costo_puntos) values
 	('Televisor 7K', '1000'),
@@ -671,9 +673,9 @@ INSERT INTO PEL.Funcion (func_nombre) values
 GO
 
 INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
-	('Finalizada'),
+	('Borrador'),
 	('Activa'),
-	('Borrador')
+	('Finalizada')
 GO
 
 INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje,grad_estado) values
@@ -794,13 +796,11 @@ INSERT INTO PEL.Cliente (clie_nro_doc,
 						convert(nvarchar,Cli_Piso) + ' '  +
 						Cli_Depto + ' '  + Cli_Cod_Postal
 	FROM gd_esquema.Maestra
-	where cli_dni is not null 
+	where cli_dni is not null
 GO 
 
 update PEL.Cliente
  set clie_estado = 'M'
-
-
 
 INSERT INTO PEL.Compra (compr_fecha,
 						compr_total,  
