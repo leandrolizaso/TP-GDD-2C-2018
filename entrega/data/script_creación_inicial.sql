@@ -673,9 +673,9 @@ INSERT INTO PEL.Funcion (func_nombre) values
 GO
 
 INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
-	('Finalizada'),
+	('Borrador'),
 	('Activa'),
-	('Borrador')
+	('Finalizada')
 GO
 
 INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje,grad_estado) values
