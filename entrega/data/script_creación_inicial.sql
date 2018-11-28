@@ -458,13 +458,14 @@ GO
 CREATE PROCEDURE PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
 AS	
 BEGIN
-SELECT  * --ver que datos son necesaris mostrar de la compra
+SELECT  compr_fecha, compr_detalle, compr_medio_pago, compr_puntos_acum, (select count(compr_id) FROM PEL.Compra where compr_cliente = @clie_id) as total_compras
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
           FROM      PEL.Compra inner join PEL.Cliente on compr_cliente = clie_id
 		  WHERE @clie_id = clie_id
         ) AS RowConstrainedResult
 WHERE   RowNum > (@pag-1)*10 
     AND RowNum <= @pag*10
+GROUP BY compr_fecha, compr_detalle, compr_medio_pago, compr_puntos_acum, RowNum
 ORDER BY RowNum
 END
 GO
@@ -488,7 +489,6 @@ WHERE   RowNum > (@pag-1)*10
 ORDER BY RowNum
 END
 GO
-
 
 --Listados estadisticos
 
