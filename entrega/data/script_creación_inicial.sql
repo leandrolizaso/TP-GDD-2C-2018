@@ -328,10 +328,10 @@ begin
 		set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
 	return
 end
-
+go
 -- Inicialmente se registra a un usuario Cliente unicamente con el Rol Cliente
 
-go 
+
 create procedure PEL.registrar_usuario_cliente
 		(@nombre nvarchar(255), @apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),
 		@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255))
@@ -379,8 +379,8 @@ begin
 		begin
 			exec PEL.generar_username @data = @username output;
 			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
-			insert PEL.Cliente (clie_apellido,clie_tipo_doc,clie_nro_doc,clie_cuil,clie_mail,clie_telefono,clie_fecha_nac,clie_fecha_crea,clie_direccion,clie_datos_tarjeta)
-			values(@apellido ,@tipo_doc ,@nro_doc ,@cuil ,@mail,@telefono,@fecha_nac,@fecha_crea,@direccion ,@datos_tarjeta)
+			insert PEL.Cliente (clie_apellido,clie_tipo_doc,clie_nro_doc,clie_cuil,clie_mail,clie_telefono,clie_fecha_nac,clie_fecha_crea,clie_direccion,clie_datos_tarjeta, clie_estado)
+			values(@apellido ,@tipo_doc ,@nro_doc ,@cuil ,@mail,@telefono,@fecha_nac,@fecha_crea,@direccion ,@datos_tarjeta, 'A')
 		end
 
 	
@@ -394,10 +394,10 @@ begin
 	select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 	return
 end
-
+go
 -- Inicialmente se registra a un usuario Empresa unicamente con el Rol Empresa
 
-go
+
 create procedure PEL.registrar_usuario_empresa
 		(@direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255))
 as
@@ -433,6 +433,11 @@ begin
 						return
 					end
 			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
+		end
+	else 
+		begin
+			insert into PEL.Empresa (empr_direccion, empr_razon_social, empr_cuit, empr_estado, empr_fecha, empr_telefono, empr_mail) 
+			values (@direccion, @razon_social, @cuit, 'A' , @fecha, @telefono, @mail)
 		end
 
 	if(@username is null and @password is null)
