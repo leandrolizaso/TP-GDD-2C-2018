@@ -864,6 +864,7 @@ set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factur
 					group by ubic_factura)
 go
 
+
 ALTER TABLE pel.cliente
 ADD CONSTRAINT ck_clie_dni 
 CHECK (
@@ -875,11 +876,16 @@ PATINDEX(     '[0-9][0-9][0-9][0-9][0-9][0-9][0-9]',clie_nro_doc)
 );
 GO
 
-ALTER TABLE PEL.Empresa
-ADD CONSTRAINT ck_emp_cuit 
-CHECK (
-PATINDEX('[0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9]',empr_cuit)
-> 0
-);
+CREATE TRIGGER PEL.tr_validar_cuit
+ON PEL.Empresa
+AFTER INSERT, UPDATE
+AS
+	Declare @cuit nvarchar(255);
+	select @cuit = empr_cuit from inserted;
+
+	if PATINDEX('[0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9]',@cuit)= 0
+		begin
+		rollback
+		end
 GO
 

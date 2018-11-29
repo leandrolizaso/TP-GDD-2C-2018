@@ -8,17 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PalcoNet.Abm_Cliente
+namespace PalcoNet.RegistroUsuario
 {
-    public partial class ABMCliente : Form
+    public partial class NuevoUsuario : Form
     {
-        public ABMCliente()
+        public NuevoUsuario()
         {
             InitializeComponent();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
 
+        }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
 
-     }
+        }
+    }
 }
