@@ -863,3 +863,23 @@ update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
 go
+
+ALTER TABLE pel.cliente
+ADD CONSTRAINT ck_clie_dni 
+CHECK (
+PATINDEX('[0-9][0-9].[0-9][0-9][0-9].[0-9][0-9][0-9]',clie_nro_doc) +
+PATINDEX(     '[0-9].[0-9][0-9][0-9].[0-9][0-9][0-9]',clie_nro_doc) +
+PATINDEX('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]',clie_nro_doc) +
+PATINDEX(     '[0-9][0-9][0-9][0-9][0-9][0-9][0-9]',clie_nro_doc) 
+> 0
+);
+GO
+
+ALTER TABLE PEL.Empresa
+ADD CONSTRAINT ck_emp_cuit 
+CHECK (
+PATINDEX('[0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9]',empr_cuit)
+> 0
+);
+GO
+
