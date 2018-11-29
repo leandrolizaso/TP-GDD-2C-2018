@@ -93,7 +93,7 @@
             // grad_porcentaje
             // 
             this.grad_porcentaje.Location = new System.Drawing.Point(110, 67);
-            this.grad_porcentaje.Mask = "99.99";
+            this.grad_porcentaje.Mask = "00,99";
             this.grad_porcentaje.Name = "grad_porcentaje";
             this.grad_porcentaje.Size = new System.Drawing.Size(93, 20);
             this.grad_porcentaje.TabIndex = 39;

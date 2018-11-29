@@ -68,6 +68,16 @@ namespace PalcoNet.AbmGrado
                     TextBox textbox = (TextBox)control;
                     dict.Add(textbox.Name, textbox.Text);
                 }
+                else if (control is MaskedTextBox) 
+                {
+                    MaskedTextBox masked = (MaskedTextBox)control;
+                    if (!masked.MaskCompleted) {
+                        MessageBox.Show("El porcentaje esta incompleto.\nLos 2 numeros a la izquierda de la coma son obligatorios");
+                        masked.Focus();
+                        return;
+                    }
+                    dict.Add(masked.Name, masked.Text);
+                }
                 else if (control is DateTimePicker)
                 {
                     DateTimePicker datepicker = (DateTimePicker)control;
