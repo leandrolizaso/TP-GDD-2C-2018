@@ -470,13 +470,20 @@ ORDER BY RowNum
 END
 GO
 
-
 --Listado de publicaciones paginado
 
 CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle nvarchar,@desde Date,@hasta Date, @pag int)
 AS
 BEGIN
-SELECT  * 
+DECLARE @total INT
+SELECT @total = count(publ_id)
+		  FROM      PEL.Publicacion 
+		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
+		  and (convert(date,publ_fecha_publi) between @desde and @hasta)
+		  and (convert(date,publ_fecha_ven) between @desde and @hasta)
+		  and publ_descripcion like '%' + @detalle + '%'
+		  
+SELECT  * , @total
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id
 		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
@@ -856,3 +863,27 @@ update PEL.Factura
 set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
 go
+
+ALTER TABLE PEL.cliente
+ADD CONSTRAINT ck_clie_dni 
+CHECK (
+PATINDEX('[0-9][0-9].[0-9][0-9][0-9].[0-9][0-9][0-9]',clie_nro_doc) +
+PATINDEX(     '[0-9].[0-9][0-9][0-9].[0-9][0-9][0-9]',clie_nro_doc) +
+PATINDEX('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]',clie_nro_doc) +
+PATINDEX(     '[0-9][0-9][0-9][0-9][0-9][0-9][0-9]',clie_nro_doc) 
+> 0
+);
+GO
+
+CREATE TRIGGER PEL.tr_validar_cuit
+ON PEL.Empresa
+AFTER INSERT, UPDATE
+AS
+	Declare @cuit nvarchar(255);
+	select @cuit = empr_cuit from inserted;
+
+	if PATINDEX('[0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9]',@cuit)= 0
+		begin
+		rollback
+		end
+GO
