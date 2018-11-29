@@ -1,5 +1,6 @@
 ﻿using PalcoNet.AbmCliente;
 using PalcoNet.AbmEmpresa;
+using PalcoNet.AbmGrado;
 using PalcoNet.AbmRol;
 using System;
 using System.Collections.Generic;
@@ -53,8 +54,8 @@ namespace PalcoNet
                 case "3":
                     proximaPantalla = new ListaEmpresa();
                     break;
-                case "4": 
-                    System.Windows.Forms.MessageBox.Show("GRADO"); 
+                case "4":
+                    proximaPantalla = new ListaGrado();
                     break;
                 case "5": 
                     System.Windows.Forms.MessageBox.Show("CATEGORIA"); 

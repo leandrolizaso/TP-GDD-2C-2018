@@ -70,6 +70,19 @@
     <Compile Include="AbmEmpresa\ModificarEmpresa.Designer.cs">
       <DependentUpon>ModificarEmpresa.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmGrado\GradoDAO.cs" />
+    <Compile Include="AbmGrado\ListaGrado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmGrado\ListaGrado.Designer.cs">
+      <DependentUpon>ListaGrado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmGrado\ModificarGrado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmGrado\ModificarGrado.Designer.cs">
+      <DependentUpon>ModificarGrado.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRol\RolDAO.cs" />
     <Compile Include="Funcionalidad.cs">
       <SubType>Form</SubType>
@@ -107,6 +120,12 @@
     <EmbeddedResource Include="AbmEmpresa\ModificarEmpresa.resx">
       <DependentUpon>ModificarEmpresa.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmGrado\ListaGrado.resx">
+      <DependentUpon>ListaGrado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmGrado\ModificarGrado.resx">
+      <DependentUpon>ModificarGrado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
     </EmbeddedResource>
@@ -140,8 +159,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AbmGrado\" />
-    <Folder Include="AbmRubro\" />
     <Folder Include="CanjePuntos\" />
     <Folder Include="Comprar\" />
     <Folder Include="EditarPublicacion\" />
