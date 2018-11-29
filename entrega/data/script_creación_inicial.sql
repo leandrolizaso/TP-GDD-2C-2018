@@ -865,7 +865,7 @@ set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factur
 go
 
 
-ALTER TABLE pel.cliente
+ALTER TABLE PEL.cliente
 ADD CONSTRAINT ck_clie_dni 
 CHECK (
 PATINDEX('[0-9][0-9].[0-9][0-9][0-9].[0-9][0-9][0-9]',clie_nro_doc) +
