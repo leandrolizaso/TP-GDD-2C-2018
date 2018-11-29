@@ -30,7 +30,7 @@ CREATE TABLE PEL.Grado (
 )
 CREATE TABLE PEL.Rol (
 	rol_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
-	rol_nombre NVARCHAR(50) NOT NULL,
+	rol_nombre NVARCHAR(50) NOT NULL UNIQUE,
 	rol_estado CHAR(1) NOT NULL,
 	PRIMARY KEY (rol_id)
 )
@@ -333,7 +333,7 @@ end
 
 go 
 create procedure PEL.registrar_usuario_cliente
-		(@apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),
+		(@nombre nvarchar(255), @apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),
 		@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255))
 as
 begin
@@ -368,6 +368,11 @@ begin
 						return
 					end
 			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
+		end
+	else
+		begin
+		insert into PEL.Cliente (clie_nombre, clie_apellido, clie_tipo_doc, clie_nro_doc, clie_cuil, clie_mail, clie_telefono, clie_fecha_nac, clie_fecha_crea, clie_direccion, clie_datos_tarjeta) values 
+		(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono, @fecha_nac, @fecha_crea, @direccion, @datos_tarjeta)
 		end
 
 	if(@username is null and @password is null)
