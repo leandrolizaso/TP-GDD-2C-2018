@@ -547,7 +547,7 @@ END
 GO
 
 
-CREATE PROCEDURE PEL.sp_generar_rendiciones (@cantidad int, @empresa numeric(18,0))
+CREATE PROCEDURE PEL.sp_generar_rendiciones (@cantidad int, @empresa numeric(18,0), @fecha datetime)
 AS
 BEGIN
 DECLARE c_ubicaciones CURSOR FOR
@@ -557,7 +557,7 @@ DECLARE c_ubicaciones CURSOR FOR
 	ORDER BY compr_fecha ASC
 
 	INSERT INTO PEL.Factura (fact_fecha, fact_numero, fact_empr) 
-		 values (GETDATE(),
+		 values (@fecha,
 		(select (max(fact_numero)+1) from PEL.Factura),
 	     @empresa)
 
@@ -649,12 +649,12 @@ begin
 end
 go
 
-CREATE PROCEDURE PEL.sp_canjear_premio (@cliente numeric(18,0), @premio numeric(18,0))
+CREATE PROCEDURE PEL.sp_canjear_premio (@cliente numeric(18,0), @premio numeric(18,0), @fecha datetime)
 AS
 BEGIN
 	DECLARE @puntos numeric(18,2)
 	select @puntos = prem_costo_puntos from PEL.Premio where prem_id = @premio
-	INSERT INTO PEL.Canje values (@cliente, @premio, GETDATE(),@puntos)
+	INSERT INTO PEL.Canje values (@cliente, @premio, @fecha,@puntos)
 END
 GO
 
