@@ -686,7 +686,16 @@ INSERT INTO PEL.Funcion (func_nombre) values
     ('ABM DE CLIENTE'),
     ('ABM DE EMPRESA'),
     ('ABM DE GRADO'),
-	('ABM DE CATEGORIA')
+	('ABM DE CATEGORIA'),
+	('COMPRAR'),
+	('CANJE Y ADMINISTRACION DE PUNTOS'),
+	('GENERAR PUBLICACION'),
+	('EDITAR PUBLICACION'),
+	('CONSULTA HISTORIAL'),
+	('GENERAR RENDICION'),
+	('CONSULTAR LISTADO')
+	
+	
 GO
 
 INSERT INTO PEL.Estado_Publicacion (Esta_descripcion) values
@@ -717,7 +726,14 @@ INSERT INTO PEL.Rol_Funcion(rol_func_rol, rol_func_func) values
 	(1,2),
 	(1,3),
 	(1,4),
-	(1,5)
+	(1,5),
+	(1,12),
+	(2,6),
+	(2,7),
+	(2,10),
+	(3,8),
+	(3,9),
+	(3,11)
 
 GO
 
