@@ -481,16 +481,15 @@ END
 GO
 
 --Listado de publicaciones paginado
-
-CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle nvarchar,@desde Date,@hasta Date, @pag int)
+CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle varchar,@desde varchar(30),@hasta varchar(30), @pag int)
 AS
 BEGIN
 DECLARE @total INT
 SELECT @total = count(publ_id)
 		  FROM      PEL.Publicacion 
 		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
-		  and (convert(date,publ_fecha_publi) between @desde and @hasta)
-		  and (convert(date,publ_fecha_ven) between @desde and @hasta)
+		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
+		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and publ_descripcion like '%' + @detalle + '%'
 		  
 SELECT  * , @total
@@ -509,45 +508,45 @@ GO
 
 --Listados estadisticos
 
-CREATE PROCEDURE PEL.sp_listado_no_vendidas (@grado numeric(18,0), @fecha DATETIME)
+CREATE PROCEDURE PEL.sp_listado_no_vendidas (@grado numeric(18,0), @fecha varchar(30))
 AS                                                                 --Es la fecha del mes y año que seleccionaron en el abm
 BEGIN
 SELECT TOP 5 publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion 
 			   FROM PEL.Publicacion join PEL.Grado on grad_id = publ_grado and @grado = publ_grado
 			   join Ubicacion on ubic_publ = publ_id 
 			   WHERE ubic_compra is null
-			   and YEAR(@fecha) = YEAR(publ_fecha_ven)
-			   and MONTH(@fecha) = MONTH(publ_fecha_ven)
+			   and YEAR(convert(date,@fecha,121)) = YEAR(publ_fecha_ven)
+			   and MONTH(convert(date,@fecha,121)) = MONTH(publ_fecha_ven)
 			   group by publ_empresa_resp, publ_id, publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion, grad_porcentaje
 			   order by count(ubic_id) desc,publ_fecha_ven desc, grad_porcentaje desc
 END
 GO
 				
-CREATE PROCEDURE PEL.sp_clientes_puntos_vencidos (@fecha DATE, @fecha_desde DATE, @fecha_hasta DATE)
+CREATE PROCEDURE PEL.sp_clientes_puntos_vencidos (@fecha varchar(30), @fecha_desde varchar(30), @fecha_hasta varchar(30))
 AS												--La primer fecha es la actual, las otras por el trimestre de consulta
 BEGIN
 SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, sum(compr_puntos_acum - compr_puntos_gast) as puntos 
 	FROM PEL.Cliente join Compra on compr_cliente = clie_id
-		where DATEDIFF(day, @fecha, compr_fecha) > 30
-		and convert(date,compr_fecha) between @fecha_desde and @fecha_hasta
+		where DATEDIFF(day, convert(date,@fecha,121), compr_fecha) > 30
+		and convert(date,compr_fecha) between convert(date,@fecha_desde,121) and convert(date,@fecha_hasta,121)
 		group by clie_id, clie_nombre, clie_apellido, clie_nro_doc
 		order by puntos desc
 END
 GO
 
-CREATE PROCEDURE PEL.sp_clientes_mayor_compra (@fecha_desde date, @fecha_hasta date)
+CREATE PROCEDURE PEL.sp_clientes_mayor_compra (@fecha_desde varchar(30), @fecha_hasta varchar(30))
 AS
 BEGIN
 SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, count(compr_id) as [Cantidad de compras]
 	FROM PEL.Cliente join PEL.Compra on compr_cliente = clie_id join PEL.Publicacion on publ_id=compr_publi
-	where convert(date,compr_fecha) between @fecha_desde and @fecha_hasta
+	where convert(date,compr_fecha) between convert(date,@fecha_desde,121) and convert(date,@fecha_hasta,121)
 	group by clie_id, clie_nombre, clie_apellido, clie_nro_doc, publ_empresa_resp
 	order by count(compr_id) desc
 END
 GO
 
 
-CREATE PROCEDURE PEL.sp_generar_rendiciones (@cantidad int, @empresa numeric(18,0), @fecha datetime)
+CREATE PROCEDURE PEL.sp_generar_rendiciones (@cantidad int, @empresa numeric(18,0), @fecha varchar(30))
 AS
 BEGIN
 DECLARE c_ubicaciones CURSOR FOR
@@ -557,7 +556,7 @@ DECLARE c_ubicaciones CURSOR FOR
 	ORDER BY compr_fecha ASC
 
 	INSERT INTO PEL.Factura (fact_fecha, fact_numero, fact_empr) 
-		 values (@fecha,
+		 values (convert(datetime,@fecha,121),
 		(select (max(fact_numero)+1) from PEL.Factura),
 	     @empresa)
 
@@ -598,18 +597,18 @@ END
 GO
 
 
-create procedure PEL.sp_ver_puntos (@usua_id numeric (18,0),@fecha nvarchar(50))
+create procedure PEL.sp_ver_puntos (@usua_id numeric (18,0),@fecha varchar(30))
 as
 begin
 	select compr_puntos_acum - compr_puntos_gast as puntos_disponibles , DATEADD(day,30,compr_fecha) as fecha_vencimiento
 	from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
-	where compr_fecha between dateadd(day,-30,convert(date,@fecha)) and convert(date,@fecha) and compr_puntos_acum - compr_puntos_gast > 0
+	where compr_fecha between dateadd(day,-30,convert(date,@fecha)) and convert(date,@fecha,121) and compr_puntos_acum - compr_puntos_gast > 0
 	order by 2
 end
 go
 
 
-create procedure PEL.sp_descontar_puntos (@usua_id numeric (18,0),@fecha nvarchar(50),@puntos_a_gastar numeric (18,0))
+create procedure PEL.sp_descontar_puntos (@usua_id numeric (18,0),@fecha varchar(30),@puntos_a_gastar numeric (18,0))
 as
 begin
 
@@ -617,7 +616,7 @@ begin
 	declare cCompras cursor for 
 		select compr_id ,compr_puntos_acum,compr_puntos_gast
 		from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
-		where compr_fecha between dateadd(day,-30,convert(date,@fecha)) and convert(date,@fecha)
+		where compr_fecha between dateadd(day,-30,convert(date,@fecha,121)) and convert(date,@fecha,121)
 		order by compr_fecha
 		
 	open cCompras
@@ -649,12 +648,12 @@ begin
 end
 go
 
-CREATE PROCEDURE PEL.sp_canjear_premio (@cliente numeric(18,0), @premio numeric(18,0), @fecha datetime)
+CREATE PROCEDURE PEL.sp_canjear_premio (@cliente numeric(18,0), @premio numeric(18,0), @fecha varchar(30))
 AS
 BEGIN
 	DECLARE @puntos numeric(18,2)
 	select @puntos = prem_costo_puntos from PEL.Premio where prem_id = @premio
-	INSERT INTO PEL.Canje values (@cliente, @premio, @fecha,@puntos)
+	INSERT INTO PEL.Canje values (@cliente, @premio, convert(datetime,@fecha,121),@puntos)
 END
 GO
 
