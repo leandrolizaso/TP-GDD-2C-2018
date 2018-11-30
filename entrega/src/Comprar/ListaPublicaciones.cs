@@ -44,7 +44,15 @@ namespace PalcoNet.Comprar
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            using (var itemForm = new Rubro())
+            {
+                itemForm.ShowDialog();
+                Label label = new Label();
+                label.Text = itemForm.retorno;
+                label.AutoSize = true;
+                label.BorderStyle = BorderStyle.Fixed3D;
+                Rubros.Controls.Add(label);
+            }
         }
 
         private void limpiar_Click(object sender, EventArgs e)
@@ -63,6 +71,16 @@ namespace PalcoNet.Comprar
         }
 
         private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Rubros_paint(object sender, PaintEventArgs e)
         {
 
         }

@@ -34,6 +34,10 @@ namespace PalcoNet.CanjePuntos
 
         private void buscar_Click(object sender, EventArgs e)
         {
+            this.Hide();
+            new ListaPunto().ShowDialog();
+            this.Show();
+
 
         }
 
