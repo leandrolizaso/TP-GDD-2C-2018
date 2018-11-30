@@ -12,9 +12,20 @@ namespace PalcoNet.ListadoEstadistico
 {
     public partial class ListadoCompras : Form
     {
-        public ListadoCompras()
+        public ListadoCompras(string fechaDesde, string fechaHasta)
         {
             InitializeComponent();
+            var dt = new ComprasDAO().obtenerCompras(fechaDesde,fechaHasta);
+            datagrid.DataSource = dt;
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.HeaderText = column.HeaderText.Replace("clie_", "").Replace("_", " ").ToUpper();
+            }
+        }
+
+        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

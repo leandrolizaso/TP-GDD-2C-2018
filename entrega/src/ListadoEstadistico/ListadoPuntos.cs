@@ -12,12 +12,23 @@ namespace PalcoNet.ListadoEstadistico
 {
     public partial class ListadoPuntos : Form
     {
-        public ListadoPuntos()
+        public ListadoPuntos(string fechaDesde, string fechaHasta)
         {
             InitializeComponent();
+            var dt = new PuntosDAO().obtenerListadoPuntos(fechaDesde, fechaHasta);
+            datagrid.DataSource = dt;
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.HeaderText = column.HeaderText.Replace("clie_", "").Replace("_", " ").ToUpper();
+            }
         }
 
         private void ListadoPuntos_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
