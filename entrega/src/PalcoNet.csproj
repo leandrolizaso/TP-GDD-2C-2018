@@ -112,6 +112,7 @@
     <Compile Include="Comprar\Rubro.Designer.cs">
       <DependentUpon>Rubro.cs</DependentUpon>
     </Compile>
+    <Compile Include="Comprar\RubroDAO.cs" />
     <Compile Include="EditarPublicacion\EditarPublicacionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,7 +134,6 @@
       <DependentUpon>HistorialCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="ListadoEstadistico\ComprasDAO.cs" />
-    <Compile Include="ListadoEstadistico\EmpresasDAO.cs" />
     <Compile Include="ListadoEstadistico\ListadoEmpresas.cs">
       <SubType>Form</SubType>
     </Compile>

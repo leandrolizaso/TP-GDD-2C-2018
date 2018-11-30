@@ -49,7 +49,6 @@
             this.nuevoRubro.Name = "nuevoRubro";
             this.nuevoRubro.Size = new System.Drawing.Size(147, 20);
             this.nuevoRubro.TabIndex = 1;
-            this.nuevoRubro.TextChanged += new System.EventHandler(this.nuevoRubro_TextChanged);
             // 
             // label1
             // 
@@ -59,7 +58,6 @@
             this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Nuevo rubro";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // Rubro
             // 

@@ -12,28 +12,23 @@ namespace PalcoNet.Comprar
 {
     public partial class Rubro : Form
     {
-        public string retorno { get; set; }   
+
+        public decimal id { get; set; }
+        public string texto { get; set; }
 
         public Rubro()
         {
             InitializeComponent();
-            retorno = "";
+            texto = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            retorno = nuevoRubro.Text;
+            var dt = new RubroDAO().buscarRubroPorDescripcion(nuevoRubro.Text);
+            id = Convert.ToDecimal(dt.Rows[0]["rubr_id"]);
+            texto = dt.Rows[0]["rubr_descripcion"].ToString();
             this.Close();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void nuevoRubro_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

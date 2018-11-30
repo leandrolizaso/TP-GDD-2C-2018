@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace PalcoNet.ListadoEstadistico
 {
-    class ComprasDAO : BaseDAO
-    {
-        internal DataTable obtenerCompras(string fechaDesde, string fechaHasta)
+    public class ComprasDAO : BaseDAO {
+
+        public DataTable obtenerCompras(string fechaDesde, string fechaHasta)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@fecha_desde", fechaDesde);

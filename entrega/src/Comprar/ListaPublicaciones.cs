@@ -12,45 +12,25 @@ namespace PalcoNet.Comprar
 {
     public partial class ListaPublicaciones : Form
     {
+
+        List<decimal> rubros;
+
         public ListaPublicaciones()
         {
             InitializeComponent();
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void clie_fecha_crea_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void buscar_Click(object sender, EventArgs e)
-        {
-
+            rubros = new List<decimal>();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (var itemForm = new Rubro())
+            using (var rubroForm = new Rubro())
             {
-                itemForm.ShowDialog();
+                rubroForm.ShowDialog();
                 Label label = new Label();
-                label.Text = itemForm.retorno;
+                label.Text = rubroForm.texto;
                 label.AutoSize = true;
                 label.BorderStyle = BorderStyle.Fixed3D;
+                rubros.Add(rubroForm.id);
                 Rubros.Controls.Add(label);
             }
         }
@@ -60,29 +40,15 @@ namespace PalcoNet.Comprar
 
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void buscar_Click(object sender, EventArgs e)
         {
+            //era una linea, pero mejor 3 para legibilidad
+            //MessageBox.Show(string.Format("Los rubros seleccionados son: {0}", string.Join(",", rubros)));
 
+            string rubroStr = string.Join(",", rubros);
+            string mensaje = string.Format("Los rubros seleccionados son: {0}", rubroStr); 
+            MessageBox.Show(mensaje);
         }
 
-        private void nombre_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Rubros_paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }
