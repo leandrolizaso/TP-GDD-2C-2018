@@ -18,11 +18,11 @@ namespace PalcoNet.HistorialCliente
             return procedure("PEL.sp_ver_compras", dict);
         }
 
-        public int totalPaginas(decimal idCliente)
+        public double totalPaginas(decimal idCliente)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@clie_id", idCliente);
-            DataTable result = procedure("PEL.sp_total_crompas", dict);
+            DataTable result = procedure("PEL.sp_total_compras", dict);
             int total = Convert.ToInt32(result.Rows[0][0]);
             return total;
         }

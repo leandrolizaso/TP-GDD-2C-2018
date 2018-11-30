@@ -10,17 +10,18 @@ using System.Windows.Forms;
 
 namespace PalcoNet.HistorialCliente
 {
-    public partial class HistorialCliente : Form
+    public partial class Historial : Form
     {
         private int pagina = 1;
         private int ultimaPagina;
-        private int idCliente;
+        private decimal idCliente;
 
-        public HistorialCliente(int cliente)
+        public Historial(decimal cliente)
         {
             InitializeComponent();
             idCliente = cliente;
-            ultimaPagina = new HistorialDAO().totalPaginas(idCliente);
+            ultimaPagina = Convert.ToInt32(Math.Ceiling((new HistorialDAO().totalPaginas(idCliente)) / 10));
+            this.llenar_grilla();
 
         }
 
@@ -40,7 +41,7 @@ namespace PalcoNet.HistorialCliente
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
-                column.HeaderText = column.HeaderText.Replace("clie_", "").Replace("_", " ").ToUpper();
+                column.HeaderText = column.HeaderText.Replace("compr_", "").Replace("_", " ").ToUpper();
             }
         }
 
@@ -53,7 +54,10 @@ namespace PalcoNet.HistorialCliente
 
         private void anterior_Click(object sender, EventArgs e)
         {
-            pagina -= 1;
+            if (pagina > 1)
+            {
+                pagina -= 1;
+            }
             this.llenar_grilla();
         }
 

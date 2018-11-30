@@ -1,6 +1,6 @@
 ﻿namespace PalcoNet.HistorialCliente
 {
-    partial class HistorialCliente
+    partial class Historial
     {
         /// <summary>
         /// Required designer variable.
