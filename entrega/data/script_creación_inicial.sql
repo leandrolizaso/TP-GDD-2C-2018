@@ -83,7 +83,7 @@ CREATE TABLE PEL.Cliente (
 	clie_tipo_doc NVARCHAR(255),
 	clie_nro_doc NVARCHAR(255) not null unique ,
 	clie_cuil NVARCHAR(255),
-	clie_mail NVARCHAR(255),
+	clie_mail NVARCHAR(255) not null,
 	clie_telefono NVARCHAR(255),
 	clie_fecha_nac DATETIME,
 	clie_fecha_crea DATETIME,
@@ -699,7 +699,6 @@ INSERT INTO PEL.Funcion (func_nombre) values
 	('CONSULTA HISTORIAL'),
 	('GENERAR RENDICION'),
 	('CONSULTAR LISTADO')
-	
 	
 GO
 
