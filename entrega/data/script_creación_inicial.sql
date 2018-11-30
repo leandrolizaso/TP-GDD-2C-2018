@@ -496,8 +496,8 @@ SELECT  * , @total
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id
 		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
-		  and (convert(date,publ_fecha_publi,121) between @desde and @hasta)
-		  and (convert(date,publ_fecha_ven,121) between @desde and @hasta)
+		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
+		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and publ_descripcion like '%' + @detalle + '%'
         ) AS RowConstrainedResult
 WHERE   RowNum > (@pag-1)*10 
