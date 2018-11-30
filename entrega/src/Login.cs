@@ -41,7 +41,7 @@ namespace PalcoNet
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             this.Hide();
-            new NuevoUsuario();
+            new NuevoUsuario().ShowDialog();
             this.Show();
         }
     }

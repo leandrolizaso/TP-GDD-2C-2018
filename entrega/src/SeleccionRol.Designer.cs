@@ -76,6 +76,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "SeleccionRol";
             this.Text = "SeleccionRol";
+            this.Load += new System.EventHandler(this.onLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
 
