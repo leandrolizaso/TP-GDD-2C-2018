@@ -32,8 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -114,6 +121,7 @@
     <Compile Include="Funcionalidad.Designer.cs">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
     </Compile>
+    <Compile Include="HistorialCliente\HistorialDAO.cs" />
     <Compile Include="HistorialCliente\HistorialCliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -250,6 +258,8 @@
       <DependentUpon>SeleccionRol.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="application.properties" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
