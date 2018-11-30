@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -115,6 +112,13 @@
     <Compile Include="Comprar\Rubro.Designer.cs">
       <DependentUpon>Rubro.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditarPublicacion\EditarPublicacionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarPublicacion\EditarPublicacionForm.Designer.cs">
+      <DependentUpon>EditarPublicacionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditarPublicacion\EditarPublicacionDAO.cs" />
     <Compile Include="Funcionalidad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,6 +225,9 @@
     <EmbeddedResource Include="Comprar\Rubro.resx">
       <DependentUpon>Rubro.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarPublicacion\EditarPublicacionForm.resx">
+      <DependentUpon>EditarPublicacionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
     </EmbeddedResource>
@@ -277,7 +284,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EditarPublicacion\" />
     <Folder Include="GenerarPublicacion\" />
     <Folder Include="GenerarRendicionComisiones\" />
   </ItemGroup>
