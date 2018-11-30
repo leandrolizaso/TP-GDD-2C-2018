@@ -496,8 +496,8 @@ SELECT  * , @total
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id
 		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
-		  and (convert(date,publ_fecha_publi) between @desde and @hasta)
-		  and (convert(date,publ_fecha_ven) between @desde and @hasta)
+		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
+		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and publ_descripcion like '%' + @detalle + '%'
         ) AS RowConstrainedResult
 WHERE   RowNum > (@pag-1)*10 
@@ -528,7 +528,7 @@ BEGIN
 SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, sum(compr_puntos_acum - compr_puntos_gast) as puntos 
 	FROM PEL.Cliente join Compra on compr_cliente = clie_id
 		where DATEDIFF(day, convert(date,@fecha,121), compr_fecha) > 30
-		and convert(date,compr_fecha) between convert(date,@fecha_desde,121) and convert(date,@fecha_hasta,121)
+		and convert(date,compr_fecha,121) between convert(date,@fecha_desde,121) and convert(date,@fecha_hasta,121)
 		group by clie_id, clie_nombre, clie_apellido, clie_nro_doc
 		order by puntos desc
 END
@@ -539,7 +539,7 @@ AS
 BEGIN
 SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, count(compr_id) as [Cantidad de compras]
 	FROM PEL.Cliente join PEL.Compra on compr_cliente = clie_id join PEL.Publicacion on publ_id=compr_publi
-	where convert(date,compr_fecha) between convert(date,@fecha_desde,121) and convert(date,@fecha_hasta,121)
+	where convert(date,compr_fecha,121) between convert(date,@fecha_desde,121) and convert(date,@fecha_hasta,121)
 	group by clie_id, clie_nombre, clie_apellido, clie_nro_doc, publ_empresa_resp
 	order by count(compr_id) desc
 END
@@ -600,9 +600,15 @@ GO
 create procedure PEL.sp_ver_puntos (@usua_id numeric (18,0),@fecha varchar(30))
 as
 begin
-	select compr_puntos_acum - compr_puntos_gast as puntos_disponibles , DATEADD(day,30,compr_fecha) as fecha_vencimiento
+	declare @total_puntos numeric (18,0)
+	set @total_puntos = (select sum(compr_puntos_acum - compr_puntos_gast)
+						 from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
+						 where compr_fecha between dateadd(day,-30,convert(date,@fecha,121)) and convert(date,@fecha,121) and compr_puntos_acum - compr_puntos_gast > 0
+						 group by compr_cliente)
+
+	select compr_puntos_acum - compr_puntos_gast as puntos_disponibles , DATEADD(day,30,compr_fecha) as fecha_vencimiento, @total_puntos as total_puntos 
 	from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
-	where compr_fecha between dateadd(day,-30,convert(date,@fecha)) and convert(date,@fecha,121) and compr_puntos_acum - compr_puntos_gast > 0
+	where compr_fecha between dateadd(day,-30,convert(date,@fecha,121)) and convert(date,@fecha,121) and compr_puntos_acum - compr_puntos_gast > 0
 	order by 2
 end
 go
@@ -913,4 +919,3 @@ AS
 		rollback
 		end
 GO
-
