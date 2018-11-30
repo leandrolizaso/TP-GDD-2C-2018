@@ -30,7 +30,7 @@
         {
             this.datagrid = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.grad_estado = new System.Windows.Forms.ComboBox();
+            this.grado = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.buscar = new System.Windows.Forms.Button();
             this.limpiar = new System.Windows.Forms.Button();
@@ -46,10 +46,11 @@
             this.datagrid.Name = "datagrid";
             this.datagrid.Size = new System.Drawing.Size(603, 257);
             this.datagrid.TabIndex = 13;
+            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.grad_estado);
+            this.groupBox1.Controls.Add(this.grado);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.buscar);
             this.groupBox1.Controls.Add(this.limpiar);
@@ -61,13 +62,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros";
             // 
-            // grad_estado
+            // grado
             // 
-            this.grad_estado.FormattingEnabled = true;
-            this.grad_estado.Location = new System.Drawing.Point(119, 32);
-            this.grad_estado.Name = "grad_estado";
-            this.grad_estado.Size = new System.Drawing.Size(75, 21);
-            this.grad_estado.TabIndex = 40;
+            this.grado.FormattingEnabled = true;
+            this.grado.Location = new System.Drawing.Point(119, 32);
+            this.grado.Name = "grado";
+            this.grado.Size = new System.Drawing.Size(75, 21);
+            this.grado.TabIndex = 40;
+            this.grado.SelectedIndexChanged += new System.EventHandler(this.grad_estado_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -86,6 +88,7 @@
             this.buscar.TabIndex = 8;
             this.buscar.Text = "Buscar";
             this.buscar.UseVisualStyleBackColor = true;
+            this.buscar.Click += new System.EventHandler(this.buscar_Click);
             // 
             // limpiar
             // 
@@ -95,6 +98,7 @@
             this.limpiar.TabIndex = 9;
             this.limpiar.Text = "Limpiar Filtro";
             this.limpiar.UseVisualStyleBackColor = true;
+            this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
             // label3
             // 
@@ -124,7 +128,7 @@
 
         private System.Windows.Forms.DataGridView datagrid;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox grad_estado;
+        private System.Windows.Forms.ComboBox grado;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button buscar;
         private System.Windows.Forms.Button limpiar;

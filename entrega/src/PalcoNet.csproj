@@ -128,6 +128,8 @@
     <Compile Include="HistorialCliente\HistorialCliente.Designer.cs">
       <DependentUpon>HistorialCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListadoEstadistico\ComprasDAO.cs" />
+    <Compile Include="ListadoEstadistico\EmpresasDAO.cs" />
     <Compile Include="ListadoEstadistico\ListadoEmpresas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,6 +154,7 @@
     <Compile Include="ListadoEstadistico\Listados.Designer.cs">
       <DependentUpon>Listados.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListadoEstadistico\PuntosDAO.cs" />
     <Compile Include="ListadoEstadistico\SeleccionAño.cs">
       <SubType>Form</SubType>
     </Compile>
