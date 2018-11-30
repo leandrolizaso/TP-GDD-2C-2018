@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace PalcoNet.CanjePuntos
 {
-    public partial class ListaPunto : Form
+    public partial class ListaPuntos : Form
     {
-        public ListaPunto()
+        public ListaPuntos()
         {
             InitializeComponent();
         }
@@ -35,7 +35,7 @@ namespace PalcoNet.CanjePuntos
         private void buscar_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new ListaPunto().ShowDialog();
+            new ListaPuntos().ShowDialog();
             this.Show();
 
 

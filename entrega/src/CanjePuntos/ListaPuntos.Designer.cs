@@ -1,6 +1,6 @@
 ﻿namespace PalcoNet.CanjePuntos
 {
-    partial class ListaPunto
+    partial class ListaPuntos
     {
         /// <summary>
         /// Required designer variable.
