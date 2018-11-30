@@ -39,6 +39,7 @@
             this.datagrid.Name = "datagrid";
             this.datagrid.Size = new System.Drawing.Size(603, 334);
             this.datagrid.TabIndex = 16;
+            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
             // 
             // ListadoCompras
             // 
