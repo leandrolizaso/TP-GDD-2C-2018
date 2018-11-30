@@ -90,11 +90,11 @@
     <Compile Include="CanjePuntos\CanjePremio.Designer.cs">
       <DependentUpon>CanjePremio.cs</DependentUpon>
     </Compile>
-    <Compile Include="CanjePuntos\ListaPunto.cs">
+    <Compile Include="CanjePuntos\ListaPuntos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CanjePuntos\ListaPunto.Designer.cs">
-      <DependentUpon>ListaPunto.cs</DependentUpon>
+    <Compile Include="CanjePuntos\ListaPuntos.Designer.cs">
+      <DependentUpon>ListaPuntos.cs</DependentUpon>
     </Compile>
     <Compile Include="Comprar\ListaPublicaciones.cs">
       <SubType>Form</SubType>
@@ -159,8 +159,8 @@
     <EmbeddedResource Include="CanjePuntos\CanjePremio.resx">
       <DependentUpon>CanjePremio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CanjePuntos\ListaPunto.resx">
-      <DependentUpon>ListaPunto.cs</DependentUpon>
+    <EmbeddedResource Include="CanjePuntos\ListaPuntos.resx">
+      <DependentUpon>ListaPuntos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Comprar\ListaPublicaciones.resx">
       <DependentUpon>ListaPublicaciones.cs</DependentUpon>

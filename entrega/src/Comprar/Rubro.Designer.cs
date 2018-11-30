@@ -70,7 +70,7 @@
             this.Controls.Add(this.nuevoRubro);
             this.Controls.Add(this.button1);
             this.Name = "Rubro";
-            this.Text = "Form1";
+            this.Text = "Seleccion rubro";
             this.ResumeLayout(false);
             this.PerformLayout();
 

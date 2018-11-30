@@ -186,7 +186,7 @@
             this.Controls.Add(this.datagrid);
             this.Controls.Add(this.groupBox1);
             this.Name = "ListaPublicaciones";
-            this.Text = "Form1";
+            this.Text = "Publicaciones";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).EndInit();

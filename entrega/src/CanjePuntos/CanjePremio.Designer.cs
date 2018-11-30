@@ -162,7 +162,7 @@
             this.Controls.Add(this.datagrid);
             this.Controls.Add(this.groupBox1);
             this.Name = "CanjePremio";
-            this.Text = "Form1";
+            this.Text = "Canje de premios";
             this.Load += new System.EventHandler(this.CanjePremio_Load);
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).EndInit();
             this.groupBox1.ResumeLayout(false);
