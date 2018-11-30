@@ -19,12 +19,22 @@ namespace PalcoNet
         {
             this.usuario = usuario;
             InitializeComponent();
-            actualizarRoles();
         }
-
-        private void actualizarRoles()
+        private void onLoad(object sender, EventArgs e)
         {
             var dt = new RolDAO().obtenerListaRoles(usuario);
+
+            if (dt.Rows.Count == 1)
+            {
+                decimal idRol = Convert.ToDecimal(dt.Rows[0]["rol_id"]);
+                new Funcionalidad(idRol).ShowDialog();
+
+                //No se puede llamar this.Hide() en un metodo 
+                //durante construccion del objeto
+                //Se delega en una llamada asincronica
+                BeginInvoke(new MethodInvoker(delegate{Hide();}));
+                return;
+            }
 
             roles.ValueMember = "rol_id";
             roles.DisplayMember = "rol_nombre";
@@ -36,8 +46,9 @@ namespace PalcoNet
             this.Hide();
             Decimal idRol = (Decimal) roles.SelectedValue;
             new Funcionalidad(idRol).ShowDialog();
-            this.Show();
         }
+
+
 
     }
 }
