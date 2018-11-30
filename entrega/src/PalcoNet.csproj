@@ -114,6 +114,48 @@
     <Compile Include="Funcionalidad.Designer.cs">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
     </Compile>
+    <Compile Include="HistorialCliente\HistorialCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistorialCliente\HistorialCliente.Designer.cs">
+      <DependentUpon>HistorialCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoEmpresas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoEmpresas.Designer.cs">
+      <DependentUpon>ListadoEmpresas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoCompras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoCompras.Designer.cs">
+      <DependentUpon>ListadoCompras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoPuntos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoPuntos.Designer.cs">
+      <DependentUpon>ListadoPuntos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\Listados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\Listados.Designer.cs">
+      <DependentUpon>Listados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\SeleccionAño.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\SeleccionAño.Designer.cs">
+      <DependentUpon>SeleccionAño.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\SeleccionMes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\SeleccionMes.Designer.cs">
+      <DependentUpon>SeleccionMes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,6 +213,27 @@
     <EmbeddedResource Include="Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HistorialCliente\HistorialCliente.resx">
+      <DependentUpon>HistorialCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoCompras.resx">
+      <DependentUpon>ListadoCompras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoEmpresas.resx">
+      <DependentUpon>ListadoEmpresas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoPuntos.resx">
+      <DependentUpon>ListadoPuntos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\Listados.resx">
+      <DependentUpon>Listados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\SeleccionAño.resx">
+      <DependentUpon>SeleccionAño.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\SeleccionMes.resx">
+      <DependentUpon>SeleccionMes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -204,8 +267,6 @@
     <Folder Include="EditarPublicacion\" />
     <Folder Include="GenerarPublicacion\" />
     <Folder Include="GenerarRendicionComisiones\" />
-    <Folder Include="HistorialCliente\" />
-    <Folder Include="ListadoEstadistico\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
