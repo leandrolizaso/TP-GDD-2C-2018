@@ -371,18 +371,15 @@ begin
 		end
 	else
 		begin
-		insert into PEL.Cliente (clie_nombre, clie_apellido, clie_tipo_doc, clie_nro_doc, clie_cuil, clie_mail, clie_telefono, clie_fecha_nac, clie_fecha_crea, clie_direccion, clie_datos_tarjeta) values 
-		(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono, @fecha_nac, @fecha_crea, @direccion, @datos_tarjeta)
+			insert PEL.Cliente (clie_nombre, clie_apellido, clie_tipo_doc, clie_nro_doc, clie_cuil, clie_mail, clie_telefono, clie_fecha_nac, clie_fecha_crea, clie_direccion, clie_datos_tarjeta,clie_estado) values 
+			(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono, @fecha_nac, @fecha_crea, @direccion, @datos_tarjeta,'A')
 		end
 
 	if(@username is null and @password is null)
 		begin
 			exec PEL.generar_username @data = @username output;
 			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
-			insert PEL.Cliente (clie_apellido,clie_tipo_doc,clie_nro_doc,clie_cuil,clie_mail,clie_telefono,clie_fecha_nac,clie_fecha_crea,clie_direccion,clie_datos_tarjeta, clie_estado)
-			values(@apellido ,@tipo_doc ,@nro_doc ,@cuil ,@mail,@telefono,@fecha_nac,@fecha_crea,@direccion ,@datos_tarjeta, 'A')
 		end
-
 	
 	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
@@ -444,12 +441,8 @@ begin
 		begin
 			exec PEL.generar_username @data = @username output;
 			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
-			insert PEL.Empresa (empr_direccion,empr_razon_social,empr_cuit,empr_fecha,empr_telefono,empr_mail) 
-			values(@direccion,@razon_social,@cuit,@fecha,@telefono,@mail)
 		end
-
-	
-	
+			
 	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
 	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Empresa'), @usua_id)
