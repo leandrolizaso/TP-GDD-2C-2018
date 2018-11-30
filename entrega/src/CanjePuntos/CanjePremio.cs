@@ -46,5 +46,25 @@ namespace PalcoNet.CanjePuntos
         {
 
         }
+
+        private void limpiar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nombre_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pcnt_from_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pcnt_to_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

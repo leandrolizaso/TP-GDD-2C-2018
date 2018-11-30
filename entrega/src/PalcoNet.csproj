@@ -84,6 +84,30 @@
       <DependentUpon>ModificarGrado.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\RolDAO.cs" />
+    <Compile Include="CanjePuntos\CanjePremio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CanjePuntos\CanjePremio.Designer.cs">
+      <DependentUpon>CanjePremio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CanjePuntos\ListaPunto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CanjePuntos\ListaPunto.Designer.cs">
+      <DependentUpon>ListaPunto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comprar\ListaPublicaciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprar\ListaPublicaciones.Designer.cs">
+      <DependentUpon>ListaPublicaciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comprar\ListaRubros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprar\ListaRubros.Designer.cs">
+      <DependentUpon>ListaRubros.cs</DependentUpon>
+    </Compile>
     <Compile Include="Funcionalidad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +156,15 @@
     <EmbeddedResource Include="AbmGrado\ModificarGrado.resx">
       <DependentUpon>ModificarGrado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CanjePuntos\CanjePremio.resx">
+      <DependentUpon>CanjePremio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CanjePuntos\ListaPunto.resx">
+      <DependentUpon>ListaPunto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comprar\ListaPublicaciones.resx">
+      <DependentUpon>ListaPublicaciones.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,8 +198,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CanjePuntos\" />
-    <Folder Include="Comprar\" />
     <Folder Include="EditarPublicacion\" />
     <Folder Include="GenerarPublicacion\" />
     <Folder Include="GenerarRendicionComisiones\" />

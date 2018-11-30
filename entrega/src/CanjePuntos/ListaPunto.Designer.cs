@@ -44,6 +44,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(589, 220);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // buscar
             // 
@@ -53,6 +54,7 @@
             this.buscar.TabIndex = 8;
             this.buscar.Text = "Canjear puntos";
             this.buscar.UseVisualStyleBackColor = true;
+            this.buscar.Click += new System.EventHandler(this.buscar_Click);
             // 
             // crear
             // 

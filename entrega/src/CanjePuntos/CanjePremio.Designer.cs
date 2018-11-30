@@ -96,6 +96,7 @@
             this.pcnt_to.Name = "pcnt_to";
             this.pcnt_to.Size = new System.Drawing.Size(56, 20);
             this.pcnt_to.TabIndex = 11;
+            this.pcnt_to.TextChanged += new System.EventHandler(this.pcnt_to_TextChanged);
             // 
             // buscar
             // 
@@ -115,6 +116,7 @@
             this.limpiar.TabIndex = 9;
             this.limpiar.Text = "Limpiar Filtro";
             this.limpiar.UseVisualStyleBackColor = true;
+            this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
             // pcnt_from
             // 
@@ -122,6 +124,7 @@
             this.pcnt_from.Name = "pcnt_from";
             this.pcnt_from.Size = new System.Drawing.Size(56, 20);
             this.pcnt_from.TabIndex = 7;
+            this.pcnt_from.TextChanged += new System.EventHandler(this.pcnt_from_TextChanged);
             // 
             // label4
             // 
@@ -139,6 +142,7 @@
             this.nombre.Name = "nombre";
             this.nombre.Size = new System.Drawing.Size(254, 20);
             this.nombre.TabIndex = 5;
+            this.nombre.TextChanged += new System.EventHandler(this.nombre_TextChanged);
             // 
             // label3
             // 

@@ -36,35 +36,5 @@ namespace PalcoNet.Comprar
         {
 
         }
-
-        private void buscar_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void limpiar_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void nombre_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }
