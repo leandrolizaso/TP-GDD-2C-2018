@@ -39,7 +39,7 @@ namespace PalcoNet.ListadoEstadistico
 
         private void buscar_Click(object sender, EventArgs e)
         {
-            DataTable dt = new EmpresasDAO().obtenerEmpresas(fechaDesde, fechaHasta, Convert.ToDecimal(grado.SelectedValue));
+            DataTable dt = new EmpresasDAO().obtenerEmpresas(fechaDesde, fechaHasta, (decimal)grado.SelectedValue);
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
