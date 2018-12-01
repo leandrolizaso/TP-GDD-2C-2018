@@ -380,7 +380,7 @@ begin
 			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
 		end
 	
-	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash (@password),'R')
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
 	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Cliente'), @usua_id)
 	update PEL.Cliente 
@@ -442,7 +442,7 @@ begin
 			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
 		end
 			
-	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,@password,'R')
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash (@password),'R')
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
 	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Empresa'), @usua_id)
 	update PEL.Empresa 
