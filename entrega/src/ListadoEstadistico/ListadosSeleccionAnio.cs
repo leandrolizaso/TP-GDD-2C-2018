@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace PalcoNet.ListadoEstadistico
 {
-    public partial class SeleccionAño : Form
+    public partial class ListadosSeleccionAnio : Form
     {
-        public SeleccionAño()
+        public ListadosSeleccionAnio()
         {
             InitializeComponent();
             this.cargarComboBox();
@@ -36,7 +36,7 @@ namespace PalcoNet.ListadoEstadistico
         {
             this.Hide();
             int anio = Convert.ToInt16(comboAnio.SelectedItem);
-            new SeleccionMes(anio).ShowDialog();
+            new ListadosSeleccionMes(anio).ShowDialog();
         }
 
     }

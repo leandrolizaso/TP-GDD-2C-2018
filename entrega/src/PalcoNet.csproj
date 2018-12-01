@@ -160,17 +160,17 @@
       <DependentUpon>Listados.cs</DependentUpon>
     </Compile>
     <Compile Include="ListadoEstadistico\PuntosDAO.cs" />
-    <Compile Include="ListadoEstadistico\SeleccionAño.cs">
+    <Compile Include="ListadoEstadistico\ListadosSeleccionAnio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListadoEstadistico\SeleccionAño.Designer.cs">
-      <DependentUpon>SeleccionAño.cs</DependentUpon>
+    <Compile Include="ListadoEstadistico\ListadosSeleccionAnio.Designer.cs">
+      <DependentUpon>ListadosSeleccionAnio.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListadoEstadistico\SeleccionMes.cs">
+    <Compile Include="ListadoEstadistico\ListadosSeleccionMes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListadoEstadistico\SeleccionMes.Designer.cs">
-      <DependentUpon>SeleccionMes.cs</DependentUpon>
+    <Compile Include="ListadoEstadistico\ListadosSeleccionMes.Designer.cs">
+      <DependentUpon>ListadosSeleccionMes.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -248,11 +248,11 @@
     <EmbeddedResource Include="ListadoEstadistico\Listados.resx">
       <DependentUpon>Listados.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListadoEstadistico\SeleccionAño.resx">
-      <DependentUpon>SeleccionAño.cs</DependentUpon>
+    <EmbeddedResource Include="ListadoEstadistico\ListadosSeleccionAnio.resx">
+      <DependentUpon>ListadosSeleccionAnio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListadoEstadistico\SeleccionMes.resx">
-      <DependentUpon>SeleccionMes.cs</DependentUpon>
+    <EmbeddedResource Include="ListadoEstadistico\ListadosSeleccionMes.resx">
+      <DependentUpon>ListadosSeleccionMes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

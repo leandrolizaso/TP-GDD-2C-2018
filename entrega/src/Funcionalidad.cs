@@ -62,7 +62,7 @@ namespace PalcoNet
                     System.Windows.Forms.MessageBox.Show("CATEGORIA"); 
                     break;
                 case "12":
-                    proximaPantalla = new SeleccionAño();
+                    proximaPantalla = new ListadosSeleccionAnio();
                     break;
                 default: 
                     System.Windows.Forms.MessageBox.Show("Ay.. nose."); 

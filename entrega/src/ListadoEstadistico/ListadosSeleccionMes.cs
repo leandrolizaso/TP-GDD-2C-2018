@@ -11,12 +11,12 @@ using System.Windows.Forms;
 
 namespace PalcoNet.ListadoEstadistico
 {
-    public partial class SeleccionMes : Form
+    public partial class ListadosSeleccionMes : Form
     {
         int anio;
         DateTime[] periodo;
 
-        public SeleccionMes(int anio)
+        public ListadosSeleccionMes(int anio)
         {
             InitializeComponent();
             this.anio = anio;

@@ -1,6 +1,6 @@
 ﻿namespace PalcoNet.ListadoEstadistico
 {
-    partial class SeleccionAño
+    partial class ListadosSeleccionAnio
     {
         /// <summary>
         /// Required designer variable.
