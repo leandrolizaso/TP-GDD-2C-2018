@@ -31,9 +31,7 @@ namespace PalcoNet.ListadoEstadistico
 
         private void label1_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            new SeleccionMes(Int32.Parse(comboAnio.SelectedText)).ShowDialog();
-            this.Show();
+            
 
         }
 
@@ -45,6 +43,13 @@ namespace PalcoNet.ListadoEstadistico
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new SeleccionMes(Int32.Parse(comboAnio.SelectedText)).ShowDialog();
+            this.Show();
         }
     }
 }

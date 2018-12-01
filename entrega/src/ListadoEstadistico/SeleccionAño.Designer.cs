@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.comboAnio = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -44,15 +44,6 @@
             this.label1.Text = "Seleccione el año ";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(209, 194);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(63, 56);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Siguiente";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // comboAnio
             // 
             this.comboAnio.FormattingEnabled = true;
@@ -62,13 +53,23 @@
             this.comboAnio.TabIndex = 2;
             this.comboAnio.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(209, 194);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(63, 56);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Siguiente";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // SeleccionAño
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.comboAnio);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.comboAnio);
             this.Controls.Add(this.label1);
             this.Name = "SeleccionAño";
             this.Text = "Seleccion año";
@@ -81,7 +82,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox comboAnio;
+        private System.Windows.Forms.Button button1;
     }
 }
