@@ -2,6 +2,9 @@
 using PalcoNet.AbmEmpresa;
 using PalcoNet.AbmGrado;
 using PalcoNet.AbmRol;
+using PalcoNet.CanjePuntos;
+using PalcoNet.Comprar;
+using PalcoNet.HistorialCliente;
 using PalcoNet.ListadoEstadistico;
 using System;
 using System.Collections.Generic;
@@ -45,8 +48,6 @@ namespace PalcoNet
 
             Form proximaPantalla = null;
             
-
-
             switch(button.Name.Substring(6)) {
                 case "1":  //roles
                     System.Windows.Forms.MessageBox.Show("ROLES"); 
@@ -63,20 +64,20 @@ namespace PalcoNet
                 case "5": 
                     System.Windows.Forms.MessageBox.Show("CATEGORIA??????"); 
                     break;
-                case "6": 
-                    System.Windows.Forms.MessageBox.Show("COMPRAR"); 
+                case "6":
+                    proximaPantalla = new ListaPublicaciones();
                     break;
                 case "7":
-                    System.Windows.Forms.MessageBox.Show("CANJE Y ADMINISTRACION DE PUNTOS");
+                    proximaPantalla = new ListaPuntos();
                     break;
                 case "8":
                     System.Windows.Forms.MessageBox.Show("GENERAR PUBLICACION");
                     break;
                 case "9":
-                    System.Windows.Forms.MessageBox.Show("EDITAR PUBLICACION");
+                    proximaPantalla = new ListaPublicaciones();
                     break;
                 case "10":
-                    System.Windows.Forms.MessageBox.Show("CONSULTA HISTORIAL");
+                    proximaPantalla = new MostrarHistorialCliente();
                     break;
                 case "11":
                     System.Windows.Forms.MessageBox.Show("GENERAR RENDICION");
@@ -84,14 +85,20 @@ namespace PalcoNet
                 case "12":
                     proximaPantalla = new ListadosSeleccionAnio();
                     break;
-                default: 
-                    System.Windows.Forms.MessageBox.Show("Ay.. nose."); 
+                default:
+                    System.Windows.Forms.MessageBox.Show(string.Format("La funcionalidad id:{0} \"{}\" no esta implementada.", button.Name.Substring(6), button.Text)); 
                     break;
             }
 
             if (proximaPantalla != null) {
                 this.Hide();
-                proximaPantalla.ShowDialog();
+                try
+                {
+                    proximaPantalla.ShowDialog();
+                }
+                catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
                 this.Show();
             }
         }

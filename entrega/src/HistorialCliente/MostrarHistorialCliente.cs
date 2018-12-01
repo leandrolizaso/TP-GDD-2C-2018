@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PalcoNet.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,16 +11,16 @@ using System.Windows.Forms;
 
 namespace PalcoNet.HistorialCliente
 {
-    public partial class Historial : Form
+    public partial class MostrarHistorialCliente : Form
     {
         private int pagina = 1;
         private int ultimaPagina;
         private decimal idCliente;
 
-        public Historial(decimal cliente)
+        public MostrarHistorialCliente()
         {
             InitializeComponent();
-            idCliente = cliente;
+            idCliente = Globales.idUsuarioLoggeado;
             ultimaPagina = Convert.ToInt32(Math.Ceiling((new HistorialDAO().totalPaginas(idCliente)) / 10));
             this.llenar_grilla();
 

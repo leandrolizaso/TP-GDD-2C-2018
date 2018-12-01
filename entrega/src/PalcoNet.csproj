@@ -127,11 +127,11 @@
       <DependentUpon>Funcionalidad.cs</DependentUpon>
     </Compile>
     <Compile Include="HistorialCliente\HistorialDAO.cs" />
-    <Compile Include="HistorialCliente\HistorialCliente.cs">
+    <Compile Include="HistorialCliente\MostrarHistorialCliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HistorialCliente\HistorialCliente.Designer.cs">
-      <DependentUpon>HistorialCliente.cs</DependentUpon>
+    <Compile Include="HistorialCliente\MostrarHistorialCliente.Designer.cs">
+      <DependentUpon>MostrarHistorialCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="ListadoEstadistico\ComprasDAO.cs" />
     <Compile Include="ListadoEstadistico\EmpresasDAO.cs" />
@@ -233,8 +233,8 @@
     <EmbeddedResource Include="Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HistorialCliente\HistorialCliente.resx">
-      <DependentUpon>HistorialCliente.cs</DependentUpon>
+    <EmbeddedResource Include="HistorialCliente\MostrarHistorialCliente.resx">
+      <DependentUpon>MostrarHistorialCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListadoEstadistico\ListadoCompras.resx">
       <DependentUpon>ListadoCompras.cs</DependentUpon>
