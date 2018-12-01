@@ -26,6 +26,7 @@ namespace PalcoNet
             try
             {
                 Decimal idUsuario = new LoginDAO().esUsuarioActivo(usuario.Text, pass.Text);
+                Globales.idUsuarioLoggeado = idUsuario;
                 this.Hide();
                 new SeleccionRol(idUsuario).ShowDialog();
                 this.Show();
