@@ -88,16 +88,16 @@
       <DependentUpon>ModificarGrado.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\RolDAO.cs" />
-    <Compile Include="AbmGrado\CanjePuntos\CanjePremio.cs">
+    <Compile Include="CanjePuntos\CanjePremio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmGrado\CanjePuntos\CanjePremio.Designer.cs">
+    <Compile Include="CanjePuntos\CanjePremio.Designer.cs">
       <DependentUpon>CanjePremio.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmGrado\CanjePuntos\ListaPuntos.cs">
+    <Compile Include="CanjePuntos\ListaPuntos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmGrado\CanjePuntos\ListaPuntos.Designer.cs">
+    <Compile Include="CanjePuntos\ListaPuntos.Designer.cs">
       <DependentUpon>ListaPuntos.cs</DependentUpon>
     </Compile>
     <Compile Include="Comprar\ListaPublicaciones.cs">
@@ -215,10 +215,10 @@
     <EmbeddedResource Include="AbmGrado\ModificarGrado.resx">
       <DependentUpon>ModificarGrado.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmGrado\CanjePuntos\CanjePremio.resx">
+    <EmbeddedResource Include="CanjePuntos\CanjePremio.resx">
       <DependentUpon>CanjePremio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmGrado\CanjePuntos\ListaPuntos.resx">
+    <EmbeddedResource Include="CanjePuntos\ListaPuntos.resx">
       <DependentUpon>ListaPuntos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Comprar\ListaPublicaciones.resx">
