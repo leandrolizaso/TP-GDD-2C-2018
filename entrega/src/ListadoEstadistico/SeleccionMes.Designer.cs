@@ -30,6 +30,7 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.comboMes = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // button1
@@ -46,17 +47,27 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(27, 19);
+            this.label1.Location = new System.Drawing.Point(12, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(218, 29);
+            this.label1.Size = new System.Drawing.Size(256, 29);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Seleccione el mes ";
+            this.label1.Text = "Seleccione el periodo ";
+            // 
+            // comboMes
+            // 
+            this.comboMes.FormattingEnabled = true;
+            this.comboMes.Location = new System.Drawing.Point(76, 98);
+            this.comboMes.Name = "comboMes";
+            this.comboMes.Size = new System.Drawing.Size(121, 21);
+            this.comboMes.TabIndex = 4;
+            this.comboMes.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // SeleccionMes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.comboMes);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Name = "SeleccionMes";
@@ -70,5 +81,6 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboMes;
     }
 }

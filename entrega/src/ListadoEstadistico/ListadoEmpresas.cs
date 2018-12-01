@@ -12,19 +12,21 @@ namespace PalcoNet.ListadoEstadistico
 {
     public partial class ListadoEmpresas : Form
     {
-        string fecha;
+        DateTime fechaDesde;
+        DateTime fechaHasta;
 
 
-        public ListadoEmpresas(string fecha)
+        public ListadoEmpresas(DateTime fechaDesde, DateTime fechaHasta)
         {
             InitializeComponent();
             this.cargarComboBox();
-            this.fecha = fecha;
+            this.fechaDesde = fechaDesde;
+            this.fechaHasta = fechaHasta;
         }
 
         private void cargarComboBox()
         {
-            DataTable dt = new DataTable();//new EmpresasDAO().obtenerDatosGrados();
+            DataTable dt = new EmpresasDAO().obtenerDatosGrados();
             grado.DisplayMember = "grad_descripcion";
             grado.ValueMember = "grad_id";
             grado.DataSource = dt;
@@ -37,7 +39,7 @@ namespace PalcoNet.ListadoEstadistico
 
         private void buscar_Click(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();//new EmpresasDAO().obtenerEmpresas(fecha, Convert.ToDecimal(grado.SelectedValue));
+            DataTable dt = new EmpresasDAO().obtenerEmpresas(fechaDesde, fechaHasta, Convert.ToDecimal(grado.SelectedValue));
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
@@ -48,7 +50,7 @@ namespace PalcoNet.ListadoEstadistico
         private void limpiar_Click(object sender, EventArgs e)
         {
             datagrid.DataSource = null;
-            this.cargarComboBox();
+            grado.Text = "";
         }
 
         private void grad_estado_SelectedIndexChanged(object sender, EventArgs e)

@@ -12,7 +12,7 @@ namespace PalcoNet.ListadoEstadistico
 {
     public partial class ListadoPuntos : Form
     {
-        public ListadoPuntos(string fechaDesde, string fechaHasta)
+        public ListadoPuntos(DateTime fechaDesde, DateTime fechaHasta)
         {
             InitializeComponent();
             var dt = new PuntosDAO().obtenerListadoPuntos(fechaDesde, fechaHasta);

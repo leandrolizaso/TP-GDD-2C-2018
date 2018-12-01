@@ -134,6 +134,7 @@
       <DependentUpon>HistorialCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="ListadoEstadistico\ComprasDAO.cs" />
+    <Compile Include="ListadoEstadistico\EmpresasDAO.cs" />
     <Compile Include="ListadoEstadistico\ListadoEmpresas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -193,6 +194,7 @@
       <DependentUpon>SeleccionRol.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\BaseDAO.cs" />
+    <Compile Include="Utils\Fechas.cs" />
     <Compile Include="Utils\Globales.cs" />
     <Compile Include="Utils\Conexion.cs" />
     <EmbeddedResource Include="AbmCliente\ListaCliente.resx">

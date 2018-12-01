@@ -10,10 +10,11 @@ namespace PalcoNet.ListadoEstadistico
 {
     class EmpresasDAO : BaseDAO
     {
-        internal DataTable obtenerEmpresas(string fecha, decimal grado)
+        internal DataTable obtenerEmpresas(DateTime fechaDesde, DateTime fechaHasta, decimal grado)
         {
             var dict = new Dictionary<string, object>();
-            dict.Add("@fecha_", fecha);
+            dict.Add("@fecha_Desde", fechaDesde);
+            dict.Add("@fecha_Hasta", fechaHasta);
             dict.Add("@grado", grado);
             return procedure("PEL.sp_listado_no_vendidas", dict);
         }

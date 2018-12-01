@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PalcoNet.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,17 +16,33 @@ namespace PalcoNet.ListadoEstadistico
         public SeleccionAño()
         {
             InitializeComponent();
+            this.cargarComboBox();
+        }
+
+        private void cargarComboBox()
+        {
+            int anio = Globales.getFechaHoy().Year;
+
+            for (int i = 0; i < 25; i++)
+            {
+                comboAnio.Text = Convert.ToString(anio -i);  
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new SeleccionMes().ShowDialog();
+            new SeleccionMes(Int32.Parse(comboAnio.SelectedText)).ShowDialog();
             this.Show();
 
         }
 
         private void SeleccionAño_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

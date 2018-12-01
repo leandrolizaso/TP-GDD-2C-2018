@@ -10,7 +10,7 @@ namespace PalcoNet.ListadoEstadistico
 {
     public class ComprasDAO : BaseDAO {
 
-        public DataTable obtenerCompras(string fechaDesde, string fechaHasta)
+        public DataTable obtenerCompras(DateTime fechaDesde, DateTime fechaHasta)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@fecha_desde", fechaDesde);
