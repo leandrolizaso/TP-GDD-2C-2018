@@ -17,7 +17,7 @@ namespace PalcoNet.AbmRol
             return query("select rol_id, rol_nombre "
                                         + "from pel.rol_usuario "
                                         + "join pel.rol on rol_id = rol_usua_rol "
-                                        + "where rol_usua_usua = 1 "
+                                        + "where rol_usua_usua = @user_id "
                                         + "and rol_estado = 'A'", 
                                         dict);
         }
