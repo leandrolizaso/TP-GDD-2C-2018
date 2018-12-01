@@ -23,7 +23,8 @@ namespace PalcoNet.ListadoEstadistico
         }
 
         private void cargarComboBox()
-        {   DataTable dt = new EmpresasDAO().obtenerDatosGrados();
+        {
+            DataTable dt = new DataTable();//new EmpresasDAO().obtenerDatosGrados();
             grado.DisplayMember = "grad_descripcion";
             grado.ValueMember = "grad_id";
             grado.DataSource = dt;
@@ -36,7 +37,7 @@ namespace PalcoNet.ListadoEstadistico
 
         private void buscar_Click(object sender, EventArgs e)
         {
-            var dt = new EmpresasDAO().obtenerEmpresas(fecha, Convert.ToDecimal(grado.SelectedValue));
+            DataTable dt = new DataTable();//new EmpresasDAO().obtenerEmpresas(fecha, Convert.ToDecimal(grado.SelectedValue));
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {

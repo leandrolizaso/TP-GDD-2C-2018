@@ -14,6 +14,10 @@ namespace PalcoNet.Utils {
             return "Data Source="+server+";Initial Catalog="+catalog+";User ID="+user+";Password="+pass;
         }
 
+        public static DateTime getFechaHoy() {
+            return DateTime.Parse(getProperty("Fecha"));
+        }
+
         public static string getProperty(string prop) {
             loadProps();
             return data[prop];

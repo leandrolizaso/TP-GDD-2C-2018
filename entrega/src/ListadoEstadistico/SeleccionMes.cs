@@ -20,7 +20,7 @@ namespace PalcoNet.ListadoEstadistico
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new listados().ShowDialog();
+            new listados("","").ShowDialog();
             this.Show();
         }
     }
