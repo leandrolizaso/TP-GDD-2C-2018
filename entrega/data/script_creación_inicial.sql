@@ -532,7 +532,7 @@ GO
 CREATE PROCEDURE PEL.sp_listado_no_vendidas (@grado numeric(18,0), @fecha_desde varchar(30),@fecha_hasta varchar(30))
 AS                                                                 --Es la fecha del mes y año que seleccionaron en el abm
 BEGIN
-SELECT TOP 5 publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion 
+SELECT TOP 5 publ_descripcion, publ_fecha_ven, (select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro, publ_direccion 
 			   FROM PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_grado like case when @grado != 0 then @grado else publ_grado end
 			   join PEL.Ubicacion on ubic_publ = publ_id 
 			   WHERE ubic_compra is null 
