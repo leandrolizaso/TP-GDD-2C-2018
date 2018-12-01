@@ -33,6 +33,7 @@
             this.ultimo = new System.Windows.Forms.Button();
             this.anterior = new System.Windows.Forms.Button();
             this.primera = new System.Windows.Forms.Button();
+            this.pag = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,7 +48,7 @@
             // 
             // siguiente
             // 
-            this.siguiente.Location = new System.Drawing.Point(326, 342);
+            this.siguiente.Location = new System.Drawing.Point(336, 342);
             this.siguiente.Name = "siguiente";
             this.siguiente.Size = new System.Drawing.Size(28, 28);
             this.siguiente.TabIndex = 19;
@@ -57,7 +58,7 @@
             // 
             // ultimo
             // 
-            this.ultimo.Location = new System.Drawing.Point(368, 342);
+            this.ultimo.Location = new System.Drawing.Point(379, 342);
             this.ultimo.Name = "ultimo";
             this.ultimo.Size = new System.Drawing.Size(28, 28);
             this.ultimo.TabIndex = 20;
@@ -67,7 +68,7 @@
             // 
             // anterior
             // 
-            this.anterior.Location = new System.Drawing.Point(281, 342);
+            this.anterior.Location = new System.Drawing.Point(258, 342);
             this.anterior.Name = "anterior";
             this.anterior.Size = new System.Drawing.Size(28, 28);
             this.anterior.TabIndex = 21;
@@ -77,7 +78,7 @@
             // 
             // primera
             // 
-            this.primera.Location = new System.Drawing.Point(237, 342);
+            this.primera.Location = new System.Drawing.Point(214, 342);
             this.primera.Name = "primera";
             this.primera.Size = new System.Drawing.Size(28, 28);
             this.primera.TabIndex = 22;
@@ -85,21 +86,32 @@
             this.primera.UseVisualStyleBackColor = true;
             this.primera.Click += new System.EventHandler(this.primera_Click);
             // 
-            // HistorialCliente
+            // pag
+            // 
+            this.pag.AutoSize = true;
+            this.pag.Location = new System.Drawing.Point(305, 350);
+            this.pag.Name = "pag";
+            this.pag.Size = new System.Drawing.Size(25, 13);
+            this.pag.TabIndex = 23;
+            this.pag.Text = "pag";
+            // 
+            // MostrarHistorialCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(636, 375);
+            this.Controls.Add(this.pag);
             this.Controls.Add(this.primera);
             this.Controls.Add(this.anterior);
             this.Controls.Add(this.ultimo);
             this.Controls.Add(this.siguiente);
             this.Controls.Add(this.datagrid);
-            this.Name = "HistorialCliente";
+            this.Name = "MostrarHistorialCliente";
             this.Text = "Historial";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -110,5 +122,6 @@
         private System.Windows.Forms.Button ultimo;
         private System.Windows.Forms.Button anterior;
         private System.Windows.Forms.Button primera;
+        private System.Windows.Forms.Label pag;
     }
 }

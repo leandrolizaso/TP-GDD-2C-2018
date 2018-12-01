@@ -20,7 +20,7 @@ namespace PalcoNet.HistorialCliente
         public MostrarHistorialCliente()
         {
             InitializeComponent();
-            idCliente = Globales.idUsuarioLoggeado;
+            idCliente = new HistorialDAO().obtenerCliente(Globales.idUsuarioLoggeado);
             ultimaPagina = Convert.ToInt32(Math.Ceiling((new HistorialDAO().totalPaginas(idCliente)) / 10));
             this.llenar_grilla();
 
@@ -37,8 +37,9 @@ namespace PalcoNet.HistorialCliente
         }
 
         private void llenar_grilla()
-        {      
-            var dt = new HistorialDAO().obtenerHistorial(1, pagina);
+        {
+            pag.Text = Convert.ToString(pagina);
+            var dt = new HistorialDAO().obtenerHistorial(idCliente, pagina);
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
@@ -73,7 +74,15 @@ namespace PalcoNet.HistorialCliente
 
         private void ultimo_Click(object sender, EventArgs e)
         {
-            pagina = ultimaPagina;
+            if (ultimaPagina == 0)
+            {
+                pagina = 1;
+            }
+            else
+            {
+                pagina = ultimaPagina;
+            }
+            
             this.llenar_grilla();
         }
     }
