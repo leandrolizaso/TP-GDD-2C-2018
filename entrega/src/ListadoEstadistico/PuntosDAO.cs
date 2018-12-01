@@ -10,7 +10,7 @@ namespace PalcoNet.ListadoEstadistico
 {
     public class PuntosDAO : BaseDAO {
 
-        public  DataTable obtenerListadoPuntos(string fechaDesde, string fechaHasta)
+        public DataTable obtenerListadoPuntos(DateTime fechaDesde, DateTime fechaHasta)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@fecha", Globales.getProperty("Fecha"));

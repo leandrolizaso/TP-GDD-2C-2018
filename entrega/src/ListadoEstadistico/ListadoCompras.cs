@@ -12,7 +12,7 @@ namespace PalcoNet.ListadoEstadistico
 {
     public partial class ListadoCompras : Form
     {
-        public ListadoCompras(string fechaDesde, string fechaHasta)
+        public ListadoCompras(DateTime fechaDesde, DateTime fechaHasta)
         {
             InitializeComponent();
             var dt = new ComprasDAO().obtenerCompras(fechaDesde,fechaHasta);

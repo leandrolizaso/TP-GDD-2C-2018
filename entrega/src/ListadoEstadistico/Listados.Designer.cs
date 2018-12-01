@@ -85,6 +85,7 @@
             this.Controls.Add(this.localidades);
             this.Name = "listados";
             this.Text = "Listado estadistico";
+            this.Load += new System.EventHandler(this.listados_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

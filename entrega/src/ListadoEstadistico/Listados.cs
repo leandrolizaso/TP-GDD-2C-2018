@@ -13,11 +13,11 @@ namespace PalcoNet.ListadoEstadistico
     
 
     public partial class listados : Form
-    {   
-        string fechaDesde;
-        string fechaHasta;
+    {
+        DateTime fechaDesde;
+        DateTime fechaHasta;
 
-        public listados(string fechaDesde, string fechaHasta)
+        public listados(DateTime fechaDesde, DateTime fechaHasta)
         {
             InitializeComponent();
             this.fechaDesde = fechaDesde;
@@ -27,8 +27,7 @@ namespace PalcoNet.ListadoEstadistico
         private void localidades_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new ListadoEmpresas(fechaDesde).ShowDialog();
-                                //Pongo una sola porque se supone que es por un solo mes
+            new ListadoEmpresas(fechaDesde, fechaHasta).ShowDialog();
             this.Show();
         }
 
@@ -44,6 +43,11 @@ namespace PalcoNet.ListadoEstadistico
             this.Hide();
             new ListadoCompras(fechaDesde, fechaHasta).ShowDialog();
             this.Show();
+        }
+
+        private void listados_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
