@@ -16,7 +16,7 @@ namespace PalcoNet.ListadoEstadistico
             dict.Add("@fecha", Globales.getProperty("Fecha"));
             dict.Add("@fecha_desde", fechaDesde);
             dict.Add("@fecha_hasta", fechaHasta);
-            return procedure("PEL.ssp_clientes_puntos_vencidos", dict);
+            return procedure("PEL.sp_clientes_puntos_vencidos", dict);
         }
     }
 }
