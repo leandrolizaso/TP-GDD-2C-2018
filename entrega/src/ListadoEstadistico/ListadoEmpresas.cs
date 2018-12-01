@@ -26,7 +26,14 @@ namespace PalcoNet.ListadoEstadistico
 
         private void cargarComboBox()
         {
-            DataTable dt = new EmpresasDAO().obtenerDatosGrados();
+            DataTable dt = new DataTable();
+            dt.Columns.Add("grad_descripcion");
+            dt.Columns.Add("grad_id");
+            DataRow row = dt.NewRow();
+            row["grad_descripcion"] = "--";
+            row["grad_id"] = 0;
+            dt.Rows.Add(row);
+            dt.Merge(new EmpresasDAO().obtenerDatosGrados(), true, MissingSchemaAction.Ignore);
             grado.DisplayMember = "grad_descripcion";
             grado.ValueMember = "grad_id";
             grado.DataSource = dt;
@@ -39,18 +46,18 @@ namespace PalcoNet.ListadoEstadistico
 
         private void buscar_Click(object sender, EventArgs e)
         {
-            DataTable dt = new EmpresasDAO().obtenerEmpresas(fechaDesde, fechaHasta, (decimal)grado.SelectedValue);
+            DataTable dt = new EmpresasDAO().obtenerEmpresas(fechaDesde, fechaHasta, Convert.ToDecimal(grado.SelectedValue));
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
-                column.HeaderText = column.HeaderText.Replace("empr_", "").Replace("_", " ").ToUpper();
+                column.HeaderText = column.HeaderText.Replace("publ_", "").Replace("_", " ").ToUpper();
             }
         }
 
         private void limpiar_Click(object sender, EventArgs e)
         {
             datagrid.DataSource = null;
-            grado.Text = "";
+            this.cargarComboBox();
         }
 
         private void grad_estado_SelectedIndexChanged(object sender, EventArgs e)
