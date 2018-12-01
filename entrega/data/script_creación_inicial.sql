@@ -514,7 +514,7 @@ CREATE PROCEDURE PEL.sp_listado_no_vendidas (@grado numeric(18,0), @fecha_desde 
 AS                                                                 --Es la fecha del mes y año que seleccionaron en el abm
 BEGIN
 SELECT TOP 5 publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion 
-			   FROM PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_grado like case when @grado != '' then @grado else publ_grado end
+			   FROM PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_grado like case when @grado != 0 then @grado else publ_grado end
 			   join PEL.Ubicacion on ubic_publ = publ_id 
 			   WHERE ubic_compra is null 
 			   and convert(date,publ_fecha_ven,121) between convert(date,@fecha_desde,121) and convert(date,@fecha_hasta,121)
