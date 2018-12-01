@@ -32,7 +32,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.clie_nombre = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.clie_tipo_doc = new System.Windows.Forms.TextBox();
             this.clie_telefono = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.clie_cuil = new System.Windows.Forms.TextBox();
@@ -44,23 +43,30 @@
             this.label8 = new System.Windows.Forms.Label();
             this.clie_direccion = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.clie_mail = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.clie_nro_doc = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.clie_apellido = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.clie_estado = new System.Windows.Forms.ComboBox();
             this.clie_fecha_nac = new System.Windows.Forms.DateTimePicker();
             this.clie_fecha_crea = new System.Windows.Forms.DateTimePicker();
+            this.password = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.username = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.credenciales = new System.Windows.Forms.GroupBox();
+            this.clie_nro_doc = new System.Windows.Forms.MaskedTextBox();
+            this.clie_mail = new System.Windows.Forms.TextBox();
+            this.clie_tipo_doc = new System.Windows.Forms.TextBox();
+            this.credenciales.SuspendLayout();
             this.SuspendLayout();
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(72, 323);
+            this.modificar.Location = new System.Drawing.Point(74, 387);
             this.modificar.Name = "modificar";
             this.modificar.Size = new System.Drawing.Size(537, 43);
-            this.modificar.TabIndex = 1;
+            this.modificar.TabIndex = 13;
             this.modificar.Text = "Guardar";
             this.modificar.UseVisualStyleBackColor = true;
             this.modificar.Click += new System.EventHandler(this.modificar_Click);
@@ -79,7 +85,7 @@
             this.clie_nombre.Location = new System.Drawing.Point(153, 31);
             this.clie_nombre.Name = "clie_nombre";
             this.clie_nombre.Size = new System.Drawing.Size(162, 20);
-            this.clie_nombre.TabIndex = 3;
+            this.clie_nombre.TabIndex = 0;
             // 
             // label2
             // 
@@ -90,19 +96,12 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Tipo Doc.";
             // 
-            // clie_tipo_doc
-            // 
-            this.clie_tipo_doc.Location = new System.Drawing.Point(153, 81);
-            this.clie_tipo_doc.Name = "clie_tipo_doc";
-            this.clie_tipo_doc.Size = new System.Drawing.Size(162, 20);
-            this.clie_tipo_doc.TabIndex = 5;
-            // 
             // clie_telefono
             // 
             this.clie_telefono.Location = new System.Drawing.Point(153, 185);
             this.clie_telefono.Name = "clie_telefono";
             this.clie_telefono.Size = new System.Drawing.Size(162, 20);
-            this.clie_telefono.TabIndex = 9;
+            this.clie_telefono.TabIndex = 6;
             // 
             // label3
             // 
@@ -118,7 +117,7 @@
             this.clie_cuil.Location = new System.Drawing.Point(153, 135);
             this.clie_cuil.Name = "clie_cuil";
             this.clie_cuil.Size = new System.Drawing.Size(162, 20);
-            this.clie_cuil.TabIndex = 7;
+            this.clie_cuil.TabIndex = 4;
             // 
             // label4
             // 
@@ -134,7 +133,7 @@
             this.clie_datos_tarjeta.Location = new System.Drawing.Point(153, 286);
             this.clie_datos_tarjeta.Name = "clie_datos_tarjeta";
             this.clie_datos_tarjeta.Size = new System.Drawing.Size(162, 20);
-            this.clie_datos_tarjeta.TabIndex = 13;
+            this.clie_datos_tarjeta.TabIndex = 10;
             // 
             // label5
             // 
@@ -177,7 +176,7 @@
             this.clie_direccion.Location = new System.Drawing.Point(447, 185);
             this.clie_direccion.Name = "clie_direccion";
             this.clie_direccion.Size = new System.Drawing.Size(162, 20);
-            this.clie_direccion.TabIndex = 21;
+            this.clie_direccion.TabIndex = 7;
             // 
             // label9
             // 
@@ -188,13 +187,6 @@
             this.label9.TabIndex = 20;
             this.label9.Text = "Direccion";
             // 
-            // clie_mail
-            // 
-            this.clie_mail.Location = new System.Drawing.Point(447, 135);
-            this.clie_mail.Name = "clie_mail";
-            this.clie_mail.Size = new System.Drawing.Size(162, 20);
-            this.clie_mail.TabIndex = 19;
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -203,13 +195,6 @@
             this.label10.Size = new System.Drawing.Size(26, 13);
             this.label10.TabIndex = 18;
             this.label10.Text = "Mail";
-            // 
-            // clie_nro_doc
-            // 
-            this.clie_nro_doc.Location = new System.Drawing.Point(447, 81);
-            this.clie_nro_doc.Name = "clie_nro_doc";
-            this.clie_nro_doc.Size = new System.Drawing.Size(162, 20);
-            this.clie_nro_doc.TabIndex = 17;
             // 
             // label11
             // 
@@ -225,7 +210,7 @@
             this.clie_apellido.Location = new System.Drawing.Point(447, 31);
             this.clie_apellido.Name = "clie_apellido";
             this.clie_apellido.Size = new System.Drawing.Size(162, 20);
-            this.clie_apellido.TabIndex = 15;
+            this.clie_apellido.TabIndex = 1;
             // 
             // label12
             // 
@@ -242,7 +227,7 @@
             this.clie_estado.Location = new System.Drawing.Point(447, 284);
             this.clie_estado.Name = "clie_estado";
             this.clie_estado.Size = new System.Drawing.Size(161, 21);
-            this.clie_estado.TabIndex = 25;
+            this.clie_estado.TabIndex = 11;
             // 
             // clie_fecha_nac
             // 
@@ -250,7 +235,7 @@
             this.clie_fecha_nac.Location = new System.Drawing.Point(154, 237);
             this.clie_fecha_nac.Name = "clie_fecha_nac";
             this.clie_fecha_nac.Size = new System.Drawing.Size(160, 20);
-            this.clie_fecha_nac.TabIndex = 26;
+            this.clie_fecha_nac.TabIndex = 8;
             // 
             // clie_fecha_crea
             // 
@@ -258,13 +243,83 @@
             this.clie_fecha_crea.Location = new System.Drawing.Point(451, 237);
             this.clie_fecha_crea.Name = "clie_fecha_crea";
             this.clie_fecha_crea.Size = new System.Drawing.Size(160, 20);
-            this.clie_fecha_crea.TabIndex = 27;
+            this.clie_fecha_crea.TabIndex = 9;
+            // 
+            // password
+            // 
+            this.password.Location = new System.Drawing.Point(394, 23);
+            this.password.Name = "password";
+            this.password.Size = new System.Drawing.Size(162, 20);
+            this.password.TabIndex = 1;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(310, 26);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 13);
+            this.label13.TabIndex = 30;
+            this.label13.Text = "Password";
+            // 
+            // username
+            // 
+            this.username.Location = new System.Drawing.Point(100, 23);
+            this.username.Name = "username";
+            this.username.Size = new System.Drawing.Size(162, 20);
+            this.username.TabIndex = 0;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(16, 26);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(55, 13);
+            this.label14.TabIndex = 28;
+            this.label14.Text = "Username";
+            // 
+            // credenciales
+            // 
+            this.credenciales.Controls.Add(this.label14);
+            this.credenciales.Controls.Add(this.password);
+            this.credenciales.Controls.Add(this.username);
+            this.credenciales.Controls.Add(this.label13);
+            this.credenciales.Location = new System.Drawing.Point(53, 318);
+            this.credenciales.Name = "credenciales";
+            this.credenciales.Size = new System.Drawing.Size(568, 58);
+            this.credenciales.TabIndex = 12;
+            this.credenciales.TabStop = false;
+            this.credenciales.Text = "Credenciales";
+            // 
+            // clie_nro_doc
+            // 
+            this.clie_nro_doc.Location = new System.Drawing.Point(446, 81);
+            this.clie_nro_doc.Mask = "90000000";
+            this.clie_nro_doc.Name = "clie_nro_doc";
+            this.clie_nro_doc.Size = new System.Drawing.Size(162, 20);
+            this.clie_nro_doc.TabIndex = 3;
+            // 
+            // clie_mail
+            // 
+            this.clie_mail.Location = new System.Drawing.Point(447, 135);
+            this.clie_mail.Name = "clie_mail";
+            this.clie_mail.Size = new System.Drawing.Size(162, 20);
+            this.clie_mail.TabIndex = 5;
+            // 
+            // clie_tipo_doc
+            // 
+            this.clie_tipo_doc.Location = new System.Drawing.Point(154, 81);
+            this.clie_tipo_doc.Name = "clie_tipo_doc";
+            this.clie_tipo_doc.Size = new System.Drawing.Size(162, 20);
+            this.clie_tipo_doc.TabIndex = 2;
             // 
             // ModificarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 378);
+            this.ClientSize = new System.Drawing.Size(690, 442);
+            this.Controls.Add(this.clie_tipo_doc);
+            this.Controls.Add(this.clie_nro_doc);
+            this.Controls.Add(this.credenciales);
             this.Controls.Add(this.clie_fecha_crea);
             this.Controls.Add(this.clie_fecha_nac);
             this.Controls.Add(this.clie_estado);
@@ -274,7 +329,6 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.clie_mail);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.clie_nro_doc);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.clie_apellido);
             this.Controls.Add(this.label12);
@@ -285,13 +339,14 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.clie_cuil);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.clie_tipo_doc);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.clie_nombre);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.modificar);
             this.Name = "ModificarCliente";
             this.Text = "Datos Cliente";
+            this.credenciales.ResumeLayout(false);
+            this.credenciales.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -301,9 +356,8 @@
 
         private System.Windows.Forms.Button modificar;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox clie_nombre;
+        private System.Windows.Forms.TextBox @clie_nombre;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox clie_tipo_doc;
         private System.Windows.Forms.TextBox clie_telefono;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox clie_cuil;
@@ -315,14 +369,20 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox clie_direccion;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox clie_mail;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox clie_nro_doc;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox clie_apellido;
+        private System.Windows.Forms.TextBox @clie_apellido;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox clie_estado;
         private System.Windows.Forms.DateTimePicker clie_fecha_nac;
         private System.Windows.Forms.DateTimePicker clie_fecha_crea;
+        private System.Windows.Forms.TextBox password;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox username;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.GroupBox credenciales;
+        private System.Windows.Forms.MaskedTextBox clie_nro_doc;
+        private System.Windows.Forms.TextBox clie_mail;
+        private System.Windows.Forms.TextBox @clie_tipo_doc;
     }
 }

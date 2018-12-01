@@ -97,7 +97,7 @@ namespace PalcoNet
                     proximaPantalla.ShowDialog();
                 }
                 catch (Exception ex) {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message,"Se produjo el siguiente error");
                 }
                 this.Show();
             }

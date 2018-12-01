@@ -1,7 +1,6 @@
 ﻿using PalcoNet.Utils;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace PalcoNet.AbmCliente
 {
@@ -36,46 +35,45 @@ namespace PalcoNet.AbmCliente
         }
 
 
-        public void upsertDatosCliente(decimal idCliente, Dictionary<string, object> dict)
+        public DataTable upsertDatosCliente(decimal idCliente, Dictionary<string, object> dict)
         {
-            string queryStr;
             if (idCliente == -1) {
-                queryStr = insertClienteString(dict);
+                return insertCliente(dict);
             } else {
-                queryStr = updateClienteString(idCliente, dict);
+                return updateCliente(idCliente, dict);
             }
-            //System.Diagnostics.Debug.WriteLine(queryStr);
-            var reader = query(queryStr, dict);
-            reader.Dispose();
         }
 
-        private string updateClienteString(decimal idCliente, Dictionary<string, object> dict) {
-            string query = "update PEL.cliente set ";
+        private DataTable updateCliente(decimal idCliente, Dictionary<string, object> dict) {
+            dict.Remove("username");
+            dict.Remove("password");
+
+            string queryStr = "update PEL.cliente set ";
             foreach (var entry in dict)
             {
-                query += entry.Key+" = @"+entry.Key+" ,";
+                queryStr += entry.Key + " = @" + entry.Key + " ,";
             }
-            query = query.TrimEnd(',');
-            query += "where clie_id = " + idCliente;
-            return query;
+            queryStr = queryStr.TrimEnd(',');
+            queryStr += "where clie_id = " + idCliente;
+
+            Dictionary<string, object> queryParams = new Dictionary<string, object>();
+            foreach (var item in dict)
+            {
+                queryParams.Add("@"+item.Key, item.Value);
+            }
+
+            return query(queryStr, queryParams);
         }
 
-        private string insertClienteString(Dictionary<string, object> dict)
+        private DataTable insertCliente(Dictionary<string, object> dict)
         {
-            string query = "insert PEL.cliente (";
-            foreach (var entry in dict)
-            {
-                query += entry.Key + " ,";
+            Dictionary<string, object> procParams = new Dictionary<string,object>();
+            foreach (var item in dict) {
+                procParams.Add(item.Key.Replace("clie_", "@"), item.Value);
             }
-            query = query.TrimEnd(',');
-            query += ") values (";
-            foreach (var entry in dict)
-            {
-                query += "@"+entry.Key + " ,";
-            }
-            query = query.TrimEnd(',');
-            query += ")";
-            return query;
+            procParams.Remove("@estado"); //el sp le mete alta
+
+            return procedure("PEL.registrar_usuario_cliente", procParams);
         }
     }
 }

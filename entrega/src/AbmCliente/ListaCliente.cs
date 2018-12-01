@@ -39,14 +39,14 @@ namespace PalcoNet.AbmCliente
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             id_clickeado = (decimal)datagrid["clie_id", e.RowIndex].Value;
             this.Hide();
-            new ModificarCliente(id_clickeado).ShowDialog();
+            new ModificarCliente(id_clickeado,true).ShowDialog();
             this.Show();
             buscar_Click(sender, e);
         }
 
         private void crear_Click(object sender, EventArgs e) {
             this.Hide();
-            new ModificarCliente().ShowDialog();
+            new ModificarCliente(-1,true).ShowDialog();
             this.Show();
             buscar_Click(sender, e);
         }

@@ -1,4 +1,5 @@
 ﻿using PalcoNet.AbmCliente;
+using PalcoNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,13 +16,16 @@ namespace PalcoNet.AbmCliente
     public partial class ModificarCliente : Form
     {
         private decimal idCliente;
+        private Boolean esABM;
 
-        public ModificarCliente() : this(-1){}
-
-        public ModificarCliente(Decimal idCliente)
+        public ModificarCliente(Decimal idCliente, Boolean esABM)
         {
             this.idCliente = idCliente;
+            this.esABM = esABM;
             InitializeComponent();
+
+            clie_fecha_crea.Value = Globales.getFechaHoy();
+            clie_fecha_nac.Value = Globales.getFechaHoy();
 
             clie_estado.DisplayMember = "Text";
             clie_estado.ValueMember = "Value";
@@ -32,8 +36,16 @@ namespace PalcoNet.AbmCliente
                     };
             clie_estado.BindingContext = new BindingContext();
 
+            if (esABM) {
+                username.ReadOnly = true;
+                password.ReadOnly = true;
+            } else {
+                password.PasswordChar = '*';
+            }
+
             if (idCliente > 0) {
                 cargarCampos();
+                credenciales.Visible = false;
             }
         }
 
@@ -58,9 +70,18 @@ namespace PalcoNet.AbmCliente
             var dict = new Dictionary<string, object>();
 
             foreach (var control in Controls) {
-                if (control is TextBox) { 
+                if (control is TextBox ) { 
                     TextBox textbox = (TextBox) control;
                     dict.Add(textbox.Name, textbox.Text);
+                } else if (control is MaskedTextBox) {
+                    MaskedTextBox textbox = (MaskedTextBox)control;
+                    if (!textbox.MaskCompleted) {
+                        MessageBox.Show("Se requiere un dni valido");
+                        textbox.Focus();
+                        return;
+                    }
+                    dict.Add(textbox.Name, textbox.Text);
+
                 } else if (control is DateTimePicker) {
                     DateTimePicker datepicker = (DateTimePicker)control;
                     dict.Add(datepicker.Name, datepicker.Value);
@@ -72,13 +93,28 @@ namespace PalcoNet.AbmCliente
 
             try
             {
-                new ClienteDAO().upsertDatosCliente(idCliente, dict);
+                var dt = new ClienteDAO().upsertDatosCliente(idCliente, dict);
+                if (idCliente > 0) {
+                    this.Hide();
+                    return;
+                }
+
+                var resultado = dt.Rows[0];
+
+                if (Convert.ToInt16(resultado["usuario"]) == -1) {
+                    MessageBox.Show(resultado["mensaje"].ToString());
+                    return;
+                }
+
+                modificar.Enabled = false;
+                username.Text = dt.Rows[0]["username"].ToString();
+                password.Text = dt.Rows[0]["password"].ToString();
+                MessageBox.Show("El usuario y la contraseña se han generado automaticamente.\nRecuerde anotarlos y comunicarlos al usuario de la cuenta.");
             }
             catch (SqlException ex) {
                 MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);
             }
             
-            this.Hide();
         }
 
     }
