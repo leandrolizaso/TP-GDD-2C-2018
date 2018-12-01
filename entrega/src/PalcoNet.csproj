@@ -33,7 +33,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -84,11 +88,88 @@
       <DependentUpon>ModificarGrado.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\RolDAO.cs" />
+    <Compile Include="CanjePuntos\CanjePremio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CanjePuntos\CanjePremio.Designer.cs">
+      <DependentUpon>CanjePremio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CanjePuntos\ListaPuntos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CanjePuntos\ListaPuntos.Designer.cs">
+      <DependentUpon>ListaPuntos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comprar\ListaPublicaciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprar\ListaPublicaciones.Designer.cs">
+      <DependentUpon>ListaPublicaciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comprar\Rubro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprar\Rubro.Designer.cs">
+      <DependentUpon>Rubro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comprar\RubroDAO.cs" />
+    <Compile Include="EditarPublicacion\EditarPublicacionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarPublicacion\EditarPublicacionForm.Designer.cs">
+      <DependentUpon>EditarPublicacionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditarPublicacion\EditarPublicacionDAO.cs" />
     <Compile Include="Funcionalidad.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Funcionalidad.Designer.cs">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HistorialCliente\HistorialDAO.cs" />
+    <Compile Include="HistorialCliente\HistorialCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistorialCliente\HistorialCliente.Designer.cs">
+      <DependentUpon>HistorialCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ComprasDAO.cs" />
+    <Compile Include="ListadoEstadistico\ListadoEmpresas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoEmpresas.Designer.cs">
+      <DependentUpon>ListadoEmpresas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoCompras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoCompras.Designer.cs">
+      <DependentUpon>ListadoCompras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoPuntos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoPuntos.Designer.cs">
+      <DependentUpon>ListadoPuntos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\Listados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\Listados.Designer.cs">
+      <DependentUpon>Listados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\PuntosDAO.cs" />
+    <Compile Include="ListadoEstadistico\SeleccionAño.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\SeleccionAño.Designer.cs">
+      <DependentUpon>SeleccionAño.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\SeleccionMes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\SeleccionMes.Designer.cs">
+      <DependentUpon>SeleccionMes.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -132,8 +213,44 @@
     <EmbeddedResource Include="AbmGrado\ModificarGrado.resx">
       <DependentUpon>ModificarGrado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CanjePuntos\CanjePremio.resx">
+      <DependentUpon>CanjePremio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CanjePuntos\ListaPuntos.resx">
+      <DependentUpon>ListaPuntos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comprar\ListaPublicaciones.resx">
+      <DependentUpon>ListaPublicaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comprar\Rubro.resx">
+      <DependentUpon>Rubro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarPublicacion\EditarPublicacionForm.resx">
+      <DependentUpon>EditarPublicacionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HistorialCliente\HistorialCliente.resx">
+      <DependentUpon>HistorialCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoCompras.resx">
+      <DependentUpon>ListadoCompras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoEmpresas.resx">
+      <DependentUpon>ListadoEmpresas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoPuntos.resx">
+      <DependentUpon>ListadoPuntos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\Listados.resx">
+      <DependentUpon>Listados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\SeleccionAño.resx">
+      <DependentUpon>SeleccionAño.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\SeleccionMes.resx">
+      <DependentUpon>SeleccionMes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -151,6 +268,8 @@
       <DependentUpon>SeleccionRol.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="application.properties" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -165,13 +284,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CanjePuntos\" />
-    <Folder Include="Comprar\" />
-    <Folder Include="EditarPublicacion\" />
     <Folder Include="GenerarPublicacion\" />
     <Folder Include="GenerarRendicionComisiones\" />
-    <Folder Include="HistorialCliente\" />
-    <Folder Include="ListadoEstadistico\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
