@@ -371,15 +371,22 @@ begin
 		end
 	else
 		begin
-			insert PEL.Cliente (clie_nombre, clie_apellido, clie_tipo_doc, clie_nro_doc, clie_cuil, clie_mail, clie_telefono, clie_fecha_nac, clie_fecha_crea, clie_direccion, clie_datos_tarjeta,clie_estado) values 
-			(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono, @fecha_nac, @fecha_crea, @direccion, @datos_tarjeta,'A')
+
+			begin try
+				insert PEL.Cliente (clie_nombre, clie_apellido, clie_tipo_doc, clie_nro_doc, clie_cuil, clie_mail, clie_telefono, clie_fecha_nac, clie_fecha_crea, clie_direccion, clie_datos_tarjeta,clie_estado) values 
+				(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono, @fecha_nac, @fecha_crea, @direccion, @datos_tarjeta,'A') 				
+			end try
+			begin catch
+				THROW 50001, 'Dni inválido', 1;
+			end catch
+
 		end
 
-	if(@username is null and @password is null)
-		begin
-			exec PEL.generar_username @data = @username output;
-			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
-		end
+	if(@username is null)
+		exec PEL.generar_username @data = @username output
+	if(@password is null)
+		set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+
 	
 	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash (@password),'R')
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
