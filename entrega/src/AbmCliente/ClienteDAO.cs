@@ -1,4 +1,5 @@
 ﻿using PalcoNet.Utils;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -74,6 +75,16 @@ namespace PalcoNet.AbmCliente
             procParams.Remove("@estado"); //el sp le mete alta
 
             return procedure("PEL.registrar_usuario_cliente", procParams);
+        }
+
+        public decimal obtenerCliente(decimal usuario)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@usua_id", usuario);
+            DataTable result = query("select clie_id "
+                        + "from pel.cliente join pel.usuario on clie_usuario = usua_id where usua_id = @usua_id", dict);
+            return Convert.ToDecimal(result.Rows[0][0]);
+
         }
     }
 }

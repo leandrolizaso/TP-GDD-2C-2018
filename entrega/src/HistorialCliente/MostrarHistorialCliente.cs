@@ -1,4 +1,5 @@
-﻿using PalcoNet.Utils;
+﻿using PalcoNet.AbmCliente;
+using PalcoNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace PalcoNet.HistorialCliente
         public MostrarHistorialCliente()
         {
             InitializeComponent();
-            idCliente = new HistorialDAO().obtenerCliente(Globales.idUsuarioLoggeado);
+            idCliente = new ClienteDAO().obtenerCliente(Globales.idUsuarioLoggeado);
             ultimaPagina = Convert.ToInt32(Math.Ceiling((new HistorialDAO().totalPaginas(idCliente)) / 10));
             this.llenar_grilla();
 
