@@ -332,12 +332,13 @@ go
 
 
 create procedure PEL.registrar_usuario_cliente
-		(@nombre nvarchar(255), @apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),
+		(@username nvarchar(50),@password nvarchar(255),
+		@nombre nvarchar(255), @apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),
 		@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255))
 as
 begin
 
-	declare @username nvarchar(50),@password nvarchar(255),@usua_id numeric (18,0),@mensaje nvarchar(255)
+	declare @usua_id numeric (18,0),@mensaje nvarchar(255)
 	 
 	if(@nro_doc is null)
 		begin
@@ -395,11 +396,12 @@ go
 
 
 create procedure PEL.registrar_usuario_empresa
-		(@direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255))
+		(@username nvarchar(50),@password nvarchar(255),
+		@direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255))
 as
 begin
 	
-	declare @username nvarchar(50),@password nvarchar(255),@usua_id numeric (18,0),@mensaje nvarchar(255)
+	declare @usua_id numeric (18,0),@mensaje nvarchar(255)
 
 	if(@direccion is null or @razon_social is null or @cuit is null or @mail is null)
 		begin
