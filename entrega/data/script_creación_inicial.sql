@@ -916,6 +916,7 @@ AS
 
 	if PATINDEX('[0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9]',@cuit)= 0
 		begin
+		throw 50000,'CUIT incorrecto',1;	
 		rollback
 		end
 GO
