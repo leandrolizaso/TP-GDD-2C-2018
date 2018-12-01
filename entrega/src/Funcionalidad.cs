@@ -45,6 +45,8 @@ namespace PalcoNet
 
             Form proximaPantalla = null;
             
+
+
             switch(button.Name.Substring(6)) {
                 case "1":  //roles
                     System.Windows.Forms.MessageBox.Show("ROLES"); 
@@ -59,7 +61,25 @@ namespace PalcoNet
                     proximaPantalla = new ListaGrado();
                     break;
                 case "5": 
-                    System.Windows.Forms.MessageBox.Show("CATEGORIA"); 
+                    System.Windows.Forms.MessageBox.Show("CATEGORIA??????"); 
+                    break;
+                case "6": 
+                    System.Windows.Forms.MessageBox.Show("COMPRAR"); 
+                    break;
+                case "7":
+                    System.Windows.Forms.MessageBox.Show("CANJE Y ADMINISTRACION DE PUNTOS");
+                    break;
+                case "8":
+                    System.Windows.Forms.MessageBox.Show("GENERAR PUBLICACION");
+                    break;
+                case "9":
+                    System.Windows.Forms.MessageBox.Show("EDITAR PUBLICACION");
+                    break;
+                case "10":
+                    System.Windows.Forms.MessageBox.Show("CONSULTA HISTORIAL");
+                    break;
+                case "11":
+                    System.Windows.Forms.MessageBox.Show("GENERAR RENDICION");
                     break;
                 case "12":
                     proximaPantalla = new ListadosSeleccionAnio();
