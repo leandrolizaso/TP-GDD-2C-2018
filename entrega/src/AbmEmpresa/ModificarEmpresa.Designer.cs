@@ -33,7 +33,6 @@
             this.empr_razon_social = new System.Windows.Forms.TextBox();
             this.empr_telefono = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.empr_cuit = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.empr_direccion = new System.Windows.Forms.TextBox();
@@ -41,11 +40,19 @@
             this.empr_mail = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.empr_estado = new System.Windows.Forms.ComboBox();
+            this.credenciales = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.password = new System.Windows.Forms.TextBox();
+            this.username = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.empr_cuit = new System.Windows.Forms.MaskedTextBox();
+            this.empr_fecha = new System.Windows.Forms.DateTimePicker();
+            this.credenciales.SuspendLayout();
             this.SuspendLayout();
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(72, 255);
+            this.modificar.Location = new System.Drawing.Point(72, 324);
             this.modificar.Name = "modificar";
             this.modificar.Size = new System.Drawing.Size(537, 43);
             this.modificar.TabIndex = 1;
@@ -84,13 +91,6 @@
             this.label3.Size = new System.Drawing.Size(49, 13);
             this.label3.TabIndex = 8;
             this.label3.Text = "Telefono";
-            // 
-            // empr_cuit
-            // 
-            this.empr_cuit.Location = new System.Drawing.Point(153, 82);
-            this.empr_cuit.Name = "empr_cuit";
-            this.empr_cuit.Size = new System.Drawing.Size(162, 20);
-            this.empr_cuit.TabIndex = 7;
             // 
             // label4
             // 
@@ -150,11 +150,76 @@
             this.empr_estado.Size = new System.Drawing.Size(161, 21);
             this.empr_estado.TabIndex = 25;
             // 
+            // credenciales
+            // 
+            this.credenciales.Controls.Add(this.label14);
+            this.credenciales.Controls.Add(this.password);
+            this.credenciales.Controls.Add(this.username);
+            this.credenciales.Controls.Add(this.label13);
+            this.credenciales.Location = new System.Drawing.Point(53, 229);
+            this.credenciales.Name = "credenciales";
+            this.credenciales.Size = new System.Drawing.Size(568, 58);
+            this.credenciales.TabIndex = 26;
+            this.credenciales.TabStop = false;
+            this.credenciales.Text = "Credenciales";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(16, 26);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(55, 13);
+            this.label14.TabIndex = 28;
+            this.label14.Text = "Username";
+            // 
+            // password
+            // 
+            this.password.Location = new System.Drawing.Point(394, 23);
+            this.password.Name = "password";
+            this.password.Size = new System.Drawing.Size(162, 20);
+            this.password.TabIndex = 1;
+            // 
+            // username
+            // 
+            this.username.Location = new System.Drawing.Point(100, 23);
+            this.username.Name = "username";
+            this.username.Size = new System.Drawing.Size(162, 20);
+            this.username.TabIndex = 0;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(310, 26);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 13);
+            this.label13.TabIndex = 30;
+            this.label13.Text = "Password";
+            // 
+            // empr_cuit
+            // 
+            this.empr_cuit.Location = new System.Drawing.Point(153, 82);
+            this.empr_cuit.Mask = "00-00000000-0";
+            this.empr_cuit.Name = "empr_cuit";
+            this.empr_cuit.Size = new System.Drawing.Size(162, 20);
+            this.empr_cuit.TabIndex = 27;
+            // 
+            // empr_fecha
+            // 
+            this.empr_fecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.empr_fecha.Location = new System.Drawing.Point(154, 190);
+            this.empr_fecha.Name = "empr_fecha";
+            this.empr_fecha.Size = new System.Drawing.Size(160, 20);
+            this.empr_fecha.TabIndex = 28;
+            this.empr_fecha.Visible = false;
+            // 
             // ModificarEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 322);
+            this.ClientSize = new System.Drawing.Size(690, 384);
+            this.Controls.Add(this.empr_fecha);
+            this.Controls.Add(this.empr_cuit);
+            this.Controls.Add(this.credenciales);
             this.Controls.Add(this.empr_estado);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.empr_direccion);
@@ -163,13 +228,14 @@
             this.Controls.Add(this.label10);
             this.Controls.Add(this.empr_telefono);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.empr_cuit);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.empr_razon_social);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.modificar);
             this.Name = "ModificarEmpresa";
             this.Text = "Datos Empresa";
+            this.credenciales.ResumeLayout(false);
+            this.credenciales.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,7 +248,6 @@
         private System.Windows.Forms.TextBox empr_razon_social;
         private System.Windows.Forms.TextBox empr_telefono;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox empr_cuit;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox empr_direccion;
@@ -190,5 +255,12 @@
         private System.Windows.Forms.TextBox empr_mail;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox empr_estado;
+        private System.Windows.Forms.GroupBox credenciales;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox password;
+        private System.Windows.Forms.TextBox username;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.MaskedTextBox empr_cuit;
+        private System.Windows.Forms.DateTimePicker empr_fecha;
     }
 }

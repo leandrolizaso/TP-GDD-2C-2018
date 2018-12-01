@@ -38,14 +38,14 @@ namespace PalcoNet.AbmEmpresa
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             id_clickeado = (decimal)datagrid["empr_id", e.RowIndex].Value;
             this.Hide();
-            new ModificarEmpresa(id_clickeado).ShowDialog();
+            new ModificarEmpresa(id_clickeado,true).ShowDialog();
             this.Show();
             buscar_Click(sender, e);
         }
 
         private void crear_Click(object sender, EventArgs e) {
             this.Hide();
-            new ModificarEmpresa().ShowDialog();
+            new ModificarEmpresa(-1,true).ShowDialog();
             this.Show();
             buscar_Click(sender, e);
         }

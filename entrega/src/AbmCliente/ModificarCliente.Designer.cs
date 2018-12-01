@@ -293,7 +293,7 @@
             // clie_nro_doc
             // 
             this.clie_nro_doc.Location = new System.Drawing.Point(446, 81);
-            this.clie_nro_doc.Mask = "90000000";
+            this.clie_nro_doc.Mask = "00000009";
             this.clie_nro_doc.Name = "clie_nro_doc";
             this.clie_nro_doc.Size = new System.Drawing.Size(162, 20);
             this.clie_nro_doc.TabIndex = 3;
