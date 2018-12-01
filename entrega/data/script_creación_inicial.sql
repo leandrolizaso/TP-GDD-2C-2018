@@ -377,7 +377,10 @@ begin
 				(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono, @fecha_nac, @fecha_crea, @direccion, @datos_tarjeta,'A') 				
 			end try
 			begin catch
-				THROW 50001, 'Dni inválido', 1;
+				set @usua_id = -1
+				set @mensaje= 'El dni es inválido.'
+				select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
+				return
 			end catch
 
 		end
@@ -441,15 +444,22 @@ begin
 		end
 	else 
 		begin
-			insert into PEL.Empresa (empr_direccion, empr_razon_social, empr_cuit, empr_estado, empr_fecha, empr_telefono, empr_mail) 
-			values (@direccion, @razon_social, @cuit, 'A' , @fecha, @telefono, @mail)
+			begin try
+				insert into PEL.Empresa (empr_direccion, empr_razon_social, empr_cuit, empr_estado, empr_fecha, empr_telefono, empr_mail) 
+				values (@direccion, @razon_social, @cuit, 'A' , @fecha, @telefono, @mail)
+			end try
+			begin catch
+				set @usua_id = -1
+				set @mensaje= 'El cuit es inválido.'
+				select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
+				return
+			end catch
 		end
 
-	if(@username is null and @password is null)
-		begin
-			exec PEL.generar_username @data = @username output;
-			set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
-		end
+	if(@username is null)
+		exec PEL.generar_username @data = @username output;
+	if(@password is null) 
+		set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
 			
 	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash (@password),'R')
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
