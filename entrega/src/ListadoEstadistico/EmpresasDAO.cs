@@ -13,8 +13,8 @@ namespace PalcoNet.ListadoEstadistico
         internal DataTable obtenerEmpresas(DateTime fechaDesde, DateTime fechaHasta, decimal grado)
         {
             var dict = new Dictionary<string, object>();
-            dict.Add("@fecha_Desde", fechaDesde);
-            dict.Add("@fecha_Hasta", fechaHasta);
+            dict.Add("@fecha_desde", fechaDesde);
+            dict.Add("@fecha_hasta", fechaHasta);
             dict.Add("@grado", grado);
             return procedure("PEL.sp_listado_no_vendidas", dict);
         }
@@ -24,7 +24,7 @@ namespace PalcoNet.ListadoEstadistico
         internal DataTable obtenerDatosGrados()
         {
             var dict = new Dictionary<string, object>();
-            return query("select grad_descripcion, grad_id" + "from pel.grado", dict);
+            return query("select grad_descripcion, grad_id " + "from pel.grado", dict);
         }
     }
 }
