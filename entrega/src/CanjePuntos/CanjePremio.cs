@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PalcoNet.ListadoEstadistico;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,23 @@ namespace PalcoNet.CanjePuntos
 {
     public partial class CanjePremio : Form
     {
+        int totalPuntos;
+
         public CanjePremio()
         {
             InitializeComponent();
+            totalPuntos = new PuntosDAO().obtenerTotal();
+            puntos.Text = Convert.ToString(totalPuntos);
+            var dt = new PremioDAO().obtenerPremios(totalPuntos);
+            datagrid.DataSource = dt;
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.HeaderText = column.HeaderText.Replace("_", " ").Replace("puntos", " ").ToUpper();
+            }
+
+            DataGridViewButtonColumn clm = new DataGridViewButtonColumn();
+            clm.HeaderText = "Canjear";
+            datagrid.Columns.Add(clm);
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)

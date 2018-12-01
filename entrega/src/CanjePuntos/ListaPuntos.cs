@@ -13,9 +13,17 @@ namespace PalcoNet.CanjePuntos
 {
     public partial class ListaPuntos : Form
     {
+        int total;
+
         public ListaPuntos()
         {
             InitializeComponent();
+            this.cargarGrilla();
+        }
+
+        private void cargarGrilla()
+        {
+            
         }
 
         private void nombre_TextChanged(object sender, EventArgs e)
@@ -26,7 +34,8 @@ namespace PalcoNet.CanjePuntos
         private void crear_Click(object sender, EventArgs e)
         {
             PuntosDAO dao = new PuntosDAO();
-            label3.Text = Convert.ToString(dao.obtenerTotal());
+            total = dao.obtenerTotal();
+            label3.Text = Convert.ToString(total);
 
             var dt = dao.obtenerPuntos();
             dataGridView1.DataSource = dt;
