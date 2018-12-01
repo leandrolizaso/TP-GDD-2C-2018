@@ -20,7 +20,7 @@ namespace PalcoNet.ListadoEstadistico
         {
             InitializeComponent();
             this.anio = anio;
-            this.cargarComboBox();
+            cargarComboBox();
         }
 
         private void cargarComboBox()
@@ -40,12 +40,7 @@ namespace PalcoNet.ListadoEstadistico
             this.Hide();
             periodo = Fechas.getRango((int)comboMes.SelectedValue, anio);
             new listados(periodo[0], periodo[1]).ShowDialog();
-            this.Show();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

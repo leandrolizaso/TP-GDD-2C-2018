@@ -22,34 +22,22 @@ namespace PalcoNet.ListadoEstadistico
         private void cargarComboBox()
         {
             int anio = Globales.getFechaHoy().Year;
-
+            
             for (int i = 0; i < 25; i++)
             {
-                comboAnio.Text = Convert.ToString(anio -i);  
+                comboAnio.Items.Add(anio-i);  
             }
-        }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-            
-
-        }
-
-        private void SeleccionAño_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            //comboAnio.BindingContext = new BindingContext();
+            comboAnio.SelectedIndex = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new SeleccionMes(Int32.Parse(comboAnio.SelectedText)).ShowDialog();
-            this.Show();
+            int anio = Convert.ToInt16(comboAnio.SelectedItem);
+            new SeleccionMes(anio).ShowDialog();
         }
+
     }
 }

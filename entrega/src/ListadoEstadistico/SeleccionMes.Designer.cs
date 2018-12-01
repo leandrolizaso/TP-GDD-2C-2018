@@ -60,7 +60,6 @@
             this.comboMes.Name = "comboMes";
             this.comboMes.Size = new System.Drawing.Size(121, 21);
             this.comboMes.TabIndex = 4;
-            this.comboMes.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // SeleccionMes
             // 

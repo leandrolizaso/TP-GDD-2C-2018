@@ -2,6 +2,7 @@
 using PalcoNet.AbmEmpresa;
 using PalcoNet.AbmGrado;
 using PalcoNet.AbmRol;
+using PalcoNet.ListadoEstadistico;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -59,6 +60,9 @@ namespace PalcoNet
                     break;
                 case "5": 
                     System.Windows.Forms.MessageBox.Show("CATEGORIA"); 
+                    break;
+                case "12":
+                    proximaPantalla = new SeleccionAño();
                     break;
                 default: 
                     System.Windows.Forms.MessageBox.Show("Ay.. nose."); 

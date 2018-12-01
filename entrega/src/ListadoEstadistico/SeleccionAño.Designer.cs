@@ -42,7 +42,6 @@
             this.label1.Size = new System.Drawing.Size(212, 29);
             this.label1.TabIndex = 0;
             this.label1.Text = "Seleccione el año ";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // comboAnio
             // 
@@ -51,7 +50,6 @@
             this.comboAnio.Name = "comboAnio";
             this.comboAnio.Size = new System.Drawing.Size(125, 21);
             this.comboAnio.TabIndex = 2;
-            this.comboAnio.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // button1
             // 
@@ -73,7 +71,6 @@
             this.Controls.Add(this.label1);
             this.Name = "SeleccionAño";
             this.Text = "Seleccion año";
-            this.Load += new System.EventHandler(this.SeleccionAño_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
