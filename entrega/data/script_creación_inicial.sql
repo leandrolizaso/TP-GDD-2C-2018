@@ -524,13 +524,13 @@ END
 GO
 				
 CREATE PROCEDURE PEL.sp_clientes_puntos_vencidos (@fecha varchar(30), @fecha_desde varchar(30), @fecha_hasta varchar(30))
-AS												--La primer fecha es la actual, las otras por el trimestre de consulta
+AS
 BEGIN
 SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, sum(compr_puntos_acum - compr_puntos_gast) as puntos 
 	FROM PEL.Cliente join Compra on compr_cliente = clie_id
-		where DATEDIFF(day, convert(date,@fecha,121), compr_fecha) > 30
-		and convert(date,compr_fecha,121) between convert(date,@fecha_desde,121) and convert(date,@fecha_hasta,121)
-		group by clie_id, clie_nombre, clie_apellido, clie_nro_doc
+		where convert(date,compr_fecha,121) between convert(date,@fecha_desde,121) and convert(date,@fecha_hasta,121)
+			 and convert(date,compr_fecha,121) not between dateadd(day,-30,convert(date,@fecha,121)) and convert(date,@fecha,121)
+		group by clie_id,clie_nombre, clie_apellido, clie_nro_doc
 		order by puntos desc
 END
 GO
