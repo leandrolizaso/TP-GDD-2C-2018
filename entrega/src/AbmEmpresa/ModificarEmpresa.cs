@@ -1,4 +1,5 @@
 ﻿using PalcoNet.AbmEmpresa;
+using PalcoNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,13 +16,15 @@ namespace PalcoNet.AbmEmpresa
     public partial class ModificarEmpresa : Form
     {
         private decimal idEmpresa;
+        private Boolean esABM;
 
-        public ModificarEmpresa() : this(-1){}
-
-        public ModificarEmpresa(Decimal idEmpresa)
+        public ModificarEmpresa(Decimal idEmpresa, Boolean esABM)
         {
             this.idEmpresa = idEmpresa;
+            this.esABM = esABM;
             InitializeComponent();
+
+            empr_fecha.Value = Globales.getFechaHoy();
 
             empr_estado.DisplayMember = "Text";
             empr_estado.ValueMember = "Value";
@@ -32,8 +35,16 @@ namespace PalcoNet.AbmEmpresa
                     };
             empr_estado.BindingContext = new BindingContext();
 
+            if (esABM) {
+                username.ReadOnly = true;
+                password.ReadOnly = true;
+            } else {
+                password.PasswordChar = '*';
+            }
+
             if (idEmpresa > 0) {
                 cargarCampos();
+                credenciales.Visible = false;
             }
         }
 
@@ -61,6 +72,14 @@ namespace PalcoNet.AbmEmpresa
                 if (control is TextBox) { 
                     TextBox textbox = (TextBox) control;
                     dict.Add(textbox.Name, textbox.Text);
+                } else if (control is MaskedTextBox) {
+                    MaskedTextBox textbox = (MaskedTextBox)control;
+                    if (!textbox.MaskCompleted) {
+                        MessageBox.Show("Se requiere un dni valido");
+                        textbox.Focus();
+                        return;
+                    }
+                    dict.Add(textbox.Name, textbox.Text);
                 } else if (control is DateTimePicker) {
                     DateTimePicker datepicker = (DateTimePicker)control;
                     dict.Add(datepicker.Name, datepicker.Value);
@@ -72,13 +91,31 @@ namespace PalcoNet.AbmEmpresa
 
             try
             {
-                new EmpresaDAO().upsertDatosEmpresa(idEmpresa, dict);
+                var dt = new EmpresaDAO().upsertDatosEmpresa(idEmpresa, dict);
+                if (idEmpresa > 0)
+                {
+                    this.Hide();
+                    return;
+                }
+
+                var resultado = dt.Rows[0];
+
+                if (Convert.ToInt16(resultado["usuario"]) == -1)
+                {
+                    MessageBox.Show(resultado["mensaje"].ToString());
+                    return;
+                }
+
+                modificar.Enabled = false;
+                username.Text = dt.Rows[0]["username"].ToString();
+                password.Text = dt.Rows[0]["password"].ToString();
+                MessageBox.Show("El usuario y la contraseña se han generado automaticamente.\nRecuerde anotarlos y comunicarlos al usuario de la cuenta.");
             }
-            catch (SqlException ex) {
+            catch (SqlException ex)
+            {
                 MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);
             }
-            
-            this.Hide();
+
         }
 
     }

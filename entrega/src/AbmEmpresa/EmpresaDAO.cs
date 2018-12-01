@@ -24,8 +24,8 @@ namespace PalcoNet.AbmEmpresa
             dict.Add("@cuit", cuit);
             dict.Add("@mail", mail);
 
-            return query("select empr_id, empr_razon_social,empr_mail,"
-                        +"empr_telefono,empr_direccion,empr_cuit, empr_estado "
+            return query("select empr_id, empr_razon_social,empr_mail,empr_telefono,"
+                        +"empr_direccion,empr_cuit, empr_fecha, empr_estado "
                         +"from pel.empresa "
                         + "where empr_razon_social like case when @razon != '' then '%'+@razon+'%' else empr_razon_social end "
                         + "and empr_cuit = isnull(nullif(@cuit,''),empr_cuit) " //match exacto
@@ -34,46 +34,47 @@ namespace PalcoNet.AbmEmpresa
         }
 
 
-        public void upsertDatosEmpresa(decimal idEmpresa, Dictionary<string, object> dict)
+        public DataTable upsertDatosEmpresa(decimal idEmpresa, Dictionary<string, object> dict)
         {
-            string queryStr;
             if (idEmpresa == -1) {
-                queryStr = insertEmpresaString(dict);
+                return insertEmpresa(dict);
             } else {
-                queryStr = updateEmpresaString(idEmpresa, dict);
+                return updateEmpresa(idEmpresa, dict);
             }
-            //System.Diagnostics.Debug.WriteLine(queryStr);
-            var reader = query(queryStr, dict);
-            reader.Dispose();
         }
 
-        private string updateEmpresaString(decimal idEmpresa, Dictionary<string, object> dict) {
-            string query = "update PEL.Empresa set ";
+        private DataTable updateEmpresa(decimal idEmpresa, Dictionary<string, object> dict) {
+            dict.Remove("username");
+            dict.Remove("password");
+
+            string queryStr = "update PEL.empresa set ";
             foreach (var entry in dict)
             {
-                query += entry.Key+" = @"+entry.Key+" ,";
+                queryStr += entry.Key + " = @" + entry.Key + " ,";
             }
-            query = query.TrimEnd(',');
-            query += "where empr_id = " + idEmpresa;
-            return query;
+            queryStr = queryStr.TrimEnd(',');
+            queryStr += "where empr_id = " + idEmpresa;
+
+            Dictionary<string, object> queryParams = new Dictionary<string, object>();
+            foreach (var item in dict)
+            {
+                queryParams.Add("@" + item.Key, item.Value);
+            }
+
+            return query(queryStr, queryParams);
+
         }
 
-        private string insertEmpresaString(Dictionary<string, object> dict)
+        private DataTable insertEmpresa(Dictionary<string, object> dict)
         {
-            string query = "insert PEL.Empresa (";
-            foreach (var entry in dict)
+            Dictionary<string, object> procParams = new Dictionary<string, object>();
+            foreach (var item in dict)
             {
-                query += entry.Key + " ,";
+                procParams.Add(item.Key.Replace("empr_", "@"), item.Value);
             }
-            query = query.TrimEnd(',');
-            query += ") values (";
-            foreach (var entry in dict)
-            {
-                query += "@"+entry.Key + " ,";
-            }
-            query = query.TrimEnd(',');
-            query += ")";
-            return query;
+            procParams.Remove("@estado"); //el sp le mete alta
+
+            return procedure("PEL.registrar_usuario_empresa", procParams);
         }
     }
 }
