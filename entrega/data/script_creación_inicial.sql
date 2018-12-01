@@ -1,4 +1,4 @@
---------------------------------------------------------------
+﻿--------------------------------------------------------------
 -------------------Creación del esquema-----------------------
 --------------------------------------------------------------
 
@@ -472,7 +472,7 @@ ORDER BY RowNum
 END
 GO
 
-CREATE PROCEDURE PEL.sp_total_crompas(@clie_id numeric(18,0))
+CREATE PROCEDURE PEL.sp_total_compras(@clie_id numeric(18,0))
 AS
 BEGIN
 SELECT count(compr_id) FROM PEL.Compra where compr_cliente = @clie_id
