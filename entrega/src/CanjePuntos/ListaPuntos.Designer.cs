@@ -33,6 +33,8 @@
             this.crear = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +50,7 @@
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(336, 15);
+            this.buscar.Location = new System.Drawing.Point(424, 15);
             this.buscar.Name = "buscar";
             this.buscar.Size = new System.Drawing.Size(101, 63);
             this.buscar.TabIndex = 8;
@@ -58,7 +60,7 @@
             // 
             // crear
             // 
-            this.crear.Location = new System.Drawing.Point(121, 15);
+            this.crear.Location = new System.Drawing.Point(256, 15);
             this.crear.Name = "crear";
             this.crear.Size = new System.Drawing.Size(96, 63);
             this.crear.TabIndex = 10;
@@ -76,6 +78,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.crear);
             this.groupBox1.Controls.Add(this.buscar);
@@ -85,6 +89,26 @@
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(109, 64);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(22, 24);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "--";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(48, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(147, 25);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Total de puntos";
             // 
             // ListaPuntos
             // 
@@ -110,5 +134,7 @@
         private System.Windows.Forms.Button crear;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
     }
 }
