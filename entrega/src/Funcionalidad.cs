@@ -4,6 +4,7 @@ using PalcoNet.AbmGrado;
 using PalcoNet.AbmRol;
 using PalcoNet.CanjePuntos;
 using PalcoNet.Comprar;
+using PalcoNet.EditarPublicacion;
 using PalcoNet.GenerarRendicionComisiones;
 using PalcoNet.HistorialCliente;
 using PalcoNet.ListadoEstadistico;
@@ -75,7 +76,7 @@ namespace PalcoNet
                     System.Windows.Forms.MessageBox.Show("GENERAR PUBLICACION");
                     break;
                 case "9":
-                    proximaPantalla = new ListaPublicaciones();
+                    proximaPantalla = new ListaPublicacionEditable();
                     break;
                 case "10":
                     proximaPantalla = new MostrarHistorialCliente();

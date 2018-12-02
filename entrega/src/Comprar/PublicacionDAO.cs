@@ -1,4 +1,5 @@
-﻿using PalcoNet.Utils;
+﻿using PalcoNet.AbmEmpresa;
+using PalcoNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,6 +22,7 @@ namespace PalcoNet.Comprar
             dict.Add("@pag", pagina);
             return procedure("PEL.sp_ver_publicaciones", dict);
         }
+        
 
         public double totalPaginas(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta)
         {
@@ -34,5 +36,35 @@ namespace PalcoNet.Comprar
             int total = Convert.ToInt32(result.Rows[0][0]);
             return total;
         }
+
+        internal DataTable obtenerPublicacionesEmpresa(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta, int pagina)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@empresa", new EmpresaDAO().obtenerEmpresa(Globales.idUsuarioLoggeado));
+            dict.Add("@fecha", Globales.getFechaHoy());
+            dict.Add("@categorias", categorias);
+            dict.Add("@detalle", detalle);
+            dict.Add("@desde", fechaDesde);
+            dict.Add("@hasta", fechaHasta);
+            dict.Add("@pag", pagina);
+            return procedure("PEL.sp_ver_publicaciones_empresa", dict);
+        }
+
+
+        public double totalPaginasEmpresa(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@empresa", new EmpresaDAO().obtenerEmpresa(Globales.idUsuarioLoggeado));
+            dict.Add("@fecha", Globales.getFechaHoy());
+            dict.Add("@categorias", categorias);
+            dict.Add("@detalle", detalle);
+            dict.Add("@desde", fechaDesde);
+            dict.Add("@hasta", fechaHasta);
+            DataTable result = procedure("PEL.sp_total_publicaciones_empresa", dict);
+            int total = Convert.ToInt32(result.Rows[0][0]);
+            return total;
+        }
+
+
     }
 }
