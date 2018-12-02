@@ -19,7 +19,7 @@ namespace PalcoNet.Comprar
             dict.Add("@desde", fechaDesde);
             dict.Add("@hasta", fechaHasta);
             dict.Add("@pag", pagina);
-            return procedure("PEL.sp_ver_compras", dict);
+            return procedure("PEL.sp_ver_publicaciones", dict);
         }
 
         public double totalPaginas(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta)
