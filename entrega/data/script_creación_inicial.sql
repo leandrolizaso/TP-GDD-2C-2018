@@ -517,12 +517,13 @@ GO
 
 
 
-CREATE PROCEDURE PEL.sp_total_publicaciones(@categorias nvarchar, @detalle varchar,@desde varchar(30),@hasta varchar(30))
+CREATE PROCEDURE PEL.sp_total_publicaciones(@categorias nvarchar, @detalle varchar,@desde varchar(30),@hasta varchar(30), @fecha varchar(30))
 AS
 BEGIN
 SELECT    count(publ_id)
 		  FROM      PEL.Publicacion 
 		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
+		  and  convert(date,publ_fecha_ven,121) > convert(date, @fecha, 121)
 		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and publ_descripcion like '%' + @detalle + '%'
