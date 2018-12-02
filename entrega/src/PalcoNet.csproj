@@ -107,6 +107,7 @@
     <Compile Include="Comprar\ListaPublicaciones.Designer.cs">
       <DependentUpon>ListaPublicaciones.cs</DependentUpon>
     </Compile>
+    <Compile Include="Comprar\PublicacionDAO.cs" />
     <Compile Include="Comprar\Rubro.cs">
       <SubType>Form</SubType>
     </Compile>

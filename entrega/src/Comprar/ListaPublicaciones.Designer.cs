@@ -31,16 +31,20 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Rubros = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.fecha_hasta = new System.Windows.Forms.DateTimePicker();
             this.limpiar = new System.Windows.Forms.Button();
-            this.clie_fecha_crea = new System.Windows.Forms.DateTimePicker();
+            this.fecha_desde = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.buscar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.nombre = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.datagrid = new System.Windows.Forms.DataGridView();
-            this.label5 = new System.Windows.Forms.Label();
+            this.pag = new System.Windows.Forms.Label();
+            this.primera = new System.Windows.Forms.Button();
+            this.anterior = new System.Windows.Forms.Button();
+            this.ultimo = new System.Windows.Forms.Button();
+            this.siguiente = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).BeginInit();
             this.SuspendLayout();
@@ -49,9 +53,9 @@
             // 
             this.groupBox1.Controls.Add(this.Rubros);
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.dateTimePicker1);
+            this.groupBox1.Controls.Add(this.fecha_hasta);
             this.groupBox1.Controls.Add(this.limpiar);
-            this.groupBox1.Controls.Add(this.clie_fecha_crea);
+            this.groupBox1.Controls.Add(this.fecha_desde);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.buscar);
             this.groupBox1.Controls.Add(this.label4);
@@ -59,7 +63,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(604, 101);
+            this.groupBox1.Size = new System.Drawing.Size(604, 102);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros";
@@ -70,6 +74,7 @@
             this.Rubros.Name = "Rubros";
             this.Rubros.Size = new System.Drawing.Size(184, 28);
             this.Rubros.TabIndex = 31;
+            this.Rubros.Paint += new System.Windows.Forms.PaintEventHandler(this.Rubros_Paint);
             // 
             // button1
             // 
@@ -81,13 +86,13 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // dateTimePicker1
+            // fecha_hasta
             // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(191, 59);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(102, 20);
-            this.dateTimePicker1.TabIndex = 29;
+            this.fecha_hasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.fecha_hasta.Location = new System.Drawing.Point(191, 59);
+            this.fecha_hasta.Name = "fecha_hasta";
+            this.fecha_hasta.Size = new System.Drawing.Size(102, 20);
+            this.fecha_hasta.TabIndex = 29;
             // 
             // limpiar
             // 
@@ -99,13 +104,13 @@
             this.limpiar.UseVisualStyleBackColor = true;
             this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
-            // clie_fecha_crea
+            // fecha_desde
             // 
-            this.clie_fecha_crea.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.clie_fecha_crea.Location = new System.Drawing.Point(63, 59);
-            this.clie_fecha_crea.Name = "clie_fecha_crea";
-            this.clie_fecha_crea.Size = new System.Drawing.Size(102, 20);
-            this.clie_fecha_crea.TabIndex = 28;
+            this.fecha_desde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.fecha_desde.Location = new System.Drawing.Point(63, 59);
+            this.fecha_desde.Name = "fecha_desde";
+            this.fecha_desde.Size = new System.Drawing.Size(102, 20);
+            this.fecha_desde.TabIndex = 28;
             // 
             // label1
             // 
@@ -141,6 +146,7 @@
             this.nombre.Name = "nombre";
             this.nombre.Size = new System.Drawing.Size(230, 20);
             this.nombre.TabIndex = 5;
+            this.nombre.TextChanged += new System.EventHandler(this.nombre_TextChanged);
             // 
             // label3
             // 
@@ -156,25 +162,69 @@
             this.datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datagrid.Location = new System.Drawing.Point(21, 132);
             this.datagrid.Name = "datagrid";
-            this.datagrid.Size = new System.Drawing.Size(603, 231);
+            this.datagrid.Size = new System.Drawing.Size(603, 284);
             this.datagrid.TabIndex = 16;
+            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
             // 
-            // label5
+            // pag
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(18, 116);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(182, 13);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "Click izquierdo en la fila para comprar";
+            this.pag.AutoSize = true;
+            this.pag.Location = new System.Drawing.Point(303, 430);
+            this.pag.Name = "pag";
+            this.pag.Size = new System.Drawing.Size(25, 13);
+            this.pag.TabIndex = 28;
+            this.pag.Text = "pag";
+            // 
+            // primera
+            // 
+            this.primera.Location = new System.Drawing.Point(212, 422);
+            this.primera.Name = "primera";
+            this.primera.Size = new System.Drawing.Size(28, 28);
+            this.primera.TabIndex = 27;
+            this.primera.Text = "<<";
+            this.primera.UseVisualStyleBackColor = true;
+            this.primera.Click += new System.EventHandler(this.primera_Click);
+            // 
+            // anterior
+            // 
+            this.anterior.Location = new System.Drawing.Point(256, 422);
+            this.anterior.Name = "anterior";
+            this.anterior.Size = new System.Drawing.Size(28, 28);
+            this.anterior.TabIndex = 26;
+            this.anterior.Text = "<";
+            this.anterior.UseVisualStyleBackColor = true;
+            this.anterior.Click += new System.EventHandler(this.anterior_Click);
+            // 
+            // ultimo
+            // 
+            this.ultimo.Location = new System.Drawing.Point(377, 422);
+            this.ultimo.Name = "ultimo";
+            this.ultimo.Size = new System.Drawing.Size(28, 28);
+            this.ultimo.TabIndex = 25;
+            this.ultimo.Text = ">>";
+            this.ultimo.UseVisualStyleBackColor = true;
+            this.ultimo.Click += new System.EventHandler(this.ultimo_Click);
+            // 
+            // siguiente
+            // 
+            this.siguiente.Location = new System.Drawing.Point(334, 422);
+            this.siguiente.Name = "siguiente";
+            this.siguiente.Size = new System.Drawing.Size(28, 28);
+            this.siguiente.TabIndex = 24;
+            this.siguiente.Text = ">";
+            this.siguiente.UseVisualStyleBackColor = true;
+            this.siguiente.Click += new System.EventHandler(this.siguiente_Click);
             // 
             // ListaPublicaciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 375);
-            this.Controls.Add(this.label5);
+            this.ClientSize = new System.Drawing.Size(636, 462);
+            this.Controls.Add(this.pag);
+            this.Controls.Add(this.primera);
+            this.Controls.Add(this.anterior);
+            this.Controls.Add(this.ultimo);
+            this.Controls.Add(this.siguiente);
             this.Controls.Add(this.datagrid);
             this.Controls.Add(this.groupBox1);
             this.Name = "ListaPublicaciones";
@@ -197,10 +247,14 @@
         private System.Windows.Forms.TextBox nombre;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView datagrid;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DateTimePicker clie_fecha_crea;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.DateTimePicker fecha_hasta;
+        private System.Windows.Forms.DateTimePicker fecha_desde;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.FlowLayoutPanel Rubros;
+        private System.Windows.Forms.Label pag;
+        private System.Windows.Forms.Button primera;
+        private System.Windows.Forms.Button anterior;
+        private System.Windows.Forms.Button ultimo;
+        private System.Windows.Forms.Button siguiente;
     }
 }
