@@ -674,12 +674,13 @@ begin
 end
 go
 
-CREATE PROCEDURE PEL.sp_canjear_premio (@cliente numeric(18,0), @premio numeric(18,0), @fecha varchar(30))
+CREATE PROCEDURE PEL.sp_canjear_premio (@cliente numeric(18,0), @premio varchar(50), @fecha varchar(30))
 AS
 BEGIN
-	DECLARE @puntos numeric(18,2)
-	select @puntos = prem_costo_puntos from PEL.Premio where prem_id = @premio
-	INSERT INTO PEL.Canje values (@cliente, @premio, convert(datetime,@fecha,121),@puntos)
+	DECLARE @puntos numeric(18,2), @id_premio numeric(18,0)
+	select @puntos = prem_costo_puntos, @id_premio = prem_id from PEL.Premio where prem_descripcion = @premio
+	INSERT INTO PEL.Canje values (@cliente,@id_premio, convert(datetime,@fecha,121),@puntos)
+	select @puntos
 END
 GO
 
@@ -939,3 +940,7 @@ AS
 		rollback
 		end
 GO
+
+
+
+

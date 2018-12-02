@@ -23,7 +23,15 @@ namespace PalcoNet.ListadoEstadistico
             var dict = new Dictionary<string, object>();
             dict.Add("@fecha", Globales.getFechaHoy());
             dict.Add("@usua_id", Globales.idUsuarioLoggeado);
-            return Convert.ToInt32(procedure("PEL.sp_total_puntos", dict).Rows[0][0]);
+            var dt = procedure("PEL.sp_total_puntos", dict);
+            if (dt.Rows.Count > 0)
+            {
+                return Convert.ToInt32(dt.Rows[0][0]);
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public DataTable obtenerPuntos()

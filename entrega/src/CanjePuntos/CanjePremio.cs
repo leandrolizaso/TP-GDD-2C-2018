@@ -14,24 +14,26 @@ namespace PalcoNet.CanjePuntos
     public partial class CanjePremio : Form
     {
         int totalPuntos;
+        DataTable dt;
 
         public CanjePremio()
         {
             InitializeComponent();
             totalPuntos = new PuntosDAO().obtenerTotal();
             puntos.Text = Convert.ToString(totalPuntos);
-            var dt = new PremioDAO().obtenerPremios(totalPuntos);
+            dt = new PremioDAO().obtenerPremios(totalPuntos);
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
                 column.HeaderText = column.HeaderText.Replace("_", " ").Replace("puntos", " ").ToUpper();
             }
 
-            DataGridViewButtonColumn clm = new DataGridViewButtonColumn();
-            clm.HeaderText = "Canjear";
+            var clm = new DataGridViewButtonColumn();
+            clm.Text = "Canjear";
+            clm.UseColumnTextForButtonValue = true;
             datagrid.Columns.Add(clm);
         }
-
+   
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
@@ -44,7 +46,16 @@ namespace PalcoNet.CanjePuntos
 
         private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            var senderGrid = (DataGridView)sender;
 
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
+                e.RowIndex >= 0)
+            {
+                string premio = Convert.ToString(dt.Rows[e.RowIndex][0]);
+                decimal puntos = new PremioDAO().canjearPremio(premio);
+                new PremioDAO().descontarPuntos(puntos);
+                this.Close();
+            }
         }
 
         private void label4_Click(object sender, EventArgs e)

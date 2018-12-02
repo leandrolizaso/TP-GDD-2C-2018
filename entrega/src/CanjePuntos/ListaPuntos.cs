@@ -18,7 +18,6 @@ namespace PalcoNet.CanjePuntos
         public ListaPuntos()
         {
             InitializeComponent();
-            this.cargarGrilla();
         }
 
         private void cargarGrilla()
@@ -33,10 +32,8 @@ namespace PalcoNet.CanjePuntos
 
         private void crear_Click(object sender, EventArgs e)
         {
+            this.actualizarPuntos();
             PuntosDAO dao = new PuntosDAO();
-            total = dao.obtenerTotal();
-            label3.Text = Convert.ToString(total);
-
             var dt = dao.obtenerPuntos();
             dataGridView1.DataSource = dt;
             foreach (DataGridViewColumn column in dataGridView1.Columns)
@@ -47,7 +44,7 @@ namespace PalcoNet.CanjePuntos
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
-
+            
         }
 
         private void buscar_Click(object sender, EventArgs e)
@@ -55,10 +52,18 @@ namespace PalcoNet.CanjePuntos
             this.Hide();
             new CanjePremio().ShowDialog();
             this.Show();
+            this.actualizarPuntos();
 
 
         }
 
+        private void actualizarPuntos()
+        {
+            PuntosDAO dao = new PuntosDAO();
+            total = dao.obtenerTotal();
+            label3.Text = Convert.ToString(total);
+        }
+       
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -67,6 +72,18 @@ namespace PalcoNet.CanjePuntos
         private void ListaPuntos_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void premios_Click(object sender, EventArgs e)
+        {
+
+            PremioDAO dao = new PremioDAO();
+            var dt = dao.obtenerPremiosCliente();
+            dataGridView1.DataSource = dt;
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                column.HeaderText = column.HeaderText.Replace("_", " ").Replace("canje", " ").ToUpper();
+            }
         }
     }
 }

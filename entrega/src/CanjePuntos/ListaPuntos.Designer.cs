@@ -30,11 +30,12 @@
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.buscar = new System.Windows.Forms.Button();
-            this.crear = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.premios = new System.Windows.Forms.Button();
+            this.crear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -50,23 +51,13 @@
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(424, 15);
+            this.buscar.Location = new System.Drawing.Point(354, 15);
             this.buscar.Name = "buscar";
             this.buscar.Size = new System.Drawing.Size(101, 63);
             this.buscar.TabIndex = 8;
             this.buscar.Text = "Canjear puntos";
             this.buscar.UseVisualStyleBackColor = true;
             this.buscar.Click += new System.EventHandler(this.buscar_Click);
-            // 
-            // crear
-            // 
-            this.crear.Location = new System.Drawing.Point(256, 15);
-            this.crear.Name = "crear";
-            this.crear.Size = new System.Drawing.Size(96, 63);
-            this.crear.TabIndex = 10;
-            this.crear.Text = "Ver puntos";
-            this.crear.UseVisualStyleBackColor = true;
-            this.crear.Click += new System.EventHandler(this.crear_Click);
             // 
             // label1
             // 
@@ -78,6 +69,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.premios);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
@@ -94,7 +86,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(109, 64);
+            this.label3.Location = new System.Drawing.Point(103, 54);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(22, 24);
             this.label3.TabIndex = 14;
@@ -109,6 +101,26 @@
             this.label2.Size = new System.Drawing.Size(147, 25);
             this.label2.TabIndex = 13;
             this.label2.Text = "Total de puntos";
+            // 
+            // premios
+            // 
+            this.premios.Location = new System.Drawing.Point(482, 15);
+            this.premios.Name = "premios";
+            this.premios.Size = new System.Drawing.Size(101, 63);
+            this.premios.TabIndex = 15;
+            this.premios.Text = "Ver premios canjeados";
+            this.premios.UseVisualStyleBackColor = true;
+            this.premios.Click += new System.EventHandler(this.premios_Click);
+            // 
+            // crear
+            // 
+            this.crear.Location = new System.Drawing.Point(226, 15);
+            this.crear.Name = "crear";
+            this.crear.Size = new System.Drawing.Size(96, 63);
+            this.crear.TabIndex = 10;
+            this.crear.Text = "Ver puntos";
+            this.crear.UseVisualStyleBackColor = true;
+            this.crear.Click += new System.EventHandler(this.crear_Click);
             // 
             // ListaPuntos
             // 
@@ -131,10 +143,11 @@
 
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button buscar;
-        private System.Windows.Forms.Button crear;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button premios;
+        private System.Windows.Forms.Button crear;
     }
 }
