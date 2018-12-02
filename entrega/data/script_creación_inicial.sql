@@ -530,6 +530,37 @@ SELECT    count(publ_id)
 END
 GO
 
+CREATE PROCEDURE PEL.sp_ver_publicaciones_empresa (@categorias nvarchar, @detalle varchar,@desde varchar(30),@hasta varchar(30),@fecha varchar(30) ,@pag int, @empresa numeric(18,0))
+AS
+BEGIN	  
+SELECT  publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro
+FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
+          FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id and convert(date,publ_fecha_ven,121) > convert(date, @fecha, 121) and publ_empresa_resp = @empresa
+		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
+		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
+		  and publ_descripcion like '%' + @detalle + '%'
+        ) AS RowConstrainedResult
+WHERE   RowNum > (@pag-1)*10 
+    AND RowNum <= @pag*10
+ORDER BY RowNum
+END
+GO
+
+
+
+CREATE PROCEDURE PEL.sp_total_publicaciones_empresa(@categorias nvarchar, @detalle varchar,@desde varchar(30),@hasta varchar(30), @fecha varchar(30), @empresa numeric(18,0))
+AS
+BEGIN
+SELECT    count(publ_id)
+		  FROM      PEL.Publicacion 
+		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,',')) and publ_empresa_resp = @empresa
+		  and  convert(date,publ_fecha_ven,121) > convert(date, @fecha, 121)
+		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
+		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
+		  and publ_descripcion like '%' + @detalle + '%'
+END
+GO
+
 --Listados estadisticos
 
 CREATE PROCEDURE PEL.sp_listado_no_vendidas (@grado numeric(18,0), @fecha_desde varchar(30),@fecha_hasta varchar(30))
