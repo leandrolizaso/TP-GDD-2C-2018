@@ -37,5 +37,13 @@ namespace PalcoNet.GenerarRendicionComisiones
                         + "from pel.factura join pel.ubicacion on ubic_factura = fact_id and fact_id = @factura", dict);
         }
 
+        internal int cantidadARendir()
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@empresa", new EmpresaDAO().obtenerEmpresa(Globales.idUsuarioLoggeado));
+            var dt = procedure("PEL.sp_cantidad_a_rendir", dict);
+            return Convert.ToInt32(dt.Rows[0][0]);
+           
+        }
     }
 }

@@ -4,6 +4,7 @@ using PalcoNet.AbmGrado;
 using PalcoNet.AbmRol;
 using PalcoNet.CanjePuntos;
 using PalcoNet.Comprar;
+using PalcoNet.GenerarRendicionComisiones;
 using PalcoNet.HistorialCliente;
 using PalcoNet.ListadoEstadistico;
 using System;
@@ -80,7 +81,7 @@ namespace PalcoNet
                     proximaPantalla = new MostrarHistorialCliente();
                     break;
                 case "11":
-                    System.Windows.Forms.MessageBox.Show("GENERAR RENDICION");
+                    proximaPantalla = new GenerarRendicion();
                     break;
                 case "12":
                     proximaPantalla = new ListadosSeleccionAnio();
@@ -101,6 +102,11 @@ namespace PalcoNet
                 }
                 this.Show();
             }
+        }
+
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
     }

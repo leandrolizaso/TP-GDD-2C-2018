@@ -17,18 +17,30 @@ namespace PalcoNet.GenerarRendicionComisiones
         public Factura(int cantidad)
         {
             InitializeComponent();
-            numeroFactura = new FacturaDAO().generarFactura(cantidad);
             llenar_grilla();
         }
 
         private void llenar_grilla()
         {
-            var dt = new FacturaDAO().obtenerFactura(numeroFactura);
-            datagrid.DataSource = dt;
-            foreach (DataGridViewColumn column in datagrid.Columns)
+            var dao = new FacturaDAO();
+            int cantidad = dao.cantidadARendir();
+
+            if (cantidad != 0)
             {
-                column.HeaderText = column.HeaderText.Replace("fact_", "").Replace("ubic_", "").Replace("_", " ").ToUpper();
+                numeroFactura = new FacturaDAO().generarFactura(cantidad);
+                var dt = dao.obtenerFactura(numeroFactura);
+                datagrid.DataSource = dt;
+                foreach (DataGridViewColumn column in datagrid.Columns)
+                {
+                    column.HeaderText = column.HeaderText.Replace("fact_", "").Replace("ubic_", "").Replace("_", " ").ToUpper();
+                }
             }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("No hay ubicaciones para facturar");
+            
+            }
+            
         }
 
         private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
