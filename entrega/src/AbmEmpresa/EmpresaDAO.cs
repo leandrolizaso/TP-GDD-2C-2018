@@ -1,4 +1,5 @@
 ﻿using PalcoNet.Utils;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -75,6 +76,16 @@ namespace PalcoNet.AbmEmpresa
             procParams.Remove("@estado"); //el sp le mete alta
 
             return procedure("PEL.registrar_usuario_empresa", procParams);
+        }
+
+        public decimal obtenerEmpresa(decimal usuario)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@usua_id", usuario);
+            DataTable result = query("select empr_id "
+                        + "from pel.empresa join pel.usuario on empr_usuario = usua_id where usua_id = @usua_id", dict);
+            return Convert.ToDecimal(result.Rows[0][0]);
+
         }
     }
 }

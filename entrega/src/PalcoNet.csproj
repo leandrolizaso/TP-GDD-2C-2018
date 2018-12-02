@@ -128,6 +128,19 @@
     <Compile Include="Funcionalidad.Designer.cs">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
     </Compile>
+    <Compile Include="GenerarRendicionComisiones\Factura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarRendicionComisiones\Factura.Designer.cs">
+      <DependentUpon>Factura.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarRendicionComisiones\FacturaDAO.cs" />
+    <Compile Include="GenerarRendicionComisiones\GenerarRendicion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarRendicionComisiones\GenerarRendicion.Designer.cs">
+      <DependentUpon>GenerarRendicion.cs</DependentUpon>
+    </Compile>
     <Compile Include="HistorialCliente\HistorialDAO.cs" />
     <Compile Include="HistorialCliente\MostrarHistorialCliente.cs">
       <SubType>Form</SubType>
@@ -235,6 +248,12 @@
     <EmbeddedResource Include="Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GenerarRendicionComisiones\Factura.resx">
+      <DependentUpon>Factura.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarRendicionComisiones\GenerarRendicion.resx">
+      <DependentUpon>GenerarRendicion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HistorialCliente\MostrarHistorialCliente.resx">
       <DependentUpon>MostrarHistorialCliente.cs</DependentUpon>
     </EmbeddedResource>
@@ -287,7 +306,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GenerarPublicacion\" />
-    <Folder Include="GenerarRendicionComisiones\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
