@@ -23,6 +23,10 @@ namespace PalcoNet.CanjePuntos
             puntos.Text = Convert.ToString(totalPuntos);
             dt = new PremioDAO().obtenerPremios(totalPuntos);
             datagrid.DataSource = dt;
+            if (dt.Rows.Count == 0)
+            {
+                System.Windows.Forms.MessageBox.Show("No tiene puntos sufientes para canjear un premio");
+            }
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
                 column.HeaderText = column.HeaderText.Replace("_", " ").Replace("puntos", " ").ToUpper();
