@@ -30,6 +30,7 @@ namespace PalcoNet.Comprar
             datagrid.Columns["ubic_id"].Visible = false;
             DataGridViewCheckBoxColumn clm = new DataGridViewCheckBoxColumn();
             clm.HeaderText = "Seleccionar";
+            clm.Name = "Seleccionar";
             datagrid.Columns.Add(clm);
             datagrid.Columns[0].ReadOnly = true;
             datagrid.Columns[1].ReadOnly = true;
@@ -59,7 +60,7 @@ namespace PalcoNet.Comprar
             foreach (DataGridViewRow row in datagrid.Rows)
             {
 
-                if (Convert.ToBoolean(row.Cells[4].Value))
+                if (Convert.ToBoolean(row.Cells["Seleccionar"].Value) == true)
                 {
                     ubicaciones = ubicaciones + Convert.ToString(row.Cells[1].Value) + ", ";
                 }
@@ -67,7 +68,8 @@ namespace PalcoNet.Comprar
 
             }
 
-            MessageBox.Show(ubicaciones);
+            new PublicacionDAO().comprarUbicacion(publicacion, ubicaciones);
+            MessageBox.Show("Compra realizada");
             this.Close();
         }
 
