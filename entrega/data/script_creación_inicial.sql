@@ -726,6 +726,30 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE PEL.crear_rol(@rol_nombre nvarchar(50), @funciones nvarchar(50)) 
+AS
+BEGIN
+	DECLARE @rol_id numeric (18,0);
+	DECLARE @func_id numeric (18,0);
+
+	INSERT INTO PEl.Rol (rol_nombre, rol_estado) VALUES (@rol_nombre, 'A');
+
+	SELECT @rol_id = rol_id FROM pel.Rol WHERE rol_nombre = @rol_nombre;
+
+	DECLARE c_func CURSOR READ_ONLY FOR 
+	  SELECT splitdata
+	  FROM PEL.f_string_split(@funciones,',');
+
+	OPEN c_func;
+	FETCH NEXT FROM c_func INTO @func_id;
+	WHILE(@@FETCH_STATUS=0) BEGIN
+		INSERT INTO PEL.Rol_Funcion (rol_func_rol, rol_func_func) VALUES (@rol_id,@func_id);
+		FETCH NEXT FROM c_func INTO @func_id;
+	END
+
+END;
+GO
+
 CREATE PROCEDURE PEL.sp_baja_rol (@rol numeric(18,0))
 AS
 BEGIN
