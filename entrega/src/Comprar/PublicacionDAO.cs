@@ -66,6 +66,14 @@ namespace PalcoNet.Comprar
             return total;
         }
 
+        internal decimal obtenerPublicacion(string descripcion)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@descripcion", descripcion);
+            DataTable result = query("select publ_id from pel.publicacion where publ_descripcion = @descripcion", dict);
+            return Convert.ToDecimal(result.Rows[0][0]);
+        }
+
         internal DataTable obtenerUbicaciones(decimal idPublicacion)
         {
             var dict = new Dictionary<string, object>();

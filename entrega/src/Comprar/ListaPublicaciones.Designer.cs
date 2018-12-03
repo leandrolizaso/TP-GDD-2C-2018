@@ -45,6 +45,7 @@
             this.anterior = new System.Windows.Forms.Button();
             this.ultimo = new System.Windows.Forms.Button();
             this.siguiente = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).BeginInit();
             this.SuspendLayout();
@@ -159,12 +160,13 @@
             // 
             // datagrid
             // 
+            this.datagrid.AllowUserToOrderColumns = true;
             this.datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datagrid.Location = new System.Drawing.Point(21, 132);
             this.datagrid.Name = "datagrid";
             this.datagrid.Size = new System.Drawing.Size(603, 284);
             this.datagrid.TabIndex = 16;
-            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
+            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellDoubleClick);
             // 
             // pag
             // 
@@ -215,11 +217,23 @@
             this.siguiente.UseVisualStyleBackColor = true;
             this.siguiente.Click += new System.EventHandler(this.siguiente_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(26, 116);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(159, 13);
+            this.label5.TabIndex = 29;
+            this.label5.Text = "Doble click en la fila seleccionar";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
             // ListaPublicaciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(636, 462);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.pag);
             this.Controls.Add(this.primera);
             this.Controls.Add(this.anterior);
@@ -256,5 +270,6 @@
         private System.Windows.Forms.Button anterior;
         private System.Windows.Forms.Button ultimo;
         private System.Windows.Forms.Button siguiente;
+        private System.Windows.Forms.Label label5;
     }
 }

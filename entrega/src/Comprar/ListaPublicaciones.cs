@@ -21,6 +21,7 @@ namespace PalcoNet.Comprar
         {
             InitializeComponent();
             rubros = new List<decimal>();
+            pag.Text = Convert.ToString(pagina);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -79,9 +80,11 @@ namespace PalcoNet.Comprar
 
         }
 
-        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            string publicacion = datagrid.CurrentRow.Cells[0].Value.ToString();
+            new Compra(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
+            
         }
 
         private void ultimo_Click(object sender, EventArgs e)
@@ -120,6 +123,11 @@ namespace PalcoNet.Comprar
         {
             pagina = 1;
             this.llenar_grilla();
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
