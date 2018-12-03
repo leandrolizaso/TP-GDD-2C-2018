@@ -36,6 +36,7 @@ namespace PalcoNet.CanjePuntos
             PuntosDAO dao = new PuntosDAO();
             var dt = dao.obtenerPuntos();
             dataGridView1.DataSource = dt;
+            dataGridView1.AllowUserToAddRows = false;
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
                 column.HeaderText = column.HeaderText.Replace("_", " ").ToUpper();
