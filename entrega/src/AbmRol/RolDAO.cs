@@ -33,5 +33,40 @@ namespace PalcoNet.AbmRol
 
           }
 
+        public DataTable obtenerAllFunciones()
+        {
+            var dict = new Dictionary<string, object>();
+            return query("select func_id, func_nombre from pel.funcion", dict);
+        }
+
+        public DataTable buscarRoles(string rol_nombre)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@rol_nombre", rol_nombre);
+
+            return query("select rol_id, rol_nombre, rol_estado from pel.rol "
+                       + "where rol_nombre like case when @rol_nombre != '' then '%'+@rol_nombre+'%' else rol_nombre end ",
+                        dict);
+        }
+
+
+        public void upsertRol(decimal idRol, Dictionary<string, object> dict)
+        {
+            if (idRol == -1){
+                insertRol(dict);
+            } else {
+                updateRol(idRol, dict);
+            }
+        }
+
+        private void updateRol(decimal idRol, Dictionary<string, object> dict)
+        {
+            procedure("PEL.modificar_rol", dict);
+        }
+
+        private void insertRol(Dictionary<string, object> dict)
+        {
+            procedure("PEL.crear_rol", dict);
+        }
     }
 }
