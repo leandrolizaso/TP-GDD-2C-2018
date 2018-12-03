@@ -68,6 +68,7 @@ namespace PalcoNet.Comprar
             {
                 column.HeaderText = column.HeaderText.Replace("publ_", "").Replace("_", " ").ToUpper();
             }
+
         }
 
         private void Rubros_Paint(object sender, PaintEventArgs e)
