@@ -739,7 +739,7 @@ END
 GO
 
 
-CREATE PROCEDURE sp_comprar(@publicacion numeric(18,0), @ubicaciones varchar, @fecha varchar(30), @cliente numeric (18,0))
+CREATE PROCEDURE PEL.sp_comprar(@publicacion numeric(18,0), @ubicaciones varchar, @fecha varchar(30), @cliente numeric (18,0))
 AS
 BEGIN
 	declare @total numeric(18,2)
