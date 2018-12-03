@@ -21,6 +21,7 @@ namespace PalcoNet.EditarPublicacion
         public ListaPublicacionEditable()
         {
             InitializeComponent();
+            pag.Text = Convert.ToString(pagina);
         }
 
 
