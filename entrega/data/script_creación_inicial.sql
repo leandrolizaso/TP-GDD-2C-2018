@@ -737,6 +737,27 @@ SET rol_estado = 'B' where rol_id = @rol
 
 END
 GO
+
+
+CREATE PROCEDURE sp_comprar(@publicacion numeric(18,0), @ubicaciones varchar, @fecha varchar(30), @cliente numeric (18,0))
+AS
+BEGIN
+	declare @total numeric(18,2)
+	declare @datos_tarjeta nvarchar (255)
+	set @datos_tarjeta = (select clie_datos_tarjeta from PEL.Cliente where clie_id = @cliente)
+	select @total = sum(ubic_precio) from PEL.Ubicacion where ubic_id in (PEL.f_string_split(@ubicaciones, ','))
+	insert into PEL.Compra (compr_cliente, compr_publi, compr_fecha, compr_detalle, compr_total, compr_descuento,compr_datos_tarjeta, compr_medio_pago, compr_puntos_acum, compr_puntos_gast)values 
+	(@cliente, @publicacion, convert(datetime, @fecha, 121), ' ', @total, ' ', @datos_tarjeta, 'Tarjeta', round(@total/100,0),0)
+
+	declare @compra numeric(18,0)
+	set @compra = (select max(compr_id) from PEL.Compra)
+	
+	update PEL.Ubicacion 
+	set ubic_compra = @compra
+	where ubic_id in (PEL.f_string_split(@ubicaciones, ','))
+END
+GO
+
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
