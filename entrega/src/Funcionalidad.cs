@@ -52,7 +52,7 @@ namespace PalcoNet
             
             switch(button.Name.Substring(6)) {
                 case "1":  //roles
-                    System.Windows.Forms.MessageBox.Show("ROLES"); 
+                    proximaPantalla = new ListaRol();
                     break;
                 case "2": 
                     proximaPantalla = new ListaCliente();

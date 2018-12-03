@@ -87,6 +87,18 @@
     <Compile Include="AbmGrado\ModificarGrado.Designer.cs">
       <DependentUpon>ModificarGrado.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRol\ListaRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\ListaRol.Designer.cs">
+      <DependentUpon>ListaRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\ModificarRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\ModificarRol.Designer.cs">
+      <DependentUpon>ModificarRol.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRol\RolDAO.cs" />
     <Compile Include="CanjePuntos\CanjePremio.cs">
       <SubType>Form</SubType>
@@ -241,6 +253,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmGrado\ModificarGrado.resx">
       <DependentUpon>ModificarGrado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\ListaRol.resx">
+      <DependentUpon>ListaRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\ModificarRol.resx">
+      <DependentUpon>ModificarRol.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CanjePuntos\CanjePremio.resx">
       <DependentUpon>CanjePremio.cs</DependentUpon>
