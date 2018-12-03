@@ -42,6 +42,7 @@ namespace PalcoNet.HistorialCliente
             pag.Text = Convert.ToString(pagina);
             var dt = new HistorialDAO().obtenerHistorial(idCliente, pagina);
             datagrid.DataSource = dt;
+            datagrid.AllowUserToAddRows = false;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
                 column.HeaderText = column.HeaderText.Replace("compr_", "").Replace("_", " ").ToUpper();
