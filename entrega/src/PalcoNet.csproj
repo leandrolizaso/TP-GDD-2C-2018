@@ -101,6 +101,12 @@
       <DependentUpon>ListaPuntos.cs</DependentUpon>
     </Compile>
     <Compile Include="CanjePuntos\PremioDAO.cs" />
+    <Compile Include="Comprar\Compra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprar\Compra.Designer.cs">
+      <DependentUpon>Compra.cs</DependentUpon>
+    </Compile>
     <Compile Include="Comprar\ListaPublicaciones.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -241,6 +247,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CanjePuntos\ListaPuntos.resx">
       <DependentUpon>ListaPuntos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comprar\Compra.resx">
+      <DependentUpon>Compra.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Comprar\ListaPublicaciones.resx">
       <DependentUpon>ListaPublicaciones.cs</DependentUpon>
