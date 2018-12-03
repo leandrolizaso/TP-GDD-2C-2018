@@ -28,40 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.cliente = new System.Windows.Forms.Button();
+            this.empresa = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // cliente
             // 
-            this.button1.Location = new System.Drawing.Point(10, 8);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 70);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Cliente";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.cliente.Location = new System.Drawing.Point(10, 8);
+            this.cliente.Name = "cliente";
+            this.cliente.Size = new System.Drawing.Size(112, 70);
+            this.cliente.TabIndex = 0;
+            this.cliente.Text = "Cliente";
+            this.cliente.UseVisualStyleBackColor = true;
+            this.cliente.Click += new System.EventHandler(this.cliente_Click);
             // 
-            // button2
+            // empresa
             // 
-            this.button2.Location = new System.Drawing.Point(116, 8);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 70);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Empresa";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.empresa.Location = new System.Drawing.Point(116, 8);
+            this.empresa.Name = "empresa";
+            this.empresa.Size = new System.Drawing.Size(112, 70);
+            this.empresa.TabIndex = 1;
+            this.empresa.Text = "Empresa";
+            this.empresa.UseVisualStyleBackColor = true;
+            this.empresa.Click += new System.EventHandler(this.empresa_Click);
             // 
-            // RegistroUsuario
+            // NuevoUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(240, 89);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.empresa);
+            this.Controls.Add(this.cliente);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "RegistroUsuario";
+            this.Name = "NuevoUsuario";
             this.Text = "Registro de... ?";
             this.ResumeLayout(false);
 
@@ -69,7 +69,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button cliente;
+        private System.Windows.Forms.Button empresa;
     }
 }

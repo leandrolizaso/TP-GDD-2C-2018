@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PalcoNet.AbmCliente;
+using PalcoNet.AbmEmpresa;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,14 +19,17 @@ namespace PalcoNet.RegistroUsuario
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void cliente_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            new ModificarCliente(-1, false).ShowDialog();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void empresa_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            new ModificarEmpresa(-1, false).ShowDialog();
         }
+
     }
 }
