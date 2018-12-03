@@ -85,6 +85,7 @@ namespace PalcoNet.Comprar
         {
             string publicacion = datagrid.CurrentRow.Cells[0].Value.ToString();
             new Compra(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
+          
             
         }
 

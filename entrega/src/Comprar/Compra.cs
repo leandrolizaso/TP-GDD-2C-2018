@@ -14,6 +14,7 @@ namespace PalcoNet.Comprar
     {
         DataTable dt;
         decimal publicacion;
+        string ubicaciones = "";
 
         public Compra(decimal idPublicacion)
         {
@@ -38,6 +39,7 @@ namespace PalcoNet.Comprar
 
         }
 
+
         private void comprar_Click(object sender, EventArgs e)
         {
 
@@ -59,13 +61,27 @@ namespace PalcoNet.Comprar
 
                 if (Convert.ToBoolean(row.Cells[4].Value))
                 {
-                   //ver que cuales selecciono y realizar la compra
+                    ubicaciones = ubicaciones + Convert.ToString(row.Cells[1].Value) + ", ";
                 }
+
 
             }
 
-            MessageBox.Show("Compra exitosa");
+            MessageBox.Show(ubicaciones);
             this.Close();
+        }
+
+        private void datagrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (datagrid.IsCurrentCellDirty)
+            {
+                datagrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

@@ -61,7 +61,8 @@
             this.datagrid.Name = "datagrid";
             this.datagrid.Size = new System.Drawing.Size(467, 214);
             this.datagrid.TabIndex = 4;
-            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
+            this.datagrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.datagrid_CurrentCellDirtyStateChanged);
             // 
             // button1
             // 
