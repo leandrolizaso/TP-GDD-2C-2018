@@ -32,10 +32,11 @@ namespace PalcoNet.Comprar
             clm.HeaderText = "Seleccionar";
             clm.Name = "Seleccionar";
             datagrid.Columns.Add(clm);
-            datagrid.Columns[0].ReadOnly = true;
+
             datagrid.Columns[1].ReadOnly = true;
             datagrid.Columns[2].ReadOnly = true;
             datagrid.Columns[3].ReadOnly = true;
+            datagrid.Columns["Seleccionar"].ReadOnly = false;
             datagrid.AllowUserToAddRows = false;
 
         }
