@@ -385,9 +385,9 @@ begin
 
 		end
 
-	if(@username is null)
+	if(@username is null or @username = '')
 		exec PEL.generar_username @data = @username output
-	if(@password is null)
+	if(@password is null or @password = '')
 		set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
 
 	
@@ -456,9 +456,9 @@ begin
 			end catch
 		end
 
-	if(@username is null)
+	if(@username is null or @username = '')
 		exec PEL.generar_username @data = @username output;
-	if(@password is null) 
+	if(@password is null or @password = '') 
 		set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
 			
 	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash (@password),'R')
