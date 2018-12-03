@@ -13,7 +13,7 @@ namespace PalcoNet.AbmEmpresa
             var dict = new Dictionary<string, object>();
             dict.Add("@empr_id", idEmpresa);
             return query("select empr_razon_social, empr_mail, empr_telefono, "
-                        +"empr_direccion,empr_cuit, empr_estado "
+                        +"empr_fecha, empr_direccion,empr_cuit, empr_estado "
                         +"from pel.empresa where empr_id = @empr_id", dict);
 
         }
@@ -71,7 +71,7 @@ namespace PalcoNet.AbmEmpresa
             Dictionary<string, object> procParams = new Dictionary<string, object>();
             foreach (var item in dict)
             {
-                procParams.Add(item.Key.Replace("empr_", "@"), item.Value);
+                procParams.Add("@"+item.Key.Replace("empr_", ""), item.Value);
             }
             procParams.Remove("@estado"); //el sp le mete alta
 

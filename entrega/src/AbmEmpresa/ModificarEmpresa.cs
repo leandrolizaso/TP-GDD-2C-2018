@@ -44,7 +44,8 @@ namespace PalcoNet.AbmEmpresa
 
             if (idEmpresa > 0) {
                 cargarCampos();
-                credenciales.Visible = false;
+                username.Visible = false;
+                password.Visible = false;
             }
         }
 
@@ -106,10 +107,14 @@ namespace PalcoNet.AbmEmpresa
                     return;
                 }
 
-                modificar.Enabled = false;
-                username.Text = dt.Rows[0]["username"].ToString();
-                password.Text = dt.Rows[0]["password"].ToString();
-                MessageBox.Show("El usuario y la contraseña se han generado automaticamente.\nRecuerde anotarlos y comunicarlos al usuario de la cuenta.");
+                if (username.Text == ""){
+                    modificar.Enabled = false;
+                    username.Text = dt.Rows[0]["username"].ToString();
+                    password.Text = dt.Rows[0]["password"].ToString();
+                    MessageBox.Show("El usuario y la contraseña se han generado automaticamente.\nRecuerde anotarlos y comunicarlos al usuario de la cuenta.");
+                }else {
+                    this.Hide();
+                }
             }
             catch (SqlException ex)
             {

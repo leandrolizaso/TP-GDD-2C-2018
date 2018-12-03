@@ -40,19 +40,17 @@
             this.empr_mail = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.empr_estado = new System.Windows.Forms.ComboBox();
-            this.credenciales = new System.Windows.Forms.GroupBox();
             this.label14 = new System.Windows.Forms.Label();
             this.password = new System.Windows.Forms.TextBox();
             this.username = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.empr_cuit = new System.Windows.Forms.MaskedTextBox();
             this.empr_fecha = new System.Windows.Forms.DateTimePicker();
-            this.credenciales.SuspendLayout();
             this.SuspendLayout();
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(72, 324);
+            this.modificar.Location = new System.Drawing.Point(72, 313);
             this.modificar.Name = "modificar";
             this.modificar.Size = new System.Drawing.Size(537, 43);
             this.modificar.TabIndex = 1;
@@ -150,23 +148,10 @@
             this.empr_estado.Size = new System.Drawing.Size(161, 21);
             this.empr_estado.TabIndex = 25;
             // 
-            // credenciales
-            // 
-            this.credenciales.Controls.Add(this.label14);
-            this.credenciales.Controls.Add(this.password);
-            this.credenciales.Controls.Add(this.username);
-            this.credenciales.Controls.Add(this.label13);
-            this.credenciales.Location = new System.Drawing.Point(53, 229);
-            this.credenciales.Name = "credenciales";
-            this.credenciales.Size = new System.Drawing.Size(568, 58);
-            this.credenciales.TabIndex = 26;
-            this.credenciales.TabStop = false;
-            this.credenciales.Text = "Credenciales";
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(16, 26);
+            this.label14.Location = new System.Drawing.Point(69, 253);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(55, 13);
             this.label14.TabIndex = 28;
@@ -174,14 +159,14 @@
             // 
             // password
             // 
-            this.password.Location = new System.Drawing.Point(394, 23);
+            this.password.Location = new System.Drawing.Point(447, 250);
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(162, 20);
             this.password.TabIndex = 1;
             // 
             // username
             // 
-            this.username.Location = new System.Drawing.Point(100, 23);
+            this.username.Location = new System.Drawing.Point(153, 250);
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(162, 20);
             this.username.TabIndex = 0;
@@ -189,7 +174,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(310, 26);
+            this.label13.Location = new System.Drawing.Point(363, 253);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(53, 13);
             this.label13.TabIndex = 30;
@@ -216,10 +201,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 384);
+            this.ClientSize = new System.Drawing.Size(690, 388);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.empr_fecha);
+            this.Controls.Add(this.password);
+            this.Controls.Add(this.username);
             this.Controls.Add(this.empr_cuit);
-            this.Controls.Add(this.credenciales);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.empr_estado);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.empr_direccion);
@@ -234,8 +222,6 @@
             this.Controls.Add(this.modificar);
             this.Name = "ModificarEmpresa";
             this.Text = "Datos Empresa";
-            this.credenciales.ResumeLayout(false);
-            this.credenciales.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -255,7 +241,6 @@
         private System.Windows.Forms.TextBox empr_mail;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox empr_estado;
-        private System.Windows.Forms.GroupBox credenciales;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox password;
         private System.Windows.Forms.TextBox username;

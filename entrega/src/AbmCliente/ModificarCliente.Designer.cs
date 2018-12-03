@@ -50,15 +50,13 @@
             this.clie_estado = new System.Windows.Forms.ComboBox();
             this.clie_fecha_nac = new System.Windows.Forms.DateTimePicker();
             this.clie_fecha_crea = new System.Windows.Forms.DateTimePicker();
-            this.password = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.username = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.credenciales = new System.Windows.Forms.GroupBox();
             this.clie_nro_doc = new System.Windows.Forms.MaskedTextBox();
             this.clie_mail = new System.Windows.Forms.TextBox();
             this.clie_tipo_doc = new System.Windows.Forms.TextBox();
-            this.credenciales.SuspendLayout();
+            this.label13 = new System.Windows.Forms.Label();
+            this.username = new System.Windows.Forms.TextBox();
+            this.password = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // modificar
@@ -245,51 +243,6 @@
             this.clie_fecha_crea.Size = new System.Drawing.Size(160, 20);
             this.clie_fecha_crea.TabIndex = 9;
             // 
-            // password
-            // 
-            this.password.Location = new System.Drawing.Point(394, 23);
-            this.password.Name = "password";
-            this.password.Size = new System.Drawing.Size(162, 20);
-            this.password.TabIndex = 1;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(310, 26);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 13);
-            this.label13.TabIndex = 30;
-            this.label13.Text = "Password";
-            // 
-            // username
-            // 
-            this.username.Location = new System.Drawing.Point(100, 23);
-            this.username.Name = "username";
-            this.username.Size = new System.Drawing.Size(162, 20);
-            this.username.TabIndex = 0;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(16, 26);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(55, 13);
-            this.label14.TabIndex = 28;
-            this.label14.Text = "Username";
-            // 
-            // credenciales
-            // 
-            this.credenciales.Controls.Add(this.label14);
-            this.credenciales.Controls.Add(this.password);
-            this.credenciales.Controls.Add(this.username);
-            this.credenciales.Controls.Add(this.label13);
-            this.credenciales.Location = new System.Drawing.Point(53, 318);
-            this.credenciales.Name = "credenciales";
-            this.credenciales.Size = new System.Drawing.Size(568, 58);
-            this.credenciales.TabIndex = 12;
-            this.credenciales.TabStop = false;
-            this.credenciales.Text = "Credenciales";
-            // 
             // clie_nro_doc
             // 
             this.clie_nro_doc.Location = new System.Drawing.Point(446, 81);
@@ -312,14 +265,49 @@
             this.clie_tipo_doc.Size = new System.Drawing.Size(162, 20);
             this.clie_tipo_doc.TabIndex = 2;
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(363, 343);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 13);
+            this.label13.TabIndex = 30;
+            this.label13.Text = "Password";
+            // 
+            // username
+            // 
+            this.username.Location = new System.Drawing.Point(153, 340);
+            this.username.Name = "username";
+            this.username.Size = new System.Drawing.Size(162, 20);
+            this.username.TabIndex = 0;
+            // 
+            // password
+            // 
+            this.password.Location = new System.Drawing.Point(447, 340);
+            this.password.Name = "password";
+            this.password.Size = new System.Drawing.Size(162, 20);
+            this.password.TabIndex = 1;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(69, 343);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(55, 13);
+            this.label14.TabIndex = 28;
+            this.label14.Text = "Username";
+            // 
             // ModificarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 442);
+            this.ClientSize = new System.Drawing.Size(690, 448);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.password);
             this.Controls.Add(this.clie_tipo_doc);
+            this.Controls.Add(this.username);
             this.Controls.Add(this.clie_nro_doc);
-            this.Controls.Add(this.credenciales);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.clie_fecha_crea);
             this.Controls.Add(this.clie_fecha_nac);
             this.Controls.Add(this.clie_estado);
@@ -345,8 +333,6 @@
             this.Controls.Add(this.modificar);
             this.Name = "ModificarCliente";
             this.Text = "Datos Cliente";
-            this.credenciales.ResumeLayout(false);
-            this.credenciales.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -376,13 +362,12 @@
         private System.Windows.Forms.ComboBox clie_estado;
         private System.Windows.Forms.DateTimePicker clie_fecha_nac;
         private System.Windows.Forms.DateTimePicker clie_fecha_crea;
-        private System.Windows.Forms.TextBox password;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox username;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.GroupBox credenciales;
         private System.Windows.Forms.MaskedTextBox clie_nro_doc;
         private System.Windows.Forms.TextBox clie_mail;
         private System.Windows.Forms.TextBox @clie_tipo_doc;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox username;
+        private System.Windows.Forms.TextBox password;
+        private System.Windows.Forms.Label label14;
     }
 }

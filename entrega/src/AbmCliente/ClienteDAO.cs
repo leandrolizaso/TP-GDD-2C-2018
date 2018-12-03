@@ -70,7 +70,7 @@ namespace PalcoNet.AbmCliente
         {
             Dictionary<string, object> procParams = new Dictionary<string,object>();
             foreach (var item in dict) {
-                procParams.Add(item.Key.Replace("clie_", "@"), item.Value);
+                procParams.Add("@"+item.Key.Replace("clie_", ""), item.Value);
             }
             procParams.Remove("@estado"); //el sp le mete alta
 
