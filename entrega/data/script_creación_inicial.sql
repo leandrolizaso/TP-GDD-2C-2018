@@ -640,9 +640,10 @@ BEGIN
 	DECLARE @ubicacion numeric(18,0)
 	
 	DECLARE c_ubicaciones CURSOR FOR
-	SELECT TOP (@cantidad) ubic_id FROM PEL.Ubicacion join PEL.Publicacion ON ubic_publ = publ_id and publ_empresa_resp = @empresa join PEL.Compra ON compr_id = ubic_compra
-	WHERE ubic_factura is null and ubic_compra is not null
-	GROUP BY ubic_id, compr_fecha
+	SELECT TOP (@cantidad) ubic_id 
+	FROM PEL.Ubicacion join PEL.Publicacion ON publ_empresa_resp = @empresa and ubic_publ = publ_id 
+					   join PEL.Compra ON compr_id = ubic_compra
+	WHERE ubic_factura is null
 	ORDER BY compr_fecha ASC
 	
 	OPEN c_ubicaciones 
@@ -650,13 +651,17 @@ BEGIN
 	WHILE(@@FETCH_STATUS=0)
 		BEGIN
 		UPDATE PEL.Ubicacion
-		set ubic_factura = @factura, ubic_comision = ubic_precio/(select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ)
+		set ubic_factura = @factura,
+		    ubic_comision = case when (select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ) = 0 then 0
+								 else ubic_precio/(select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ) end
+		where ubic_id = @ubicacion
 		FETCH NEXT FROM c_ubicaciones INTO @ubicacion
 		END
 	
 	UPDATE PEL.Factura
-	set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id and fact_id = @factura group by ubic_factura),
+	set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where fact_id = @factura and ubic_factura = fact_id  group by ubic_factura),
 		fact_comision = (select sum(ubic_comision) from PEL.Ubicacion where ubic_factura = fact_id)
+	where fact_id = @factura
 
 	CLOSE c_ubicaciones
 	DEALLOCATE c_ubicaciones 
