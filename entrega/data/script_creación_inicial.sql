@@ -334,10 +334,10 @@ go
 create procedure PEL.registrar_usuario_cliente
 		(@username nvarchar(50),@password nvarchar(255),
 		@nombre nvarchar(255), @apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),
-		@fecha_nac datetime,@fecha_crea datetime,@direccion nvarchar(255),@datos_tarjeta nvarchar(255))
+		@fecha_nac nvarchar(30),@fecha_crea nvarchar(30),@direccion nvarchar(255),@datos_tarjeta nvarchar(255))
 as
 begin
-
+	
 	declare @usua_id numeric (18,0),@mensaje nvarchar(255)
 	 
 	if(@nro_doc is null)
@@ -372,11 +372,27 @@ begin
 	else
 		begin
 
+			if(isdate(@fecha_nac) != 1)
+				begin
+						set @usua_id = -1
+						set @mensaje= 'La fecha de nacimiento es inválida.'
+						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
+						return
+				end
+
+			if(isdate(@fecha_crea) != 1)
+				begin
+						set @usua_id = -1
+						set @mensaje= 'La fecha de creación es inválida.'
+						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
+						return
+				end
+
 			begin try
 				insert PEL.Cliente (clie_nombre, clie_apellido, clie_tipo_doc, clie_nro_doc, clie_cuil, clie_mail, clie_telefono, clie_fecha_nac, clie_fecha_crea, clie_direccion, clie_datos_tarjeta,clie_estado) values 
-				(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono, @fecha_nac, @fecha_crea, @direccion, @datos_tarjeta,'A') 				
+				(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono,convert(datetime,@fecha_nac), convert(datetime,@fecha_crea), @direccion, @datos_tarjeta,'A') 				
 			end try
-			begin catch
+			begin catch 
 				set @usua_id = -1
 				set @mensaje= 'El dni es inválido.'
 				select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
@@ -407,7 +423,7 @@ go
 
 create procedure PEL.registrar_usuario_empresa
 		(@username nvarchar(50),@password nvarchar(255),
-		@direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha datetime,@telefono nvarchar(255),@mail nvarchar(255))
+		@direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha nvarchar(30),@telefono nvarchar(255),@mail nvarchar(255))
 as
 begin
 	
@@ -444,9 +460,18 @@ begin
 		end
 	else 
 		begin
+
+			if(isdate(@fecha) != 1)
+				begin
+						set @usua_id = -1
+						set @mensaje= 'La fecha de ingresada es inválida.'
+						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
+						return
+				end
+
 			begin try
 				insert into PEL.Empresa (empr_direccion, empr_razon_social, empr_cuit, empr_estado, empr_fecha, empr_telefono, empr_mail) 
-				values (@direccion, @razon_social, @cuit, 'A' , @fecha, @telefono, @mail)
+				values (@direccion, @razon_social, @cuit, 'A' , convert(datetime,@fecha), @telefono, @mail)
 			end try
 			begin catch
 				set @usua_id = -1
@@ -499,7 +524,7 @@ END
 GO
 
 --Listado de publicaciones paginado
-CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar, @detalle varchar,@desde varchar(30),@hasta varchar(30),@fecha varchar(30) ,@pag int)
+CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar(255), @detalle varchar(255),@desde varchar(30),@hasta varchar(30),@fecha varchar(30) ,@pag int)
 AS
 BEGIN	  
 SELECT  publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro
@@ -517,7 +542,7 @@ GO
 
 
 
-CREATE PROCEDURE PEL.sp_total_publicaciones(@categorias nvarchar, @detalle varchar,@desde varchar(30),@hasta varchar(30), @fecha varchar(30))
+CREATE PROCEDURE PEL.sp_total_publicaciones(@categorias nvarchar(255), @detalle varchar(255),@desde varchar(30),@hasta varchar(30), @fecha varchar(30))
 AS
 BEGIN
 SELECT    count(publ_id)
@@ -530,7 +555,7 @@ SELECT    count(publ_id)
 END
 GO
 
-CREATE PROCEDURE PEL.sp_ver_publicaciones_empresa (@categorias nvarchar, @detalle varchar,@desde varchar(30),@hasta varchar(30),@fecha varchar(30) ,@pag int, @empresa numeric(18,0))
+CREATE PROCEDURE PEL.sp_ver_publicaciones_empresa (@categorias nvarchar(255), @detalle varchar(255),@desde varchar(30),@hasta varchar(30),@fecha varchar(30) ,@pag int, @empresa numeric(18,0))
 AS
 BEGIN	  
 SELECT  publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro
@@ -548,7 +573,7 @@ GO
 
 
 
-CREATE PROCEDURE PEL.sp_total_publicaciones_empresa(@categorias nvarchar, @detalle varchar,@desde varchar(30),@hasta varchar(30), @fecha varchar(30), @empresa numeric(18,0))
+CREATE PROCEDURE PEL.sp_total_publicaciones_empresa(@categorias nvarchar(255), @detalle varchar(255),@desde varchar(30),@hasta varchar(30), @fecha varchar(30), @empresa numeric(18,0))
 AS
 BEGIN
 SELECT    count(publ_id)
@@ -1052,7 +1077,3 @@ AS
 		rollback
 		end
 GO
-
-
-
-
