@@ -28,56 +28,48 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.datagrid = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
-            this.nuevoRubro = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.datagrid)).BeginInit();
             this.SuspendLayout();
+            // 
+            // datagrid
+            // 
+            this.datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.datagrid.Location = new System.Drawing.Point(12, 12);
+            this.datagrid.Name = "datagrid";
+            this.datagrid.Size = new System.Drawing.Size(252, 248);
+            this.datagrid.TabIndex = 0;
+            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(235, 16);
+            this.button1.Location = new System.Drawing.Point(191, 266);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(41, 40);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "+";
+            this.button1.Size = new System.Drawing.Size(73, 47);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Aceptar";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // nuevoRubro
-            // 
-            this.nuevoRubro.Location = new System.Drawing.Point(82, 27);
-            this.nuevoRubro.Name = "nuevoRubro";
-            this.nuevoRubro.Size = new System.Drawing.Size(147, 20);
-            this.nuevoRubro.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Nuevo rubro";
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Rubro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(288, 73);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.nuevoRubro);
+            this.ClientSize = new System.Drawing.Size(276, 325);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.datagrid);
             this.Name = "Rubro";
             this.Text = "Seleccion rubro";
+            ((System.ComponentModel.ISupportInitialize)(this.datagrid)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
+        private System.Windows.Forms.DataGridView datagrid;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox nuevoRubro;
-        private System.Windows.Forms.Label label1;
+
     }
 }

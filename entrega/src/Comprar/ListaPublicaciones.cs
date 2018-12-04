@@ -14,7 +14,7 @@ namespace PalcoNet.Comprar
     public partial class ListaPublicaciones : Form
     {
 
-        List<decimal> rubros;
+        string rubros;
         private int pagina = 1;
         private int ultimaPagina = 1;
         private bool esEmpresa;
@@ -23,42 +23,28 @@ namespace PalcoNet.Comprar
         {
             InitializeComponent();
             esEmpresa = esEmpr;
-            rubros = new List<decimal>();
+            rubros = "";
             pag.Text = Convert.ToString(pagina);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (var rubroForm = new Rubro())
-            {
-                rubroForm.ShowDialog();
-                Label label = new Label();
-                label.Text = rubroForm.texto;
-                label.AutoSize = true;
-                label.BorderStyle = BorderStyle.Fixed3D;
-                rubros.Add(rubroForm.id);
-                Rubros.Controls.Add(label);
-            }
+            var rubrosForm = new Rubro();
+            rubrosForm.ShowDialog();
+            rubros = rubrosForm.rubros;
         }
 
         private void limpiar_Click(object sender, EventArgs e)
         {
-
+            rubros = "";
+            nombre.Text = "";
         }
 
         private void buscar_Click(object sender, EventArgs e)
         {
-
-            ultimaPagina = Convert.ToInt32(Math.Ceiling((new PublicacionDAO().totalPaginas("1,2,3,", nombre.SelectedText, fecha_desde.Value, fecha_hasta.Value)) / 10));
-                                                                                   //hardcode de id de rubros 1,2,3 y 4
+            ultimaPagina = Convert.ToInt32(Math.Ceiling((new PublicacionDAO().totalPaginas(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value)) / 10));                                                                
             this.llenar_grilla();
 
-            //era una linea, pero mejor 3 para legibilidad
-            //MessageBox.Show(string.Format("Los rubros seleccionados son: {0}", string.Join(",", rubros)));
-
-            //string rubroStr = string.Join(",", rubros);
-            //string mensaje = string.Format("Los rubros seleccionados son: {0}", rubroStr); 
-            //MessageBox.Show(mensaje);
         }
 
         private void llenar_grilla()
@@ -68,12 +54,12 @@ namespace PalcoNet.Comprar
 
             if (esEmpresa)
             {
-                dt = new PublicacionDAO().obtenerPublicacionesEmpresa("1,2,3,", nombre.SelectedText, fecha_desde.Value, fecha_hasta.Value, pagina);
+                dt = new PublicacionDAO().obtenerPublicacionesEmpresa(rubros, nombre.SelectedText, fecha_desde.Value, fecha_hasta.Value, pagina);
             }
             else 
             {
-                dt = new PublicacionDAO().obtenerPublicaciones("1,2,3,", nombre.SelectedText, fecha_desde.Value, fecha_hasta.Value, pagina);
-                //hardcode de id de rubros 1,2,3 y 4
+                dt = new PublicacionDAO().obtenerPublicaciones(rubros, nombre.SelectedText, fecha_desde.Value, fecha_hasta.Value, pagina);
+                
             }
             
             datagrid.DataSource = dt;

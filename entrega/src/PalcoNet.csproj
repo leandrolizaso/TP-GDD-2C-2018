@@ -140,12 +140,6 @@
       <DependentUpon>EditarPublicacionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="EditarPublicacion\EditarPublicacionDAO.cs" />
-    <Compile Include="EditarPublicacion\ListaPublicacionEditable.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditarPublicacion\ListaPublicacionEditable.Designer.cs">
-      <DependentUpon>ListaPublicacionEditable.cs</DependentUpon>
-    </Compile>
     <Compile Include="Funcionalidad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -277,9 +271,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditarPublicacion\EditarPublicacionForm.resx">
       <DependentUpon>EditarPublicacionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EditarPublicacion\ListaPublicacionEditable.resx">
-      <DependentUpon>ListaPublicacionEditable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>

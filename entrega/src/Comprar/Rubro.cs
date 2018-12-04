@@ -13,20 +13,51 @@ namespace PalcoNet.Comprar
     public partial class Rubro : Form
     {
 
-        public decimal id { get; set; }
-        public string texto { get; set; }
+        public string rubros { get; set; }
 
         public Rubro()
         {
             InitializeComponent();
-            texto = "";
+            rubros = "";
+            var dt = new RubroDAO().obtenerRubros();
+            datagrid.DataSource = dt;
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.HeaderText = column.HeaderText.Replace("rubr_", "").Replace("_", " ").ToUpper();
+            }
+            datagrid.Columns["rubr_id"].Visible = false;
+            DataGridViewCheckBoxColumn clm = new DataGridViewCheckBoxColumn();
+            clm.HeaderText = "Seleccionar";
+            clm.Name = "Seleccionar";
+            datagrid.Columns.Add(clm);
+            datagrid.Columns["rubr_descripcion"].ReadOnly = true;
+            datagrid.Columns["Seleccionar"].ReadOnly = false;
+            datagrid.AllowUserToAddRows = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var dt = new RubroDAO().buscarRubroPorDescripcion(nuevoRubro.Text);
-            id = Convert.ToDecimal(dt.Rows[0]["rubr_id"]);
-            texto = dt.Rows[0]["rubr_descripcion"].ToString();
+            
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in datagrid.Rows)
+            {
+
+                if (Convert.ToBoolean(row.Cells["Seleccionar"].Value) == true)
+                {
+                    rubros = rubros + Convert.ToString(row.Cells["rubr_id"].Value) + ", ";
+                }
+
+
+            }
+            MessageBox.Show("Categorias seleccionadas exitosamente");
             this.Close();
         }
 

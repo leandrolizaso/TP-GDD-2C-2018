@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.Rubros = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
             this.fecha_hasta = new System.Windows.Forms.DateTimePicker();
             this.limpiar = new System.Windows.Forms.Button();
@@ -52,7 +51,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.Rubros);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.fecha_hasta);
             this.groupBox1.Controls.Add(this.limpiar);
@@ -69,19 +67,11 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros";
             // 
-            // Rubros
-            // 
-            this.Rubros.Location = new System.Drawing.Point(310, 65);
-            this.Rubros.Name = "Rubros";
-            this.Rubros.Size = new System.Drawing.Size(184, 28);
-            this.Rubros.TabIndex = 31;
-            this.Rubros.Paint += new System.Windows.Forms.PaintEventHandler(this.Rubros_Paint);
-            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(310, 13);
+            this.button1.Location = new System.Drawing.Point(306, 27);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(87, 46);
+            this.button1.Size = new System.Drawing.Size(87, 50);
             this.button1.TabIndex = 30;
             this.button1.Text = "Seleccionar categorias";
             this.button1.UseVisualStyleBackColor = true;
@@ -97,9 +87,9 @@
             // 
             // limpiar
             // 
-            this.limpiar.Location = new System.Drawing.Point(418, 13);
+            this.limpiar.Location = new System.Drawing.Point(411, 27);
             this.limpiar.Name = "limpiar";
-            this.limpiar.Size = new System.Drawing.Size(59, 44);
+            this.limpiar.Size = new System.Drawing.Size(55, 50);
             this.limpiar.TabIndex = 9;
             this.limpiar.Text = "Limpiar Filtro";
             this.limpiar.UseVisualStyleBackColor = true;
@@ -124,9 +114,9 @@
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(500, 19);
+            this.buscar.Location = new System.Drawing.Point(485, 19);
             this.buscar.Name = "buscar";
-            this.buscar.Size = new System.Drawing.Size(98, 63);
+            this.buscar.Size = new System.Drawing.Size(113, 63);
             this.buscar.TabIndex = 8;
             this.buscar.Text = "Buscar";
             this.buscar.UseVisualStyleBackColor = true;
@@ -266,7 +256,6 @@
         private System.Windows.Forms.DateTimePicker fecha_hasta;
         private System.Windows.Forms.DateTimePicker fecha_desde;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.FlowLayoutPanel Rubros;
         private System.Windows.Forms.Label pag;
         private System.Windows.Forms.Button primera;
         private System.Windows.Forms.Button anterior;

@@ -1,5 +1,6 @@
 ﻿using PalcoNet.Utils;
 using System;
+using System.Collections.Generic;
 using System.Data;
 namespace PalcoNet.Comprar {
 
@@ -16,6 +17,12 @@ namespace PalcoNet.Comprar {
             dt.Rows.Add(new Object[] { ++idRubro, descripcion });
 
             return dt;
+        }
+
+        public DataTable obtenerRubros()
+        {
+            var dict = new Dictionary<string, object>();
+            return query("select rubr_id, rubr_descripcion from pel.rubro", dict);
         }
     }
 }
