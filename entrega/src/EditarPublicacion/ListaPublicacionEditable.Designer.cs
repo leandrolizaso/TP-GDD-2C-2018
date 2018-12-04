@@ -66,6 +66,7 @@
             this.primera.TabIndex = 34;
             this.primera.Text = "<<";
             this.primera.UseVisualStyleBackColor = true;
+            this.primera.Click += new System.EventHandler(this.primera_Click_1);
             // 
             // anterior
             // 
@@ -75,6 +76,7 @@
             this.anterior.TabIndex = 33;
             this.anterior.Text = "<";
             this.anterior.UseVisualStyleBackColor = true;
+            this.anterior.Click += new System.EventHandler(this.anterior_Click_1);
             // 
             // ultimo
             // 
@@ -84,6 +86,7 @@
             this.ultimo.TabIndex = 32;
             this.ultimo.Text = ">>";
             this.ultimo.UseVisualStyleBackColor = true;
+            this.ultimo.Click += new System.EventHandler(this.ultimo_Click_1);
             // 
             // siguiente
             // 

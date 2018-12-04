@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,22 +14,76 @@ namespace PalcoNet.EditarPublicacion
 {
     public partial class EditarPublicacionForm : Form
     {
+        decimal publicacion;
 
-        public EditarPublicacionForm()
+        public EditarPublicacionForm(decimal publ)
         {
             InitializeComponent();
 
+            publicacion = publ;
+
             //cargo grados
 
-            DataTable dt = new EmpresasDAO().obtenerDatosGrados();
-            grado.DisplayMember = "grad_descripcion";
-            grado.ValueMember = "grad_id";
-            grado.DataSource = dt;
+            DataTable dtGrado = new EmpresasDAO().obtenerDatosGrados();
+            publ_grado.DisplayMember = "grad_descripcion";
+            publ_grado.ValueMember = "grad_id";
+            publ_grado.DataSource = dtGrado;
+
+            //cargo estados
+
+            DataTable dtEstado = new EditarPublicacionDAO().obtenerEstados();
+            publ_estado.DisplayMember = "esta_descripcion";
+            publ_estado.ValueMember = "esta_id";
+            publ_estado.DataSource = dtEstado;
+
+            //cargo rubros
+
+            DataTable dtRubro = new EditarPublicacionDAO().obtenerRubros();
+            publ_rubro.DisplayMember = "rubr_descripcion";
+            publ_rubro.ValueMember = "rubr_id";
+            publ_rubro.DataSource = dtRubro;
+
         }
 
         private void modificar_Click(object sender, EventArgs e)
         {
+            var dict = new Dictionary<string, object>();
 
+            foreach (var control in Controls)
+            {
+                if (control is TextBox)
+                {
+                    TextBox textbox = (TextBox)control;
+                    dict.Add(textbox.Name, textbox.Text);
+                }
+                else if (control is DateTimePicker)
+                {
+                    DateTimePicker datepicker = (DateTimePicker)control;
+                    dict.Add(datepicker.Name, datepicker.Value);
+                }
+                else if (control is ComboBox)
+                {
+                    ComboBox comboBox = (ComboBox)control;
+                    dict.Add(comboBox.Name, comboBox.SelectedValue);
+                }
+                
+
+
+            }
+
+
+            try
+            {
+                    new EditarPublicacionDAO().updatePublicacion(publicacion, dict);
+                    MessageBox.Show("Update exitoso");
+                    this.Hide();
+                    return;
+                
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);
+            }
         }
 
         private void publ_fecha_ven_TextChanged(object sender, EventArgs e)
@@ -47,6 +102,20 @@ namespace PalcoNet.EditarPublicacion
         }
 
         private void publ_grado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void publ_rubro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void publ_descripcion_TextChanged(object sender, EventArgs e)
         {
 
         }

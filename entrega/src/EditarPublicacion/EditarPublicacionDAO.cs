@@ -1,23 +1,47 @@
-﻿using System;
+﻿using PalcoNet.Utils;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace PalcoNet.EditarPublicacion
 {
-    class EditarPublicacionDAO
+    class EditarPublicacionDAO : BaseDAO
     {
-        private string updatePublicacionString(decimal idPublicacion, Dictionary<string, object> dict)
+        internal void updatePublicacion(decimal idPublicacion, Dictionary<string, object> dict)
         {
-            string query = "update PEL.Publicacion set ";
+            string queryStr = "update PEL.publicacion set ";
             foreach (var entry in dict)
             {
-                query += entry.Key + " = @" + entry.Key + " ,";
+                queryStr += entry.Key + " = @" + entry.Key + " ,";
             }
-            query = query.TrimEnd(',');
-            query += "where publ_id = " + idPublicacion;
-            return query;
+            queryStr = queryStr.TrimEnd(',');
+            queryStr += "where publ_id = " + idPublicacion;
+
+            Dictionary<string, object> queryParams = new Dictionary<string, object>();
+            foreach (var item in dict)
+            {
+                queryParams.Add("@" + item.Key, item.Value);
+            }
+
+            query(queryStr, queryParams);
+
         }
+
+        public DataTable obtenerEstados() 
+        {
+            var dict = new Dictionary<string, object>();
+            return query("select esta_id, esta_descripcion from pel.estado_publicacion", dict);
+           
+        }
+
+        public DataTable obtenerRubros()
+        {
+            var dict = new Dictionary<string, object>();
+            return query("select rubr_id, rubr_descripcion from pel.rubro", dict);
+
+        }
+
+      
     }
 }

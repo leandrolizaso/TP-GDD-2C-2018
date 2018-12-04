@@ -86,7 +86,43 @@ namespace PalcoNet.EditarPublicacion
 
         }
 
-        private void ultimo_Click(object sender, EventArgs e)
+        private void siguiente_Click(object sender, EventArgs e)
+        {
+            if (pagina < ultimaPagina)
+            {
+                pagina += 1;
+            }
+            this.llenar_grilla();
+        }
+
+  
+
+        private void pag_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void primera_Click_1(object sender, EventArgs e)
+        {
+            pagina = 1;
+            this.llenar_grilla();
+        }
+
+        private void anterior_Click_1(object sender, EventArgs e)
+        {
+            if (pagina > 1)
+            {
+                pagina -= 1;
+            }
+            this.llenar_grilla();
+        }
+
+        private void ultimo_Click_1(object sender, EventArgs e)
         {
             if (ultimaPagina == 0)
             {
@@ -98,40 +134,6 @@ namespace PalcoNet.EditarPublicacion
             }
 
             this.llenar_grilla();
-        }
-
-        private void siguiente_Click(object sender, EventArgs e)
-        {
-            if (pagina < ultimaPagina)
-            {
-                pagina += 1;
-            }
-            this.llenar_grilla();
-        }
-
-        private void anterior_Click(object sender, EventArgs e)
-        {
-            if (pagina > 1)
-            {
-                pagina -= 1;
-            }
-            this.llenar_grilla();
-        }
-
-        private void primera_Click(object sender, EventArgs e)
-        {
-            pagina = 1;
-            this.llenar_grilla();
-        }
-
-        private void pag_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
         }
     }
 }
