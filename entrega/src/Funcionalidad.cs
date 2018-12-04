@@ -67,7 +67,7 @@ namespace PalcoNet
                     System.Windows.Forms.MessageBox.Show("CATEGORIA??????"); 
                     break;
                 case "6":
-                    proximaPantalla = new ListaPublicaciones();
+                    proximaPantalla = new ListaPublicaciones(false);
                     break;
                 case "7":
                     proximaPantalla = new ListaPuntos();
@@ -76,7 +76,7 @@ namespace PalcoNet
                     System.Windows.Forms.MessageBox.Show("GENERAR PUBLICACION");
                     break;
                 case "9":
-                    proximaPantalla = new ListaPublicacionEditable();
+                    proximaPantalla = new ListaPublicaciones(true);
                     break;
                 case "10":
                     proximaPantalla = new MostrarHistorialCliente();
@@ -103,6 +103,11 @@ namespace PalcoNet
                 }
                 this.Show();
             }
+        }
+
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
     }

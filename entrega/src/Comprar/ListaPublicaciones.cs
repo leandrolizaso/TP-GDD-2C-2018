@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PalcoNet.EditarPublicacion;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,10 +17,12 @@ namespace PalcoNet.Comprar
         List<decimal> rubros;
         private int pagina = 1;
         private int ultimaPagina = 1;
+        private bool esEmpresa;
 
-        public ListaPublicaciones()
+        public ListaPublicaciones(bool esEmpr)
         {
             InitializeComponent();
+            esEmpresa = esEmpr;
             rubros = new List<decimal>();
             pag.Text = Convert.ToString(pagina);
         }
@@ -59,10 +62,20 @@ namespace PalcoNet.Comprar
         }
 
         private void llenar_grilla()
-        {
+        {   
             pag.Text = Convert.ToString(pagina);
-            var dt = new PublicacionDAO().obtenerPublicaciones("1,2,3,", nombre.SelectedText, fecha_desde.Value, fecha_hasta.Value, pagina);
-                                                               //hardcode de id de rubros 1,2,3 y 4
+            DataTable dt;
+
+            if (esEmpresa)
+            {
+                dt = new PublicacionDAO().obtenerPublicacionesEmpresa("1,2,3,", nombre.SelectedText, fecha_desde.Value, fecha_hasta.Value, pagina);
+            }
+            else 
+            {
+                dt = new PublicacionDAO().obtenerPublicaciones("1,2,3,", nombre.SelectedText, fecha_desde.Value, fecha_hasta.Value, pagina);
+                //hardcode de id de rubros 1,2,3 y 4
+            }
+            
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
@@ -83,9 +96,19 @@ namespace PalcoNet.Comprar
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            string publicacion = datagrid.CurrentRow.Cells[0].Value.ToString();
-            new Compra(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
+            if (esEmpresa)
+            {
+                string publicacion = datagrid.CurrentRow.Cells[0].Value.ToString();
+                new EditarPublicacionForm(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
           
+            }
+            else 
+            {
+                string publicacion = datagrid.CurrentRow.Cells[0].Value.ToString();
+                new Compra(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
+          
+            }
+           
             
         }
 
