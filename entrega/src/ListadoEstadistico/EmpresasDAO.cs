@@ -24,7 +24,7 @@ namespace PalcoNet.ListadoEstadistico
         internal DataTable obtenerDatosGrados()
         {
             var dict = new Dictionary<string, object>();
-            return query("select grad_descripcion, grad_id " + "from pel.grado", dict);
+            return query("select grad_descripcion, grad_id " + "from pel.grado where grad_estado = 'A'", dict);
         }
     }
 }
