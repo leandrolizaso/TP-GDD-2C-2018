@@ -750,6 +750,32 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE PEL.modificar_rol(@rol_id decimal(18,0), @rol_nombre nvarchar(50), @funciones nvarchar(50)) 
+AS
+BEGIN
+	DECLARE @func_id numeric (18,0);
+
+	UPDATE PEl.Rol 
+	    SET rol_nombre = @rol_nombre, 
+		    rol_estado = 'A'
+		where rol_id = @rol_id;
+
+	DELETE PEL.Rol_Funcion where rol_func_rol = @rol_id;
+
+    DECLARE c_func CURSOR READ_ONLY FOR 
+	  SELECT splitdata
+	  FROM PEL.f_string_split(@funciones,',');
+
+	OPEN c_func;
+	FETCH NEXT FROM c_func INTO @func_id;
+	WHILE(@@FETCH_STATUS=0) BEGIN
+		INSERT INTO PEL.Rol_Funcion (rol_func_rol, rol_func_func) VALUES (@rol_id,@func_id);
+		FETCH NEXT FROM c_func INTO @func_id;
+	END
+
+END;
+GO
+
 CREATE PROCEDURE PEL.sp_baja_rol (@rol numeric(18,0))
 AS
 BEGIN
