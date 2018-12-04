@@ -687,19 +687,22 @@ GO
 create procedure PEL.sp_ver_puntos (@usua_id numeric (18,0),@fecha varchar(30))
 as
 begin
-	declare @total_puntos numeric (18,0)
-	set @total_puntos = (select sum(compr_puntos_acum - compr_puntos_gast)
-						 from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
-						 where compr_fecha between dateadd(day,-30,convert(date,@fecha,121)) and convert(date,@fecha,121) and compr_puntos_acum - compr_puntos_gast > 0
-						 group by compr_cliente)
-
-	select compr_puntos_acum - compr_puntos_gast as puntos_disponibles , DATEADD(day,30,compr_fecha) as fecha_vencimiento, @total_puntos as total_puntos 
+	select compr_puntos_acum - compr_puntos_gast as puntos_disponibles , DATEADD(day,30,compr_fecha) as fecha_vencimiento
 	from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
 	where compr_fecha between dateadd(day,-30,convert(date,@fecha,121)) and convert(date,@fecha,121) and compr_puntos_acum - compr_puntos_gast > 0
 	order by 2
 end
 go
 
+create procedure PEL.sp_total_puntos (@usua_id numeric (18,0),@fecha varchar(30))
+as
+begin
+	select sum(compr_puntos_acum - compr_puntos_gast)
+    from PEL.Cliente join PEL.Compra on @usua_id = clie_usuario and compr_cliente = clie_id
+	where compr_fecha between dateadd(day,-30,convert(date,@fecha,121)) and convert(date,@fecha,121) and compr_puntos_acum - compr_puntos_gast > 0
+	group by compr_cliente
+end
+go
 
 create procedure PEL.sp_descontar_puntos (@usua_id numeric (18,0),@fecha varchar(30),@puntos_a_gastar numeric (18,0))
 as
