@@ -33,6 +33,10 @@ namespace PalcoNet.AbmRol
                 check.AutoSize = true;
                 panel.Controls.Add(check);
             }
+
+            if (idRol != -1) {
+                eliminar.Visible = true;
+            }
         }
 
         private void modificar_Click(object sender, EventArgs e)
@@ -48,6 +52,12 @@ namespace PalcoNet.AbmRol
 
             dict.Add("@funciones", string.Join(",", idFunciones));
             new RolDAO().upsertRol(idRol, dict);
+            this.Hide();
+        }
+
+        private void eliminar_Click(object sender, EventArgs e)
+        {
+            new RolDAO().eliminarRol(idRol);
             this.Hide();
         }
     }

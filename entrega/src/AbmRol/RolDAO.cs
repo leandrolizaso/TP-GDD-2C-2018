@@ -68,5 +68,12 @@ namespace PalcoNet.AbmRol
         {
             procedure("PEL.crear_rol", dict);
         }
+
+        internal void eliminarRol(decimal idRol)
+        {
+            Dictionary<string,object> dict = new Dictionary<string,object>();
+            dict.Add("@rol", idRol);
+            procedure("PEL.sp_baja_rol", dict);
+        }
     }
 }
