@@ -848,7 +848,7 @@ AS
 BEGIN
 
 UPDATE PEL.Usuario
-SET usua_password = pel.f_hash(@password)
+SET usua_password = pel.f_hash(@password), usua_estado = 'A'
 where usua_id = @usuario
 END
 
@@ -1098,3 +1098,4 @@ AS
 		rollback
 		end
 GO
+
