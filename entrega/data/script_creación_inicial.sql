@@ -89,6 +89,7 @@ CREATE TABLE PEL.Cliente (
 	clie_fecha_crea DATETIME,
 	clie_direccion NVARCHAR(255),
 	clie_datos_tarjeta NVARCHAR(255),
+	clie_codigo_postal NVARCHAR(255) NOT NULL,
 	clie_estado CHAR (1),
 	PRIMARY KEY (clie_id),
 	FOREIGN KEY (clie_usuario) REFERENCES PEL.Usuario
@@ -104,6 +105,8 @@ CREATE TABLE PEL.Empresa (
 	empr_fecha DATETIME,
 	empr_telefono NVARCHAR(255),			
 	empr_mail NVARCHAR(255) NOT NULL,
+	empr_codigo_postal NVARCHAR(255) NOT NULL,
+	empr_ciudad NVARCHAR(255) NOT NULL,
 	PRIMARY KEY (empr_id),
 	FOREIGN KEY (empr_usuario) REFERENCES PEL.Usuario(usua_id),
 	CONSTRAINT empr_un UNIQUE(empr_cuit, empr_razon_social)
@@ -932,7 +935,9 @@ INSERT INTO PEL.Empresa (empr_razon_social,
 						 empr_cuit, 
 						 empr_fecha, 
 						 empr_mail, 
-						 empr_direccion)
+						 empr_direccion,
+						 empr_codigo_postal,
+						 empr_ciudad)
 	SELECT DISTINCT Espec_Empresa_Razon_Social, 
 					Espec_Empresa_Cuit, 
 					Espec_Empresa_Fecha_Creacion, 
@@ -940,7 +945,9 @@ INSERT INTO PEL.Empresa (empr_razon_social,
 					Espec_Empresa_Dom_Calle + ' '  + 
 						CONVERT(nvarchar,Espec_Empresa_Nro_Calle) + ' '  + 
 						CONVERT(nvarchar,Espec_Empresa_Piso) + ' '  +
-						Espec_Empresa_Depto + ' '  + Espec_Empresa_Cod_Postal
+						Espec_Empresa_Depto,
+						Espec_Empresa_Cod_Postal,
+						''
 	FROM gd_esquema.Maestra
 GO
 
@@ -1000,7 +1007,8 @@ INSERT INTO PEL.Cliente (clie_nro_doc,
 						 clie_nombre, 
 						 clie_fecha_nac, 
 						 clie_mail, 
-						 clie_direccion)
+						 clie_direccion,
+						 clie_codigo_postal)
 	SELECT DISTINCT Cli_Dni,
 					Cli_Apeliido, 
 					Cli_Nombre, 
@@ -1008,7 +1016,8 @@ INSERT INTO PEL.Cliente (clie_nro_doc,
 					Cli_Mail, Cli_Dom_Calle + ' '  + 
 						convert(nvarchar,Cli_Nro_Calle) + ' '  +
 						convert(nvarchar,Cli_Piso) + ' '  +
-						Cli_Depto + ' '  + Cli_Cod_Postal
+						Cli_Depto,
+					Cli_Cod_Postal
 	FROM gd_esquema.Maestra
 	where cli_dni is not null
 GO 
