@@ -15,7 +15,6 @@ namespace PalcoNet.Comprar
         internal DataTable obtenerPublicaciones(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta, int pagina)
         {
             var dict = new Dictionary<string, object>();
-            dict.Add("@fecha", Globales.getFechaHoy());
             dict.Add("@categorias", categorias);
             dict.Add("@detalle", detalle);
             dict.Add("@desde", fechaDesde);
@@ -28,7 +27,6 @@ namespace PalcoNet.Comprar
         public double totalPaginas(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta)
         {
             var dict = new Dictionary<string, object>();
-            dict.Add("@fecha", Globales.getFechaHoy());
             dict.Add("@categorias", categorias);
             dict.Add("@detalle", detalle);
             dict.Add("@desde", fechaDesde);
@@ -42,7 +40,6 @@ namespace PalcoNet.Comprar
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@empresa", new EmpresaDAO().obtenerEmpresa(Globales.idUsuarioLoggeado));
-            dict.Add("@fecha", Globales.getFechaHoy());
             dict.Add("@categorias", categorias);
             dict.Add("@detalle", detalle);
             dict.Add("@desde", fechaDesde);
@@ -56,7 +53,6 @@ namespace PalcoNet.Comprar
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@empresa", new EmpresaDAO().obtenerEmpresa(Globales.idUsuarioLoggeado));
-            dict.Add("@fecha", Globales.getFechaHoy());
             dict.Add("@categorias", categorias);
             dict.Add("@detalle", detalle);
             dict.Add("@desde", fechaDesde);

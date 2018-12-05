@@ -28,6 +28,11 @@ namespace PalcoNet.Comprar
             fecha_desde.Value = Globales.getFechaHoy();
             fecha_hasta.Value = Globales.getFechaHoy();
             pag.Text = Convert.ToString(pagina);
+
+            if (!esEmpresa) 
+            {
+                fecha_desde.MinDate = Globales.getFechaHoy();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -140,6 +145,11 @@ namespace PalcoNet.Comprar
         }
 
         private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void fecha_desde_ValueChanged(object sender, EventArgs e)
         {
 
         }
