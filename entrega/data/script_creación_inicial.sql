@@ -840,6 +840,16 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE PEL.sp_cambiar_pass (@usuario decimal, @password nvarchar(255))
+AS
+BEGIN
+
+UPDATE PEL.Usuario
+SET usua_password = pel.f_hash(@password)
+where usua_id = @usuario
+END
+
+GO
 --------------------------------------------------------------
 -------------------Migración de los datos---------------------
 --------------------------------------------------------------
