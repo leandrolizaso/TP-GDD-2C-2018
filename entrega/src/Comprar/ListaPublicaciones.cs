@@ -68,7 +68,7 @@ namespace PalcoNet.Comprar
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
-                column.HeaderText = column.HeaderText.Replace("publ_", "").Replace("_", " ").ToUpper();
+                column.HeaderText = column.HeaderText.Replace("publ_", "").Replace("fecha_ven","Dia - horario").Replace("_", " ").ToUpper();
             }
 
         }
