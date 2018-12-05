@@ -1,4 +1,5 @@
 ﻿using PalcoNet.EditarPublicacion;
+using PalcoNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,8 @@ namespace PalcoNet.Comprar
             InitializeComponent();
             esEmpresa = esEmpr;
             rubros = "";
+            fecha_desde.Value = Globales.getFechaHoy();
+            fecha_hasta.Value = Globales.getFechaHoy();
             pag.Text = Convert.ToString(pagina);
         }
 
