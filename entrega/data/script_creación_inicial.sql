@@ -265,6 +265,9 @@ begin
 	   return;
 	end;
 	
+	if(@usua_estado = 'R')
+		select -2, 'El usuario debe cambiar su contraseña';
+	
 	set @mensaje = case @usua_estado
 		when 'B' then 'El usuario fue inhabilitado por el Administrador.'
 		when 'I' then 'El usuario esta inhabilitado por tener 3 login fallidos.'
