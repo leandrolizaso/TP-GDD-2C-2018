@@ -89,7 +89,7 @@ CREATE TABLE PEL.Cliente (
 	clie_fecha_crea DATETIME,
 	clie_direccion NVARCHAR(255),
 	clie_datos_tarjeta NVARCHAR(255),
-	clie_codigo_postal NVARCHAR(255) NOT NULL,
+	clie_codigo_postal NVARCHAR(255),
 	clie_estado CHAR (1),
 	PRIMARY KEY (clie_id),
 	FOREIGN KEY (clie_usuario) REFERENCES PEL.Usuario
@@ -105,8 +105,8 @@ CREATE TABLE PEL.Empresa (
 	empr_fecha DATETIME,
 	empr_telefono NVARCHAR(255),			
 	empr_mail NVARCHAR(255) NOT NULL,
-	empr_codigo_postal NVARCHAR(255) NOT NULL,
-	empr_ciudad NVARCHAR(255) NOT NULL,
+	empr_codigo_postal NVARCHAR(255),
+	empr_ciudad NVARCHAR(255),
 	PRIMARY KEY (empr_id),
 	FOREIGN KEY (empr_usuario) REFERENCES PEL.Usuario(usua_id),
 	CONSTRAINT empr_un UNIQUE(empr_cuit, empr_razon_social)
