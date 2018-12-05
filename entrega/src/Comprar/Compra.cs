@@ -58,20 +58,29 @@ namespace PalcoNet.Comprar
 
         private void button1_Click(object sender, EventArgs e)
         {
+            int cant = 0;
             foreach (DataGridViewRow row in datagrid.Rows)
             {
 
                 if (Convert.ToBoolean(row.Cells["Seleccionar"].Value) == true)
                 {
+                    cant++;
                     ubicaciones = ubicaciones + Convert.ToString(row.Cells[1].Value) + ", ";
                 }
 
 
             }
 
-            new PublicacionDAO().comprarUbicacion(publicacion, ubicaciones);
-            MessageBox.Show("Compra realizada");
-            this.Close();
+            if (cant == 0)
+            {
+                MessageBox.Show("No selecciono ninguna ubicacion");
+            }
+            else
+            {
+                new PublicacionDAO().comprarUbicacion(publicacion, ubicaciones);
+                MessageBox.Show("Compra realizada");
+                this.Close();
+            }
         }
 
         private void datagrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
