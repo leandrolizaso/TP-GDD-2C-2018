@@ -30,8 +30,9 @@ namespace PalcoNet.EditarPublicacion
             publ_grado.DataSource = dtGrado;
 
             //cargo estados
-
-            DataTable dtEstado = new EditarPublicacionDAO().obtenerEstados();
+            decimal idEstado = new EditarPublicacionDAO().obtenerEstado(publ);
+            MessageBox.Show(Convert.ToString(idEstado));
+            DataTable dtEstado = new EditarPublicacionDAO().obtenerEstados(idEstado);
             publ_estado.DisplayMember = "esta_descripcion";
             publ_estado.ValueMember = "esta_id";
             publ_estado.DataSource = dtEstado;

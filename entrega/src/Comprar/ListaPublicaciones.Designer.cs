@@ -102,6 +102,7 @@
             this.fecha_desde.Name = "fecha_desde";
             this.fecha_desde.Size = new System.Drawing.Size(102, 20);
             this.fecha_desde.TabIndex = 28;
+            this.fecha_desde.ValueChanged += new System.EventHandler(this.fecha_desde_ValueChanged);
             // 
             // label1
             // 

@@ -28,10 +28,11 @@ namespace PalcoNet.EditarPublicacion
 
         }
 
-        public DataTable obtenerEstados() 
+        public DataTable obtenerEstados(decimal estado) 
         {
             var dict = new Dictionary<string, object>();
-            return query("select esta_id, esta_descripcion from pel.estado_publicacion", dict);
+            dict.Add("@estado", estado);
+            return query("select esta_id, esta_descripcion from pel.estado_publicacion where esta_id > @estado", dict);
            
         }
 
@@ -42,6 +43,13 @@ namespace PalcoNet.EditarPublicacion
 
         }
 
-      
+
+        internal decimal obtenerEstado(decimal publ)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@publicacion", publ);
+            decimal estado = Convert.ToDecimal(query("select publ_estado from pel.publicacion where publ_id = @publicacion", dict).Rows[0][0]);
+            return estado;
+        }
     }
 }
