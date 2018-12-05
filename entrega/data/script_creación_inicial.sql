@@ -338,7 +338,8 @@ create procedure PEL.registrar_usuario_cliente
 as
 begin
 	
-	declare @usua_id numeric (18,0),@mensaje nvarchar(255)
+	declare @usua_id numeric (18,0),@mensaje nvarchar(255), @estado varchar(1)
+	set @estado = 'A'
 	 
 	if(@nro_doc is null)
 		begin
@@ -404,10 +405,13 @@ begin
 	if(@username is null or @username = '')
 		exec PEL.generar_username @data = @username output
 	if(@password is null or @password = '')
+		begin
 		set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+		set @estado = 'R'
+		end
 
 	
-	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash (@password),'R')
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash (@password),@estado)
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
 	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Cliente'), @usua_id)
 	update PEL.Cliente 
@@ -427,7 +431,8 @@ create procedure PEL.registrar_usuario_empresa
 as
 begin
 	
-	declare @usua_id numeric (18,0),@mensaje nvarchar(255)
+	declare @usua_id numeric (18,0),@mensaje nvarchar(255),@estado varchar(1)
+	set @estado = 'A'
 
 	if(@direccion is null or @razon_social is null or @cuit is null or @mail is null)
 		begin
@@ -483,10 +488,13 @@ begin
 
 	if(@username is null or @username = '')
 		exec PEL.generar_username @data = @username output;
-	if(@password is null or @password = '') 
+	if(@password is null or @password = '')
+		begin
 		set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+		set @estado = 'R'
+		end
 			
-	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash (@password),'R')
+	insert PEL.Usuario (usua_username,usua_password,usua_estado) values (@username,PEL.f_hash (@password),@estado)
 	set @usua_id = (select usua_id from PEL.Usuario where usua_username = @username)
 	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Empresa'), @usua_id)
 	update PEL.Empresa 
