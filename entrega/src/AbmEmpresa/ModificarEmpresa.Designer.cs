@@ -46,11 +46,15 @@
             this.label13 = new System.Windows.Forms.Label();
             this.empr_cuit = new System.Windows.Forms.MaskedTextBox();
             this.empr_fecha = new System.Windows.Forms.DateTimePicker();
+            this.label2 = new System.Windows.Forms.Label();
+            this.empr_codigo_postal = new System.Windows.Forms.TextBox();
+            this.ciudad = new System.Windows.Forms.Label();
+            this.empr_ciudad = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(72, 313);
+            this.modificar.Location = new System.Drawing.Point(72, 353);
             this.modificar.Name = "modificar";
             this.modificar.Size = new System.Drawing.Size(537, 43);
             this.modificar.TabIndex = 1;
@@ -102,7 +106,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(363, 197);
+            this.label7.Location = new System.Drawing.Point(363, 227);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(40, 13);
             this.label7.TabIndex = 24;
@@ -143,7 +147,7 @@
             // empr_estado
             // 
             this.empr_estado.FormattingEnabled = true;
-            this.empr_estado.Location = new System.Drawing.Point(447, 192);
+            this.empr_estado.Location = new System.Drawing.Point(449, 227);
             this.empr_estado.Name = "empr_estado";
             this.empr_estado.Size = new System.Drawing.Size(161, 21);
             this.empr_estado.TabIndex = 25;
@@ -151,7 +155,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(69, 253);
+            this.label14.Location = new System.Drawing.Point(70, 294);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(55, 13);
             this.label14.TabIndex = 28;
@@ -159,14 +163,14 @@
             // 
             // password
             // 
-            this.password.Location = new System.Drawing.Point(447, 250);
+            this.password.Location = new System.Drawing.Point(447, 291);
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(162, 20);
             this.password.TabIndex = 1;
             // 
             // username
             // 
-            this.username.Location = new System.Drawing.Point(153, 250);
+            this.username.Location = new System.Drawing.Point(153, 291);
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(162, 20);
             this.username.TabIndex = 0;
@@ -174,7 +178,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(363, 253);
+            this.label13.Location = new System.Drawing.Point(363, 291);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(53, 13);
             this.label13.TabIndex = 30;
@@ -191,17 +195,54 @@
             // empr_fecha
             // 
             this.empr_fecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.empr_fecha.Location = new System.Drawing.Point(154, 190);
+            this.empr_fecha.Location = new System.Drawing.Point(153, 228);
             this.empr_fecha.Name = "empr_fecha";
             this.empr_fecha.Size = new System.Drawing.Size(160, 20);
             this.empr_fecha.TabIndex = 28;
             this.empr_fecha.Visible = false;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(363, 180);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.TabIndex = 31;
+            this.label2.Text = "Código postal";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // empr_codigo_postal
+            // 
+            this.empr_codigo_postal.Location = new System.Drawing.Point(447, 180);
+            this.empr_codigo_postal.Name = "empr_codigo_postal";
+            this.empr_codigo_postal.Size = new System.Drawing.Size(162, 20);
+            this.empr_codigo_postal.TabIndex = 32;
+            // 
+            // ciudad
+            // 
+            this.ciudad.AutoSize = true;
+            this.ciudad.Location = new System.Drawing.Point(70, 180);
+            this.ciudad.Name = "ciudad";
+            this.ciudad.Size = new System.Drawing.Size(40, 13);
+            this.ciudad.TabIndex = 33;
+            this.ciudad.Text = "Ciudad";
+            // 
+            // empr_ciudad
+            // 
+            this.empr_ciudad.Location = new System.Drawing.Point(153, 180);
+            this.empr_ciudad.Name = "empr_ciudad";
+            this.empr_ciudad.Size = new System.Drawing.Size(162, 20);
+            this.empr_ciudad.TabIndex = 34;
+            // 
             // ModificarEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 388);
+            this.ClientSize = new System.Drawing.Size(690, 418);
+            this.Controls.Add(this.empr_ciudad);
+            this.Controls.Add(this.ciudad);
+            this.Controls.Add(this.empr_codigo_postal);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.empr_fecha);
             this.Controls.Add(this.password);
@@ -222,6 +263,7 @@
             this.Controls.Add(this.modificar);
             this.Name = "ModificarEmpresa";
             this.Text = "Datos Empresa";
+            this.Load += new System.EventHandler(this.ModificarEmpresa_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,5 +289,9 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.MaskedTextBox empr_cuit;
         private System.Windows.Forms.DateTimePicker empr_fecha;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox empr_codigo_postal;
+        private System.Windows.Forms.Label ciudad;
+        private System.Windows.Forms.TextBox empr_ciudad;
     }
 }

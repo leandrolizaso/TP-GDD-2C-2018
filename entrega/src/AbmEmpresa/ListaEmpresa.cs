@@ -50,6 +50,11 @@ namespace PalcoNet.AbmEmpresa
             buscar_Click(sender, e);
         }
 
+        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
      }
 
 }

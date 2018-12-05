@@ -436,7 +436,7 @@ go
 
 create procedure PEL.registrar_usuario_empresa
 		(@username nvarchar(50),@password nvarchar(255),
-		@direccion nvarchar(255),@razon_social nvarchar(200),@cuit nvarchar(200),@fecha nvarchar(30),@telefono nvarchar(255),@mail nvarchar(255))
+		@direccion nvarchar(255), @ciudad nvarchar(255), @codigo_postal nvarchar(255), @razon_social nvarchar(200),@cuit nvarchar(200),@fecha nvarchar(30),@telefono nvarchar(255),@mail nvarchar(255))
 as
 begin
 	
@@ -484,8 +484,8 @@ begin
 				end
 
 			begin try
-				insert into PEL.Empresa (empr_direccion, empr_razon_social, empr_cuit, empr_estado, empr_fecha, empr_telefono, empr_mail) 
-				values (@direccion, @razon_social, @cuit, 'A' , convert(datetime,@fecha), @telefono, @mail)
+				insert into PEL.Empresa (empr_direccion, empr_ciudad, empr_codigo_postal, empr_razon_social, empr_cuit, empr_estado, empr_fecha, empr_telefono, empr_mail) 
+				values (@direccion, @ciudad, @codigo_postal, @razon_social, @cuit, 'A' , convert(datetime,@fecha), @telefono, @mail)
 			end try
 			begin catch
 				set @usua_id = -1
