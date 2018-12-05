@@ -1,4 +1,5 @@
-﻿using PalcoNet.AbmRubro;
+﻿using PalcoNet.AbmGrado;
+using PalcoNet.AbmRubro;
 using PalcoNet.ListadoEstadistico;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace PalcoNet.EditarPublicacion
 
             //cargo grados
 
-            DataTable dtGrado = new EmpresasDAO().obtenerDatosGrados();
+            DataTable dtGrado = new GradoDAO().obtenerAllGrados();
             publ_grado.DisplayMember = "grad_descripcion";
             publ_grado.ValueMember = "grad_id";
             publ_grado.DataSource = dtGrado;

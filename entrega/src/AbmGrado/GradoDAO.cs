@@ -8,7 +8,13 @@ namespace PalcoNet.AbmGrado
     public class GradoDAO : BaseDAO
     {
 
-        internal DataTable obtenerDatosGrado(decimal idGrado)
+        public DataTable obtenerAllGrados()
+        {
+            var dict = new Dictionary<string, object>();
+            return query("select grad_descripcion, grad_id " + "from pel.grado where grad_estado = 'A'", dict);
+        }
+
+        public DataTable obtenerDatosGrado(decimal idGrado)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@grad_id", idGrado);
@@ -16,7 +22,7 @@ namespace PalcoNet.AbmGrado
                         +"from pel.grado where grad_id = @grad_id", dict);
         }
 
-        internal DataTable obtenerGrado(string nombre, string pcnt_from, string pcnt_to)
+        public DataTable obtenerGrado(string nombre, string pcnt_from, string pcnt_to)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@nombre", nombre);
@@ -31,7 +37,7 @@ namespace PalcoNet.AbmGrado
                         , dict);
         }
 
-        internal void upsertDatosGrado(decimal idGrado, Dictionary<string, object> dict)
+        public void upsertDatosGrado(decimal idGrado, Dictionary<string, object> dict)
         {
             string queryStr;
             if (idGrado == -1)

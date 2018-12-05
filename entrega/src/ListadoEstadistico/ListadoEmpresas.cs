@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PalcoNet.AbmGrado;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,7 +34,7 @@ namespace PalcoNet.ListadoEstadistico
             row["grad_descripcion"] = "--";
             row["grad_id"] = 0;
             dt.Rows.Add(row);
-            dt.Merge(new EmpresasDAO().obtenerDatosGrados(), true, MissingSchemaAction.Ignore);
+            dt.Merge(new GradoDAO().obtenerAllGrados(), true, MissingSchemaAction.Ignore);
             grado.DisplayMember = "grad_descripcion";
             grado.ValueMember = "grad_id";
             grado.DataSource = dt;
