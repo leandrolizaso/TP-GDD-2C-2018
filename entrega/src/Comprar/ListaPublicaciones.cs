@@ -61,7 +61,7 @@ namespace PalcoNet.Comprar
             }
             else 
             {
-                dt = new PublicacionDAO().obtenerPublicaciones(rubros, nombre.SelectedText, fecha_desde.Value, fecha_hasta.Value, pagina);
+                dt = new PublicacionDAO().obtenerPublicaciones(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value, pagina);
                 
             }
             
