@@ -63,6 +63,7 @@
             this.pass.PasswordChar = '*';
             this.pass.Size = new System.Drawing.Size(90, 20);
             this.pass.TabIndex = 3;
+            this.pass.TextChanged += new System.EventHandler(this.pass_TextChanged);
             // 
             // label2
             // 
@@ -122,6 +123,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Login";
             this.Text = "Login";
+            this.Load += new System.EventHandler(this.Login_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -8,6 +8,7 @@ using PalcoNet.EditarPublicacion;
 using PalcoNet.GenerarRendicionComisiones;
 using PalcoNet.HistorialCliente;
 using PalcoNet.ListadoEstadistico;
+using PalcoNet.RegistroUsuario;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,6 +43,24 @@ namespace PalcoNet
                 button.Click += funcionElegida;
                 button.AutoSize = true;
                 panel.Controls.Add(button);
+            }
+            Button cambiarPass = new Button();
+            cambiarPass.Text = "CAMBIAR CONTRASEÑA";
+            cambiarPass.AutoSize = true;
+            cambiarPass.Click += cambiarPass_Click;
+            panel.Controls.Add(cambiarPass);
+        }
+
+        private void cambiarPass_Click(object sender, EventArgs e)
+        {
+
+            if (new RolDAO().esAdmin())
+            {
+                new ListaUsuario().ShowDialog();
+            }
+            else
+            {
+                new CambiarPass(0).ShowDialog();
             }
         }
 
@@ -106,6 +125,16 @@ namespace PalcoNet
         }
 
         private void panel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Funcionalidad_Load(object sender, EventArgs e)
         {
 
         }

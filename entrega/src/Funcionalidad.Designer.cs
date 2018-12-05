@@ -49,6 +49,7 @@
             this.panel.Name = "panel";
             this.panel.Size = new System.Drawing.Size(362, 218);
             this.panel.TabIndex = 1;
+            this.panel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Paint_1);
             // 
             // Funcionalidad
             // 
@@ -60,6 +61,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Funcionalidad";
             this.Text = "Funcionalidad";
+            this.Load += new System.EventHandler(this.Funcionalidad_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

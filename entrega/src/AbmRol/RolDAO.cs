@@ -75,5 +75,13 @@ namespace PalcoNet.AbmRol
             dict.Add("@rol", idRol);
             procedure("PEL.sp_baja_rol", dict);
         }
+
+        internal bool esAdmin()
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@usuario", Globales.idUsuarioLoggeado);
+            DataTable dt = query("select count(*) from pel.rol_usuario where rol_usua_usua = @usuario and rol_usua_rol = 1", dict);
+            return Convert.ToInt32(dt.Rows[0][0]) == 1;
+        }
     }
 }

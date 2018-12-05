@@ -28,6 +28,13 @@ namespace PalcoNet
                 Decimal idUsuario = new LoginDAO().esUsuarioActivo(usuario.Text, pass.Text);
                 Globales.idUsuarioLoggeado = idUsuario;
                 this.Hide();
+
+                if (new LoginDAO().esPrimerIngreso(usuario.Text, pass.Text))
+                {
+                    new CambiarPass(0).ShowDialog();
+                }
+
+                
                 new SeleccionRol(idUsuario).ShowDialog();
                 this.Show();
             }
@@ -44,6 +51,16 @@ namespace PalcoNet
             this.Hide();
             new NuevoUsuario().ShowDialog();
             this.Show();
+        }
+
+        private void pass_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

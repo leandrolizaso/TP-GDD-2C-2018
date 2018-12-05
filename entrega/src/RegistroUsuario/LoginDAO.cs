@@ -18,10 +18,38 @@ namespace PalcoNet.RegistroUsuario {
             Decimal idUsuario = Convert.ToDecimal(result.Rows[0][0]);
             string mensaje = result.Rows[0][1].ToString();
 
-            if (idUsuario < 0) {
+            if (idUsuario == -1) {
                 throw new ArgumentException(mensaje);
             }
             return idUsuario;
+        }
+
+        public void cambiarPass(decimal user, string password, bool esAdmin) 
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@usuario", user);
+            dict.Add("@password", password);
+
+            procedure("PEL.sp_cambiar_pass", dict);
+
+            if (esAdmin) 
+            { 
+                dict = new Dictionary<string, object>();
+                dict.Add("@usuario", user);
+                query("update pel.usuario set usua_estado = 'R' where usua_id = @usuario",dict);
+                
+            }
+        }
+
+        public bool esPrimerIngreso(string user, string pass)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@username", user);
+            dict.Add("@password", pass);
+            DataTable result = procedure("PEL.validar_usuario", dict);
+
+            return Convert.ToDecimal(result.Rows[0][0]) == -2;
+            
         }
 
     }
