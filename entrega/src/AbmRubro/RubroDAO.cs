@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-namespace PalcoNet.Comprar {
+namespace PalcoNet.AbmRubro {
 
     public class RubroDAO : BaseDAO{
 
@@ -24,5 +24,6 @@ namespace PalcoNet.Comprar {
             var dict = new Dictionary<string, object>();
             return query("select rubr_id, rubr_descripcion from pel.rubro", dict);
         }
+
     }
 }

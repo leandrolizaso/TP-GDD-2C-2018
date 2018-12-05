@@ -1,4 +1,5 @@
-﻿using PalcoNet.ListadoEstadistico;
+﻿using PalcoNet.AbmRubro;
+using PalcoNet.ListadoEstadistico;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,7 +40,7 @@ namespace PalcoNet.EditarPublicacion
 
             //cargo rubros
 
-            DataTable dtRubro = new EditarPublicacionDAO().obtenerRubros();
+            DataTable dtRubro = new RubroDAO().obtenerRubros();
             publ_rubro.DisplayMember = "rubr_descripcion";
             publ_rubro.ValueMember = "rubr_id";
             publ_rubro.DataSource = dtRubro;

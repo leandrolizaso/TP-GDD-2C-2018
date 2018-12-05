@@ -36,14 +36,6 @@ namespace PalcoNet.EditarPublicacion
            
         }
 
-        public DataTable obtenerRubros()
-        {
-            var dict = new Dictionary<string, object>();
-            return query("select rubr_id, rubr_descripcion from pel.rubro", dict);
-
-        }
-
-
         internal decimal obtenerEstado(decimal publ)
         {
             var dict = new Dictionary<string, object>();
