@@ -31,11 +31,12 @@ namespace PalcoNet
 
                 if (new LoginDAO().esPrimerIngreso(usuario.Text, pass.Text))
                 {
+                    Globales.idUsuarioLoggeado = new UsuarioDAO().obtenerUsuario(usuario.Text);
                     new CambiarPass(0).ShowDialog();
                 }
 
-                
-                new SeleccionRol(idUsuario).ShowDialog();
+
+                new SeleccionRol(Globales.idUsuarioLoggeado).ShowDialog();
                 this.Show();
             }
             catch (ArgumentException ex) {
