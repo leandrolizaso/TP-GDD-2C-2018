@@ -50,9 +50,18 @@ namespace PalcoNet.Comprar
 
         private void buscar_Click(object sender, EventArgs e)
         {
-            ultimaPagina = Convert.ToInt32(Math.Ceiling((new PublicacionDAO().totalPaginas(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value)) / 10));                                                                
-            this.llenar_grilla();
+            if (esEmpresa)
+            {
+                ultimaPagina = Convert.ToInt32(Math.Ceiling((new PublicacionDAO().totalPaginasEmpresa(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value)) / 10));
+            }
+            else
+            {
 
+                ultimaPagina = Convert.ToInt32(Math.Ceiling((new PublicacionDAO().totalPaginas(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value)) / 10));
+                
+            }
+
+            this.llenar_grilla();
         }
 
         private void llenar_grilla()
@@ -62,7 +71,7 @@ namespace PalcoNet.Comprar
 
             if (esEmpresa)
             {
-                dt = new PublicacionDAO().obtenerPublicacionesEmpresa(rubros, nombre.SelectedText, fecha_desde.Value, fecha_hasta.Value, pagina);
+                dt = new PublicacionDAO().obtenerPublicacionesEmpresa(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value, pagina);
             }
             else 
             {
