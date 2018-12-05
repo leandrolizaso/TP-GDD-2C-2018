@@ -266,7 +266,10 @@ begin
 	end;
 	
 	if(@usua_estado = 'R')
+	begin
 		select -2, 'El usuario debe cambiar su contraseña';
+		return;
+	end
 	
 	set @mensaje = case @usua_estado
 		when 'B' then 'El usuario fue inhabilitado por el Administrador.'
@@ -892,7 +895,7 @@ INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje,grad_estado) values
 GO
 
 INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
-	('Administrador General', 'A'),
+	('Administrador', 'A'),
 	('Cliente','A'),
 	('Empresa','A')
 GO
