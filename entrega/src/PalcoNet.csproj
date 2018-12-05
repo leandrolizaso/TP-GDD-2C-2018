@@ -167,7 +167,6 @@
       <DependentUpon>MostrarHistorialCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="ListadoEstadistico\ComprasDAO.cs" />
-    <Compile Include="ListadoEstadistico\EmpresasDAO.cs" />
     <Compile Include="ListadoEstadistico\ListadoEmpresas.cs">
       <SubType>Form</SubType>
     </Compile>

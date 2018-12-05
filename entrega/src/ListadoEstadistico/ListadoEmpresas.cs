@@ -1,4 +1,5 @@
 ﻿using PalcoNet.AbmGrado;
+using PalcoNet.Comprar;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,7 +48,7 @@ namespace PalcoNet.ListadoEstadistico
 
         private void buscar_Click(object sender, EventArgs e)
         {
-            DataTable dt = new EmpresasDAO().obtenerEmpresas(fechaDesde, fechaHasta, Convert.ToDecimal(grado.SelectedValue));
+            DataTable dt = new PublicacionDAO().obtenerPublicacionesNoVendidas(fechaDesde, fechaHasta, Convert.ToDecimal(grado.SelectedValue));
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {

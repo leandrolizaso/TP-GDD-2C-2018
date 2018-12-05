@@ -10,9 +10,18 @@ using System.Threading.Tasks;
 
 namespace PalcoNet.Comprar
 {
-    class PublicacionDAO : BaseDAO
+    public class PublicacionDAO : BaseDAO
     {
-        internal DataTable obtenerPublicaciones(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta, int pagina)
+        public DataTable obtenerPublicacionesNoVendidas(DateTime fechaDesde, DateTime fechaHasta, decimal grado)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@fecha_desde", fechaDesde);
+            dict.Add("@fecha_hasta", fechaHasta);
+            dict.Add("@grado", grado);
+            return procedure("PEL.sp_listado_no_vendidas", dict);
+        }
+
+        public DataTable obtenerPublicaciones(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta, int pagina)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@categorias", categorias);
@@ -22,7 +31,7 @@ namespace PalcoNet.Comprar
             dict.Add("@pag", pagina);
             return procedure("PEL.sp_ver_publicaciones", dict);
         }
-        
+
 
         public double totalPaginas(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta)
         {
@@ -36,7 +45,7 @@ namespace PalcoNet.Comprar
             return total;
         }
 
-        internal DataTable obtenerPublicacionesEmpresa(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta, int pagina)
+        public DataTable obtenerPublicacionesEmpresa(string categorias, string detalle, DateTime fechaDesde, DateTime fechaHasta, int pagina)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@empresa", new EmpresaDAO().obtenerEmpresa(Globales.idUsuarioLoggeado));
@@ -62,7 +71,7 @@ namespace PalcoNet.Comprar
             return total;
         }
 
-        internal decimal obtenerPublicacion(string descripcion)
+        public decimal obtenerPublicacion(string descripcion)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@descripcion", descripcion);
@@ -70,7 +79,7 @@ namespace PalcoNet.Comprar
             return Convert.ToDecimal(result.Rows[0][0]);
         }
 
-        internal DataTable obtenerUbicaciones(decimal idPublicacion)
+        public DataTable obtenerUbicaciones(decimal idPublicacion)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@publicacion", idPublicacion);
@@ -78,7 +87,7 @@ namespace PalcoNet.Comprar
                         + "from pel.ubicacion where ubic_publ  = @publicacion and ubic_compra is null order by ubic_precio asc", dict);
         }
 
-        internal void comprarUbicacion(decimal publicacion, string ubicaciones)
+        public void comprarUbicacion(decimal publicacion, string ubicaciones)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@publicacion", publicacion);
