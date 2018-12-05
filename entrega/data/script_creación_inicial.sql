@@ -530,9 +530,9 @@ BEGIN
 SELECT  publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id and convert(date,publ_fecha_ven,121) > convert(date, @fecha, 121)
-		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
+		  where publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
-		  and publ_descripcion like '%' + @detalle + '%'
+		  and publ_descripcion like (case when @detalle != '' then '%' + @detalle + '%' else publ_descripcion end)
         ) AS RowConstrainedResult
 WHERE   RowNum > (@pag-1)*10 
     AND RowNum <= @pag*10
@@ -540,18 +540,16 @@ ORDER BY RowNum
 END
 GO
 
-
-
 CREATE PROCEDURE PEL.sp_total_publicaciones(@categorias nvarchar(255), @detalle varchar(255),@desde varchar(30),@hasta varchar(30), @fecha varchar(30))
 AS
 BEGIN
 SELECT    count(publ_id)
-		  FROM      PEL.Publicacion 
-		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
+		  FROM      PEL.Publicacion
+		  where publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
 		  and  convert(date,publ_fecha_ven,121) > convert(date, @fecha, 121)
 		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
-		  and publ_descripcion like '%' + @detalle + '%'
+		  and publ_descripcion like (case when @detalle != '' then '%' + @detalle + '%' else publ_descripcion end)
 END
 GO
 
@@ -561,9 +559,10 @@ BEGIN
 SELECT  publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id and convert(date,publ_fecha_ven,121) > convert(date, @fecha, 121) and publ_empresa_resp = @empresa
-		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,','))
+		  where publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
+		  and publ_empresa_resp = @empresa
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
-		  and publ_descripcion like '%' + @detalle + '%'
+		  and publ_descripcion like (case when @detalle != '' then '%' + @detalle + '%' else publ_descripcion end)
         ) AS RowConstrainedResult
 WHERE   RowNum > (@pag-1)*10 
     AND RowNum <= @pag*10
@@ -577,12 +576,13 @@ CREATE PROCEDURE PEL.sp_total_publicaciones_empresa(@categorias nvarchar(255), @
 AS
 BEGIN
 SELECT    count(publ_id)
-		  FROM      PEL.Publicacion 
-		  WHERE publ_rubro in (select * from PEL.f_string_split(@categorias,',')) and publ_empresa_resp = @empresa
+		  FROM      PEL.Publicacion
+		  where publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
+		  and publ_empresa_resp = @empresa
 		  and  convert(date,publ_fecha_ven,121) > convert(date, @fecha, 121)
 		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
-		  and publ_descripcion like '%' + @detalle + '%'
+		  and publ_descripcion like (case when @detalle != '' then '%' + @detalle + '%' else publ_descripcion end)
 END
 GO
 
@@ -1074,5 +1074,3 @@ AS
 		rollback
 		end
 GO
-
-
