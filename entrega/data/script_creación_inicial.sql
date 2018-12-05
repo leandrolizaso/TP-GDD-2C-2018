@@ -639,6 +639,8 @@ BEGIN
 
 	UPDATE PEL.Ubicacion
 	set ubic_factura = @factura,
+		   ubic_item_factura_descripcion = 'Comision por compra',
+		   ubic_item_factura_cantidad = 1,
 		   ubic_comision = case when (select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ) = 0 then 0
 								 else ubic_precio/(select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ) end
 	where ubic_id in (SELECT TOP (@cantidad) ubic_id 
