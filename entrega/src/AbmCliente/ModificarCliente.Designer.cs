@@ -57,11 +57,13 @@
             this.username = new System.Windows.Forms.TextBox();
             this.password = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.clie_codigo_postal = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(74, 387);
+            this.modificar.Location = new System.Drawing.Point(74, 415);
             this.modificar.Name = "modificar";
             this.modificar.Size = new System.Drawing.Size(537, 43);
             this.modificar.TabIndex = 13;
@@ -154,7 +156,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(363, 289);
+            this.label7.Location = new System.Drawing.Point(367, 334);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(40, 13);
             this.label7.TabIndex = 24;
@@ -222,7 +224,7 @@
             // clie_estado
             // 
             this.clie_estado.FormattingEnabled = true;
-            this.clie_estado.Location = new System.Drawing.Point(447, 284);
+            this.clie_estado.Location = new System.Drawing.Point(450, 326);
             this.clie_estado.Name = "clie_estado";
             this.clie_estado.Size = new System.Drawing.Size(161, 21);
             this.clie_estado.TabIndex = 11;
@@ -268,7 +270,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(363, 343);
+            this.label13.Location = new System.Drawing.Point(363, 377);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(53, 13);
             this.label13.TabIndex = 30;
@@ -276,14 +278,14 @@
             // 
             // username
             // 
-            this.username.Location = new System.Drawing.Point(153, 340);
+            this.username.Location = new System.Drawing.Point(153, 374);
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(162, 20);
             this.username.TabIndex = 0;
             // 
             // password
             // 
-            this.password.Location = new System.Drawing.Point(447, 340);
+            this.password.Location = new System.Drawing.Point(451, 374);
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(162, 20);
             this.password.TabIndex = 1;
@@ -291,17 +293,36 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(69, 343);
+            this.label14.Location = new System.Drawing.Point(69, 377);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(55, 13);
             this.label14.TabIndex = 28;
             this.label14.Text = "Username";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(363, 289);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(71, 13);
+            this.label15.TabIndex = 31;
+            this.label15.Text = "Código postal";
+            // 
+            // clie_codigo_postal
+            // 
+            this.clie_codigo_postal.Location = new System.Drawing.Point(451, 282);
+            this.clie_codigo_postal.Name = "clie_codigo_postal";
+            this.clie_codigo_postal.Size = new System.Drawing.Size(162, 20);
+            this.clie_codigo_postal.TabIndex = 32;
+            this.clie_codigo_postal.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // ModificarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 448);
+            this.ClientSize = new System.Drawing.Size(690, 493);
+            this.Controls.Add(this.clie_codigo_postal);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.password);
             this.Controls.Add(this.clie_tipo_doc);
@@ -333,6 +354,7 @@
             this.Controls.Add(this.modificar);
             this.Name = "ModificarCliente";
             this.Text = "Datos Cliente";
+            this.Load += new System.EventHandler(this.ModificarCliente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -369,5 +391,7 @@
         private System.Windows.Forms.TextBox username;
         private System.Windows.Forms.TextBox password;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox clie_codigo_postal;
     }
 }

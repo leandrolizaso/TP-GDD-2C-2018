@@ -343,7 +343,7 @@ go
 create procedure PEL.registrar_usuario_cliente
 		(@username nvarchar(50),@password nvarchar(255),
 		@nombre nvarchar(255), @apellido nvarchar(255),@tipo_doc nvarchar(255),@nro_doc nvarchar(255),@cuil nvarchar(255),@mail nvarchar(255),@telefono nvarchar(255),
-		@fecha_nac nvarchar(30),@fecha_crea nvarchar(30),@direccion nvarchar(255),@datos_tarjeta nvarchar(255))
+		@fecha_nac nvarchar(30),@fecha_crea nvarchar(30),@direccion nvarchar(255), @codigo_postal nvarchar(255),@datos_tarjeta nvarchar(255))
 as
 begin
 	
@@ -399,8 +399,8 @@ begin
 				end
 
 			begin try
-				insert PEL.Cliente (clie_nombre, clie_apellido, clie_tipo_doc, clie_nro_doc, clie_cuil, clie_mail, clie_telefono, clie_fecha_nac, clie_fecha_crea, clie_direccion, clie_datos_tarjeta,clie_estado) values 
-				(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono,convert(datetime,@fecha_nac), convert(datetime,@fecha_crea), @direccion, @datos_tarjeta,'A') 				
+				insert PEL.Cliente (clie_nombre, clie_apellido, clie_tipo_doc, clie_nro_doc, clie_cuil, clie_mail, clie_telefono, clie_fecha_nac, clie_fecha_crea, clie_direccion, clie_codigo_postal,clie_datos_tarjeta,clie_estado) values 
+				(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono,convert(datetime,@fecha_nac), convert(datetime,@fecha_crea), @direccion, @codigo_postal , @datos_tarjeta,'A') 				
 			end try
 			begin catch 
 				set @usua_id = -1
@@ -1105,4 +1105,5 @@ AS
 		rollback
 		end
 GO
+
 

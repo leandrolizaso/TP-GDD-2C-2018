@@ -39,9 +39,9 @@
             this.buscar = new System.Windows.Forms.Button();
             this.limpiar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.crear = new System.Windows.Forms.Button();
             this.datagrid = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
-            this.crear = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).BeginInit();
             this.SuspendLayout();
@@ -150,6 +150,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros";
             // 
+            // crear
+            // 
+            this.crear.Location = new System.Drawing.Point(537, 15);
+            this.crear.Name = "crear";
+            this.crear.Size = new System.Drawing.Size(61, 63);
+            this.crear.TabIndex = 10;
+            this.crear.Text = "Crear Cliente";
+            this.crear.UseVisualStyleBackColor = true;
+            this.crear.Click += new System.EventHandler(this.crear_Click);
+            // 
             // datagrid
             // 
             this.datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -157,6 +167,7 @@
             this.datagrid.Name = "datagrid";
             this.datagrid.Size = new System.Drawing.Size(603, 231);
             this.datagrid.TabIndex = 11;
+            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
             this.datagrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellDoubleClick);
             // 
             // label5
@@ -168,16 +179,6 @@
             this.label5.Size = new System.Drawing.Size(171, 13);
             this.label5.TabIndex = 13;
             this.label5.Text = "Doble click en la fila para modificar";
-            // 
-            // crear
-            // 
-            this.crear.Location = new System.Drawing.Point(537, 15);
-            this.crear.Name = "crear";
-            this.crear.Size = new System.Drawing.Size(61, 63);
-            this.crear.TabIndex = 10;
-            this.crear.Text = "Crear Cliente";
-            this.crear.UseVisualStyleBackColor = true;
-            this.crear.Click += new System.EventHandler(this.crear_Click);
             // 
             // ListaCliente
             // 

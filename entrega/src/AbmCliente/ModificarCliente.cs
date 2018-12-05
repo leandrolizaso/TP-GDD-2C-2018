@@ -121,5 +121,15 @@ namespace PalcoNet.AbmCliente
             
         }
 
+        private void ModificarCliente_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
