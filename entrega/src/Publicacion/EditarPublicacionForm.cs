@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PalcoNet.EditarPublicacion
+namespace PalcoNet.Publicacion
 {
     public partial class EditarPublicacionForm : Form
     {

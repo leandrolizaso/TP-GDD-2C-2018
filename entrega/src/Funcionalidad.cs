@@ -4,7 +4,7 @@ using PalcoNet.AbmGrado;
 using PalcoNet.AbmRol;
 using PalcoNet.CanjePuntos;
 using PalcoNet.Comprar;
-using PalcoNet.EditarPublicacion;
+using PalcoNet.Publicacion;
 using PalcoNet.GenerarRendicionComisiones;
 using PalcoNet.HistorialCliente;
 using PalcoNet.ListadoEstadistico;

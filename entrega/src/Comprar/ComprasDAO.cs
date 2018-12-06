@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PalcoNet.ListadoEstadistico
+namespace PalcoNet.Comprar
 {
     public class ComprasDAO : BaseDAO {
 

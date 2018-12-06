@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PalcoNet.Comprar
+namespace PalcoNet.Publicacion
 {
     public class PublicacionDAO : BaseDAO
     {

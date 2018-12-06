@@ -125,7 +125,7 @@
     <Compile Include="Comprar\ListaPublicaciones.Designer.cs">
       <DependentUpon>ListaPublicaciones.cs</DependentUpon>
     </Compile>
-    <Compile Include="Comprar\PublicacionDAO.cs" />
+    <Compile Include="Publicacion\PublicacionDAO.cs" />
     <Compile Include="AbmRubro\Rubro.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,13 +133,13 @@
       <DependentUpon>Rubro.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRubro\RubroDAO.cs" />
-    <Compile Include="EditarPublicacion\EditarPublicacionForm.cs">
+    <Compile Include="Publicacion\EditarPublicacionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditarPublicacion\EditarPublicacionForm.Designer.cs">
+    <Compile Include="Publicacion\EditarPublicacionForm.Designer.cs">
       <DependentUpon>EditarPublicacionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditarPublicacion\EditarPublicacionDAO.cs" />
+    <Compile Include="Publicacion\EditarPublicacionDAO.cs" />
     <Compile Include="Funcionalidad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,7 +166,7 @@
     <Compile Include="HistorialCliente\MostrarHistorialCliente.Designer.cs">
       <DependentUpon>MostrarHistorialCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListadoEstadistico\ComprasDAO.cs" />
+    <Compile Include="Comprar\ComprasDAO.cs" />
     <Compile Include="ListadoEstadistico\ListadoEmpresas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -281,7 +281,7 @@
     <EmbeddedResource Include="AbmRubro\Rubro.resx">
       <DependentUpon>Rubro.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditarPublicacion\EditarPublicacionForm.resx">
+    <EmbeddedResource Include="Publicacion\EditarPublicacionForm.resx">
       <DependentUpon>EditarPublicacionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidad.resx">
@@ -352,9 +352,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GenerarPublicacion\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)application.properties $(ProjectDir)$(OutDir)</PostBuildEvent>

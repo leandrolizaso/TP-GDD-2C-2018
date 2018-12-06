@@ -1,5 +1,5 @@
 ﻿using PalcoNet.AbmRubro;
-using PalcoNet.EditarPublicacion;
+using PalcoNet.Publicacion;
 using PalcoNet.Utils;
 using System;
 using System.Collections.Generic;

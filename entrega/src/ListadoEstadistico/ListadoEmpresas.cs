@@ -1,5 +1,6 @@
 ﻿using PalcoNet.AbmGrado;
 using PalcoNet.Comprar;
+using PalcoNet.Publicacion;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

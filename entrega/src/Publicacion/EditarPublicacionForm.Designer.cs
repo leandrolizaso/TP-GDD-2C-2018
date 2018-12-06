@@ -1,4 +1,4 @@
-﻿namespace PalcoNet.EditarPublicacion
+﻿namespace PalcoNet.Publicacion
 {
     partial class EditarPublicacionForm
     {
