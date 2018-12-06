@@ -26,7 +26,9 @@ namespace PalcoNet.CanjePuntos
             datagrid.AllowUserToAddRows = false;
             if (dt.Rows.Count == 0)
             {
+              
                 System.Windows.Forms.MessageBox.Show("No tiene puntos sufientes para canjear un premio");
+                
             }
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
@@ -51,11 +53,13 @@ namespace PalcoNet.CanjePuntos
 
         private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            
+
             var senderGrid = (DataGridView)sender;
 
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
-                e.RowIndex > 0)
-            {
+                e.RowIndex >= 0)
+            {   
                 string premio = Convert.ToString(dt.Rows[e.RowIndex][0]);
                 decimal puntos = new PremioDAO().canjearPremio(premio);
                 new PremioDAO().descontarPuntos(puntos);

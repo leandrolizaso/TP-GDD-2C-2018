@@ -26,7 +26,7 @@ namespace PalcoNet.Comprar
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
-                column.HeaderText = column.HeaderText.Replace("ubic_", "").Replace("_", " ").ToUpper();
+                column.HeaderText = column.HeaderText.Replace("ubic_", "").Replace("tipo", "").Replace("_", " ").ToUpper();
             }
             datagrid.Columns["ubic_id"].Visible = false;
             DataGridViewCheckBoxColumn clm = new DataGridViewCheckBoxColumn();

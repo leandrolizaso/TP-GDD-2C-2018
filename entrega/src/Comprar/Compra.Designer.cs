@@ -39,7 +39,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(106, 21);
+            this.label1.Location = new System.Drawing.Point(166, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(246, 26);
             this.label1.TabIndex = 1;
@@ -59,14 +59,14 @@
             this.datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datagrid.Location = new System.Drawing.Point(12, 68);
             this.datagrid.Name = "datagrid";
-            this.datagrid.Size = new System.Drawing.Size(467, 214);
+            this.datagrid.Size = new System.Drawing.Size(560, 234);
             this.datagrid.TabIndex = 4;
             this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
             this.datagrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.datagrid_CurrentCellDirtyStateChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(376, 288);
+            this.button1.Location = new System.Drawing.Point(469, 309);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(103, 31);
             this.button1.TabIndex = 5;
@@ -76,9 +76,10 @@
             // 
             // Compra
             // 
+            this.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(493, 331);
+            this.ClientSize = new System.Drawing.Size(585, 352);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.datagrid);
             this.Controls.Add(this.precio);

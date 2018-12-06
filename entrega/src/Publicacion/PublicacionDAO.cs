@@ -79,12 +79,12 @@ namespace PalcoNet.Publicacion
             return Convert.ToDecimal(result.Rows[0][0]);
         }
 
-        public DataTable obtenerUbicaciones(decimal idPublicacion)
+        internal DataTable obtenerUbicaciones(decimal idPublicacion)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@publicacion", idPublicacion);
-            return query("select ubic_id, ubic_fila, ubic_asiento, ubic_precio "
-                        + "from pel.ubicacion where ubic_publ  = @publicacion and ubic_compra is null order by ubic_precio asc", dict);
+            return query("select ubic_id, ubic_fila, ubic_asiento, ubic_precio, tipo_ubic_descripcion "
+                        + "from pel.ubicacion join pel.tipo_ubicacion on ubic_tipo = tipo_ubic_id where ubic_publ  = @publicacion and ubic_compra is null order by ubic_precio asc", dict);
         }
 
         public void comprarUbicacion(decimal publicacion, string ubicaciones)
