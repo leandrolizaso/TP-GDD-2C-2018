@@ -99,8 +99,8 @@ CREATE TABLE PEL.Empresa (
 	empr_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	empr_usuario NUMERIC(18,0),
 	empr_direccion NVARCHAR(255) NOT NULL,
-	empr_razon_social NVARCHAR(200) NOT NULL,
-	empr_cuit NVARCHAR(200) NOT NULL UNIQUE,			
+	empr_razon_social NVARCHAR(255) NOT NULL UNIQUE,
+	empr_cuit NVARCHAR(255) NOT NULL UNIQUE,			
 	empr_estado CHAR(1),
 	empr_fecha DATETIME,
 	empr_telefono NVARCHAR(255),			
@@ -108,8 +108,7 @@ CREATE TABLE PEL.Empresa (
 	empr_codigo_postal NVARCHAR(255),
 	empr_ciudad NVARCHAR(255),
 	PRIMARY KEY (empr_id),
-	FOREIGN KEY (empr_usuario) REFERENCES PEL.Usuario(usua_id),
-	CONSTRAINT empr_un UNIQUE(empr_cuit, empr_razon_social)
+	FOREIGN KEY (empr_usuario) REFERENCES PEL.Usuario(usua_id)
 )
 
 CREATE TABLE PEL.Publicacion (
