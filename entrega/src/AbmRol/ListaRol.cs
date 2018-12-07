@@ -20,6 +20,11 @@ namespace PalcoNet.AbmRol
         private void buscar_Click(object sender, EventArgs e)
         {
             datagrid.DataSource = new RolDAO().buscarRoles(rol_nombre.Text);
+
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void limpiar_Click(object sender, EventArgs e)
@@ -33,6 +38,11 @@ namespace PalcoNet.AbmRol
             this.Hide();
             new ModificarRol(-1).ShowDialog();
             this.Show();
+        }
+
+        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

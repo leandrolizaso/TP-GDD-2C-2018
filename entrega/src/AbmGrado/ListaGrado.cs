@@ -27,6 +27,11 @@ namespace PalcoNet.AbmGrado
             {
                 column.HeaderText = column.HeaderText.Replace("grad_", "").Replace("_", " ").ToUpper();
             }
+
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void limpiar_Click(object sender, EventArgs e)
@@ -52,6 +57,11 @@ namespace PalcoNet.AbmGrado
             new ModificarGrado(id_clickeado).ShowDialog();
             this.Show();
             buscar_Click(sender, e);
+        }
+
+        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

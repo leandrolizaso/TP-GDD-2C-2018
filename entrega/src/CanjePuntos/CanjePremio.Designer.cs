@@ -30,17 +30,20 @@
         {
             this.datagrid = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.puntos = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // datagrid
             // 
+            this.datagrid.AllowUserToAddRows = false;
+            this.datagrid.AllowUserToDeleteRows = false;
             this.datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datagrid.Location = new System.Drawing.Point(18, 101);
             this.datagrid.Name = "datagrid";
+            this.datagrid.ReadOnly = true;
             this.datagrid.Size = new System.Drawing.Size(603, 256);
             this.datagrid.TabIndex = 18;
             this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
@@ -56,6 +59,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
+            // puntos
+            // 
+            this.puntos.AutoSize = true;
+            this.puntos.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.puntos.Location = new System.Drawing.Point(221, 25);
+            this.puntos.Name = "puntos";
+            this.puntos.Size = new System.Drawing.Size(0, 25);
+            this.puntos.TabIndex = 1;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -65,15 +77,6 @@
             this.label1.Size = new System.Drawing.Size(182, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Puntos disponibles:";
-            // 
-            // puntos
-            // 
-            this.puntos.AutoSize = true;
-            this.puntos.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.puntos.Location = new System.Drawing.Point(221, 25);
-            this.puntos.Name = "puntos";
-            this.puntos.Size = new System.Drawing.Size(0, 25);
-            this.puntos.TabIndex = 1;
             // 
             // CanjePremio
             // 

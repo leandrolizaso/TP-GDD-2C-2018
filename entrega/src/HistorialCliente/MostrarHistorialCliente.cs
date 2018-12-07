@@ -47,6 +47,11 @@ namespace PalcoNet.HistorialCliente
             {
                 column.HeaderText = column.HeaderText.Replace("compr_", "").Replace("_", " ").ToUpper();
             }
+
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void primera_Click(object sender, EventArgs e)

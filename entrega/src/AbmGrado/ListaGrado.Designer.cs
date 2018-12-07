@@ -56,11 +56,15 @@
             // 
             // datagrid
             // 
+            this.datagrid.AllowUserToAddRows = false;
+            this.datagrid.AllowUserToDeleteRows = false;
             this.datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datagrid.Location = new System.Drawing.Point(12, 120);
             this.datagrid.Name = "datagrid";
+            this.datagrid.ReadOnly = true;
             this.datagrid.Size = new System.Drawing.Size(603, 231);
             this.datagrid.TabIndex = 15;
+            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
             this.datagrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellDoubleClick);
             // 
             // groupBox1
@@ -159,7 +163,7 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Nombre";
             // 
-            // form
+            // ListaGrado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -167,7 +171,7 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.datagrid);
             this.Controls.Add(this.groupBox1);
-            this.Name = "form";
+            this.Name = "ListaGrado";
             this.Text = "ABM Grado";
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).EndInit();
             this.groupBox1.ResumeLayout(false);

@@ -86,6 +86,11 @@ namespace PalcoNet.Comprar
                 column.HeaderText = column.HeaderText.Replace("publ_", "").Replace("fecha_ven","Dia - horario").Replace("_", " ").ToUpper();
             }
 
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
         }
 
         private void Rubros_Paint(object sender, PaintEventArgs e)

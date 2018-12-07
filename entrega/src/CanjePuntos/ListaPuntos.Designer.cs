@@ -32,9 +32,9 @@
             this.buscar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.premios = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.premios = new System.Windows.Forms.Button();
             this.crear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -42,9 +42,12 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(25, 125);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(589, 220);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -82,6 +85,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
+            // premios
+            // 
+            this.premios.Location = new System.Drawing.Point(482, 15);
+            this.premios.Name = "premios";
+            this.premios.Size = new System.Drawing.Size(101, 63);
+            this.premios.TabIndex = 15;
+            this.premios.Text = "Ver premios canjeados";
+            this.premios.UseVisualStyleBackColor = true;
+            this.premios.Click += new System.EventHandler(this.premios_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -101,16 +114,6 @@
             this.label2.Size = new System.Drawing.Size(147, 25);
             this.label2.TabIndex = 13;
             this.label2.Text = "Total de puntos";
-            // 
-            // premios
-            // 
-            this.premios.Location = new System.Drawing.Point(482, 15);
-            this.premios.Name = "premios";
-            this.premios.Size = new System.Drawing.Size(101, 63);
-            this.premios.TabIndex = 15;
-            this.premios.Text = "Ver premios canjeados";
-            this.premios.UseVisualStyleBackColor = true;
-            this.premios.Click += new System.EventHandler(this.premios_Click);
             // 
             // crear
             // 

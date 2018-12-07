@@ -85,6 +85,11 @@ namespace PalcoNet.CanjePuntos
             {
                 column.HeaderText = column.HeaderText.Replace("_", " ").Replace("canje", " ").ToUpper();
             }
+
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
     }
 }

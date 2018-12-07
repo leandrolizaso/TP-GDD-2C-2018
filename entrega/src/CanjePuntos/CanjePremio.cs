@@ -39,6 +39,11 @@ namespace PalcoNet.CanjePuntos
             clm.Text = "Canjear";
             clm.UseColumnTextForButtonValue = true;
             datagrid.Columns.Add(clm);
+
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
    
         private void groupBox1_Enter(object sender, EventArgs e)

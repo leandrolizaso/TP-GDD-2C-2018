@@ -23,6 +23,7 @@ namespace PalcoNet.Comprar
             InitializeComponent();
             publicacion = idPublicacion;
             dt = new PublicacionDAO().obtenerUbicaciones(idPublicacion);
+
             datagrid.DataSource = dt;
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
@@ -33,12 +34,17 @@ namespace PalcoNet.Comprar
             clm.HeaderText = "Seleccionar";
             clm.Name = "Seleccionar";
             datagrid.Columns.Add(clm);
-
             datagrid.Columns[1].ReadOnly = true;
             datagrid.Columns[2].ReadOnly = true;
             datagrid.Columns[3].ReadOnly = true;
+            datagrid.Columns[4].ReadOnly = true;
             datagrid.Columns["Seleccionar"].ReadOnly = false;
             datagrid.AllowUserToAddRows = false;
+
+            foreach (DataGridViewColumn column in datagrid.Columns) 
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
 
         }
 

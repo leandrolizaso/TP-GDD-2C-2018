@@ -26,6 +26,11 @@ namespace PalcoNet.AbmCliente
             foreach( DataGridViewColumn column in datagrid.Columns){
                 column.HeaderText = column.HeaderText.Replace("clie_", "").Replace("_", " ").ToUpper();
             }
+
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void limpiar_Click(object sender, EventArgs e) {

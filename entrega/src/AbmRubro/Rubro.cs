@@ -33,6 +33,11 @@ namespace PalcoNet.AbmRubro
             datagrid.Columns["rubr_descripcion"].ReadOnly = true;
             datagrid.Columns["Seleccionar"].ReadOnly = false;
             datagrid.AllowUserToAddRows = false;
+
+            foreach (DataGridViewColumn column in datagrid.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
