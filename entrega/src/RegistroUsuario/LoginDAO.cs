@@ -39,6 +39,7 @@ namespace PalcoNet.RegistroUsuario {
                 query("update pel.usuario set usua_estado = 'R' where usua_id = @usuario",dict);
                 
             }
+            System.Windows.Forms.MessageBox.Show("La contraseña se ha cambiado satisfactoriamente!");
         }
 
         public bool esPrimerIngreso(string user, string pass)
