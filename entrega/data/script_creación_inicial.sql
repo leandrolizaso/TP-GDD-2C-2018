@@ -153,7 +153,6 @@ CREATE TABLE PEL.Compra (
 	compr_fecha DATETIME,
 	compr_detalle NVARCHAR(255),
 	compr_total NUMERIC(18,2),
-	compr_descuento NVARCHAR(255),
 	compr_datos_tarjeta NVARCHAR(255),
 	compr_medio_pago NVARCHAR(255),
 	compr_puntos_acum NUMERIC(18,0),
@@ -831,8 +830,8 @@ BEGIN
 	declare @datos_tarjeta nvarchar (255)
 	set @datos_tarjeta = (select clie_datos_tarjeta from PEL.Cliente where clie_id = @cliente)
 	select @total = sum(ubic_precio) from PEL.Ubicacion where ubic_id in (select * from PEL.f_string_split(@ubicaciones, ','))
-	insert into PEL.Compra (compr_cliente, compr_publi, compr_fecha, compr_detalle, compr_total, compr_descuento,compr_datos_tarjeta, compr_medio_pago, compr_puntos_acum, compr_puntos_gast)values 
-	(@cliente, @publicacion, convert(datetime, @fecha, 121), '', @total, ' ', @datos_tarjeta, 'Tarjeta', round(@total/100,0),0)
+	insert into PEL.Compra (compr_cliente, compr_publi, compr_fecha, compr_detalle, compr_total, compr_datos_tarjeta, compr_medio_pago, compr_puntos_acum, compr_puntos_gast)values 
+	(@cliente, @publicacion, convert(datetime, @fecha, 121), '', @total, @datos_tarjeta, 'Tarjeta', round(@total/100,0),0)
 
 	declare @compra numeric(18,0)
 	set @compra = (select max(compr_id) from PEL.Compra)
@@ -912,12 +911,14 @@ INSERT INTO PEL.Usuario (usua_username, usua_password, usua_estado) values
 	('admin',PEL.f_hash('w23e'),'A')
 GO
 
+delete from PEL.Funcion where func_id = 5
+
 INSERT INTO PEL.Rol_Funcion(rol_func_rol, rol_func_func) values
 	(1,1),
 	(1,2),
 	(1,3),
 	(1,4),
-	(1,5),
+	--(1,5),
 	(1,12),
 	(2,6),
 	(2,7),
