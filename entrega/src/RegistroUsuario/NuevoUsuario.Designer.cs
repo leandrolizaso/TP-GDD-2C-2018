@@ -62,7 +62,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "NuevoUsuario";
-            this.Text = "Registro de... ?";
+            this.Text = "Registro de usuario";
             this.ResumeLayout(false);
 
         }

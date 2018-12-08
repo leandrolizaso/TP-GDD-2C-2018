@@ -76,7 +76,7 @@ namespace PalcoNet.AbmEmpresa
                 } else if (control is MaskedTextBox) {
                     MaskedTextBox textbox = (MaskedTextBox)control;
                     if (!textbox.MaskCompleted) {
-                        MessageBox.Show("Se requiere un dni valido");
+                        MessageBox.Show("Se requiere un cuit valido");
                         textbox.Focus();
                         return;
                     }
