@@ -24,26 +24,34 @@ namespace PalcoNet.Comprar
             publicacion = idPublicacion;
             dt = new PublicacionDAO().obtenerUbicaciones(idPublicacion);
 
-            datagrid.DataSource = dt;
-            foreach (DataGridViewColumn column in datagrid.Columns)
+            if (dt.Rows.Count == 0)
             {
-                column.HeaderText = column.HeaderText.Replace("ubic_", "").Replace("tipo", "").Replace("_", " ").ToUpper();
+                MessageBox.Show("No quedan ubicaciones para este espectaculo");
+                this.Hide();
             }
-            datagrid.Columns["ubic_id"].Visible = false;
-            DataGridViewCheckBoxColumn clm = new DataGridViewCheckBoxColumn();
-            clm.HeaderText = "Seleccionar";
-            clm.Name = "Seleccionar";
-            datagrid.Columns.Add(clm);
-            datagrid.Columns[1].ReadOnly = true;
-            datagrid.Columns[2].ReadOnly = true;
-            datagrid.Columns[3].ReadOnly = true;
-            datagrid.Columns[4].ReadOnly = true;
-            datagrid.Columns["Seleccionar"].ReadOnly = false;
-            datagrid.AllowUserToAddRows = false;
-
-            foreach (DataGridViewColumn column in datagrid.Columns) 
+            else 
             {
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                datagrid.DataSource = dt;
+                foreach (DataGridViewColumn column in datagrid.Columns)
+                {
+                    column.HeaderText = column.HeaderText.Replace("ubic_", "").Replace("tipo", "").Replace("_", " ").ToUpper();
+                }
+                datagrid.Columns["ubic_id"].Visible = false;
+                DataGridViewCheckBoxColumn clm = new DataGridViewCheckBoxColumn();
+                clm.HeaderText = "Seleccionar";
+                clm.Name = "Seleccionar";
+                datagrid.Columns.Add(clm);
+                datagrid.Columns[1].ReadOnly = true;
+                datagrid.Columns[2].ReadOnly = true;
+                datagrid.Columns[3].ReadOnly = true;
+                datagrid.Columns[4].ReadOnly = true;
+                datagrid.Columns["Seleccionar"].ReadOnly = false;
+                datagrid.AllowUserToAddRows = false;
+
+                foreach (DataGridViewColumn column in datagrid.Columns)
+                {
+                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
             }
 
         }
