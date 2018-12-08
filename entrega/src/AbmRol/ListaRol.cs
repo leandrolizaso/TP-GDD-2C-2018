@@ -23,6 +23,7 @@ namespace PalcoNet.AbmRol
 
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
+                column.HeaderText = column.HeaderText.Replace("rol", "").Replace("_", " ").ToUpper();
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
         }
