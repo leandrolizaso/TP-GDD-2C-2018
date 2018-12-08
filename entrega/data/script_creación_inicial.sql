@@ -520,7 +520,7 @@ GO
 CREATE PROCEDURE PEL.sp_ver_compras (@clie_id numeric(18,0), @pag int)
 AS	
 BEGIN
-SELECT  compr_fecha, compr_detalle, compr_medio_pago, compr_puntos_acum
+SELECT  compr_fecha, compr_detalle, compr_medio_pago, compr_total, compr_puntos_acum
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
           FROM      PEL.Compra inner join PEL.Cliente on compr_cliente = clie_id
 		  WHERE @clie_id = clie_id
@@ -832,7 +832,7 @@ BEGIN
 	set @datos_tarjeta = (select clie_datos_tarjeta from PEL.Cliente where clie_id = @cliente)
 	select @total = sum(ubic_precio) from PEL.Ubicacion where ubic_id in (select * from PEL.f_string_split(@ubicaciones, ','))
 	insert into PEL.Compra (compr_cliente, compr_publi, compr_fecha, compr_detalle, compr_total, compr_descuento,compr_datos_tarjeta, compr_medio_pago, compr_puntos_acum, compr_puntos_gast)values 
-	(@cliente, @publicacion, convert(datetime, @fecha, 121), ' ', @total, ' ', @datos_tarjeta, 'Tarjeta', round(@total/100,0),0)
+	(@cliente, @publicacion, convert(datetime, @fecha, 121), '', @total, ' ', @datos_tarjeta, 'Tarjeta', round(@total/100,0),0)
 
 	declare @compra numeric(18,0)
 	set @compra = (select max(compr_id) from PEL.Compra)
@@ -840,6 +840,14 @@ BEGIN
 	update PEL.Ubicacion 
 	set ubic_compra = @compra
 	where ubic_id in (select * from PEL.f_string_split(@ubicaciones, ','))
+
+	declare @cantidad int
+	set @cantidad = (select count(distinct(ubic_id)) from PEl.Ubicacion where ubic_publ = @publicacion and ubic_compra = @compra)
+
+	update PEL.Compra 
+	set compr_detalle = convert(nvarchar, @cantidad) + ' ubicaciones para ' + (select publ_descripcion from PEL.Publicacion where publ_id = @publicacion)
+	where compr_id = @compra
+
 END
 GO
 
