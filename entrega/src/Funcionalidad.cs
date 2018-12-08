@@ -101,7 +101,7 @@ namespace PalcoNet
                     proximaPantalla = new MostrarHistorialCliente();
                     break;
                 case "11":
-                    proximaPantalla = new GenerarRendicion();
+                    proximaPantalla = new SeleccionarEmpresa();
                     break;
                 case "12":
                     proximaPantalla = new ListadosSeleccionAnio();

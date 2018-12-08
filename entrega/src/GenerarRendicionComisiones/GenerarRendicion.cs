@@ -12,9 +12,12 @@ namespace PalcoNet.GenerarRendicionComisiones
 {
     public partial class GenerarRendicion : Form
     {
-        public GenerarRendicion()
+        decimal idEmpresa;
+
+        public GenerarRendicion(decimal idEmpresa)
         {
             InitializeComponent();
+            this.idEmpresa = idEmpresa;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -30,7 +33,7 @@ namespace PalcoNet.GenerarRendicionComisiones
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new Factura(Int32.Parse(cantidad.Text)).ShowDialog();
+            new Factura(Int32.Parse(cantidad.Text), idEmpresa).ShowDialog();
             this.Show();
         }
     }

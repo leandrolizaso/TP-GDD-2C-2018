@@ -125,6 +125,12 @@
     <Compile Include="Comprar\ListaPublicaciones.Designer.cs">
       <DependentUpon>ListaPublicaciones.cs</DependentUpon>
     </Compile>
+    <Compile Include="GenerarRendicionComisiones\SeleccionarEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarRendicionComisiones\SeleccionarEmpresa.Designer.cs">
+      <DependentUpon>SeleccionarEmpresa.cs</DependentUpon>
+    </Compile>
     <Compile Include="Publicacion\PublicacionDAO.cs" />
     <Compile Include="AbmRubro\Rubro.cs">
       <SubType>Form</SubType>
@@ -280,6 +286,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRubro\Rubro.resx">
       <DependentUpon>Rubro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarRendicionComisiones\SeleccionarEmpresa.resx">
+      <DependentUpon>SeleccionarEmpresa.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Publicacion\EditarPublicacionForm.resx">
       <DependentUpon>EditarPublicacionForm.cs</DependentUpon>

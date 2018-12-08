@@ -527,7 +527,7 @@ FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY compr_fecha  ) AS RowNum, *
         ) AS RowConstrainedResult
 WHERE   RowNum > (@pag-1)*10 
     AND RowNum <= @pag*10
-GROUP BY compr_fecha, compr_detalle, compr_medio_pago, compr_puntos_acum, RowNum
+GROUP BY compr_fecha, compr_detalle, compr_medio_pago, compr_total, compr_puntos_acum, RowNum
 ORDER BY RowNum
 END
 GO
@@ -924,7 +924,7 @@ INSERT INTO PEL.Rol_Funcion(rol_func_rol, rol_func_func) values
 	(2,10),
 	(3,8),
 	(3,9),
-	(3,11)
+	(1,11)
 
 GO
 

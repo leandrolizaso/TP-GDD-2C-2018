@@ -87,5 +87,12 @@ namespace PalcoNet.AbmEmpresa
             return Convert.ToDecimal(result.Rows[0][0]);
 
         }
+
+        public DataTable obtenerEmpresasPorRendir()
+        {
+            var dict = new Dictionary<string, object>();
+            return query("select distinct empr_id, empr_razon_social, empr_mail from pel.empresa join pel.publicacion on publ_empresa_resp = empr_id join pel.ubicacion on ubic_publ = publ_id where ubic_compra is not null and ubic_factura is null order by empr_id", dict);
+         
+        }
     }
 }

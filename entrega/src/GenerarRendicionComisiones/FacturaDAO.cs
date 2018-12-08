@@ -12,11 +12,11 @@ namespace PalcoNet.GenerarRendicionComisiones
     class FacturaDAO : BaseDAO
     {   
         
-        internal decimal generarFactura(int cantidad)
+        internal decimal generarFactura(int cantidad, decimal idEmpresa)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@cantidad", cantidad);
-            dict.Add("@empresa", new EmpresaDAO().obtenerEmpresa(Globales.idUsuarioLoggeado));
+            dict.Add("@empresa", idEmpresa);
             dict.Add("@fecha", Globales.getFechaHoy());
             var dt = procedure("PEL.sp_generar_rendiciones", dict);
             if (dt.Rows.Count > 0)
@@ -37,10 +37,10 @@ namespace PalcoNet.GenerarRendicionComisiones
                         + "from pel.factura join pel.ubicacion on ubic_factura = fact_id and fact_id = @factura", dict);
         }
 
-        internal int cantidadARendir()
+        internal int cantidadARendir(decimal idEmpresa)
         {
             var dict = new Dictionary<string, object>();
-            dict.Add("@empresa", new EmpresaDAO().obtenerEmpresa(Globales.idUsuarioLoggeado));
+            dict.Add("@empresa", idEmpresa);
             var dt = procedure("PEL.sp_cantidad_a_rendir", dict);
             return Convert.ToInt32(dt.Rows[0][0]);
            
