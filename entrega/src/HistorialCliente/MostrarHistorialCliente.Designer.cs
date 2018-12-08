@@ -45,13 +45,13 @@
             this.datagrid.Location = new System.Drawing.Point(12, 12);
             this.datagrid.Name = "datagrid";
             this.datagrid.ReadOnly = true;
-            this.datagrid.Size = new System.Drawing.Size(612, 324);
+            this.datagrid.Size = new System.Drawing.Size(444, 245);
             this.datagrid.TabIndex = 18;
             this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
             // 
             // siguiente
             // 
-            this.siguiente.Location = new System.Drawing.Point(336, 342);
+            this.siguiente.Location = new System.Drawing.Point(254, 272);
             this.siguiente.Name = "siguiente";
             this.siguiente.Size = new System.Drawing.Size(28, 28);
             this.siguiente.TabIndex = 19;
@@ -61,7 +61,7 @@
             // 
             // ultimo
             // 
-            this.ultimo.Location = new System.Drawing.Point(379, 342);
+            this.ultimo.Location = new System.Drawing.Point(297, 272);
             this.ultimo.Name = "ultimo";
             this.ultimo.Size = new System.Drawing.Size(28, 28);
             this.ultimo.TabIndex = 20;
@@ -71,7 +71,7 @@
             // 
             // anterior
             // 
-            this.anterior.Location = new System.Drawing.Point(258, 342);
+            this.anterior.Location = new System.Drawing.Point(176, 272);
             this.anterior.Name = "anterior";
             this.anterior.Size = new System.Drawing.Size(28, 28);
             this.anterior.TabIndex = 21;
@@ -81,7 +81,7 @@
             // 
             // primera
             // 
-            this.primera.Location = new System.Drawing.Point(214, 342);
+            this.primera.Location = new System.Drawing.Point(132, 272);
             this.primera.Name = "primera";
             this.primera.Size = new System.Drawing.Size(28, 28);
             this.primera.TabIndex = 22;
@@ -92,7 +92,7 @@
             // pag
             // 
             this.pag.AutoSize = true;
-            this.pag.Location = new System.Drawing.Point(305, 350);
+            this.pag.Location = new System.Drawing.Point(223, 280);
             this.pag.Name = "pag";
             this.pag.Size = new System.Drawing.Size(25, 13);
             this.pag.TabIndex = 23;
@@ -102,7 +102,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 375);
+            this.ClientSize = new System.Drawing.Size(472, 312);
             this.Controls.Add(this.pag);
             this.Controls.Add(this.primera);
             this.Controls.Add(this.anterior);
