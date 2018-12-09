@@ -574,7 +574,8 @@ BEGIN
 SELECT  publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro, (select Esta_descripcion from PEL.Estado_Publicacion where Esta_id = publ_estado) as estado
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id and publ_empresa_resp = @empresa
-		  where publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end) 
+		  where publ_estado = 1
+		  and publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end) 
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and publ_descripcion like (case when @detalle != '' then '%' + @detalle + '%' else publ_descripcion end)
         ) AS RowConstrainedResult
@@ -591,7 +592,8 @@ AS
 BEGIN
 SELECT    count(publ_id)
 		  FROM      PEL.Publicacion
-		  where publ_empresa_resp = @empresa
+		  where publ_estado = 1
+		  and publ_empresa_resp = @empresa
 		  and publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
 		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
