@@ -59,6 +59,11 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.clie_codigo_postal = new System.Windows.Forms.TextBox();
+            this.labelNombre = new System.Windows.Forms.Label();
+            this.labelApellido = new System.Windows.Forms.Label();
+            this.labelTelefono = new System.Windows.Forms.Label();
+            this.labelCodigo = new System.Windows.Forms.Label();
+            this.labelMail = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // modificar
@@ -316,11 +321,71 @@
             this.clie_codigo_postal.TabIndex = 32;
             this.clie_codigo_postal.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
+            // labelNombre
+            // 
+            this.labelNombre.AutoSize = true;
+            this.labelNombre.ForeColor = System.Drawing.Color.Coral;
+            this.labelNombre.Location = new System.Drawing.Point(154, 58);
+            this.labelNombre.Name = "labelNombre";
+            this.labelNombre.Size = new System.Drawing.Size(83, 13);
+            this.labelNombre.TabIndex = 33;
+            this.labelNombre.Text = "Nombre invalido";
+            this.labelNombre.Visible = false;
+            // 
+            // labelApellido
+            // 
+            this.labelApellido.AutoSize = true;
+            this.labelApellido.ForeColor = System.Drawing.Color.Coral;
+            this.labelApellido.Location = new System.Drawing.Point(448, 58);
+            this.labelApellido.Name = "labelApellido";
+            this.labelApellido.Size = new System.Drawing.Size(83, 13);
+            this.labelApellido.TabIndex = 34;
+            this.labelApellido.Text = "Apellido invalido";
+            this.labelApellido.Visible = false;
+            // 
+            // labelTelefono
+            // 
+            this.labelTelefono.AutoSize = true;
+            this.labelTelefono.ForeColor = System.Drawing.Color.Coral;
+            this.labelTelefono.Location = new System.Drawing.Point(154, 208);
+            this.labelTelefono.Name = "labelTelefono";
+            this.labelTelefono.Size = new System.Drawing.Size(88, 13);
+            this.labelTelefono.TabIndex = 35;
+            this.labelTelefono.Text = "Telefono invalido";
+            this.labelTelefono.Visible = false;
+            // 
+            // labelCodigo
+            // 
+            this.labelCodigo.AutoSize = true;
+            this.labelCodigo.ForeColor = System.Drawing.Color.Coral;
+            this.labelCodigo.Location = new System.Drawing.Point(448, 305);
+            this.labelCodigo.Name = "labelCodigo";
+            this.labelCodigo.Size = new System.Drawing.Size(110, 13);
+            this.labelCodigo.TabIndex = 36;
+            this.labelCodigo.Text = "Código postal invalido";
+            this.labelCodigo.Visible = false;
+            // 
+            // labelMail
+            // 
+            this.labelMail.AutoSize = true;
+            this.labelMail.ForeColor = System.Drawing.Color.Coral;
+            this.labelMail.Location = new System.Drawing.Point(448, 158);
+            this.labelMail.Name = "labelMail";
+            this.labelMail.Size = new System.Drawing.Size(65, 13);
+            this.labelMail.TabIndex = 37;
+            this.labelMail.Text = "Mail invalido";
+            this.labelMail.Visible = false;
+            // 
             // ModificarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 493);
+            this.Controls.Add(this.labelMail);
+            this.Controls.Add(this.labelCodigo);
+            this.Controls.Add(this.labelTelefono);
+            this.Controls.Add(this.labelApellido);
+            this.Controls.Add(this.labelNombre);
             this.Controls.Add(this.clie_codigo_postal);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
@@ -393,5 +458,10 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox clie_codigo_postal;
+        private System.Windows.Forms.Label labelNombre;
+        private System.Windows.Forms.Label labelApellido;
+        private System.Windows.Forms.Label labelTelefono;
+        private System.Windows.Forms.Label labelCodigo;
+        private System.Windows.Forms.Label labelMail;
     }
 }

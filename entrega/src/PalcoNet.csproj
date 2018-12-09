@@ -248,6 +248,7 @@
     <Compile Include="Utils\Fechas.cs" />
     <Compile Include="Utils\Globales.cs" />
     <Compile Include="Utils\Conexion.cs" />
+    <Compile Include="Utils\ValidacionInput.cs" />
     <EmbeddedResource Include="AbmCliente\ListaCliente.resx">
       <DependentUpon>ListaCliente.cs</DependentUpon>
     </EmbeddedResource>

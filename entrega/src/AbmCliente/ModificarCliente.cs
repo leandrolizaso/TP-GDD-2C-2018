@@ -17,12 +17,15 @@ namespace PalcoNet.AbmCliente
     {
         private decimal idCliente;
         private Boolean esABM;
+        private Boolean datosValidos;
 
         public ModificarCliente(Decimal idCliente, Boolean esABM)
         {
             this.idCliente = idCliente;
             this.esABM = esABM;
             InitializeComponent();
+
+            datosValidos = true;
 
             clie_fecha_crea.Value = Globales.getFechaHoy();
             clie_fecha_nac.Value = Globales.getFechaHoy();
@@ -48,6 +51,18 @@ namespace PalcoNet.AbmCliente
                 username.Visible = false;
                 password.Visible = false;
             }
+
+            this.ocultarCampos();
+        }
+
+        private void ocultarCampos()
+        {
+            labelNombre.Visible = false;
+            labelTelefono.Visible = false;
+            labelMail.Visible = false;
+            labelApellido.Visible = false;
+            labelCodigo.Visible = false;
+
         }
 
         private void cargarCampos()
@@ -68,6 +83,16 @@ namespace PalcoNet.AbmCliente
         }
 
         private void modificar_Click(object sender, EventArgs e) {
+
+            this.ocultarCampos();
+            this.validarCampos();
+
+            if (!datosValidos) 
+            {
+                datosValidos = true;
+                return;
+            }
+
             var dict = new Dictionary<string, object>();
 
             foreach (var control in Controls) {
@@ -89,10 +114,13 @@ namespace PalcoNet.AbmCliente
                     ComboBox comboBox = (ComboBox)control;
                     dict.Add(comboBox.Name, comboBox.SelectedValue);
                 }
+
+                
             }
 
             try
-            {
+            {  
+
                 var dt = new ClienteDAO().upsertDatosCliente(idCliente, dict);
                 if (idCliente > 0) {
                     this.Hide();
@@ -118,6 +146,46 @@ namespace PalcoNet.AbmCliente
             catch (SqlException ex) {
                 MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);
             }
+            
+        }
+
+        private void validarCampos()
+        {
+            ValidacionInput validador = new ValidacionInput();
+
+            if(!validador.cadenaValida(clie_nombre.Text))
+            {
+                labelNombre.Visible = true;
+                datosValidos = false;
+            }
+
+            if(!validador.cadenaValida(clie_apellido.Text))
+            {
+                labelApellido.Visible = true;
+                datosValidos = false;
+            }
+
+            if(!validador.mailValido(clie_mail.Text))
+            {
+                labelMail.Visible = true;
+                datosValidos = false;
+            }
+
+            if(!validador.numeroValido(clie_telefono.Text))
+            {
+                labelTelefono.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.numeroValido(clie_codigo_postal.Text))
+            {
+                labelCodigo.Visible = true;
+                datosValidos = false;
+            }
+            
+            
+            
+            
             
         }
 
