@@ -667,8 +667,8 @@ BEGIN
 					ORDER BY compr_fecha ASC)
 	
 	UPDATE PEL.Factura
-	set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where fact_id = @factura and ubic_factura = fact_id  group by ubic_factura),
-		fact_comision = (select sum(ubic_comision) from PEL.Ubicacion where ubic_factura = fact_id)
+	set fact_importe = (select sum(ubic_precio - isnull(ubic_comision,0)) from PEL.Ubicacion where fact_id = @factura and ubic_factura = fact_id  group by ubic_factura),
+		fact_comision = (select sum(isnull(ubic_comision,0)) from PEL.Ubicacion where ubic_factura = fact_id)
 	where fact_id = @factura
 
 	SELECT @factura
@@ -1088,10 +1088,9 @@ update PEL.Ubicacion
 
 
 update PEL.Factura
-set fact_importe = (select sum(ubic_precio) from PEL.Ubicacion where ubic_factura = fact_id
+set fact_importe = (select sum(ubic_precio - isnull(ubic_comision,0)) from PEL.Ubicacion where ubic_factura = fact_id
 					group by ubic_factura)
 go
-
 
 ALTER TABLE PEL.cliente
 ADD CONSTRAINT ck_clie_dni 
