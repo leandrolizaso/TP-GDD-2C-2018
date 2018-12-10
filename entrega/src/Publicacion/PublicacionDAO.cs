@@ -71,6 +71,10 @@ namespace PalcoNet.Publicacion
             return total;
         }
 
+        public DataTable obtenerTiposUbicacion() {
+            return query("select tipo_ubic_id, tipo_ubic_descripcion from pel.tipo_ubicacion", new Dictionary<string, object>());
+        }
+
         public decimal obtenerPublicacion(string descripcion)
         {
             var dict = new Dictionary<string, object>();
@@ -79,7 +83,7 @@ namespace PalcoNet.Publicacion
             return Convert.ToDecimal(result.Rows[0][0]);
         }
 
-        internal DataTable obtenerUbicaciones(decimal idPublicacion)
+        public DataTable obtenerUbicacionesDisponibles(decimal idPublicacion)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@publicacion", idPublicacion);

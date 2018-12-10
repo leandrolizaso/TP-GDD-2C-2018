@@ -22,7 +22,7 @@ namespace PalcoNet.Comprar
             
             InitializeComponent();
             publicacion = idPublicacion;
-            dt = new PublicacionDAO().obtenerUbicaciones(idPublicacion);
+            dt = new PublicacionDAO().obtenerUbicacionesDisponibles(idPublicacion);
 
             if (dt.Rows.Count == 0)
             {
@@ -41,6 +41,7 @@ namespace PalcoNet.Comprar
                 clm.HeaderText = "Seleccionar";
                 clm.Name = "Seleccionar";
                 datagrid.Columns.Add(clm);
+		//Esto es propenso a errores si cambia el select del datasource
                 datagrid.Columns[1].ReadOnly = true;
                 datagrid.Columns[2].ReadOnly = true;
                 datagrid.Columns[3].ReadOnly = true;
