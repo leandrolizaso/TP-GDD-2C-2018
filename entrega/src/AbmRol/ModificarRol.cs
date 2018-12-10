@@ -28,7 +28,7 @@ namespace PalcoNet.AbmRol
             foreach (DataRow funcion in funciones.Rows)
             {
                 CheckBox check = new CheckBox();
-                check.Name = "button" + funcion["func_id"];
+                check.Name = "check" + funcion["func_id"];
                 check.Text = funcion["func_nombre"].ToString();
                 check.AutoSize = true;
                 panel.Controls.Add(check);
@@ -36,6 +36,11 @@ namespace PalcoNet.AbmRol
 
             if (idRol != -1) {
                 eliminar.Visible = true;
+                var funcionesActivas = new RolDAO().obtenerListaFunciones(idRol);
+                foreach (DataRow funcion in funcionesActivas.Rows) {
+                    var check = (CheckBox)panel.Controls["check" + funcion["func_id"]];
+                    check.Checked = true;
+                }
             }
         }
 

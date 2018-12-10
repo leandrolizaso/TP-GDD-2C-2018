@@ -41,9 +41,12 @@ namespace PalcoNet.AbmRol
             this.Show();
         }
 
-        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            var id_clickeado = (decimal)datagrid["rol_id", e.RowIndex].Value;
+            this.Hide();
+            new ModificarRol(id_clickeado).ShowDialog();
+            this.Show();
         }
     }
 }
