@@ -31,6 +31,15 @@ namespace PalcoNet.Publicacion
             publ_fecha_publi.Value = Globales.getFechaHoy();
             formFechas = new FechasPublicacion(idPublicacion);
             formUbicaciones = new UbicacionesPublicacion(idPublicacion);
+            cargarDatos();
+            actualizarLabels();
+        }
+
+        private void cargarDatos()
+        {
+            if (idPublicacion != -1) {
+                //buscar desde el dao los datos de esta publicacion
+            }
         }
 
         private void popularRubros()
@@ -87,11 +96,12 @@ namespace PalcoNet.Publicacion
 
             try
             {
-                    new PublicacionDAO().updatePublicacion(idPublicacion, dict);
-                    MessageBox.Show("Update exitoso");
-                    this.Hide();
-                    return;
-                
+                //for each fecha
+                //  upsert publicacion (con esa fecha)
+                //  for each ubicacion: upsert ubicacion
+
+                this.Hide();
+                return;
             }
             catch (SqlException ex)
             {
@@ -102,11 +112,32 @@ namespace PalcoNet.Publicacion
         private void fechas_Click(object sender, EventArgs e)
         {
             formFechas.ShowDialog();
+            actualizarLabels();
         }
 
         private void ubicaciones_Click(object sender, EventArgs e)
         {
             formUbicaciones.ShowDialog();
+            actualizarLabels();
+        }
+
+        private void actualizarLabels()
+        {
+            if (formFechas.fechas.Rows.Count > 0) {
+                labelFechas.Text = string.Format("Se cargaron {0} fecha(s).",formFechas.fechas.Rows.Count);
+            } else {
+                labelFechas.Text = "Aun no se cargaron datos";
+            }
+
+
+            if (formUbicaciones.ubicaciones.Count > 0)
+            {
+                labelUbicaciones.Text = string.Format("Se cargaron {0} fecha(s).", formUbicaciones.ubicaciones.Count);
+            }
+            else
+            {
+                labelUbicaciones.Text = "Aun no se cargaron datos";
+            }
         }
 
     }

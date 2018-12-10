@@ -13,7 +13,7 @@ namespace PalcoNet.Publicacion
     public partial class UbicacionesPublicacion : Form
     {
 
-        private List<Ubicacion> ubicaciones = new List<Ubicacion>();
+        public List<Ubicacion> ubicaciones = new List<Ubicacion>();
         private decimal idPublicacion;
 
         public UbicacionesPublicacion(decimal idPublicacion)

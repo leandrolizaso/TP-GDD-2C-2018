@@ -109,26 +109,6 @@ namespace PalcoNet.Publicacion
             procedure("PEL.sp_comprar", dict);
         }
 
-        internal void updatePublicacion(decimal idPublicacion, Dictionary<string, object> dict)
-        {
-            string queryStr = "update PEL.publicacion set ";
-            foreach (var entry in dict)
-            {
-                queryStr += entry.Key + " = @" + entry.Key + " ,";
-            }
-            queryStr = queryStr.TrimEnd(',');
-            queryStr += "where publ_id = " + idPublicacion;
-
-            Dictionary<string, object> queryParams = new Dictionary<string, object>();
-            foreach (var item in dict)
-            {
-                queryParams.Add("@" + item.Key, item.Value);
-            }
-
-            query(queryStr, queryParams);
-
-        }
-
         public DataTable obtenerEstadosDisponiblesParaEstadoActual(decimal estado)
         {
             var dict = new Dictionary<string, object>();

@@ -43,7 +43,7 @@
             this.publ_estado = new System.Windows.Forms.ComboBox();
             this.fechas = new System.Windows.Forms.Button();
             this.ubicaciones = new System.Windows.Forms.Button();
-            this.labelFecha = new System.Windows.Forms.Label();
+            this.labelFechas = new System.Windows.Forms.Label();
             this.labelUbicaciones = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -176,14 +176,14 @@
             this.ubicaciones.UseVisualStyleBackColor = true;
             this.ubicaciones.Click += new System.EventHandler(this.ubicaciones_Click);
             // 
-            // labelFecha
+            // labelFechas
             // 
-            this.labelFecha.AutoSize = true;
-            this.labelFecha.Location = new System.Drawing.Point(25, 284);
-            this.labelFecha.Name = "labelFecha";
-            this.labelFecha.Size = new System.Drawing.Size(129, 13);
-            this.labelFecha.TabIndex = 45;
-            this.labelFecha.Text = "Aun no se cargaron datos";
+            this.labelFechas.AutoSize = true;
+            this.labelFechas.Location = new System.Drawing.Point(25, 284);
+            this.labelFechas.Name = "labelFechas";
+            this.labelFechas.Size = new System.Drawing.Size(129, 13);
+            this.labelFechas.TabIndex = 45;
+            this.labelFechas.Text = "Aun no se cargaron datos";
             // 
             // labelUbicaciones
             // 
@@ -200,7 +200,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 449);
             this.Controls.Add(this.labelUbicaciones);
-            this.Controls.Add(this.labelFecha);
+            this.Controls.Add(this.labelFechas);
             this.Controls.Add(this.ubicaciones);
             this.Controls.Add(this.fechas);
             this.Controls.Add(this.publ_estado);
@@ -241,7 +241,7 @@
         private System.Windows.Forms.ComboBox publ_estado;
         private System.Windows.Forms.Button fechas;
         private System.Windows.Forms.Button ubicaciones;
-        private System.Windows.Forms.Label labelFecha;
+        private System.Windows.Forms.Label labelFechas;
         private System.Windows.Forms.Label labelUbicaciones;
 
 
