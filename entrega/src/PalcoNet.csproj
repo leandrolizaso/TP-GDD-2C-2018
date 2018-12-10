@@ -119,10 +119,10 @@
     <Compile Include="Comprar\Compra.Designer.cs">
       <DependentUpon>Compra.cs</DependentUpon>
     </Compile>
-    <Compile Include="Comprar\ListaPublicaciones.cs">
+    <Compile Include="Publicacion\ListaPublicaciones.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Comprar\ListaPublicaciones.Designer.cs">
+    <Compile Include="Publicacion\ListaPublicaciones.Designer.cs">
       <DependentUpon>ListaPublicaciones.cs</DependentUpon>
     </Compile>
     <Compile Include="GenerarRendicionComisiones\SeleccionarEmpresa.cs">
@@ -139,13 +139,12 @@
       <DependentUpon>Rubro.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRubro\RubroDAO.cs" />
-    <Compile Include="Publicacion\EditarPublicacionForm.cs">
+    <Compile Include="Publicacion\ModificarPublicacion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Publicacion\EditarPublicacionForm.Designer.cs">
-      <DependentUpon>EditarPublicacionForm.cs</DependentUpon>
+    <Compile Include="Publicacion\ModificarPublicacion.Designer.cs">
+      <DependentUpon>ModificarPublicacion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Publicacion\EditarPublicacionDAO.cs" />
     <Compile Include="Funcionalidad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -282,7 +281,7 @@
     <EmbeddedResource Include="Comprar\Compra.resx">
       <DependentUpon>Compra.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Comprar\ListaPublicaciones.resx">
+    <EmbeddedResource Include="Publicacion\ListaPublicaciones.resx">
       <DependentUpon>ListaPublicaciones.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRubro\Rubro.resx">
@@ -291,8 +290,8 @@
     <EmbeddedResource Include="GenerarRendicionComisiones\SeleccionarEmpresa.resx">
       <DependentUpon>SeleccionarEmpresa.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Publicacion\EditarPublicacionForm.resx">
-      <DependentUpon>EditarPublicacionForm.cs</DependentUpon>
+    <EmbeddedResource Include="Publicacion\ModificarPublicacion.resx">
+      <DependentUpon>ModificarPublicacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>

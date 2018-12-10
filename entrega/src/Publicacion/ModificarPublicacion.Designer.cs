@@ -1,6 +1,6 @@
 ﻿namespace PalcoNet.Publicacion
 {
-    partial class EditarPublicacionForm
+    partial class ModificarPublicacion
     {
         /// <summary>
         /// Required designer variable.

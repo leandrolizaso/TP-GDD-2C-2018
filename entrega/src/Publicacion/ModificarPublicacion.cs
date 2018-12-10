@@ -14,11 +14,11 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Publicacion
 {
-    public partial class EditarPublicacionForm : Form
+    public partial class ModificarPublicacion : Form
     {
         decimal publicacion;
 
-        public EditarPublicacionForm(decimal publ)
+        public ModificarPublicacion(decimal publ)
         {
             InitializeComponent();
 
@@ -32,8 +32,9 @@ namespace PalcoNet.Publicacion
             publ_grado.DataSource = dtGrado;
 
             //cargo estados
-            decimal idEstado = new EditarPublicacionDAO().obtenerEstado(publ);
-            DataTable dtEstado = new EditarPublicacionDAO().obtenerEstados(idEstado);
+            decimal idEstado = new PublicacionDAO().obtenerIdEstadoXIdPublicacion(publ);
+            MessageBox.Show(Convert.ToString(idEstado));
+            DataTable dtEstado = new PublicacionDAO().obtenerEstadosDisponiblesParaEstadoActual(idEstado);
             publ_estado.DisplayMember = "esta_descripcion";
             publ_estado.ValueMember = "esta_id";
             publ_estado.DataSource = dtEstado;
@@ -76,7 +77,7 @@ namespace PalcoNet.Publicacion
 
             try
             {
-                    new EditarPublicacionDAO().updatePublicacion(publicacion, dict);
+                    new PublicacionDAO().updatePublicacion(publicacion, dict);
                     MessageBox.Show("Update exitoso");
                     this.Hide();
                     return;

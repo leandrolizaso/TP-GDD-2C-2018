@@ -1,4 +1,4 @@
-﻿namespace PalcoNet.Comprar
+﻿namespace PalcoNet.Publicacion
 {
     partial class ListaPublicaciones
     {

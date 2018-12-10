@@ -1,4 +1,5 @@
 ﻿using PalcoNet.AbmRubro;
+using PalcoNet.Comprar;
 using PalcoNet.Publicacion;
 using PalcoNet.Utils;
 using System;
@@ -11,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PalcoNet.Comprar
+namespace PalcoNet.Publicacion
 {
     public partial class ListaPublicaciones : Form
     {
@@ -108,7 +109,7 @@ namespace PalcoNet.Comprar
             if (esEmpresa)
             {
                 string publicacion = datagrid.CurrentRow.Cells[0].Value.ToString();
-                new EditarPublicacionForm(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
+                new ModificarPublicacion(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
           
             }
             else 
