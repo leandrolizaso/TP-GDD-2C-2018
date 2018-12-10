@@ -11,7 +11,7 @@ namespace PalcoNet.Utils
     {
         public bool cadenaValida(string cadena) 
         {
-            return Regex.IsMatch(cadena, @"^[a-zA-Z]+(\s*[a-zA-Z]*)*[a-zA-Z]+$");
+            return Regex.IsMatch(cadena, @"^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜäÄëËöÖ]+(\s*[a-zA-ZñÑáéíóúÁÉÍÓÚüÜäÄëËöÖ])[a-zA-ZñÑáéíóúÁÉÍÓÚüÜäÄëËöÖ]+$");
         }
 
         public bool mailValido(string mail) 
