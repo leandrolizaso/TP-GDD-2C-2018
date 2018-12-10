@@ -8,8 +8,8 @@ namespace PalcoNet.Publicacion
 {
     public class Ubicacion {
 
-        public Ubicacion(decimal idPublicacion) {
-            this.ubic_publ = idPublicacion;
+        public Ubicacion(decimal idUbicacion) {
+            ubic_id = idUbicacion;
         }
 
         public decimal ubic_id { get; set; }
@@ -17,10 +17,16 @@ namespace PalcoNet.Publicacion
         public decimal ubic_asiento { get; set; }
         public decimal ubic_precio { get; set; }
         public decimal ubic_tipo { get; set; }
-        private decimal ubic_publ;
+        public string tipo_ubic_descripcion { get; set; }
 
         public Dictionary<string,object> asDictionary(){
-            return new Dictionary<string, object>();
+            var dict = new Dictionary<string, object>();
+            dict.Add("ubic_id", ubic_id);
+            dict.Add("ubic_fila", ubic_fila);
+            dict.Add("ubic_asiento", ubic_asiento);
+            dict.Add("ubic_precio", ubic_precio);
+            dict.Add("ubic_tipo", ubic_tipo);
+            return dict;
         }
     }
 }

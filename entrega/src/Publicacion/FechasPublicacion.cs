@@ -13,13 +13,10 @@ namespace PalcoNet.Publicacion
 {
     public partial class FechasPublicacion : Form
     {
-        private decimal idPublicacion;
-
         public DataTable fechas { get; private set; }
 
-        public FechasPublicacion(decimal idPublicacion)
+        public FechasPublicacion()
         {
-            this.idPublicacion = idPublicacion;
             InitializeComponent();
             fecha.MinDate = Globales.getFechaHoy();
             fecha.Value = Globales.getFechaHoy();
@@ -28,19 +25,8 @@ namespace PalcoNet.Publicacion
             fechas = new DataTable();
             fechas.Columns.Add("Fecha Publicacion");
 
-            if (idPublicacion != -1) {
-                loadFechas();
-            }
-
             datagrid.DataSource = fechas;
             datagrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        }
-
-        private void loadFechas()
-        {
-            //sacarlas de la base, no se como
-            //se me ocurre buscar otras publicaciones con misma 
-            //descripcion, grado, rubro, fecha_publi y empresa
         }
 
         private void button1_Click(object sender, EventArgs e)

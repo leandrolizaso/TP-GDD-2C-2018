@@ -13,36 +13,24 @@ namespace PalcoNet.Publicacion
     public partial class UbicacionesPublicacion : Form
     {
 
-        public List<Ubicacion> ubicaciones = new List<Ubicacion>();
+        public BindingList<Ubicacion> ubicaciones = new BindingList<Ubicacion>();
         private decimal idPublicacion;
 
         public UbicacionesPublicacion(decimal idPublicacion)
         {
             this.idPublicacion = idPublicacion;
             InitializeComponent();
-            setupGrid();
+            datagridSetUp();
+            ubic_tipo.DisplayMember = "tipo_ubic_descripcion";
+            ubic_tipo.ValueMember = "tipo_ubic_id";
+            ubic_tipo.DataSource = new PublicacionDAO().obtenerTiposUbicacion();
             if (idPublicacion != -1) {
                 loadUbicaciones();
             }
+            datagrid.DataSource = ubicaciones;
         }
 
-        private void loadUbicaciones()
-        {
-            var dt = new PublicacionDAO().obtenerAllUbicaciones(idPublicacion);
-
-            foreach (DataRow row in dt.Rows)
-            {
-                Ubicacion u = new Ubicacion(idPublicacion);
-                u.ubic_id = Convert.ToDecimal(row["ubic_id"]);
-                u.ubic_fila = Convert.ToString(row["ubic_fila"]);
-                u.ubic_asiento = Convert.ToDecimal(row["ubic_asiento"]);
-                u.ubic_precio = Convert.ToDecimal(row["ubic_precio"]);
-                u.ubic_tipo = Convert.ToDecimal(row["ubic_tipo"]);
-                ubicaciones.Add(u);
-            }
-        }
-
-        private void setupGrid()
+        private void datagridSetUp()
         {
             datagrid.AutoGenerateColumns = false;
 
@@ -61,13 +49,49 @@ namespace PalcoNet.Publicacion
             column.Name = "Precio";
             datagrid.Columns.Add(column);
 
-            DataGridViewComboBoxColumn combo = new DataGridViewComboBoxColumn();
-            combo.DataPropertyName = "ubic_tipo";
-            combo.Name = "Precio";
-            combo.DisplayMember = "tipo_ubic_descripcion";
-            combo.ValueMember = "tipo_ubic_id";
-            combo.DataSource = new PublicacionDAO().obtenerTiposUbicacion();
-            datagrid.Columns.Add(combo);
+            column = new DataGridViewTextBoxColumn();
+            column.DataPropertyName = "tipo_ubic_descripcion";
+            column.Name = "Tipo";
+            datagrid.Columns.Add(column);
+
+            datagrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void loadUbicaciones()
+        {
+            var dt = new PublicacionDAO().obtenerAllUbicaciones(idPublicacion);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                Ubicacion u = new Ubicacion(Convert.ToDecimal(row["ubic_id"]));
+                u.ubic_fila = Convert.ToString(row["ubic_fila"]);
+                u.ubic_asiento = Convert.ToDecimal(row["ubic_asiento"]);
+                u.ubic_precio = Convert.ToDecimal(row["ubic_precio"]);
+                u.ubic_tipo = Convert.ToDecimal(row["ubic_tipo"]);
+                u.tipo_ubic_descripcion = Convert.ToString(row["tipo_ubic_descripcion"]);
+                ubicaciones.Add(u);
+            }
+            datagrid.DataSource = null;
+            datagrid.DataSource = ubicaciones;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try {
+                Ubicacion u = new Ubicacion(-1);
+                u.ubic_fila = Convert.ToString(ubic_asiento.Text);
+                u.ubic_asiento = Convert.ToDecimal(ubic_fila.Text);
+                u.ubic_precio = Convert.ToDecimal(ubic_precio.Text);
+                u.ubic_tipo = Convert.ToDecimal(ubic_tipo.SelectedValue);
+                u.tipo_ubic_descripcion = Convert.ToString(ubic_tipo.Text);
+                ubicaciones.Add(u);
+                datagrid.DataSource = null;
+                datagrid.DataSource = ubicaciones;
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.StackTrace);
+            }
         }
     }
 }

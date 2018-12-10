@@ -1,4 +1,5 @@
-﻿using PalcoNet.AbmGrado;
+﻿using PalcoNet.AbmEmpresa;
+using PalcoNet.AbmGrado;
 using PalcoNet.AbmRubro;
 using PalcoNet.ListadoEstadistico;
 using PalcoNet.Utils;
@@ -29,7 +30,7 @@ namespace PalcoNet.Publicacion
             popularEstados();
             popularRubros();
             publ_fecha_publi.Value = Globales.getFechaHoy();
-            formFechas = new FechasPublicacion(idPublicacion);
+            formFechas = new FechasPublicacion();
             formUbicaciones = new UbicacionesPublicacion(idPublicacion);
             cargarDatos();
             actualizarLabels();
@@ -38,7 +39,20 @@ namespace PalcoNet.Publicacion
         private void cargarDatos()
         {
             if (idPublicacion != -1) {
-                //buscar desde el dao los datos de esta publicacion
+                labelFechas.Visible = true;
+                publ_fecha_ven.Visible = true;
+                fechas.Visible = false;
+                labelFechas.Visible = false;
+                var dt = new PublicacionDAO().obtenerPublicacion(idPublicacion);
+                var row = dt.Rows[0];
+                publ_descripcion.Text = row["publ_descripcion"].ToString();
+                publ_direccion.Text = row["publ_direccion"].ToString();
+
+                publ_estado.SelectedValue = row["publ_estado"].ToString();
+                publ_grado.SelectedValue = row["publ_grado"].ToString();
+                publ_rubro.SelectedValue = row["publ_rubro"].ToString();
+
+                publ_fecha_ven.Value = Convert.ToDateTime(row["publ_fecha_ven"]);
             }
         }
 
@@ -96,9 +110,17 @@ namespace PalcoNet.Publicacion
 
             try
             {
-                //for each fecha
-                //  upsert publicacion (con esa fecha)
-                //  for each ubicacion: upsert ubicacion
+                decimal idEmpresa = new EmpresaDAO().obtenerEmpresa(Globales.idUsuarioLoggeado);
+                dict.Add("publ_empresa_resp", idEmpresa);
+                foreach (DataRow row in formFechas.fechas.Rows) {
+                    dict["publ_fecha_ven"] = Convert.ToDateTime(row[0]);
+                    decimal id_pub_nueva = new PublicacionDAO().upsertPublicacion(idPublicacion,dict);
+                    foreach (var ubicacion in formUbicaciones.ubicaciones) {
+                        var ubic_dict = ubicacion.asDictionary();
+                        ubic_dict.Add("ubic_publ",id_pub_nueva);
+                        new PublicacionDAO().upsertUbicacion(ubic_dict);
+                    }
+                }
 
                 this.Hide();
                 return;

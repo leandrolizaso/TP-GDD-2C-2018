@@ -45,6 +45,8 @@
             this.ubicaciones = new System.Windows.Forms.Button();
             this.labelFechas = new System.Windows.Forms.Label();
             this.labelUbicaciones = new System.Windows.Forms.Label();
+            this.publ_fecha_ven = new System.Windows.Forms.DateTimePicker();
+            this.labelEvento = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // modificar
@@ -194,11 +196,31 @@
             this.labelUbicaciones.TabIndex = 46;
             this.labelUbicaciones.Text = "Aun no se cargaron datos";
             // 
+            // publ_fecha_ven
+            // 
+            this.publ_fecha_ven.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.publ_fecha_ven.Location = new System.Drawing.Point(446, 179);
+            this.publ_fecha_ven.Name = "publ_fecha_ven";
+            this.publ_fecha_ven.Size = new System.Drawing.Size(199, 20);
+            this.publ_fecha_ven.TabIndex = 48;
+            this.publ_fecha_ven.Visible = false;
+            // 
+            // labelEvento
+            // 
+            this.labelEvento.Location = new System.Drawing.Point(360, 175);
+            this.labelEvento.Name = "labelEvento";
+            this.labelEvento.Size = new System.Drawing.Size(69, 35);
+            this.labelEvento.TabIndex = 47;
+            this.labelEvento.Text = "Fecha Evento";
+            this.labelEvento.Visible = false;
+            // 
             // ModificarPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 449);
+            this.Controls.Add(this.publ_fecha_ven);
+            this.Controls.Add(this.labelEvento);
             this.Controls.Add(this.labelUbicaciones);
             this.Controls.Add(this.labelFechas);
             this.Controls.Add(this.ubicaciones);
@@ -243,6 +265,8 @@
         private System.Windows.Forms.Button ubicaciones;
         private System.Windows.Forms.Label labelFechas;
         private System.Windows.Forms.Label labelUbicaciones;
+        private System.Windows.Forms.DateTimePicker publ_fecha_ven;
+        private System.Windows.Forms.Label labelEvento;
 
 
 
