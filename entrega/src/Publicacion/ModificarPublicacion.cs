@@ -18,8 +18,9 @@ namespace PalcoNet.Publicacion
     public partial class ModificarPublicacion : Form
     {
         decimal idPublicacion;
-        
-
+        private FechasPublicacion formFechas;
+        private UbicacionesPublicacion formUbicaciones;
+       
         public ModificarPublicacion(decimal idPublicacion)
         {
             this.idPublicacion = idPublicacion;
@@ -28,6 +29,8 @@ namespace PalcoNet.Publicacion
             popularEstados();
             popularRubros();
             publ_fecha_publi.Value = Globales.getFechaHoy();
+            formFechas = new FechasPublicacion();
+            formUbicaciones = new UbicacionesPublicacion();
         }
 
         private void popularRubros()
@@ -39,7 +42,12 @@ namespace PalcoNet.Publicacion
 
         private void popularEstados()
         {
-            decimal idEstado = new PublicacionDAO().obtenerIdEstadoXIdPublicacion(idPublicacion);
+            decimal idEstado;
+            if (idPublicacion == -1) {
+                idEstado = 1; //Borrador
+            } else {
+                idEstado = new PublicacionDAO().obtenerIdEstadoXIdPublicacion(idPublicacion);
+            }
             publ_estado.DisplayMember = "esta_descripcion";
             publ_estado.ValueMember = "esta_id";
             publ_estado.DataSource = new PublicacionDAO().obtenerEstadosDisponiblesParaEstadoActual(idEstado); 
@@ -93,12 +101,12 @@ namespace PalcoNet.Publicacion
 
         private void fechas_Click(object sender, EventArgs e)
         {
-
+            formFechas.ShowDialog();
         }
 
         private void ubicaciones_Click(object sender, EventArgs e)
         {
-
+            formUbicaciones.ShowDialog();
         }
 
     }

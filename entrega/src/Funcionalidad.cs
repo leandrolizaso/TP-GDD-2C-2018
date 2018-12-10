@@ -93,7 +93,7 @@ namespace PalcoNet
                     proximaPantalla = new ListaPuntos();
                     break;
                 case "8":
-                    System.Windows.Forms.MessageBox.Show("GENERAR PUBLICACION");
+                    proximaPantalla = new ModificarPublicacion(-1);
                     break;
                 case "9":
                     proximaPantalla = new ListaPublicaciones(true);

@@ -217,6 +217,19 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Publicacion\FechasPublicacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Publicacion\FechasPublicacion.Designer.cs">
+      <DependentUpon>FechasPublicacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Publicacion\Ubicacion.cs" />
+    <Compile Include="Publicacion\UbicacionesPublicacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Publicacion\UbicacionesPublicacion.Designer.cs">
+      <DependentUpon>UbicacionesPublicacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegistroUsuario\CambiarPass.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -281,6 +294,9 @@
     <EmbeddedResource Include="Comprar\Compra.resx">
       <DependentUpon>Compra.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Publicacion\FechasPublicacion.resx">
+      <DependentUpon>FechasPublicacion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Publicacion\ListaPublicaciones.resx">
       <DependentUpon>ListaPublicaciones.cs</DependentUpon>
     </EmbeddedResource>
@@ -335,6 +351,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Publicacion\UbicacionesPublicacion.resx">
+      <DependentUpon>UbicacionesPublicacion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RegistroUsuario\CambiarPass.resx">
       <DependentUpon>CambiarPass.cs</DependentUpon>
     </EmbeddedResource>
