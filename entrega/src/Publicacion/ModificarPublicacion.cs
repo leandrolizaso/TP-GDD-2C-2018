@@ -1,6 +1,7 @@
 ﻿using PalcoNet.AbmGrado;
 using PalcoNet.AbmRubro;
 using PalcoNet.ListadoEstadistico;
+using PalcoNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,36 +17,39 @@ namespace PalcoNet.Publicacion
 {
     public partial class ModificarPublicacion : Form
     {
-        decimal publicacion;
+        decimal idPublicacion;
+        
 
-        public ModificarPublicacion(decimal publ)
+        public ModificarPublicacion(decimal idPublicacion)
         {
+            this.idPublicacion = idPublicacion;
             InitializeComponent();
+            popularGrados();
+            popularEstados();
+            popularRubros();
+            publ_fecha_publi.Value = Globales.getFechaHoy();
+        }
 
-            publicacion = publ;
-
-            //cargo grados
-
-            DataTable dtGrado = new GradoDAO().obtenerAllGrados();
-            publ_grado.DisplayMember = "grad_descripcion";
-            publ_grado.ValueMember = "grad_id";
-            publ_grado.DataSource = dtGrado;
-
-            //cargo estados
-            decimal idEstado = new PublicacionDAO().obtenerIdEstadoXIdPublicacion(publ);
-            MessageBox.Show(Convert.ToString(idEstado));
-            DataTable dtEstado = new PublicacionDAO().obtenerEstadosDisponiblesParaEstadoActual(idEstado);
-            publ_estado.DisplayMember = "esta_descripcion";
-            publ_estado.ValueMember = "esta_id";
-            publ_estado.DataSource = dtEstado;
-
-            //cargo rubros
-
-            DataTable dtRubro = new RubroDAO().obtenerRubros();
+        private void popularRubros()
+        {
             publ_rubro.DisplayMember = "rubr_descripcion";
             publ_rubro.ValueMember = "rubr_id";
-            publ_rubro.DataSource = dtRubro;
+            publ_rubro.DataSource = new RubroDAO().obtenerRubros();
+        }
 
+        private void popularEstados()
+        {
+            decimal idEstado = new PublicacionDAO().obtenerIdEstadoXIdPublicacion(idPublicacion);
+            publ_estado.DisplayMember = "esta_descripcion";
+            publ_estado.ValueMember = "esta_id";
+            publ_estado.DataSource = new PublicacionDAO().obtenerEstadosDisponiblesParaEstadoActual(idEstado); 
+        }
+
+        private void popularGrados()
+        {
+            publ_grado.DisplayMember = "grad_descripcion";
+            publ_grado.ValueMember = "grad_id";
+            publ_grado.DataSource = new GradoDAO().obtenerAllGrados();
         }
 
         private void modificar_Click(object sender, EventArgs e)
@@ -69,15 +73,13 @@ namespace PalcoNet.Publicacion
                     ComboBox comboBox = (ComboBox)control;
                     dict.Add(comboBox.Name, comboBox.SelectedValue);
                 }
-                
-
 
             }
 
 
             try
             {
-                    new PublicacionDAO().updatePublicacion(publicacion, dict);
+                    new PublicacionDAO().updatePublicacion(idPublicacion, dict);
                     MessageBox.Show("Update exitoso");
                     this.Hide();
                     return;
@@ -89,38 +91,15 @@ namespace PalcoNet.Publicacion
             }
         }
 
-        private void publ_fecha_ven_TextChanged(object sender, EventArgs e)
+        private void fechas_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void EditarPublicacionForm_Load(object sender, EventArgs e)
+        private void ubicaciones_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void publ_estado_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void publ_grado_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void publ_rubro_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void publ_descripcion_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
