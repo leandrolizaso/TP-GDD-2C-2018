@@ -29,8 +29,8 @@ namespace PalcoNet.Publicacion
             popularEstados();
             popularRubros();
             publ_fecha_publi.Value = Globales.getFechaHoy();
-            formFechas = new FechasPublicacion();
-            formUbicaciones = new UbicacionesPublicacion();
+            formFechas = new FechasPublicacion(idPublicacion);
+            formUbicaciones = new UbicacionesPublicacion(idPublicacion);
         }
 
         private void popularRubros()

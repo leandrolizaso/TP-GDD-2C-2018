@@ -83,6 +83,14 @@ namespace PalcoNet.Publicacion
             return Convert.ToDecimal(result.Rows[0][0]);
         }
 
+        public DataTable obtenerAllUbicaciones(decimal idPublicacion)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@publicacion", idPublicacion);
+            return query("select ubic_id, ubic_fila, ubic_asiento, ubic_precio, ubic_tipo "
+                        + "from pel.ubicacion where ubic_publ  = @publicacion", dict);
+        }
+
         public DataTable obtenerUbicacionesDisponibles(decimal idPublicacion)
         {
             var dict = new Dictionary<string, object>();
