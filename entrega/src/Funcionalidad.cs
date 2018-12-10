@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PalcoNet.Utils;
 
 namespace PalcoNet
 {
@@ -54,7 +55,7 @@ namespace PalcoNet
         private void cambiarPass_Click(object sender, EventArgs e)
         {
 
-            if (new RolDAO().esAdmin())
+            if (new RolDAO().esAdmin(Globales.idUsuarioLoggeado))
             {
                 new ListaUsuario().ShowDialog();
             }

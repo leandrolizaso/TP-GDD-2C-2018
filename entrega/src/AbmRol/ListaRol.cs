@@ -37,15 +37,16 @@ namespace PalcoNet.AbmRol
         private void crear_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new ModificarRol(-1).ShowDialog();
+            new ModificarRol(-1,"").ShowDialog();
             this.Show();
         }
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             var id_clickeado = (decimal)datagrid["rol_id", e.RowIndex].Value;
+            var nombre = datagrid["rol_nombre", e.RowIndex].Value.ToString();
             this.Hide();
-            new ModificarRol(id_clickeado).ShowDialog();
+            new ModificarRol(id_clickeado,nombre).ShowDialog();
             this.Show();
         }
     }
