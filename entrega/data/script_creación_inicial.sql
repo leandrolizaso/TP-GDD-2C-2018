@@ -544,7 +544,7 @@ AS
 BEGIN	  
 SELECT  publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
-          FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id and publ_estado = 2
+          FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id and grad_estado != 'B' and publ_estado = 2
 		  where publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and publ_descripcion like (case when @detalle != '' then '%' + @detalle + '%' else publ_descripcion end)
@@ -560,7 +560,8 @@ AS
 BEGIN
 SELECT    count(publ_id)
 		  FROM      PEL.Publicacion
-		  where publ_estado = 2
+		  where publ_estado = 2 
+		  and publ_grado not in (select grad_id from PEL.Grado where grad_estado = 'B')
 		  and publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
 		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
@@ -610,6 +611,7 @@ SELECT TOP 5 publ_descripcion, publ_fecha_ven, (select rubr_descripcion from PEL
 			   FROM PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_grado like case when @grado != 0 then @grado else publ_grado end
 			   join PEL.Ubicacion on ubic_publ = publ_id 
 			   WHERE ubic_compra is null 
+			   and grad_estado != 'B'
 			   and convert(date,publ_fecha_ven,121) between convert(date,@fecha_desde,121) and convert(date,@fecha_hasta,121)
 			   group by publ_empresa_resp, publ_id, publ_descripcion, publ_fecha_ven, publ_rubro, publ_direccion, grad_porcentaje
 			   order by count(ubic_id) desc,publ_fecha_ven desc, grad_porcentaje desc
