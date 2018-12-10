@@ -66,78 +66,69 @@ namespace PalcoNet
         }
 
         private void funcionElegida(object sender, EventArgs e) {
+
             Button button = (Button)sender;
 
             Form proximaPantalla = null;
-            
-            switch(button.Name.Substring(6)) {
-                case "1":  //roles
-                    proximaPantalla = new ListaRol();
-                    break;
-                case "2": 
-                    proximaPantalla = new ListaCliente();
-                    break;
-                case "3":
-                    proximaPantalla = new ListaEmpresa();
-                    break;
-                case "4":
-                    proximaPantalla = new ListaGrado();
-                    break;
-                case "5": 
-                    System.Windows.Forms.MessageBox.Show("CATEGORIA??????"); 
-                    break;
-                case "6":
-                    proximaPantalla = new ListaPublicaciones(false);
-                    break;
-                case "7":
-                    proximaPantalla = new ListaPuntos();
-                    break;
-                case "8":
-                    proximaPantalla = new ModificarPublicacion(-1);
-                    break;
-                case "9":
-                    proximaPantalla = new ListaPublicaciones(true);
-                    break;
-                case "10":
-                    proximaPantalla = new MostrarHistorialCliente();
-                    break;
-                case "11":
-                    proximaPantalla = new SeleccionarEmpresa();
-                    break;
-                case "12":
-                    proximaPantalla = new ListadosSeleccionAnio();
-                    break;
-                default:
-                    System.Windows.Forms.MessageBox.Show(string.Format("La funcionalidad id:{0} \"{}\" no esta implementada.", button.Name.Substring(6), button.Text)); 
-                    break;
-            }
 
-            if (proximaPantalla != null) {
-                this.Hide();
-                try
+            try
+            {
+                switch (button.Name.Substring(6))
                 {
+                    case "1":  //roles
+                        proximaPantalla = new ListaRol();
+                        break;
+                    case "2":
+                        proximaPantalla = new ListaCliente();
+                        break;
+                    case "3":
+                        proximaPantalla = new ListaEmpresa();
+                        break;
+                    case "4":
+                        proximaPantalla = new ListaGrado();
+                        break;
+                    case "5":
+                        System.Windows.Forms.MessageBox.Show("CATEGORIA??????");
+                        break;
+                    case "6":
+                        proximaPantalla = new ListaPublicaciones(false);
+                        break;
+                    case "7":
+                        proximaPantalla = new ListaPuntos();
+                        break;
+                    case "8":
+                        proximaPantalla = new ModificarPublicacion(-1);
+                        break;
+                    case "9":
+                        proximaPantalla = new ListaPublicaciones(true);
+                        break;
+                    case "10":
+                        proximaPantalla = new MostrarHistorialCliente();
+                        break;
+                    case "11":
+                        proximaPantalla = new GenerarRendicion();
+                        break;
+                    case "12":
+                        proximaPantalla = new ListadosSeleccionAnio();
+                        break;
+                    default:
+                        System.Windows.Forms.MessageBox.Show(string.Format("La funcionalidad id:{0} \"{}\" no esta implementada.", button.Name.Substring(6), button.Text));
+                        break;
+                }
+
+                if (proximaPantalla != null)
+                {
+                    this.Hide();
                     proximaPantalla.ShowDialog();
+                    this.Show();
                 }
-                catch (Exception ex) {
-                    MessageBox.Show(ex.Message,"Se produjo el siguiente error");
-                }
-                this.Show();
             }
-        }
-
-        private void panel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Funcionalidad_Load(object sender, EventArgs e)
-        {
-
+            catch (Exception ex)
+            {
+                this.Show();
+                MessageBox.Show(ex.Message, "Se produjo el siguiente error");
+            }
+                           
         }
 
     }
