@@ -150,7 +150,6 @@
             this.datagrid.ReadOnly = true;
             this.datagrid.Size = new System.Drawing.Size(603, 231);
             this.datagrid.TabIndex = 11;
-            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
             this.datagrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellDoubleClick);
             // 
             // label5

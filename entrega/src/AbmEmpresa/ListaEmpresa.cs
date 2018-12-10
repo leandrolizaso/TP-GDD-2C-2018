@@ -13,7 +13,6 @@ namespace PalcoNet.AbmEmpresa
 {
     public partial class ListaEmpresa : Form
     {
-        private decimal id_clickeado;
 
         public ListaEmpresa()
         {
@@ -41,7 +40,7 @@ namespace PalcoNet.AbmEmpresa
         }
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            id_clickeado = (decimal)datagrid["empr_id", e.RowIndex].Value;
+            var id_clickeado = (decimal)datagrid["empr_id", e.RowIndex].Value;
             this.Hide();
             new ModificarEmpresa(id_clickeado,true).ShowDialog();
             this.Show();
@@ -53,11 +52,6 @@ namespace PalcoNet.AbmEmpresa
             new ModificarEmpresa(-1,true).ShowDialog();
             this.Show();
             buscar_Click(sender, e);
-        }
-
-        private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
      }

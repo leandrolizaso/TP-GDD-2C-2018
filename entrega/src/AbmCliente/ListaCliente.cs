@@ -13,7 +13,6 @@ namespace PalcoNet.AbmCliente
 {
     public partial class ListaCliente : Form
     {
-        private decimal id_clickeado;
 
         public ListaCliente()
         {
@@ -42,7 +41,7 @@ namespace PalcoNet.AbmCliente
         }
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            id_clickeado = (decimal)datagrid["clie_id", e.RowIndex].Value;
+            var id_clickeado = (decimal)datagrid["clie_id", e.RowIndex].Value;
             this.Hide();
             new ModificarCliente(id_clickeado,true).ShowDialog();
             this.Show();
