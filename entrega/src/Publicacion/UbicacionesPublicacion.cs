@@ -79,8 +79,8 @@ namespace PalcoNet.Publicacion
         {
             try {
                 Ubicacion u = new Ubicacion(-1);
-                u.ubic_fila = Convert.ToString(ubic_asiento.Text);
-                u.ubic_asiento = Convert.ToDecimal(ubic_fila.Text);
+                u.ubic_fila = Convert.ToString(ubic_fila.Text);
+                u.ubic_asiento = Convert.ToDecimal(ubic_asiento.Text);
                 u.ubic_precio = Convert.ToDecimal(ubic_precio.Text);
                 u.ubic_tipo = Convert.ToDecimal(ubic_tipo.SelectedValue);
                 u.tipo_ubic_descripcion = Convert.ToString(ubic_tipo.Text);
