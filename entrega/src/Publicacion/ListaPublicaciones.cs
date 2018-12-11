@@ -106,16 +106,18 @@ namespace PalcoNet.Publicacion
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            decimal idPublicacion = Convert.ToDecimal(datagrid.CurrentRow.Cells["publ_id"].Value.ToString());
+
             if (esEmpresa)
             {
-                string publicacion = datagrid.CurrentRow.Cells[0].Value.ToString();
-                new ModificarPublicacion(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
+
+                new ModificarPublicacion(idPublicacion).ShowDialog();
           
             }
             else 
             {
-                string publicacion = datagrid.CurrentRow.Cells[0].Value.ToString();
-                new Compra(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
+
+                new Compra(idPublicacion).ShowDialog();
           
             }
            
