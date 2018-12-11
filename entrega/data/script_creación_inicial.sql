@@ -11,6 +11,7 @@ GO
 --------------------------------------------------------------
 
 create sequence PEL.Compra_seq start with 1 increment by 1
+create sequence PEL.Publicacion_seq start with 1 increment by 1
 
 --------------------------------------------------------------
 -------------------Creación de las tablas---------------------
@@ -112,7 +113,7 @@ CREATE TABLE PEL.Empresa (
 )
 
 CREATE TABLE PEL.Publicacion (
-	publ_id NUMERIC(18,0) NOT NULL,
+	publ_id NUMERIC(18,0) NOT NULL DEFAULT NEXT VALUE FOR PEL.Publicacion_seq,
 	publ_descripcion NVARCHAR(255) NOT NULL,
 	publ_estado NUMERIC(18,0),
 	publ_fecha_publi DATETIME,
@@ -125,7 +126,8 @@ CREATE TABLE PEL.Publicacion (
 	FOREIGN KEY (publ_rubro) REFERENCES PEL.Rubro (rubr_id),
 	FOREIGN KEY (publ_grado) REFERENCES PEL.Grado (grad_id),
 	FOREIGN KEY (publ_empresa_resp) REFERENCES PEL.Empresa (empr_id),
-	FOREIGN KEY (publ_estado) REFERENCES PEL.Estado_Publicacion (Esta_id)
+	FOREIGN KEY (publ_estado) REFERENCES PEL.Estado_Publicacion (Esta_id),
+	CONSTRAINT publ_uk UNIQUE (publ_fecha_ven, publ_descripcion)
 )
 
 CREATE TABLE PEL.Premio(
@@ -965,15 +967,13 @@ update PEL.Empresa
  set empr_estado = 'M'
 
 
-INSERT INTO PEL.Publicacion (publ_id,
-							 publ_descripcion, 
+INSERT INTO PEL.Publicacion (publ_descripcion, 
 							 publ_fecha_publi, 
 							 publ_fecha_ven, 
 							 publ_rubro, 
 							 publ_estado,
 							 publ_empresa_resp)
-  	SELECT DISTINCT Espectaculo_Cod, 
-					Espectaculo_Descripcion,
+  	SELECT DISTINCT Espectaculo_Descripcion,
 					Espectaculo_Fecha, 
 					Espectaculo_Fecha_Venc, 
 					(SELECT rubr_id FROM PEL.Rubro WHERE rubr_descripcion = Espectaculo_Rubro_Descripcion), 
@@ -1044,7 +1044,7 @@ INSERT INTO PEL.Compra (compr_fecha,
 	SELECT DISTINCT Compra_Fecha,
 					Ubicacion_Precio*Compra_cantidad, 
 					Forma_Pago_Desc, 
-					Espectaculo_Cod, 
+					(SELECT publ_id FROM PEL.Publicacion WHERE Espectaculo_Fecha_Venc = publ_fecha_ven and Espectaculo_Descripcion = publ_descripcion), 
 					(SELECT clie_id FROM PEL.Cliente WHERE clie_nro_doc = Cli_Dni)
 	FROM gd_esquema.Maestra
 	where cli_dni is not null and compra_fecha is not null and Forma_Pago_Desc is not null
@@ -1065,11 +1065,12 @@ INSERT INTO PEL.Ubicacion (ubic_fila,
 					Ubicacion_Asiento, 
 					Ubicacion_Sin_numerar,
 					Ubicacion_Precio,
-					Espectaculo_Cod, 
+					(SELECT publ_id FROM PEL.Publicacion WHERE Espectaculo_Fecha_Venc = publ_fecha_ven and Espectaculo_Descripcion = publ_descripcion), 
 					Ubicacion_Tipo_Codigo 
 	FROM gd_esquema.Maestra 
 	where Factura_Fecha is null
 GO
+
 
 
 
@@ -1079,9 +1080,12 @@ update PEL.Ubicacion
 		ubic_item_factura_cantidad = Item_Factura_Cantidad,
 		ubic_item_factura_descripcion = Item_Factura_Descripcion,
 		ubic_compra = compr_id
-	from gd_esquema.Maestra join PEL.Compra on compr_fecha = Compra_Fecha 
+	from gd_esquema.Maestra join PEL.Compra on compr_fecha = Compra_Fecha and Factura_Nro is not null
 							join PEL.Cliente on clie_nro_doc = Cli_Dni
-	where Factura_nro is not null and ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and ubic_publ= Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
+							join PEL.Publicacion on Espectaculo_Fecha_Venc = publ_fecha_ven and Espectaculo_Descripcion = publ_descripcion
+							join PEL.Empresa on empr_razon_social = Espec_Empresa_Razon_Social and empr_cuit = Espec_Empresa_Cuit
+	where ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and 
+		  ubic_publ = publ_id and ubic_tipo = Ubicacion_tipo_codigo
 
 
 
