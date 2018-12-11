@@ -71,6 +71,11 @@ namespace PalcoNet.Publicacion
             return total;
         }
 
+        public DataTable obtenerTiposUbicacion() {
+            return query("select tipo_ubic_id, tipo_ubic_descripcion from pel.tipo_ubicacion", new Dictionary<string, object>());
+        }
+
+        //REVISAR ESTO!
         public decimal obtenerPublicacion(string descripcion)
         {
             var dict = new Dictionary<string, object>();
@@ -79,7 +84,23 @@ namespace PalcoNet.Publicacion
             return Convert.ToDecimal(result.Rows[0][0]);
         }
 
-        internal DataTable obtenerUbicaciones(decimal idPublicacion)
+        public DataTable obtenerPublicacion(decimal idPublicacion)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@publ_id", idPublicacion);
+            return query("select * from pel.publicacion where publ_id = @publ_id", dict);
+        }
+
+        public DataTable obtenerAllUbicaciones(decimal idPublicacion)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@publicacion", idPublicacion);
+            return query("select ubic_id, ubic_fila, ubic_asiento, ubic_precio, ubic_tipo, tipo_ubic_descripcion "
+                        + "from pel.ubicacion join pel.tipo_ubicacion on tipo_ubic_id = ubic_tipo "
+                        + "where ubic_publ  = @publicacion", dict);
+        }
+
+        public DataTable obtenerUbicacionesDisponibles(decimal idPublicacion)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("@publicacion", idPublicacion);
@@ -95,6 +116,130 @@ namespace PalcoNet.Publicacion
             dict.Add("@fecha", Globales.getFechaHoy());
             dict.Add("@cliente", new ClienteDAO().obtenerCliente(Globales.idUsuarioLoggeado));
             procedure("PEL.sp_comprar", dict);
+        }
+
+        public DataTable obtenerEstadosDisponiblesParaEstadoActual(decimal estado)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@estado", estado);
+            return query("select esta_id, esta_descripcion from pel.estado_publicacion where esta_id >= @estado", dict);
+
+        }
+
+        public decimal obtenerIdEstadoXIdPublicacion(decimal publ)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("@publicacion", publ);
+            decimal estado = Convert.ToDecimal(query("select publ_estado from pel.publicacion where publ_id = @publicacion", dict).Rows[0][0]);
+            return estado;
+        }
+
+        //Publicacion
+        public decimal upsertPublicacion(decimal idPublicacion, Dictionary<string, object> dict)
+        {
+            if (idPublicacion == -1)
+            {
+                return insertPublicacion(dict);
+            }
+            else
+            {
+                return updatePublicacion(idPublicacion, dict);
+            }
+        }
+
+        private decimal insertPublicacion(Dictionary<string, object> dict)
+        {
+            string queryStr = "insert PEL.publicacion (";
+            foreach (var entry in dict)
+            {
+                queryStr += entry.Key + " ,";
+            }
+            queryStr = queryStr.TrimEnd(',');
+            queryStr += ") values (";
+            foreach (var entry in dict)
+            {
+                queryStr += "@" + entry.Key + " ,";
+            }
+            queryStr = queryStr.TrimEnd(',');
+            queryStr += ")";
+            //el id no se genera automaticamente (no es identity), hay que ver de donde se saca.
+            query(queryStr, dict);
+            //inmediatamente despues necesito devolverlo
+            return -1;
+        }
+
+        private decimal updatePublicacion(decimal idPublicacion, Dictionary<string, object> dict)
+        {
+            string queryStr = "update PEL.publicacion set ";
+            foreach (var entry in dict)
+            {
+                queryStr += entry.Key + " = @" + entry.Key + " ,";
+            }
+            queryStr = queryStr.TrimEnd(',');
+            queryStr += "where publ_id = " + idPublicacion;
+
+            Dictionary<string, object> queryParams = new Dictionary<string, object>();
+            foreach (var item in dict)
+            {
+                queryParams.Add("@" + item.Key, item.Value);
+            }
+
+            query(queryStr, queryParams);
+            return idPublicacion;
+        }
+
+
+        //Ubicacion
+        public void upsertUbicacion(Dictionary<string, object> dict)
+        {
+            decimal idUbicacion = Convert.ToDecimal(dict["ubic_id"]);
+            if (idUbicacion == -1)
+            {
+                insertUbicacion(dict);
+            }
+            else
+            {
+                updateUbicacion(dict);
+            }
+        }
+
+        private void insertUbicacion(Dictionary<string, object> dict)
+        {
+            dict.Remove("ubic_id");
+
+            string queryStr = "insert PEL.ubicacion (";
+            foreach (var entry in dict)
+            {
+                queryStr += entry.Key + " ,";
+            }
+            queryStr = queryStr.TrimEnd(',');
+            queryStr += ") values (";
+            foreach (var entry in dict)
+            {
+                queryStr += "@" + entry.Key + " ,";
+            }
+            queryStr = queryStr.TrimEnd(',');
+            queryStr += ")";
+            query(queryStr, dict);
+        }
+
+        private void updateUbicacion(Dictionary<string, object> dict)
+        {
+            string queryStr = "update PEL.ubicacion set ";
+            foreach (var entry in dict)
+            {
+                queryStr += entry.Key + " = @" + entry.Key + " ,";
+            }
+            queryStr = queryStr.TrimEnd(',');
+            queryStr += "where ubic_id = @ubic_id";
+
+            Dictionary<string, object> queryParams = new Dictionary<string, object>();
+            foreach (var item in dict)
+            {
+                queryParams.Add("@" + item.Key, item.Value);
+            }
+
+            query(queryStr, queryParams);
         }
     }
 }

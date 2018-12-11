@@ -12,6 +12,7 @@ GO
 
 create sequence PEL.Compra_seq start with 1 increment by 1
 
+
 --------------------------------------------------------------
 -------------------Creación de las tablas---------------------
 --------------------------------------------------------------
@@ -112,7 +113,7 @@ CREATE TABLE PEL.Empresa (
 )
 
 CREATE TABLE PEL.Publicacion (
-	publ_id NUMERIC(18,0) NOT NULL,
+	publ_id NUMERIC(18,0) NOT NULL, -- DEFAULT NEXT VALUE FOR PEL.Publicacion_seq,
 	publ_descripcion NVARCHAR(255) NOT NULL,
 	publ_estado NUMERIC(18,0),
 	publ_fecha_publi DATETIME,
@@ -125,7 +126,8 @@ CREATE TABLE PEL.Publicacion (
 	FOREIGN KEY (publ_rubro) REFERENCES PEL.Rubro (rubr_id),
 	FOREIGN KEY (publ_grado) REFERENCES PEL.Grado (grad_id),
 	FOREIGN KEY (publ_empresa_resp) REFERENCES PEL.Empresa (empr_id),
-	FOREIGN KEY (publ_estado) REFERENCES PEL.Estado_Publicacion (Esta_id)
+	FOREIGN KEY (publ_estado) REFERENCES PEL.Estado_Publicacion (Esta_id),
+	CONSTRAINT publ_uk UNIQUE (publ_fecha_ven, publ_descripcion)
 )
 
 CREATE TABLE PEL.Premio(
@@ -542,7 +544,7 @@ GO
 CREATE PROCEDURE PEL.sp_ver_publicaciones (@categorias nvarchar(255), @detalle varchar(255),@desde varchar(30),@hasta varchar(30),@pag int)
 AS
 BEGIN	  
-SELECT  publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro
+SELECT  publ_id, publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id and grad_estado != 'B' and publ_estado = 2
 		  where publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
@@ -572,7 +574,7 @@ GO
 CREATE PROCEDURE PEL.sp_ver_publicaciones_empresa (@categorias nvarchar(255), @detalle varchar(255),@desde varchar(30),@hasta varchar(30),@pag int, @empresa numeric(18,0))
 AS
 BEGIN	  
-SELECT  publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro, (select Esta_descripcion from PEL.Estado_Publicacion where Esta_id = publ_estado) as estado
+SELECT  publ_id, publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_descripcion from PEL.Rubro where rubr_id = publ_rubro) as rubro, (select Esta_descripcion from PEL.Estado_Publicacion where Esta_id = publ_estado) as estado
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id and publ_empresa_resp = @empresa
 		  where publ_estado = 1
@@ -974,7 +976,7 @@ INSERT INTO PEL.Publicacion (publ_id,
 							 publ_rubro, 
 							 publ_estado,
 							 publ_empresa_resp)
-  	SELECT DISTINCT Espectaculo_Cod, 
+  	SELECT DISTINCT Espectaculo_Cod,
 					Espectaculo_Descripcion,
 					Espectaculo_Fecha, 
 					Espectaculo_Fecha_Venc, 
@@ -1075,15 +1077,17 @@ GO
 
 
 
+
 update PEL.Ubicacion
 	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), 
 		ubic_comision = Item_Factura_Monto,
 		ubic_item_factura_cantidad = Item_Factura_Cantidad,
 		ubic_item_factura_descripcion = Item_Factura_Descripcion,
 		ubic_compra = compr_id
-	from gd_esquema.Maestra join PEL.Compra on compr_fecha = Compra_Fecha 
+	from gd_esquema.Maestra join PEL.Compra on compr_fecha = Compra_Fecha and Factura_Nro is not null
 							join PEL.Cliente on clie_nro_doc = Cli_Dni
-	where Factura_nro is not null and ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and ubic_publ= Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
+	where ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and 
+		  ubic_publ = Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
 
 
 
@@ -1117,4 +1121,11 @@ AS
 		end
 GO
 
+
+DECLARE @max numeric(18,0);
+SELECT @max = (MAX(publ_id) +1) FROM PEL.Publicacion
+
+exec('CREATE SEQUENCE PEL.Publicacion_seq  
+    START WITH ' + @max +
+'   INCREMENT BY 1;')
 

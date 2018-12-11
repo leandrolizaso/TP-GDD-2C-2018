@@ -1,4 +1,5 @@
 ﻿using PalcoNet.AbmRubro;
+using PalcoNet.Comprar;
 using PalcoNet.Publicacion;
 using PalcoNet.Utils;
 using System;
@@ -11,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PalcoNet.Comprar
+namespace PalcoNet.Publicacion
 {
     public partial class ListaPublicaciones : Form
     {
@@ -105,16 +106,18 @@ namespace PalcoNet.Comprar
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            decimal idPublicacion = Convert.ToDecimal(datagrid.CurrentRow.Cells["publ_id"].Value.ToString());
+
             if (esEmpresa)
             {
-                string publicacion = datagrid.CurrentRow.Cells[0].Value.ToString();
-                new EditarPublicacionForm(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
+
+                new ModificarPublicacion(idPublicacion).ShowDialog();
           
             }
             else 
             {
-                string publicacion = datagrid.CurrentRow.Cells[0].Value.ToString();
-                new Compra(new PublicacionDAO().obtenerPublicacion(publicacion)).ShowDialog();
+
+                new Compra(idPublicacion).ShowDialog();
           
             }
            

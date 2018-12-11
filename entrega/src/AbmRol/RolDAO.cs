@@ -69,17 +69,17 @@ namespace PalcoNet.AbmRol
             procedure("PEL.crear_rol", dict);
         }
 
-        internal void eliminarRol(decimal idRol)
+        public void eliminarRol(decimal idRol)
         {
             Dictionary<string,object> dict = new Dictionary<string,object>();
             dict.Add("@rol", idRol);
             procedure("PEL.sp_baja_rol", dict);
         }
 
-        internal bool esAdmin()
+        public bool esAdmin(decimal idRol)
         {
             var dict = new Dictionary<string, object>();
-            dict.Add("@usuario", Globales.idUsuarioLoggeado);
+            dict.Add("@usuario", idRol);
             DataTable dt = query("select count(*) from pel.rol_usuario where rol_usua_usua = @usuario and rol_usua_rol = 1", dict);
             return Convert.ToInt32(dt.Rows[0][0]) == 1;
         }
