@@ -135,7 +135,7 @@ namespace PalcoNet.AbmEmpresa
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);
+                MessageBox.Show(SqlExceptionTransformer.obtenerMensajeCustom(ex));
             }
 
         }
