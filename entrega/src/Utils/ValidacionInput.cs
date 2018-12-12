@@ -36,9 +36,5 @@ namespace PalcoNet.Utils
 
         }
 
-        public bool asientoValido(string asiento)
-        {
-            return Regex.IsMatch(asiento, @"^([\d{1,3}]+)$");
-        }
     }
 }

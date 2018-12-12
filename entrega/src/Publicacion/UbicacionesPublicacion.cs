@@ -116,7 +116,7 @@ namespace PalcoNet.Publicacion
         {
             ValidacionInput validador = new ValidacionInput();
 
-            if (!validador.asientoValido(ubic_asiento.Text))
+            if (!validador.numeroValido(ubic_asiento.Text) || Convert.ToInt32(ubic_precio.Text) < 0)
             {
                 labelAsiento.Visible = true;
                 datosValidos = false;
@@ -125,6 +125,11 @@ namespace PalcoNet.Publicacion
             if (!validador.numeroValido(ubic_precio.Text) || Convert.ToInt32(ubic_precio.Text) < 0)
             {
                 labelPrecio.Visible = true;
+                datosValidos = false;
+            }
+
+            if (ubic_fila.Text.Length > 3 || ubic_fila.Text.Length <=0) {
+                labelFila.Visible = true;
                 datosValidos = false;
             }
         }
