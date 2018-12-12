@@ -37,7 +37,7 @@ namespace PalcoNet.AbmRol
         private void crear_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new ModificarRol(-1,"").ShowDialog();
+            new ModificarRol(-1, "").ShowDialog();
             this.Show();
         }
 

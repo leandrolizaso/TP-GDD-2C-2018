@@ -55,13 +55,14 @@
             // 
             // comboMes
             // 
+            this.comboMes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboMes.FormattingEnabled = true;
             this.comboMes.Location = new System.Drawing.Point(76, 98);
             this.comboMes.Name = "comboMes";
             this.comboMes.Size = new System.Drawing.Size(121, 21);
             this.comboMes.TabIndex = 4;
             // 
-            // SeleccionMes
+            // ListadosSeleccionMes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -69,7 +70,7 @@
             this.Controls.Add(this.comboMes);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
-            this.Name = "SeleccionMes";
+            this.Name = "ListadosSeleccionMes";
             this.Text = "Seleccion mes";
             this.ResumeLayout(false);
             this.PerformLayout();

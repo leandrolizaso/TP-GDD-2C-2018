@@ -51,6 +51,7 @@
             this.rol_nombre.Name = "rol_nombre";
             this.rol_nombre.Size = new System.Drawing.Size(292, 20);
             this.rol_nombre.TabIndex = 15;
+            this.rol_nombre.TextChanged += new System.EventHandler(this.rol_nombre_TextChanged);
             // 
             // label1
             // 
@@ -90,7 +91,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.modificar);
             this.Name = "ModificarRol";
-            this.Text = "ModificarRol";
+            this.Text = "Rol";
             this.ResumeLayout(false);
             this.PerformLayout();
 

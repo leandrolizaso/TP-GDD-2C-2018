@@ -228,6 +228,7 @@
             // 
             // clie_estado
             // 
+            this.clie_estado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.clie_estado.FormattingEnabled = true;
             this.clie_estado.Location = new System.Drawing.Point(450, 326);
             this.clie_estado.Name = "clie_estado";

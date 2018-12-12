@@ -53,28 +53,62 @@ namespace PalcoNet.AbmRol
 
         private void modificar_Click(object sender, EventArgs e)
         {
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-            dict.Add("@rol_id", idRol);
-            dict.Add("@rol_nombre", rol_nombre.Text);
+            if (rol_nombre.Text != "")
+            {
+                Dictionary<string, object> dict = new Dictionary<string, object>();
 
-            List<Decimal> idFunciones = new List<decimal>();
-
-            foreach(CheckBox check in panel.Controls){
-                if (check.Checked) {
-                    idFunciones.Add(Convert.ToInt16(check.Name));
+                if (idRol != -1)
+                {
+                    dict.Add("@rol_id", idRol);
                 }
+
+                dict.Add("@rol_nombre", rol_nombre.Text);
+
+                List<Decimal> idFunciones = new List<decimal>();
+
+                bool boxchecked = true;
+
+                foreach (CheckBox check in panel.Controls)
+                {
+                    if (check.Checked)
+                    {
+                        idFunciones.Add(Convert.ToInt16(check.Name));
+                        boxchecked = false;
+                    }
+                    
+                }
+
+                if (boxchecked)
+                {
+                    MessageBox.Show("Debe seleccionar al menos una funcionalidad");
+                }
+                else 
+                {
+
+                    dict.Add("@funciones", string.Join(",", idFunciones));
+                    new RolDAO().upsertRol(idRol, dict);
+                    this.Hide();
+                    MessageBox.Show("Se ha modificado el rol.\nSi el usuario actual pertenece al rol, por favor vuelva a iniciar sesion para ver los cambios en los accesos");
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Debe ingresar un nombre para el rol");
             }
 
-            dict.Add("@funciones", string.Join(",", idFunciones));
-            new RolDAO().upsertRol(idRol, dict);
-            this.Hide();
-            MessageBox.Show("Se ha modificado el rol.\nSi el usuario actual pertenece al rol, por favor vuelva a iniciar sesion para ver los cambios en los accesos");
+            
         }
 
         private void eliminar_Click(object sender, EventArgs e)
         {
             new RolDAO().eliminarRol(idRol);
             this.Hide();
+        }
+
+        private void rol_nombre_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

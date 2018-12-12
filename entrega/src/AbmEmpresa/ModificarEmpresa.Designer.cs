@@ -146,6 +146,7 @@
             // 
             // empr_estado
             // 
+            this.empr_estado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.empr_estado.FormattingEnabled = true;
             this.empr_estado.Location = new System.Drawing.Point(449, 227);
             this.empr_estado.Name = "empr_estado";

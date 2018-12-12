@@ -184,7 +184,7 @@ CREATE TABLE PEL.Tipo_Ubicacion (
 
 CREATE TABLE PEL.Ubicacion (
 	ubic_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
-	ubic_fila NVARCHAR(2) NOT NULL,
+	ubic_fila NVARCHAR(3) NOT NULL,
 	ubic_asiento NUMERIC (2,0),
 	ubic_sin_numerar BIT default 0,
 	ubic_precio NUMERIC(18,0), 
