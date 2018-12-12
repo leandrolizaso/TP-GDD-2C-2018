@@ -27,16 +27,26 @@ namespace PalcoNet.RegistroUsuario
         private void button1_Click(object sender, EventArgs e)
         {   
             //if user==0 -> el usuario esta cambiendo la pass, sino es el admin
-            if (user == 0)
+
+            if (pass.Text != "")
             {
-                new LoginDAO().cambiarPass(Globales.idUsuarioLoggeado, pass.Text, false);
+                if (user == 0)
+                {
+                    new LoginDAO().cambiarPass(Globales.idUsuarioLoggeado, pass.Text, false);
+                }
+                else
+                {
+                    new LoginDAO().cambiarPass(user, pass.Text, true);
+                }
+
+                this.Hide();
             }
             else 
             {
-                new LoginDAO().cambiarPass(user, pass.Text, true);
+                MessageBox.Show("La contraseña debe tener al menos un caracter");
             }
 
-            this.Hide();
+                
         }
 
         private void label1_Click(object sender, EventArgs e)
