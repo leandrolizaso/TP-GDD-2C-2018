@@ -102,7 +102,6 @@
             this.fecha_desde.Name = "fecha_desde";
             this.fecha_desde.Size = new System.Drawing.Size(102, 20);
             this.fecha_desde.TabIndex = 28;
-            this.fecha_desde.ValueChanged += new System.EventHandler(this.fecha_desde_ValueChanged);
             // 
             // label1
             // 
@@ -138,7 +137,6 @@
             this.nombre.Name = "nombre";
             this.nombre.Size = new System.Drawing.Size(230, 20);
             this.nombre.TabIndex = 5;
-            this.nombre.TextChanged += new System.EventHandler(this.nombre_TextChanged);
             // 
             // label3
             // 
@@ -155,12 +153,12 @@
             this.datagrid.AllowUserToDeleteRows = false;
             this.datagrid.AllowUserToOrderColumns = true;
             this.datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datagrid.Location = new System.Drawing.Point(21, 132);
+            this.datagrid.Location = new System.Drawing.Point(22, 132);
             this.datagrid.Name = "datagrid";
             this.datagrid.ReadOnly = true;
             this.datagrid.Size = new System.Drawing.Size(603, 284);
             this.datagrid.TabIndex = 16;
-            this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellDoubleClick);
+            this.datagrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellDoubleClick);
             // 
             // pag
             // 
@@ -220,7 +218,6 @@
             this.label5.Size = new System.Drawing.Size(159, 13);
             this.label5.TabIndex = 29;
             this.label5.Text = "Doble click en la fila seleccionar";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // ListaPublicaciones
             // 

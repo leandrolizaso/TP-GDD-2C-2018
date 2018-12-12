@@ -94,16 +94,6 @@ namespace PalcoNet.Publicacion
 
         }
 
-        private void Rubros_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void nombre_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             decimal idPublicacion = Convert.ToDecimal(datagrid.CurrentRow.Cells["publ_id"].Value.ToString());
@@ -160,16 +150,6 @@ namespace PalcoNet.Publicacion
         {
             pagina = 1;
             this.llenar_grilla();
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void fecha_desde_ValueChanged(object sender, EventArgs e)
-        {
-
         }
 
     }

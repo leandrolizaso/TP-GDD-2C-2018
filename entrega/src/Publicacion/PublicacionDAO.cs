@@ -168,7 +168,6 @@ namespace PalcoNet.Publicacion
             }
             queryStr = queryStr.TrimEnd(',');
             queryStr += ")";
-            //el id no se genera automaticamente (no es identity), hay que ver de donde se saca.
             query(queryStr, dict);
 
         }
