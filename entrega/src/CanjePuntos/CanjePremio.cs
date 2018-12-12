@@ -58,7 +58,7 @@ namespace PalcoNet.CanjePuntos
 
         private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            if (e.RowIndex < 0) return;
 
             var senderGrid = (DataGridView)sender;
 

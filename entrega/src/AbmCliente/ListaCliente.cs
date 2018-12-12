@@ -41,6 +41,7 @@ namespace PalcoNet.AbmCliente
         }
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex < 0) return;
             var id_clickeado = (decimal)datagrid["clie_id", e.RowIndex].Value;
             this.Hide();
             new ModificarCliente(id_clickeado,true).ShowDialog();

@@ -52,6 +52,7 @@ namespace PalcoNet.AbmGrado
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
             id_clickeado = (decimal)datagrid["grad_id", e.RowIndex].Value;
             this.Hide();
             new ModificarGrado(id_clickeado).ShowDialog();

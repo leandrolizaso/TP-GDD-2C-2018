@@ -43,6 +43,7 @@ namespace PalcoNet.AbmRol
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
             var id_clickeado = (decimal)datagrid["rol_id", e.RowIndex].Value;
             var nombre = datagrid["rol_nombre", e.RowIndex].Value.ToString();
             this.Hide();

@@ -40,6 +40,7 @@ namespace PalcoNet.AbmEmpresa
         }
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex < 0) return;
             var id_clickeado = (decimal)datagrid["empr_id", e.RowIndex].Value;
             this.Hide();
             new ModificarEmpresa(id_clickeado,true).ShowDialog();

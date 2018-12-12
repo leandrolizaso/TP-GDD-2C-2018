@@ -28,6 +28,7 @@ namespace PalcoNet.RegistroUsuario
 
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
             this.Hide();
             new CambiarPass(Convert.ToDecimal(dataGridView1.CurrentRow.Cells["usua_id"].Value)).ShowDialog();
         }

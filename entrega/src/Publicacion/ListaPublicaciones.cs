@@ -96,6 +96,8 @@ namespace PalcoNet.Publicacion
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
+
             decimal idPublicacion = Convert.ToDecimal(datagrid.CurrentRow.Cells["publ_id"].Value.ToString());
 
             if (esEmpresa)

@@ -35,6 +35,7 @@ namespace PalcoNet.GenerarRendicionComisiones
 
         private void datagrid_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
             decimal id_clickeado = (decimal)datagrid["empr_id", e.RowIndex].Value;
             this.Hide();
             new GenerarRendicion(id_clickeado).ShowDialog();
