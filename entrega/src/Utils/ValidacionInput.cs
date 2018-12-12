@@ -9,14 +9,19 @@ namespace PalcoNet.Utils
 {
     class ValidacionInput
     {
-        public bool cadenaValida(string cadena) 
+        public bool palabrasValidas(string cadena) 
         {
-            return Regex.IsMatch(cadena, @"^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜäÄëËöÖ]+(\s*[a-zA-ZñÑáéíóúÁÉÍÓÚüÜäÄëËöÖ])[a-zA-ZñÑáéíóúÁÉÍÓÚüÜäÄëËöÖ]+$");
+            return Regex.IsMatch(cadena, @"^[\D]+$");
+        }
+
+        public bool esAlfaNumerico(string cadena) 
+        {
+            return Regex.IsMatch(cadena, @"^[\w]+$");
         }
 
         public bool mailValido(string mail) 
         {
-            return Regex.IsMatch(mail, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            return Regex.IsMatch(mail, @"^([\w\.\-_]+)@([\w\-]+)((\.(\w){2,3})+)$");
         }
 
         public bool numeroValido(string numero)

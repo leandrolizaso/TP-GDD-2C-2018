@@ -64,6 +64,8 @@ namespace PalcoNet.AbmCliente
             labelMail.Visible = false;
             labelApellido.Visible = false;
             labelCodigo.Visible = false;
+            labelPassword.Visible = false;
+            labelUsername.Visible = false;
 
         }
 
@@ -155,13 +157,13 @@ namespace PalcoNet.AbmCliente
         {
             ValidacionInput validador = new ValidacionInput();
 
-            if(!validador.cadenaValida(clie_nombre.Text))
+            if(!validador.palabrasValidas(clie_nombre.Text))
             {
                 labelNombre.Visible = true;
                 datosValidos = false;
             }
 
-            if(!validador.cadenaValida(clie_apellido.Text))
+            if(!validador.palabrasValidas(clie_apellido.Text))
             {
                 labelApellido.Visible = true;
                 datosValidos = false;
@@ -184,8 +186,18 @@ namespace PalcoNet.AbmCliente
                 labelCodigo.Visible = true;
                 datosValidos = false;
             }
-            
-            
+
+            if (!validador.esAlfaNumerico(username.Text) && !username.ReadOnly)
+            {
+                labelUsername.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.esAlfaNumerico(password.Text) && !username.ReadOnly)
+            {
+                labelPassword.Visible = true;
+                datosValidos = false;
+            }
             
             
             
@@ -197,6 +209,11 @@ namespace PalcoNet.AbmCliente
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void username_TextChanged(object sender, EventArgs e)
         {
 
         }

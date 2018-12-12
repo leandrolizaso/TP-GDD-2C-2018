@@ -17,12 +17,15 @@ namespace PalcoNet.AbmEmpresa
     {
         private decimal idEmpresa;
         private Boolean esABM;
+        private Boolean datosValidos;
 
         public ModificarEmpresa(Decimal idEmpresa, Boolean esABM)
         {
             this.idEmpresa = idEmpresa;
             this.esABM = esABM;
             InitializeComponent();
+
+            this.ocultarCampos();
 
             empr_fecha.Value = Globales.getFechaHoy();
 
@@ -69,6 +72,16 @@ namespace PalcoNet.AbmEmpresa
         }
 
         private void modificar_Click(object sender, EventArgs e) {
+
+            this.ocultarCampos();
+            this.validarCampos();
+
+            if (!datosValidos)
+            {
+                datosValidos = true;
+                return;
+            }
+
             var dict = new Dictionary<string, object>();
 
             foreach (var control in Controls) {
@@ -135,5 +148,62 @@ namespace PalcoNet.AbmEmpresa
 
         }
 
+        private void ocultarCampos()
+        {
+            labelRazon.Visible = false;
+            labelTelefono.Visible = false;
+            labelMail.Visible = false;
+            labelCiudad.Visible = false;
+            labelCodigo.Visible = false;
+            labelPassword.Visible = false;
+            labelUsername.Visible = false;
+        }
+
+        private void validarCampos() 
+        {
+            ValidacionInput validador = new ValidacionInput();
+
+            if (!validador.palabrasValidas(empr_razon_social.Text))
+            {
+                labelRazon.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.numeroValido(empr_telefono.Text))
+            {
+                labelTelefono.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.mailValido(empr_mail.Text))
+            {
+                labelMail.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.numeroValido(empr_codigo_postal.Text))
+            {
+                labelCodigo.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.palabrasValidas(empr_ciudad.Text))
+            {
+                labelCiudad.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.esAlfaNumerico(username.Text) && !username.ReadOnly)
+            {
+                labelUsername.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.esAlfaNumerico(password.Text) && !password.ReadOnly)
+            {
+                labelPassword.Visible = true;
+                datosValidos = false;
+            }
+        }
     }
 }

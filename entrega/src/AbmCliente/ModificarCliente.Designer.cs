@@ -64,11 +64,13 @@
             this.labelTelefono = new System.Windows.Forms.Label();
             this.labelCodigo = new System.Windows.Forms.Label();
             this.labelMail = new System.Windows.Forms.Label();
+            this.labelUsername = new System.Windows.Forms.Label();
+            this.labelPassword = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(74, 415);
+            this.modificar.Location = new System.Drawing.Point(72, 423);
             this.modificar.Name = "modificar";
             this.modificar.Size = new System.Drawing.Size(537, 43);
             this.modificar.TabIndex = 13;
@@ -288,6 +290,7 @@
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(162, 20);
             this.username.TabIndex = 0;
+            this.username.TextChanged += new System.EventHandler(this.username_TextChanged);
             // 
             // password
             // 
@@ -377,11 +380,35 @@
             this.labelMail.Text = "Mail invalido";
             this.labelMail.Visible = false;
             // 
+            // labelUsername
+            // 
+            this.labelUsername.AutoSize = true;
+            this.labelUsername.ForeColor = System.Drawing.Color.Coral;
+            this.labelUsername.Location = new System.Drawing.Point(154, 397);
+            this.labelUsername.Name = "labelUsername";
+            this.labelUsername.Size = new System.Drawing.Size(94, 13);
+            this.labelUsername.TabIndex = 38;
+            this.labelUsername.Text = "Username invalido";
+            this.labelUsername.Visible = false;
+            // 
+            // labelPassword
+            // 
+            this.labelPassword.AutoSize = true;
+            this.labelPassword.ForeColor = System.Drawing.Color.Coral;
+            this.labelPassword.Location = new System.Drawing.Point(448, 397);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(92, 13);
+            this.labelPassword.TabIndex = 39;
+            this.labelPassword.Text = "Password invalido";
+            this.labelPassword.Visible = false;
+            // 
             // ModificarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 493);
+            this.Controls.Add(this.labelPassword);
+            this.Controls.Add(this.labelUsername);
             this.Controls.Add(this.labelMail);
             this.Controls.Add(this.labelCodigo);
             this.Controls.Add(this.labelTelefono);
@@ -464,5 +491,7 @@
         private System.Windows.Forms.Label labelTelefono;
         private System.Windows.Forms.Label labelCodigo;
         private System.Windows.Forms.Label labelMail;
+        private System.Windows.Forms.Label labelUsername;
+        private System.Windows.Forms.Label labelPassword;
     }
 }

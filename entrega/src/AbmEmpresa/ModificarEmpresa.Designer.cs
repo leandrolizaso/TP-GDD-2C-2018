@@ -50,6 +50,13 @@
             this.empr_codigo_postal = new System.Windows.Forms.TextBox();
             this.ciudad = new System.Windows.Forms.Label();
             this.empr_ciudad = new System.Windows.Forms.TextBox();
+            this.labelRazon = new System.Windows.Forms.Label();
+            this.labelMail = new System.Windows.Forms.Label();
+            this.labelTelefono = new System.Windows.Forms.Label();
+            this.labelCodigo = new System.Windows.Forms.Label();
+            this.labelCiudad = new System.Windows.Forms.Label();
+            this.labelUsername = new System.Windows.Forms.Label();
+            this.labelPassword = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // modificar
@@ -235,11 +242,95 @@
             this.empr_ciudad.Size = new System.Drawing.Size(162, 20);
             this.empr_ciudad.TabIndex = 34;
             // 
+            // labelRazon
+            // 
+            this.labelRazon.AutoSize = true;
+            this.labelRazon.ForeColor = System.Drawing.Color.Coral;
+            this.labelRazon.Location = new System.Drawing.Point(161, 54);
+            this.labelRazon.Name = "labelRazon";
+            this.labelRazon.Size = new System.Drawing.Size(107, 13);
+            this.labelRazon.TabIndex = 35;
+            this.labelRazon.Text = "Razon social invalida";
+            this.labelRazon.Visible = false;
+            // 
+            // labelMail
+            // 
+            this.labelMail.AutoSize = true;
+            this.labelMail.ForeColor = System.Drawing.Color.Coral;
+            this.labelMail.Location = new System.Drawing.Point(457, 105);
+            this.labelMail.Name = "labelMail";
+            this.labelMail.Size = new System.Drawing.Size(65, 13);
+            this.labelMail.TabIndex = 38;
+            this.labelMail.Text = "Mail invalido";
+            this.labelMail.Visible = false;
+            // 
+            // labelTelefono
+            // 
+            this.labelTelefono.AutoSize = true;
+            this.labelTelefono.ForeColor = System.Drawing.Color.Coral;
+            this.labelTelefono.Location = new System.Drawing.Point(161, 155);
+            this.labelTelefono.Name = "labelTelefono";
+            this.labelTelefono.Size = new System.Drawing.Size(88, 13);
+            this.labelTelefono.TabIndex = 39;
+            this.labelTelefono.Text = "Telefono invalido";
+            this.labelTelefono.Visible = false;
+            // 
+            // labelCodigo
+            // 
+            this.labelCodigo.AutoSize = true;
+            this.labelCodigo.ForeColor = System.Drawing.Color.Coral;
+            this.labelCodigo.Location = new System.Drawing.Point(457, 203);
+            this.labelCodigo.Name = "labelCodigo";
+            this.labelCodigo.Size = new System.Drawing.Size(110, 13);
+            this.labelCodigo.TabIndex = 40;
+            this.labelCodigo.Text = "Código postal invalido";
+            this.labelCodigo.Visible = false;
+            // 
+            // labelCiudad
+            // 
+            this.labelCiudad.AutoSize = true;
+            this.labelCiudad.ForeColor = System.Drawing.Color.Coral;
+            this.labelCiudad.Location = new System.Drawing.Point(161, 203);
+            this.labelCiudad.Name = "labelCiudad";
+            this.labelCiudad.Size = new System.Drawing.Size(79, 13);
+            this.labelCiudad.TabIndex = 41;
+            this.labelCiudad.Text = "Ciudad invalida";
+            this.labelCiudad.Visible = false;
+            // 
+            // labelUsername
+            // 
+            this.labelUsername.AutoSize = true;
+            this.labelUsername.ForeColor = System.Drawing.Color.Coral;
+            this.labelUsername.Location = new System.Drawing.Point(161, 314);
+            this.labelUsername.Name = "labelUsername";
+            this.labelUsername.Size = new System.Drawing.Size(94, 13);
+            this.labelUsername.TabIndex = 42;
+            this.labelUsername.Text = "Username invalido";
+            this.labelUsername.Visible = false;
+            // 
+            // labelPassword
+            // 
+            this.labelPassword.AutoSize = true;
+            this.labelPassword.ForeColor = System.Drawing.Color.Coral;
+            this.labelPassword.Location = new System.Drawing.Point(457, 314);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(92, 13);
+            this.labelPassword.TabIndex = 43;
+            this.labelPassword.Text = "Password invalido";
+            this.labelPassword.Visible = false;
+            // 
             // ModificarEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 418);
+            this.Controls.Add(this.labelPassword);
+            this.Controls.Add(this.labelUsername);
+            this.Controls.Add(this.labelCiudad);
+            this.Controls.Add(this.labelCodigo);
+            this.Controls.Add(this.labelTelefono);
+            this.Controls.Add(this.labelMail);
+            this.Controls.Add(this.labelRazon);
             this.Controls.Add(this.empr_ciudad);
             this.Controls.Add(this.ciudad);
             this.Controls.Add(this.empr_codigo_postal);
@@ -294,5 +385,12 @@
         private System.Windows.Forms.TextBox empr_codigo_postal;
         private System.Windows.Forms.Label ciudad;
         private System.Windows.Forms.TextBox empr_ciudad;
+        private System.Windows.Forms.Label labelRazon;
+        private System.Windows.Forms.Label labelMail;
+        private System.Windows.Forms.Label labelTelefono;
+        private System.Windows.Forms.Label labelCodigo;
+        private System.Windows.Forms.Label labelCiudad;
+        private System.Windows.Forms.Label labelUsername;
+        private System.Windows.Forms.Label labelPassword;
     }
 }
