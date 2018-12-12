@@ -48,15 +48,15 @@
             // 
             // nombre
             // 
-            this.nombre.Location = new System.Drawing.Point(66, 20);
+            this.nombre.Location = new System.Drawing.Point(107, 23);
             this.nombre.Name = "nombre";
-            this.nombre.Size = new System.Drawing.Size(100, 20);
+            this.nombre.Size = new System.Drawing.Size(139, 20);
             this.nombre.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 23);
+            this.label1.Location = new System.Drawing.Point(58, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 1;
@@ -65,7 +65,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(185, 23);
+            this.label2.Location = new System.Drawing.Point(288, 26);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(44, 13);
             this.label2.TabIndex = 3;
@@ -73,15 +73,15 @@
             // 
             // apellido
             // 
-            this.apellido.Location = new System.Drawing.Point(234, 20);
+            this.apellido.Location = new System.Drawing.Point(337, 23);
             this.apellido.Name = "apellido";
-            this.apellido.Size = new System.Drawing.Size(100, 20);
+            this.apellido.Size = new System.Drawing.Size(137, 20);
             this.apellido.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(35, 65);
+            this.label3.Location = new System.Drawing.Point(76, 68);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(26, 13);
             this.label3.TabIndex = 4;
@@ -89,22 +89,22 @@
             // 
             // dni
             // 
-            this.dni.Location = new System.Drawing.Point(68, 62);
+            this.dni.Location = new System.Drawing.Point(109, 65);
             this.dni.Name = "dni";
-            this.dni.Size = new System.Drawing.Size(98, 20);
+            this.dni.Size = new System.Drawing.Size(137, 20);
             this.dni.TabIndex = 5;
             // 
             // email
             // 
-            this.email.Location = new System.Drawing.Point(234, 62);
+            this.email.Location = new System.Drawing.Point(337, 65);
             this.email.Name = "email";
-            this.email.Size = new System.Drawing.Size(99, 20);
+            this.email.Size = new System.Drawing.Size(137, 20);
             this.email.TabIndex = 7;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(203, 65);
+            this.label4.Location = new System.Drawing.Point(306, 68);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(26, 13);
             this.label4.TabIndex = 6;
@@ -112,9 +112,9 @@
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(365, 19);
+            this.buscar.Location = new System.Drawing.Point(541, 19);
             this.buscar.Name = "buscar";
-            this.buscar.Size = new System.Drawing.Size(61, 63);
+            this.buscar.Size = new System.Drawing.Size(80, 60);
             this.buscar.TabIndex = 8;
             this.buscar.Text = "Buscar";
             this.buscar.UseVisualStyleBackColor = true;
@@ -122,9 +122,9 @@
             // 
             // limpiar
             // 
-            this.limpiar.Location = new System.Drawing.Point(432, 30);
+            this.limpiar.Location = new System.Drawing.Point(677, 23);
             this.limpiar.Name = "limpiar";
-            this.limpiar.Size = new System.Drawing.Size(48, 41);
+            this.limpiar.Size = new System.Drawing.Size(50, 50);
             this.limpiar.TabIndex = 9;
             this.limpiar.Text = "Limpiar Filtro";
             this.limpiar.UseVisualStyleBackColor = true;
@@ -145,16 +145,16 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(604, 93);
+            this.groupBox1.Size = new System.Drawing.Size(875, 93);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros";
             // 
             // crear
             // 
-            this.crear.Location = new System.Drawing.Point(537, 15);
+            this.crear.Location = new System.Drawing.Point(774, 19);
             this.crear.Name = "crear";
-            this.crear.Size = new System.Drawing.Size(61, 63);
+            this.crear.Size = new System.Drawing.Size(80, 60);
             this.crear.TabIndex = 10;
             this.crear.Text = "Crear Cliente";
             this.crear.UseVisualStyleBackColor = true;
@@ -168,7 +168,7 @@
             this.datagrid.Location = new System.Drawing.Point(13, 121);
             this.datagrid.Name = "datagrid";
             this.datagrid.ReadOnly = true;
-            this.datagrid.Size = new System.Drawing.Size(603, 231);
+            this.datagrid.Size = new System.Drawing.Size(891, 357);
             this.datagrid.TabIndex = 11;
             this.datagrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellContentClick);
             this.datagrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_CellDoubleClick);
@@ -185,7 +185,7 @@
             // 
             // ListaCliente
             // 
-            this.ClientSize = new System.Drawing.Size(633, 375);
+            this.ClientSize = new System.Drawing.Size(916, 490);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.datagrid);
             this.Controls.Add(this.groupBox1);
