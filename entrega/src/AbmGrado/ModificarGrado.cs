@@ -22,6 +22,8 @@ namespace PalcoNet.AbmGrado
             this.idGrado = idGrado;
             InitializeComponent();
 
+            grad_descripcion.Text = "";
+
             grad_estado.DisplayMember = "Text";
             grad_estado.ValueMember = "Value";
             grad_estado.DataSource = new[] { 
@@ -59,47 +61,56 @@ namespace PalcoNet.AbmGrado
 
         private void modificar_Click(object sender, EventArgs e)
         {
-            var dict = new Dictionary<string, object>();
-
-            foreach (var control in Controls)
+            if (grad_descripcion.Text != "")
             {
-                if (control is TextBox)
+                var dict = new Dictionary<string, object>();
+
+                foreach (var control in Controls)
                 {
-                    TextBox textbox = (TextBox)control;
-                    dict.Add(textbox.Name, textbox.Text);
-                }
-                else if (control is MaskedTextBox) 
-                {
-                    MaskedTextBox masked = (MaskedTextBox)control;
-                    if (!masked.MaskCompleted) {
-                        MessageBox.Show("El porcentaje esta incompleto.\nLos 2 numeros a la izquierda de la coma son obligatorios");
-                        masked.Focus();
-                        return;
+                    if (control is TextBox)
+                    {
+                        TextBox textbox = (TextBox)control;
+                        dict.Add(textbox.Name, textbox.Text);
                     }
-                    dict.Add(masked.Name, masked.Text);
+                    else if (control is MaskedTextBox)
+                    {
+                        MaskedTextBox masked = (MaskedTextBox)control;
+                        if (!masked.MaskCompleted)
+                        {
+                            MessageBox.Show("El porcentaje esta incompleto.\nLos 2 numeros a la izquierda de la coma son obligatorios");
+                            masked.Focus();
+                            return;
+                        }
+                        dict.Add(masked.Name, masked.Text);
+                    }
+                    else if (control is DateTimePicker)
+                    {
+                        DateTimePicker datepicker = (DateTimePicker)control;
+                        dict.Add(datepicker.Name, datepicker.Value);
+                    }
+                    else if (control is ComboBox)
+                    {
+                        ComboBox comboBox = (ComboBox)control;
+                        dict.Add(comboBox.Name, comboBox.SelectedValue);
+                    }
                 }
-                else if (control is DateTimePicker)
-                {
-                    DateTimePicker datepicker = (DateTimePicker)control;
-                    dict.Add(datepicker.Name, datepicker.Value);
-                }
-                else if (control is ComboBox)
-                {
-                    ComboBox comboBox = (ComboBox)control;
-                    dict.Add(comboBox.Name, comboBox.SelectedValue);
-                }
-            }
 
-            try
-            {
-                new GradoDAO().upsertDatosGrado(idGrado, dict);
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);
-            }
+                try
+                {
+                    new GradoDAO().upsertDatosGrado(idGrado, dict);
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);
+                }
 
-            this.Hide();
+                this.Hide();
+            }
+            else 
+            {
+                MessageBox.Show("Ingrese una descripción");
+            }
+            
         }
 
     }
