@@ -87,6 +87,13 @@ namespace PalcoNet.Publicacion
         {
             var dict = new Dictionary<string, object>();
 
+            if (idPublicacion == -1)
+            {
+                idPublicacion = new PublicacionDAO().generarIdPublicacion();
+            }
+
+            dict.Add("publ_id", idPublicacion);
+
             foreach (var control in Controls)
             {
                 if (control is TextBox)
@@ -114,10 +121,10 @@ namespace PalcoNet.Publicacion
                 dict.Add("publ_empresa_resp", idEmpresa);
                 foreach (DataRow row in formFechas.fechas.Rows) {
                     dict["publ_fecha_ven"] = Convert.ToDateTime(row[0]);
-                    decimal id_pub_nueva = new PublicacionDAO().upsertPublicacion(idPublicacion,dict);
+                    new PublicacionDAO().upsertPublicacion(idPublicacion, dict);
                     foreach (var ubicacion in formUbicaciones.ubicaciones) {
                         var ubic_dict = ubicacion.asDictionary();
-                        ubic_dict.Add("ubic_publ",id_pub_nueva);
+                        ubic_dict.Add("ubic_publ",idPublicacion);
                         new PublicacionDAO().upsertUbicacion(ubic_dict);
                     }
                 }

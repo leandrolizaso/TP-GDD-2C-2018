@@ -135,20 +135,26 @@ namespace PalcoNet.Publicacion
         }
 
         //Publicacion
-        public decimal upsertPublicacion(decimal idPublicacion, Dictionary<string, object> dict)
+        public void upsertPublicacion(decimal idPublicacion, Dictionary<string, object> dict)
         {
             if (idPublicacion == -1)
             {
-                return insertPublicacion(dict);
+                insertPublicacion(dict);
             }
             else
             {
-                return updatePublicacion(idPublicacion, dict);
+                updatePublicacion(idPublicacion, dict);
             }
         }
 
-        private decimal insertPublicacion(Dictionary<string, object> dict)
-        {
+        public decimal generarIdPublicacion() 
+        {   
+            var dict = new Dictionary<string, object>();
+            return Convert.ToDecimal(query("select next value for PEL.Publicacion_seq", dict).Rows[0][0]);
+        }
+
+        private void insertPublicacion(Dictionary<string, object> dict)
+        {   
             string queryStr = "insert PEL.publicacion (";
             foreach (var entry in dict)
             {
@@ -164,11 +170,10 @@ namespace PalcoNet.Publicacion
             queryStr += ")";
             //el id no se genera automaticamente (no es identity), hay que ver de donde se saca.
             query(queryStr, dict);
-            //inmediatamente despues necesito devolverlo
-            return -1;
+
         }
 
-        private decimal updatePublicacion(decimal idPublicacion, Dictionary<string, object> dict)
+        private void updatePublicacion(decimal idPublicacion, Dictionary<string, object> dict)
         {
             string queryStr = "update PEL.publicacion set ";
             foreach (var entry in dict)
@@ -185,7 +190,7 @@ namespace PalcoNet.Publicacion
             }
 
             query(queryStr, queryParams);
-            return idPublicacion;
+         
         }
 
 
