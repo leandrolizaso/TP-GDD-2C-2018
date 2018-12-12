@@ -44,6 +44,8 @@ namespace PalcoNet.AbmCliente
                 password.ReadOnly = true;
             } else {
                 password.PasswordChar = '*';
+                clie_estado.Visible = false;
+                label7.Visible = false;
             }
 
             if (idCliente > 0) {

@@ -161,7 +161,7 @@ namespace PalcoNet.Publicacion
 
             if (formUbicaciones.ubicaciones.Count > 0)
             {
-                labelUbicaciones.Text = string.Format("Se cargaron {0} fecha(s).", formUbicaciones.ubicaciones.Count);
+                labelUbicaciones.Text = string.Format("Se cargaron {0} ubicacion(es).", formUbicaciones.ubicaciones.Count);
             }
             else
             {
