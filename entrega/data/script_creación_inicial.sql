@@ -904,7 +904,7 @@ INSERT INTO PEL.Grado (grad_descripcion,grad_porcentaje,grad_estado) values
 	('Alta',15,'A'),
 	('Media',10,'A'),
 	('Baja',5,'A'),
-	('Migrado',0,'B')
+	('Migrado',10,'B')
 GO
 
 INSERT INTO PEL.Rol(rol_nombre, rol_estado) values
