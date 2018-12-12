@@ -132,6 +132,7 @@
             // 
             // ubic_tipo
             // 
+            this.ubic_tipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ubic_tipo.FormattingEnabled = true;
             this.ubic_tipo.Location = new System.Drawing.Point(295, 67);
             this.ubic_tipo.Name = "ubic_tipo";

@@ -45,6 +45,7 @@
             // 
             // comboAnio
             // 
+            this.comboAnio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboAnio.FormattingEnabled = true;
             this.comboAnio.Location = new System.Drawing.Point(82, 115);
             this.comboAnio.Name = "comboAnio";
@@ -61,7 +62,7 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // SeleccionAño
+            // ListadosSeleccionAnio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -69,7 +70,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboAnio);
             this.Controls.Add(this.label1);
-            this.Name = "SeleccionAño";
+            this.Name = "ListadosSeleccionAnio";
             this.Text = "Seleccion año";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -67,6 +67,7 @@
             // 
             // grado
             // 
+            this.grado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.grado.FormattingEnabled = true;
             this.grado.Location = new System.Drawing.Point(119, 32);
             this.grado.Name = "grado";

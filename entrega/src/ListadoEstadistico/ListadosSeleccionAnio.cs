@@ -17,6 +17,7 @@ namespace PalcoNet.ListadoEstadistico
         {
             InitializeComponent();
             this.cargarComboBox();
+            
         }
 
         private void cargarComboBox()
