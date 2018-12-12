@@ -54,7 +54,12 @@ namespace PalcoNet.AbmRol
         private void modificar_Click(object sender, EventArgs e)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
-            dict.Add("@rol_id", idRol);
+
+            if (idRol != -1)
+            {
+                dict.Add("@rol_id", idRol);
+            }
+
             dict.Add("@rol_nombre", rol_nombre.Text);
 
             List<Decimal> idFunciones = new List<decimal>();
