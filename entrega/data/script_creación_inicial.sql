@@ -379,7 +379,7 @@ begin
 					end
 
 				update PEL.Cliente
-				set clie_tipo_doc = @tipo_doc, clie_cuil = @cuil , clie_mail = @mail, clie_telefono = @telefono, clie_fecha_crea = @fecha_crea,
+				set clie_tipo_doc = @tipo_doc, clie_cuil = @cuil , clie_mail = @mail, clie_telefono = @telefono, clie_fecha_crea = convert(datetime,@fecha_crea,121),
 					clie_direccion = @direccion, clie_codigo_postal = @codigo_postal , clie_datos_tarjeta = @datos_tarjeta
 				where clie_nro_doc = @nro_doc
 
