@@ -31,8 +31,8 @@ namespace PalcoNet.Utils
 
         public bool numeroValido(string numero)
         {
-            int numeroOut;
-            return Int32.TryParse(numero, out numeroOut);
+            long numeroOut;
+            return long.TryParse(numero, out numeroOut);
 
         }
 
