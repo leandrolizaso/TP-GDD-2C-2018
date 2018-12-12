@@ -66,6 +66,8 @@
             this.labelMail = new System.Windows.Forms.Label();
             this.labelUsername = new System.Windows.Forms.Label();
             this.labelPassword = new System.Windows.Forms.Label();
+            this.labelDireccion = new System.Windows.Forms.Label();
+            this.labelTarjeta = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // modificar
@@ -402,11 +404,35 @@
             this.labelPassword.Text = "Password invalido";
             this.labelPassword.Visible = false;
             // 
+            // labelDireccion
+            // 
+            this.labelDireccion.AutoSize = true;
+            this.labelDireccion.ForeColor = System.Drawing.Color.Coral;
+            this.labelDireccion.Location = new System.Drawing.Point(448, 208);
+            this.labelDireccion.Name = "labelDireccion";
+            this.labelDireccion.Size = new System.Drawing.Size(91, 13);
+            this.labelDireccion.TabIndex = 40;
+            this.labelDireccion.Text = "Direccion invalida";
+            this.labelDireccion.Visible = false;
+            // 
+            // labelTarjeta
+            // 
+            this.labelTarjeta.AutoSize = true;
+            this.labelTarjeta.ForeColor = System.Drawing.Color.Coral;
+            this.labelTarjeta.Location = new System.Drawing.Point(157, 309);
+            this.labelTarjeta.Name = "labelTarjeta";
+            this.labelTarjeta.Size = new System.Drawing.Size(111, 13);
+            this.labelTarjeta.TabIndex = 41;
+            this.labelTarjeta.Text = "Datos tarjeta invalidos";
+            this.labelTarjeta.Visible = false;
+            // 
             // ModificarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 493);
+            this.Controls.Add(this.labelTarjeta);
+            this.Controls.Add(this.labelDireccion);
             this.Controls.Add(this.labelPassword);
             this.Controls.Add(this.labelUsername);
             this.Controls.Add(this.labelMail);
@@ -493,5 +519,7 @@
         private System.Windows.Forms.Label labelMail;
         private System.Windows.Forms.Label labelUsername;
         private System.Windows.Forms.Label labelPassword;
+        private System.Windows.Forms.Label labelDireccion;
+        private System.Windows.Forms.Label labelTarjeta;
     }
 }

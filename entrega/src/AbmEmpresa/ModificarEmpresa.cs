@@ -157,6 +157,7 @@ namespace PalcoNet.AbmEmpresa
             labelCodigo.Visible = false;
             labelPassword.Visible = false;
             labelUsername.Visible = false;
+            labelDireccion.Visible = false;
         }
 
         private void validarCampos() 
@@ -193,15 +194,21 @@ namespace PalcoNet.AbmEmpresa
                 datosValidos = false;
             }
 
-            if (!validador.esAlfaNumerico(username.Text) && !username.ReadOnly)
+            if (!validador.alfaNumericoValido(username.Text) && !username.ReadOnly)
             {
                 labelUsername.Visible = true;
                 datosValidos = false;
             }
 
-            if (!validador.esAlfaNumerico(password.Text) && !password.ReadOnly)
+            if (!validador.alfaNumericoValido(password.Text) && !password.ReadOnly)
             {
                 labelPassword.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.alfaNumericoYespaciosValido(empr_direccion.Text))
+            {
+                labelDireccion.Visible = true;
                 datosValidos = false;
             }
         }

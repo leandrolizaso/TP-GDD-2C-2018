@@ -14,9 +14,14 @@ namespace PalcoNet.Utils
             return Regex.IsMatch(cadena, @"^[\D]+$");
         }
 
-        public bool esAlfaNumerico(string cadena) 
+        public bool alfaNumericoValido(string cadena) 
         {
             return Regex.IsMatch(cadena, @"^[\w]+$");
+        }
+
+        public bool alfaNumericoYespaciosValido(string cadena)
+        {
+            return Regex.IsMatch(cadena, @"^[\w\s]+$");
         }
 
         public bool mailValido(string mail) 

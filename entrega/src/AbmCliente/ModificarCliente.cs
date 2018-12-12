@@ -66,6 +66,8 @@ namespace PalcoNet.AbmCliente
             labelCodigo.Visible = false;
             labelPassword.Visible = false;
             labelUsername.Visible = false;
+            labelTarjeta.Visible = false;
+            labelDireccion.Visible = false;
 
         }
 
@@ -187,13 +189,25 @@ namespace PalcoNet.AbmCliente
                 datosValidos = false;
             }
 
-            if (!validador.esAlfaNumerico(username.Text) && !username.ReadOnly)
+            if (!validador.alfaNumericoYespaciosValido(clie_direccion.Text))
+            {
+                labelDireccion.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.alfaNumericoYespaciosValido(clie_datos_tarjeta.Text))
+            {
+                labelTarjeta.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.alfaNumericoValido(username.Text) && !username.ReadOnly)
             {
                 labelUsername.Visible = true;
                 datosValidos = false;
             }
 
-            if (!validador.esAlfaNumerico(password.Text) && !username.ReadOnly)
+            if (!validador.alfaNumericoValido(password.Text) && !username.ReadOnly)
             {
                 labelPassword.Visible = true;
                 datosValidos = false;

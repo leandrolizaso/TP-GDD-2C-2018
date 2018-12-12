@@ -57,6 +57,7 @@
             this.labelCiudad = new System.Windows.Forms.Label();
             this.labelUsername = new System.Windows.Forms.Label();
             this.labelPassword = new System.Windows.Forms.Label();
+            this.labelDireccion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // modificar
@@ -319,11 +320,23 @@
             this.labelPassword.Text = "Password invalido";
             this.labelPassword.Visible = false;
             // 
+            // labelDireccion
+            // 
+            this.labelDireccion.AutoSize = true;
+            this.labelDireccion.ForeColor = System.Drawing.Color.Coral;
+            this.labelDireccion.Location = new System.Drawing.Point(457, 155);
+            this.labelDireccion.Name = "labelDireccion";
+            this.labelDireccion.Size = new System.Drawing.Size(91, 13);
+            this.labelDireccion.TabIndex = 44;
+            this.labelDireccion.Text = "Direccion invalida";
+            this.labelDireccion.Visible = false;
+            // 
             // ModificarEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 418);
+            this.Controls.Add(this.labelDireccion);
             this.Controls.Add(this.labelPassword);
             this.Controls.Add(this.labelUsername);
             this.Controls.Add(this.labelCiudad);
@@ -392,5 +405,6 @@
         private System.Windows.Forms.Label labelCiudad;
         private System.Windows.Forms.Label labelUsername;
         private System.Windows.Forms.Label labelPassword;
+        private System.Windows.Forms.Label labelDireccion;
     }
 }
