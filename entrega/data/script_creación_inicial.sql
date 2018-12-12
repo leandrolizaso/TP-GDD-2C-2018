@@ -366,7 +366,7 @@ begin
 			return
 		end
 
-	if(@nro_doc in (select clie_nro_doc from PEL.Cliente)) -- es antiguo?
+	if(exists (select * from PEL.Cliente where clie_nro_doc = @nro_doc and clie_nombre = @nombre and clie_apellido = @apellido and clie_fecha_nac = convert(datetime,@fecha_nac,121))) -- es antiguo?
 		begin
 				declare @usuario_cliente numeric(18,0)
 				set @usuario_cliente = (select isnull(clie_usuario,0) from PEL.Cliente where clie_nro_doc = @nro_doc)
@@ -377,34 +377,23 @@ begin
 						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 						return
 					end
-			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
+
+				update PEL.Cliente
+				set clie_tipo_doc = @tipo_doc, clie_cuil = @cuil , clie_mail = @mail, clie_telefono = @telefono, clie_fecha_crea = @fecha_crea,
+					clie_direccion = @direccion, clie_codigo_postal = @codigo_postal , clie_datos_tarjeta = @datos_tarjeta
+				where clie_nro_doc = @nro_doc
+
 		end
 	else
 		begin
 
-			if(isdate(@fecha_nac) != 1)
-				begin
-						set @usua_id = -1
-						set @mensaje= 'La fecha de nacimiento es inválida.'
-						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
-						return
-				end
-
-			if(isdate(@fecha_crea) != 1)
-				begin
-						set @usua_id = -1
-						set @mensaje= 'La fecha de creación es inválida.'
-						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
-						return
-				end
-
 			begin try
 				insert PEL.Cliente (clie_nombre, clie_apellido, clie_tipo_doc, clie_nro_doc, clie_cuil, clie_mail, clie_telefono, clie_fecha_nac, clie_fecha_crea, clie_direccion, clie_codigo_postal,clie_datos_tarjeta,clie_estado) values 
-				(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono,convert(datetime,@fecha_nac), convert(datetime,@fecha_crea), @direccion, @codigo_postal , @datos_tarjeta,'A') 				
+				(@nombre, @apellido, @tipo_doc, @nro_doc, @cuil, @mail, @telefono,convert(datetime,@fecha_nac,121), convert(datetime,@fecha_crea,121), @direccion, @codigo_postal , @datos_tarjeta,'A') 				
 			end try
 			begin catch 
 				set @usua_id = -1
-				set @mensaje= 'El dni es inválido.'
+				set @mensaje= 'Los datos del cliente no pudieron ser procesados.'
 				select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 				return
 			end catch
@@ -1130,4 +1119,5 @@ SELECT @max = (MAX(publ_id) +1) FROM PEL.Publicacion
 exec('CREATE SEQUENCE PEL.Publicacion_seq  
     START WITH ' + @max +
 '   INCREMENT BY 1;')
+
 
