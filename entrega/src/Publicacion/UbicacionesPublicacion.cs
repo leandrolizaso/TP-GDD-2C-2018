@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PalcoNet.Utils;
 
 namespace PalcoNet.Publicacion
 {
@@ -15,6 +16,7 @@ namespace PalcoNet.Publicacion
 
         public BindingList<Ubicacion> ubicaciones = new BindingList<Ubicacion>();
         private decimal idPublicacion;
+        private Boolean datosValidos = true;
 
         public UbicacionesPublicacion(decimal idPublicacion)
         {
@@ -77,6 +79,16 @@ namespace PalcoNet.Publicacion
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+            this.ocultarCampos();
+            this.validarCampos();
+
+            if (!datosValidos)
+            {
+                datosValidos = true;
+                return;
+            }
+
             try {
                 Ubicacion u = new Ubicacion(-1);
                 u.ubic_fila = Convert.ToString(ubic_fila.Text);
@@ -91,6 +103,29 @@ namespace PalcoNet.Publicacion
                 MessageBox.Show(ex.Message);
                 MessageBox.Show(ex.ToString());
                 MessageBox.Show(ex.StackTrace);
+            }
+        }
+
+        private void ocultarCampos()
+        {
+            labelAsiento.Visible = false;
+            labelPrecio.Visible = false;
+        }
+        
+        private void validarCampos() 
+        {
+            ValidacionInput validador = new ValidacionInput();
+
+            if (!validador.asientoValido(ubic_asiento.Text))
+            {
+                labelAsiento.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.numeroValido(ubic_precio.Text) || Convert.ToInt32(ubic_precio.Text) < 0)
+            {
+                labelPrecio.Visible = true;
+                datosValidos = false;
             }
         }
     }
