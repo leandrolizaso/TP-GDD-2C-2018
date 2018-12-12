@@ -113,7 +113,7 @@ namespace PalcoNet.Publicacion
           
             }
            
-            
+            buscar_Click(sender, e);
         }
 
         private void ultimo_Click(object sender, EventArgs e)
