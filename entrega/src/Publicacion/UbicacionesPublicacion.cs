@@ -25,7 +25,7 @@ namespace PalcoNet.Publicacion
             ubic_tipo.ValueMember = "tipo_ubic_id";
             ubic_tipo.DataSource = new PublicacionDAO().obtenerTiposUbicacion();
             if (idPublicacion != -1) {
-                loadUbicaciones();
+               // loadUbicaciones();
             }
             datagrid.DataSource = ubicaciones;
         }
