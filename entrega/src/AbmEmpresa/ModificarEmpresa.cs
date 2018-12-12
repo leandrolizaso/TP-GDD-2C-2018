@@ -40,6 +40,8 @@ namespace PalcoNet.AbmEmpresa
                 password.ReadOnly = true;
             } else {
                 password.PasswordChar = '*';
+                empr_estado.Visible = false;
+                label7.Visible = false;
             }
 
             if (idEmpresa > 0) {
