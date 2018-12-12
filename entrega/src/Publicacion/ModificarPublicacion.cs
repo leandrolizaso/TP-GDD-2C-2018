@@ -34,12 +34,13 @@ namespace PalcoNet.Publicacion
             formUbicaciones = new UbicacionesPublicacion(idPublicacion);
             cargarDatos();
             actualizarLabels();
+
         }
 
         private void cargarDatos()
         {
             if (idPublicacion != -1) {
-                labelFechas.Visible = true;
+                labelEvento.Visible = true;
                 publ_fecha_ven.Visible = true;
                 fechas.Visible = false;
                 labelFechas.Visible = false;
@@ -53,6 +54,10 @@ namespace PalcoNet.Publicacion
                 publ_rubro.SelectedValue = row["publ_rubro"].ToString();
 
                 publ_fecha_ven.Value = Convert.ToDateTime(row["publ_fecha_ven"]);
+                
+
+                ubicaciones.Visible = false;
+                labelUbicaciones.Visible = false;
             }
         }
 
@@ -110,7 +115,10 @@ namespace PalcoNet.Publicacion
 
             try
             {
-                
+                if (idPublicacion != -1) {
+                    formFechas.fechas.Rows.Add(publ_fecha_ven.Value);
+                }
+
                 decimal idEmpresa = new EmpresaDAO().obtenerEmpresa(Globales.idUsuarioLoggeado);
                 dict.Add("publ_empresa_resp", idEmpresa);
                 foreach (DataRow row in formFechas.fechas.Rows) {
