@@ -35,5 +35,10 @@ namespace PalcoNet.Utils
             return Int32.TryParse(numero, out numeroOut);
 
         }
+
+        public bool asientoValido(string asiento)
+        {
+            return Regex.IsMatch(asiento, @"^([\d{1,3}]+)$");
+        }
     }
 }
