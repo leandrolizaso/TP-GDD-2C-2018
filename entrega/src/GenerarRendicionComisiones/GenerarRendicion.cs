@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PalcoNet.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,9 +33,19 @@ namespace PalcoNet.GenerarRendicionComisiones
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            new Factura(Int32.Parse(cantidad.Text), idEmpresa).ShowDialog();
-            this.Show();
+            
+            var validador = new ValidacionInput();
+            if (validador.numeroValido(cantidad.Text))
+            {
+                this.Hide();
+                new Factura(Int32.Parse(cantidad.Text), idEmpresa).ShowDialog();
+                this.Show();
+            }
+            else 
+            {
+                MessageBox.Show("Debe ingresar un numero");
+            }
+            
         }
     }
 }

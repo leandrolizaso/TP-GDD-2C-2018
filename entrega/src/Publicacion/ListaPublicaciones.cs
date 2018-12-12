@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -67,31 +68,36 @@ namespace PalcoNet.Publicacion
         }
 
         private void llenar_grilla()
-        {   
-            pag.Text = Convert.ToString(pagina);
-            DataTable dt;
+        {
+            try
+            {
+                pag.Text = Convert.ToString(pagina);
+                DataTable dt;
 
-            if (esEmpresa)
-            {
-                dt = new PublicacionDAO().obtenerPublicacionesEmpresa(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value, pagina);
-            }
-            else 
-            {
-                dt = new PublicacionDAO().obtenerPublicaciones(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value, pagina);
-                
-            }
-            
-            datagrid.DataSource = dt;
-            foreach (DataGridViewColumn column in datagrid.Columns)
-            {
-                column.HeaderText = column.HeaderText.Replace("publ_", "").Replace("fecha_ven","Dia - horario").Replace("_", " ").ToUpper();
-            }
+                if (esEmpresa)
+                {
+                    dt = new PublicacionDAO().obtenerPublicacionesEmpresa(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value, pagina);
+                }
+                else
+                {
+                    dt = new PublicacionDAO().obtenerPublicaciones(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value, pagina);
 
-            foreach (DataGridViewColumn column in datagrid.Columns)
-            {
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
+                }
 
+                datagrid.DataSource = dt;
+                foreach (DataGridViewColumn column in datagrid.Columns)
+                {
+                    column.HeaderText = column.HeaderText.Replace("publ_", "").Replace("fecha_ven", "Dia - horario").Replace("_", " ").ToUpper();
+                }
+
+                foreach (DataGridViewColumn column in datagrid.Columns)
+                {
+                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+            }
+            catch (SqlException ex) {
+                MessageBox.Show(SqlExceptionTransformer.obtenerMensajeCustom(ex));
+            }
         }
 
         private void datagrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -113,7 +119,7 @@ namespace PalcoNet.Publicacion
           
             }
            
-            
+            buscar_Click(sender, e);
         }
 
         private void ultimo_Click(object sender, EventArgs e)

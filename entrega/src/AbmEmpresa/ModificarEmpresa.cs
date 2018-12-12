@@ -44,13 +44,15 @@ namespace PalcoNet.AbmEmpresa
             } else {
                 password.PasswordChar = '*';
                 empr_estado.Visible = false;
-                label7.Visible = false;
+                labelEstado.Visible = false;
             }
 
             if (idEmpresa > 0) {
                 cargarCampos();
                 username.Visible = false;
                 password.Visible = false;
+                labelUser.Visible = false;
+                labelPass.Visible = false;
             }
         }
 
@@ -133,7 +135,7 @@ namespace PalcoNet.AbmEmpresa
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);
+                MessageBox.Show(SqlExceptionTransformer.obtenerMensajeCustom(ex));
             }
 
         }

@@ -45,13 +45,15 @@ namespace PalcoNet.AbmCliente
             } else {
                 password.PasswordChar = '*';
                 clie_estado.Visible = false;
-                label7.Visible = false;
+                labelEstado.Visible = false;
             }
 
             if (idCliente > 0) {
                 cargarCampos();
                 username.Visible = false;
                 password.Visible = false;
+                labelUser.Visible = false;
+                labelPass.Visible = false;
             }
 
             this.ocultarCampos();
@@ -150,7 +152,7 @@ namespace PalcoNet.AbmCliente
                 }
             }
             catch (SqlException ex) {
-                MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);
+                MessageBox.Show(SqlExceptionTransformer.obtenerMensajeCustom(ex));
             }
             
         }

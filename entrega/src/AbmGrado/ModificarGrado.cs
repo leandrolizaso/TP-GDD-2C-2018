@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PalcoNet.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -101,7 +102,7 @@ namespace PalcoNet.AbmGrado
                 }
                 catch (SqlException ex)
                 {
-                    MessageBox.Show("Se produjo un error y la modificacion no se llevo a cabo:\n\n" + ex.Message);
+                    MessageBox.Show(SqlExceptionTransformer.obtenerMensajeCustom(ex));
                 }
 
                 this.Hide();

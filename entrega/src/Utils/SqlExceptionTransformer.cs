@@ -22,6 +22,8 @@ namespace PalcoNet.Utils
                 case 2627: //Unique constraint
                     match = Regex.Match(ex.Message, @"El valor de la clave duplicada es \((.+)\)\.");
                     return string.Format("El valor \"{0}\" ya existe en la base de datos, por favor ingrese otro.", match.Groups[1].Value);
+                case 8152:
+                    return "La cadena de texto ingresada es demasiado larga.";
                 default:
                     return "ERROR DESCONOCIDO EN LA BASE DE DATOS (" +ex.Number + ")\n\n" + ex.Message;
             }
