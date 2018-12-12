@@ -186,7 +186,7 @@ CREATE TABLE PEL.Ubicacion (
 	ubic_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	ubic_fila NVARCHAR(2) NOT NULL,
 	ubic_asiento NUMERIC (2,0),
-	ubic_sin_numerar BIT NOT NULL,
+	ubic_sin_numerar BIT default 0,
 	ubic_precio NUMERIC(18,0), 
 	ubic_comision numeric (18,2),
 	ubic_item_factura_cantidad NUMERIC (18,0),
