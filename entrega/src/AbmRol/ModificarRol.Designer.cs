@@ -90,7 +90,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.modificar);
             this.Name = "ModificarRol";
-            this.Text = "ModificarRol";
+            this.Text = "Rol";
             this.ResumeLayout(false);
             this.PerformLayout();
 
