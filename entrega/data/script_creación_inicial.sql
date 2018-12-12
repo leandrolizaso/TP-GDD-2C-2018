@@ -448,10 +448,10 @@ begin
 			return
 		end
 
-	if(@cuit in (select empr_cuit from PEL.Empresa)) -- es antiguo?
+	if(exists (select * from PEL.Empresa where empr_cuit = @cuit and empr_razon_social = @razon_social)) -- es antiguo?
 		begin
 				declare @usuario_empresa numeric(18,0)
-				set @usuario_empresa= (select isnull(empr_usuario,0) from PEL.Empresa where empr_cuit = @cuit)
+				set @usuario_empresa= (select isnull(empr_usuario,0) from PEL.Empresa where empr_cuit = @cuit and empr_razon_social = @razon_social)
 				if( @usuario_empresa != 0) -- tiene usuario?
 					begin
 						set @usua_id = -1
@@ -459,22 +459,16 @@ begin
 						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 						return
 					end
-			-- si es antiguo y no tiene usuario, como se esta registrando de nuevo..actualizo sus datos? o los dejo igual ? 
+				update PEL.Empresa
+				set empr_direccion = @direccion, empr_ciudad = @ciudad, empr_codigo_postal = @codigo_postal, empr_fecha = convert(datetime,@fecha,121),
+					empr_telefono = @telefono, empr_mail = @mail
+				where empr_cuit = @cuit and empr_razon_social = @razon_social
 		end
 	else 
 		begin
-
-			if(isdate(@fecha) != 1)
-				begin
-						set @usua_id = -1
-						set @mensaje= 'La fecha de ingresada es inválida.'
-						select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
-						return
-				end
-
 			begin try
 				insert into PEL.Empresa (empr_direccion, empr_ciudad, empr_codigo_postal, empr_razon_social, empr_cuit, empr_estado, empr_fecha, empr_telefono, empr_mail) 
-				values (@direccion, @ciudad, @codigo_postal, @razon_social, @cuit, 'A' , convert(datetime,@fecha), @telefono, @mail)
+				values (@direccion, @ciudad, @codigo_postal, @razon_social, @cuit, 'A' , convert(datetime,@fecha,121), @telefono, @mail)
 			end try
 			begin catch
 				set @usua_id = -1
@@ -497,7 +491,7 @@ begin
 	insert PEL.Rol_Usuario (rol_usua_rol,rol_usua_usua) values ((select rol_id from PEL.Rol where rol_nombre = 'Empresa'), @usua_id)
 	update PEL.Empresa 
 		set empr_usuario = @usua_id 
-		where empr_cuit = @cuit
+		where empr_cuit = @cuit and empr_razon_social = @razon_social
 	
 	select @username as username,@password as password ,@usua_id as usuario ,@mensaje as mensaje
 	return
