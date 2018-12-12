@@ -943,6 +943,9 @@ INSERT INTO PEL.Rubro (rubr_descripcion)
 	FROM gd_esquema.Maestra
 GO
 
+update PEL.Rubro
+set rubr_descripcion = 'Sin Rubro'
+where rubr_id = 1
 
 INSERT INTO PEL.Empresa (empr_razon_social, 
 						 empr_cuit, 
