@@ -1,7 +1,9 @@
-﻿using System;
+﻿using PalcoNet.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -53,50 +55,55 @@ namespace PalcoNet.AbmRol
 
         private void modificar_Click(object sender, EventArgs e)
         {
-            if (rol_nombre.Text != "")
+            try
             {
-                Dictionary<string, object> dict = new Dictionary<string, object>();
-
-                if (idRol != -1)
+                if (rol_nombre.Text != "")
                 {
-                    dict.Add("@rol_id", idRol);
-                }
+                    Dictionary<string, object> dict = new Dictionary<string, object>();
 
-                dict.Add("@rol_nombre", rol_nombre.Text);
-
-                List<Decimal> idFunciones = new List<decimal>();
-
-                bool boxchecked = true;
-
-                foreach (CheckBox check in panel.Controls)
-                {
-                    if (check.Checked)
+                    if (idRol != -1)
                     {
-                        idFunciones.Add(Convert.ToInt16(check.Name));
-                        boxchecked = false;
+                        dict.Add("@rol_id", idRol);
                     }
-                    
-                }
 
-                if (boxchecked)
+                    dict.Add("@rol_nombre", rol_nombre.Text);
+
+                    List<Decimal> idFunciones = new List<decimal>();
+
+                    bool boxchecked = true;
+
+                    foreach (CheckBox check in panel.Controls)
+                    {
+                        if (check.Checked)
+                        {
+                            idFunciones.Add(Convert.ToInt16(check.Name));
+                            boxchecked = false;
+                        }
+
+                    }
+
+                    if (boxchecked)
+                    {
+                        MessageBox.Show("Debe seleccionar al menos una funcionalidad");
+                    }
+                    else
+                    {
+
+                        dict.Add("@funciones", string.Join(",", idFunciones));
+                        new RolDAO().upsertRol(idRol, dict);
+                        this.Hide();
+                        MessageBox.Show("Se ha modificado el rol.\nSi el usuario actual pertenece al rol, por favor vuelva a iniciar sesion para ver los cambios en los accesos");
+                    }
+
+                }
+                else
                 {
-                    MessageBox.Show("Debe seleccionar al menos una funcionalidad");
+                    MessageBox.Show("Debe ingresar un nombre para el rol");
                 }
-                else 
-                {
-
-                    dict.Add("@funciones", string.Join(",", idFunciones));
-                    new RolDAO().upsertRol(idRol, dict);
-                    this.Hide();
-                    MessageBox.Show("Se ha modificado el rol.\nSi el usuario actual pertenece al rol, por favor vuelva a iniciar sesion para ver los cambios en los accesos");
-                }
-
             }
-            else
-            {
-                MessageBox.Show("Debe ingresar un nombre para el rol");
+            catch (SqlException ex) {
+                MessageBox.Show(SqlExceptionTransformer.obtenerMensajeCustom(ex));
             }
-
             
         }
 

@@ -39,8 +39,15 @@ namespace PalcoNet
                 new SeleccionRol(Globales.idUsuarioLoggeado).ShowDialog();
                 this.Show();
             }
-            catch (ArgumentException ex) {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message);
+                pass.Text = ""; //Por las dudas
+                pass.Focus();
+                return;
+            }
+            catch (SqlException ex) {
+                MessageBox.Show(SqlExceptionTransformer.obtenerMensajeCustom(ex));
                 pass.Text = ""; //Por las dudas
                 pass.Focus();
                 return;
