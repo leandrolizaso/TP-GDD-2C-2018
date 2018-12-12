@@ -45,13 +45,15 @@ namespace PalcoNet.AbmCliente
             } else {
                 password.PasswordChar = '*';
                 clie_estado.Visible = false;
-                label7.Visible = false;
+                labelEstado.Visible = false;
             }
 
             if (idCliente > 0) {
                 cargarCampos();
                 username.Visible = false;
                 password.Visible = false;
+                labelUser.Visible = false;
+                labelPass.Visible = false;
             }
 
             this.ocultarCampos();

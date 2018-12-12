@@ -39,7 +39,7 @@
             this.clie_datos_tarjeta = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelEstado = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.clie_direccion = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -53,10 +53,10 @@
             this.clie_nro_doc = new System.Windows.Forms.MaskedTextBox();
             this.clie_mail = new System.Windows.Forms.TextBox();
             this.clie_tipo_doc = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
+            this.labelPass = new System.Windows.Forms.Label();
             this.username = new System.Windows.Forms.TextBox();
             this.password = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.labelUser = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.clie_codigo_postal = new System.Windows.Forms.TextBox();
             this.labelNombre = new System.Windows.Forms.Label();
@@ -162,14 +162,14 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Fecha Nac.";
             // 
-            // label7
+            // labelEstado
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(367, 334);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(40, 13);
-            this.label7.TabIndex = 24;
-            this.label7.Text = "Estado";
+            this.labelEstado.AutoSize = true;
+            this.labelEstado.Location = new System.Drawing.Point(367, 334);
+            this.labelEstado.Name = "labelEstado";
+            this.labelEstado.Size = new System.Drawing.Size(40, 13);
+            this.labelEstado.TabIndex = 24;
+            this.labelEstado.Text = "Estado";
             // 
             // label8
             // 
@@ -277,14 +277,14 @@
             this.clie_tipo_doc.Size = new System.Drawing.Size(162, 20);
             this.clie_tipo_doc.TabIndex = 2;
             // 
-            // label13
+            // labelPass
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(363, 377);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 13);
-            this.label13.TabIndex = 30;
-            this.label13.Text = "Password";
+            this.labelPass.AutoSize = true;
+            this.labelPass.Location = new System.Drawing.Point(363, 377);
+            this.labelPass.Name = "labelPass";
+            this.labelPass.Size = new System.Drawing.Size(53, 13);
+            this.labelPass.TabIndex = 30;
+            this.labelPass.Text = "Password";
             // 
             // username
             // 
@@ -301,14 +301,14 @@
             this.password.Size = new System.Drawing.Size(162, 20);
             this.password.TabIndex = 1;
             // 
-            // label14
+            // labelUser
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(69, 377);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(55, 13);
-            this.label14.TabIndex = 28;
-            this.label14.Text = "Username";
+            this.labelUser.AutoSize = true;
+            this.labelUser.Location = new System.Drawing.Point(69, 377);
+            this.labelUser.Name = "labelUser";
+            this.labelUser.Size = new System.Drawing.Size(55, 13);
+            this.labelUser.TabIndex = 28;
+            this.labelUser.Text = "Username";
             // 
             // label15
             // 
@@ -442,16 +442,16 @@
             this.Controls.Add(this.labelNombre);
             this.Controls.Add(this.clie_codigo_postal);
             this.Controls.Add(this.label15);
-            this.Controls.Add(this.label14);
+            this.Controls.Add(this.labelUser);
             this.Controls.Add(this.password);
             this.Controls.Add(this.clie_tipo_doc);
             this.Controls.Add(this.username);
             this.Controls.Add(this.clie_nro_doc);
-            this.Controls.Add(this.label13);
+            this.Controls.Add(this.labelPass);
             this.Controls.Add(this.clie_fecha_crea);
             this.Controls.Add(this.clie_fecha_nac);
             this.Controls.Add(this.clie_estado);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.labelEstado);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.clie_direccion);
             this.Controls.Add(this.label9);
@@ -492,7 +492,7 @@
         private System.Windows.Forms.TextBox clie_datos_tarjeta;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label labelEstado;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox clie_direccion;
         private System.Windows.Forms.Label label9;
@@ -506,10 +506,10 @@
         private System.Windows.Forms.MaskedTextBox clie_nro_doc;
         private System.Windows.Forms.TextBox clie_mail;
         private System.Windows.Forms.TextBox @clie_tipo_doc;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label labelPass;
         private System.Windows.Forms.TextBox username;
         private System.Windows.Forms.TextBox password;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label labelUser;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox clie_codigo_postal;
         private System.Windows.Forms.Label labelNombre;

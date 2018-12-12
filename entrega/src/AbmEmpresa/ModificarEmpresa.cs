@@ -44,13 +44,15 @@ namespace PalcoNet.AbmEmpresa
             } else {
                 password.PasswordChar = '*';
                 empr_estado.Visible = false;
-                label7.Visible = false;
+                labelEstado.Visible = false;
             }
 
             if (idEmpresa > 0) {
                 cargarCampos();
                 username.Visible = false;
                 password.Visible = false;
+                labelUser.Visible = false;
+                labelPass.Visible = false;
             }
         }
 

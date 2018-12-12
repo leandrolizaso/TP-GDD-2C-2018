@@ -34,16 +34,16 @@
             this.empr_telefono = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelEstado = new System.Windows.Forms.Label();
             this.empr_direccion = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.empr_mail = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.empr_estado = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.labelUser = new System.Windows.Forms.Label();
             this.password = new System.Windows.Forms.TextBox();
             this.username = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
+            this.labelPass = new System.Windows.Forms.Label();
             this.empr_cuit = new System.Windows.Forms.MaskedTextBox();
             this.empr_fecha = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
@@ -111,14 +111,14 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "CUIT";
             // 
-            // label7
+            // labelEstado
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(363, 227);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(40, 13);
-            this.label7.TabIndex = 24;
-            this.label7.Text = "Estado";
+            this.labelEstado.AutoSize = true;
+            this.labelEstado.Location = new System.Drawing.Point(363, 227);
+            this.labelEstado.Name = "labelEstado";
+            this.labelEstado.Size = new System.Drawing.Size(40, 13);
+            this.labelEstado.TabIndex = 24;
+            this.labelEstado.Text = "Estado";
             // 
             // empr_direccion
             // 
@@ -161,14 +161,14 @@
             this.empr_estado.Size = new System.Drawing.Size(161, 21);
             this.empr_estado.TabIndex = 25;
             // 
-            // label14
+            // labelUser
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(70, 294);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(55, 13);
-            this.label14.TabIndex = 28;
-            this.label14.Text = "Username";
+            this.labelUser.AutoSize = true;
+            this.labelUser.Location = new System.Drawing.Point(70, 294);
+            this.labelUser.Name = "labelUser";
+            this.labelUser.Size = new System.Drawing.Size(55, 13);
+            this.labelUser.TabIndex = 28;
+            this.labelUser.Text = "Username";
             // 
             // password
             // 
@@ -184,14 +184,14 @@
             this.username.Size = new System.Drawing.Size(162, 20);
             this.username.TabIndex = 0;
             // 
-            // label13
+            // labelPass
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(363, 291);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 13);
-            this.label13.TabIndex = 30;
-            this.label13.Text = "Password";
+            this.labelPass.AutoSize = true;
+            this.labelPass.Location = new System.Drawing.Point(363, 291);
+            this.labelPass.Name = "labelPass";
+            this.labelPass.Size = new System.Drawing.Size(53, 13);
+            this.labelPass.TabIndex = 30;
+            this.labelPass.Text = "Password";
             // 
             // empr_cuit
             // 
@@ -348,14 +348,14 @@
             this.Controls.Add(this.ciudad);
             this.Controls.Add(this.empr_codigo_postal);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label14);
+            this.Controls.Add(this.labelUser);
             this.Controls.Add(this.empr_fecha);
             this.Controls.Add(this.password);
             this.Controls.Add(this.username);
             this.Controls.Add(this.empr_cuit);
-            this.Controls.Add(this.label13);
+            this.Controls.Add(this.labelPass);
             this.Controls.Add(this.empr_estado);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.labelEstado);
             this.Controls.Add(this.empr_direccion);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.empr_mail);
@@ -382,16 +382,16 @@
         private System.Windows.Forms.TextBox empr_telefono;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label labelEstado;
         private System.Windows.Forms.TextBox empr_direccion;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox empr_mail;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox empr_estado;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label labelUser;
         private System.Windows.Forms.TextBox password;
         private System.Windows.Forms.TextBox username;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label labelPass;
         private System.Windows.Forms.MaskedTextBox empr_cuit;
         private System.Windows.Forms.DateTimePicker empr_fecha;
         private System.Windows.Forms.Label label2;
