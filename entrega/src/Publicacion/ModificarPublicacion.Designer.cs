@@ -222,7 +222,7 @@
             // 
             this.labelDescripcion.AutoSize = true;
             this.labelDescripcion.ForeColor = System.Drawing.Color.Coral;
-            this.labelDescripcion.Location = new System.Drawing.Point(116, 49);
+            this.labelDescripcion.Location = new System.Drawing.Point(105, 49);
             this.labelDescripcion.Name = "labelDescripcion";
             this.labelDescripcion.Size = new System.Drawing.Size(102, 13);
             this.labelDescripcion.TabIndex = 49;
@@ -234,7 +234,7 @@
             // 
             this.labelDireccion.AutoSize = true;
             this.labelDireccion.ForeColor = System.Drawing.Color.Coral;
-            this.labelDireccion.Location = new System.Drawing.Point(116, 154);
+            this.labelDireccion.Location = new System.Drawing.Point(105, 154);
             this.labelDireccion.Name = "labelDireccion";
             this.labelDireccion.Size = new System.Drawing.Size(91, 13);
             this.labelDireccion.TabIndex = 50;

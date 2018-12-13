@@ -175,6 +175,19 @@ namespace PalcoNet.Publicacion
                 datosValidos = false;
             }
 
+            if (formFechas.fechas.Rows.Count==0)
+            {
+                labelFechas.ForeColor = Color.Coral;
+                datosValidos = false;
+            }
+
+            if (formUbicaciones.ubicaciones.Count == 0)
+            {
+                labelUbicaciones.ForeColor = Color.Coral;
+                datosValidos = false;
+            }
+
+
         }
 
         private void fechas_Click(object sender, EventArgs e)
@@ -193,6 +206,7 @@ namespace PalcoNet.Publicacion
         {
             if (formFechas.fechas.Rows.Count > 0) {
                 labelFechas.Text = string.Format("Se cargaron {0} fecha(s).",formFechas.fechas.Rows.Count);
+                labelFechas.ForeColor = Color.Black;
             } else {
                 labelFechas.Text = "Aun no se cargaron datos";
             }
@@ -201,6 +215,7 @@ namespace PalcoNet.Publicacion
             if (formUbicaciones.ubicaciones.Count > 0)
             {
                 labelUbicaciones.Text = string.Format("Se cargaron {0} ubicacion(es).", formUbicaciones.ubicaciones.Count);
+                labelUbicaciones.ForeColor = Color.Black;
             }
             else
             {
@@ -212,6 +227,8 @@ namespace PalcoNet.Publicacion
         {
             labelDescripcion.Visible = false;
             labelDireccion.Visible = false;
+            labelFechas.ForeColor = Color.Black;
+            labelUbicaciones.ForeColor = Color.Black;
 
         }
 
