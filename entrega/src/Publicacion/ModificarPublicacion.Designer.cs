@@ -47,6 +47,8 @@
             this.labelUbicaciones = new System.Windows.Forms.Label();
             this.publ_fecha_ven = new System.Windows.Forms.DateTimePicker();
             this.labelEvento = new System.Windows.Forms.Label();
+            this.labelDescripcion = new System.Windows.Forms.Label();
+            this.labelDireccion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // modificar
@@ -136,6 +138,7 @@
             // 
             // publ_rubro
             // 
+            this.publ_rubro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.publ_rubro.FormattingEnabled = true;
             this.publ_rubro.Location = new System.Drawing.Point(104, 189);
             this.publ_rubro.Name = "publ_rubro";
@@ -215,11 +218,36 @@
             this.labelEvento.Text = "Fecha Evento";
             this.labelEvento.Visible = false;
             // 
+            // labelDescripcion
+            // 
+            this.labelDescripcion.AutoSize = true;
+            this.labelDescripcion.ForeColor = System.Drawing.Color.Coral;
+            this.labelDescripcion.Location = new System.Drawing.Point(116, 49);
+            this.labelDescripcion.Name = "labelDescripcion";
+            this.labelDescripcion.Size = new System.Drawing.Size(102, 13);
+            this.labelDescripcion.TabIndex = 49;
+            this.labelDescripcion.Text = "Descripcion invalida";
+            this.labelDescripcion.Visible = false;
+            this.labelDescripcion.Click += new System.EventHandler(this.labelNombre_Click);
+            // 
+            // labelDireccion
+            // 
+            this.labelDireccion.AutoSize = true;
+            this.labelDireccion.ForeColor = System.Drawing.Color.Coral;
+            this.labelDireccion.Location = new System.Drawing.Point(116, 154);
+            this.labelDireccion.Name = "labelDireccion";
+            this.labelDireccion.Size = new System.Drawing.Size(91, 13);
+            this.labelDireccion.TabIndex = 50;
+            this.labelDireccion.Text = "Direccion invalida";
+            this.labelDireccion.Visible = false;
+            // 
             // ModificarPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 449);
+            this.Controls.Add(this.labelDireccion);
+            this.Controls.Add(this.labelDescripcion);
             this.Controls.Add(this.publ_fecha_ven);
             this.Controls.Add(this.labelEvento);
             this.Controls.Add(this.labelUbicaciones);
@@ -268,6 +296,8 @@
         private System.Windows.Forms.Label labelUbicaciones;
         private System.Windows.Forms.DateTimePicker publ_fecha_ven;
         private System.Windows.Forms.Label labelEvento;
+        private System.Windows.Forms.Label labelDescripcion;
+        private System.Windows.Forms.Label labelDireccion;
 
 
 

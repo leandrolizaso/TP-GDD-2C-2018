@@ -35,6 +35,7 @@ namespace PalcoNet.Publicacion
             if (!esEmpresa) 
             {
                 fecha_desde.MinDate = Globales.getFechaHoy();
+                fecha_hasta.MinDate = Globales.getFechaHoy();
             }
         }
 

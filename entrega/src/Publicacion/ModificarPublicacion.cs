@@ -21,11 +21,14 @@ namespace PalcoNet.Publicacion
         decimal idPublicacion;
         private FechasPublicacion formFechas;
         private UbicacionesPublicacion formUbicaciones;
+        private Boolean datosValidos;
        
         public ModificarPublicacion(decimal idPublicacion)
         {
             this.idPublicacion = idPublicacion;
             InitializeComponent();
+            datosValidos = true;
+            this.ocultarCampos();
             popularGrados();
             popularEstados();
             popularRubros();
@@ -90,6 +93,15 @@ namespace PalcoNet.Publicacion
 
         private void modificar_Click(object sender, EventArgs e)
         {
+            this.ocultarCampos();
+            this.validarCampos();
+
+            if (!datosValidos)
+            {
+                datosValidos = true;
+                return;
+            }
+
             var dict = new Dictionary<string, object>();
 
             foreach (var control in Controls)
@@ -147,6 +159,24 @@ namespace PalcoNet.Publicacion
             }
         }
 
+        private void validarCampos()
+        {
+            ValidacionInput validador = new ValidacionInput();
+
+            if (!validador.alfaNumericoYespaciosValido(publ_direccion.Text))
+            {
+                labelDireccion.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!validador.palabrasValidas(publ_descripcion.Text))
+            {
+                labelDescripcion.Visible = true;
+                datosValidos = false;
+            }
+
+        }
+
         private void fechas_Click(object sender, EventArgs e)
         {
             formFechas.ShowDialog();
@@ -176,6 +206,19 @@ namespace PalcoNet.Publicacion
             {
                 labelUbicaciones.Text = "Aun no se cargaron datos";
             }
+        }
+
+        private void ocultarCampos()
+        {
+            labelDescripcion.Visible = false;
+            labelDireccion.Visible = false;
+
+        }
+
+
+        private void labelNombre_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
