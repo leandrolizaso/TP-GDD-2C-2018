@@ -531,7 +531,7 @@ SELECT  publ_id, publ_descripcion,publ_fecha_ven,publ_direccion,(select rubr_des
 FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY grad_porcentaje desc) AS RowNum, *
           FROM      PEL.Publicacion inner join PEL.Grado on publ_grado = grad_id and publ_estado = 2
 		  where publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
-		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
+		  and convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121)
 		  and publ_descripcion like (case when @detalle != '' then '%' + @detalle + '%' else publ_descripcion end)
         ) AS RowConstrainedResult
 WHERE   RowNum > (@pag-1)*10 
@@ -547,7 +547,6 @@ SELECT    count(publ_id)
 		  FROM      PEL.Publicacion
 		  where publ_estado = 2
 		  and publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
-		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and publ_descripcion like (case when @detalle != '' then '%' + @detalle + '%' else publ_descripcion end)
 END
@@ -580,7 +579,6 @@ SELECT    count(publ_id)
 		  where publ_estado = 1
 		  and publ_empresa_resp = @empresa
 		  and publ_rubro in (case when @categorias != '' then (select * from PEL.f_string_split(@categorias,',')) else (select publ_rubro) end)
-		  and (convert(date,publ_fecha_publi,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and (convert(date,publ_fecha_ven,121) between convert(date,@desde,121) and convert(date,@hasta,121))
 		  and publ_descripcion like (case when @detalle != '' then '%' + @detalle + '%' else publ_descripcion end)
 END
@@ -925,10 +923,6 @@ INSERT INTO PEL.Rubro (rubr_descripcion)
 	FROM gd_esquema.Maestra
 GO
 
-update PEL.Rubro
-set rubr_descripcion = 'Sin Rubro'
-where rubr_id = 1
-
 INSERT INTO PEL.Empresa (empr_razon_social, 
 						 empr_cuit, 
 						 empr_fecha, 
@@ -975,7 +969,9 @@ set @id_grado = (select grad_id from PEL.Grado where grad_descripcion = 'Migrado
 update PEL.Publicacion
 	set publ_grado = @id_grado
 
-
+update PEL.Rubro
+set rubr_descripcion = 'Sin Rubro'
+where rubr_id = 1
 
 INSERT INTO PEL.Tipo_Ubicacion (tipo_ubic_descripcion, tipo_ubic_id)
 	SELECT DISTINCT Ubicacion_Tipo_Descripcion, Ubicacion_Tipo_Codigo
