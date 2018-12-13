@@ -35,6 +35,15 @@ namespace PalcoNet.Utils
             return long.TryParse(numero, out numeroOut);
 
         }
+        
+    
+        public bool cuilValido(string cuil, string dni) 
+        {   
+            string subCuil = cuil.Substring(3, 8);
+            return string.Equals(dni, subCuil);
+
+
+        }
 
     }
 }

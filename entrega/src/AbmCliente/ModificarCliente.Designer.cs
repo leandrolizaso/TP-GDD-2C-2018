@@ -34,7 +34,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.clie_telefono = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.clie_cuil = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.clie_datos_tarjeta = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -68,6 +67,9 @@
             this.labelPassword = new System.Windows.Forms.Label();
             this.labelDireccion = new System.Windows.Forms.Label();
             this.labelTarjeta = new System.Windows.Forms.Label();
+            this.labelCuil = new System.Windows.Forms.Label();
+            this.clie_cuil = new System.Windows.Forms.MaskedTextBox();
+            this.labelDNI = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // modificar
@@ -120,13 +122,6 @@
             this.label3.Size = new System.Drawing.Size(49, 13);
             this.label3.TabIndex = 8;
             this.label3.Text = "Telefono";
-            // 
-            // clie_cuil
-            // 
-            this.clie_cuil.Location = new System.Drawing.Point(153, 135);
-            this.clie_cuil.Name = "clie_cuil";
-            this.clie_cuil.Size = new System.Drawing.Size(162, 20);
-            this.clie_cuil.TabIndex = 4;
             // 
             // label4
             // 
@@ -426,11 +421,44 @@
             this.labelTarjeta.Text = "Datos tarjeta invalidos";
             this.labelTarjeta.Visible = false;
             // 
+            // labelCuil
+            // 
+            this.labelCuil.AutoSize = true;
+            this.labelCuil.ForeColor = System.Drawing.Color.Coral;
+            this.labelCuil.Location = new System.Drawing.Point(154, 158);
+            this.labelCuil.Name = "labelCuil";
+            this.labelCuil.Size = new System.Drawing.Size(63, 13);
+            this.labelCuil.TabIndex = 42;
+            this.labelCuil.Text = "Cuil invalido";
+            this.labelCuil.Visible = false;
+            // 
+            // clie_cuil
+            // 
+            this.clie_cuil.Location = new System.Drawing.Point(154, 135);
+            this.clie_cuil.Mask = "00-00000000-0";
+            this.clie_cuil.Name = "clie_cuil";
+            this.clie_cuil.Size = new System.Drawing.Size(160, 20);
+            this.clie_cuil.TabIndex = 43;
+            // 
+            // labelDNI
+            // 
+            this.labelDNI.AutoSize = true;
+            this.labelDNI.ForeColor = System.Drawing.Color.Coral;
+            this.labelDNI.Location = new System.Drawing.Point(448, 104);
+            this.labelDNI.Name = "labelDNI";
+            this.labelDNI.Size = new System.Drawing.Size(101, 13);
+            this.labelDNI.TabIndex = 44;
+            this.labelDNI.Text = "Documento invalido";
+            this.labelDNI.Visible = false;
+            // 
             // ModificarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 493);
+            this.Controls.Add(this.labelDNI);
+            this.Controls.Add(this.clie_cuil);
+            this.Controls.Add(this.labelCuil);
             this.Controls.Add(this.labelTarjeta);
             this.Controls.Add(this.labelDireccion);
             this.Controls.Add(this.labelPassword);
@@ -465,7 +493,6 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.clie_telefono);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.clie_cuil);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.clie_nombre);
@@ -487,7 +514,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox clie_telefono;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox clie_cuil;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox clie_datos_tarjeta;
         private System.Windows.Forms.Label label5;
@@ -521,5 +547,8 @@
         private System.Windows.Forms.Label labelPassword;
         private System.Windows.Forms.Label labelDireccion;
         private System.Windows.Forms.Label labelTarjeta;
+        private System.Windows.Forms.Label labelCuil;
+        private System.Windows.Forms.MaskedTextBox clie_cuil;
+        private System.Windows.Forms.Label labelDNI;
     }
 }

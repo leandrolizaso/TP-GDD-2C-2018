@@ -70,6 +70,8 @@ namespace PalcoNet.AbmCliente
             labelUsername.Visible = false;
             labelTarjeta.Visible = false;
             labelDireccion.Visible = false;
+            labelCuil.Visible = false;
+            labelDNI.Visible = false;
 
         }
 
@@ -96,7 +98,7 @@ namespace PalcoNet.AbmCliente
             this.validarCampos();
 
             if (!datosValidos) 
-            {
+            {  
                 datosValidos = true;
                 return;
             }
@@ -110,7 +112,7 @@ namespace PalcoNet.AbmCliente
                 } else if (control is MaskedTextBox) {
                     MaskedTextBox textbox = (MaskedTextBox)control;
                     if (!textbox.MaskCompleted) {
-                        MessageBox.Show("Se requiere un dni valido");
+                        MessageBox.Show("Se requiere un dni y cuil valido");
                         textbox.Focus();
                         return;
                     }
@@ -214,8 +216,19 @@ namespace PalcoNet.AbmCliente
                 labelPassword.Visible = true;
                 datosValidos = false;
             }
-            
-            
+
+            if (!validador.cuilValido(clie_cuil.Text, clie_nro_doc.Text) || !clie_cuil.MaskCompleted)
+            {   
+                labelCuil.Visible = true;
+                datosValidos = false;
+            }
+
+            if (!clie_nro_doc.MaskCompleted)
+            {
+                labelDNI.Visible = true;
+                datosValidos = false;
+            }
+
             
         }
 
