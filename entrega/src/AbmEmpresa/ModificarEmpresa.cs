@@ -130,6 +130,7 @@ namespace PalcoNet.AbmEmpresa
                     password.Text = dt.Rows[0]["password"].ToString();
                     MessageBox.Show("El usuario y la contraseña se han generado automaticamente.\nRecuerde anotarlos y comunicarlos al usuario de la cuenta.");
                 }else {
+                    MessageBox.Show("El registro fue exitoso, disfrute la aplicación.");
                     this.Hide();
                 }
             }
