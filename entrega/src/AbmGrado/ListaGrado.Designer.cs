@@ -103,9 +103,9 @@
             // 
             // crear
             // 
-            this.crear.Location = new System.Drawing.Point(537, 15);
+            this.crear.Location = new System.Drawing.Point(529, 19);
             this.crear.Name = "crear";
-            this.crear.Size = new System.Drawing.Size(61, 63);
+            this.crear.Size = new System.Drawing.Size(60, 60);
             this.crear.TabIndex = 10;
             this.crear.Text = "Crear Grado";
             this.crear.UseVisualStyleBackColor = true;
@@ -115,7 +115,7 @@
             // 
             this.buscar.Location = new System.Drawing.Point(365, 19);
             this.buscar.Name = "buscar";
-            this.buscar.Size = new System.Drawing.Size(61, 63);
+            this.buscar.Size = new System.Drawing.Size(60, 60);
             this.buscar.TabIndex = 8;
             this.buscar.Text = "Buscar";
             this.buscar.UseVisualStyleBackColor = true;
@@ -123,9 +123,9 @@
             // 
             // limpiar
             // 
-            this.limpiar.Location = new System.Drawing.Point(432, 30);
+            this.limpiar.Location = new System.Drawing.Point(448, 19);
             this.limpiar.Name = "limpiar";
-            this.limpiar.Size = new System.Drawing.Size(48, 41);
+            this.limpiar.Size = new System.Drawing.Size(60, 60);
             this.limpiar.TabIndex = 9;
             this.limpiar.Text = "Limpiar Filtro";
             this.limpiar.UseVisualStyleBackColor = true;

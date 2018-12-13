@@ -94,9 +94,9 @@
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(568, 18);
+            this.buscar.Location = new System.Drawing.Point(553, 10);
             this.buscar.Name = "buscar";
-            this.buscar.Size = new System.Drawing.Size(80, 60);
+            this.buscar.Size = new System.Drawing.Size(90, 70);
             this.buscar.TabIndex = 8;
             this.buscar.Text = "Buscar";
             this.buscar.UseVisualStyleBackColor = true;
@@ -104,9 +104,9 @@
             // 
             // limpiar
             // 
-            this.limpiar.Location = new System.Drawing.Point(696, 24);
+            this.limpiar.Location = new System.Drawing.Point(668, 10);
             this.limpiar.Name = "limpiar";
-            this.limpiar.Size = new System.Drawing.Size(50, 50);
+            this.limpiar.Size = new System.Drawing.Size(90, 70);
             this.limpiar.TabIndex = 9;
             this.limpiar.Text = "Limpiar Filtro";
             this.limpiar.UseVisualStyleBackColor = true;
@@ -132,9 +132,9 @@
             // 
             // crear
             // 
-            this.crear.Location = new System.Drawing.Point(806, 18);
+            this.crear.Location = new System.Drawing.Point(780, 10);
             this.crear.Name = "crear";
-            this.crear.Size = new System.Drawing.Size(80, 60);
+            this.crear.Size = new System.Drawing.Size(90, 70);
             this.crear.TabIndex = 10;
             this.crear.Text = "Crear Empresa";
             this.crear.UseVisualStyleBackColor = true;
