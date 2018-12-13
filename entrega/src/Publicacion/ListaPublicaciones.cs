@@ -84,6 +84,11 @@ namespace PalcoNet.Publicacion
 
                 }
 
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("No se encontraron resultados");
+                }
+
                 datagrid.DataSource = dt;
                 foreach (DataGridViewColumn column in datagrid.Columns)
                 {

@@ -23,6 +23,12 @@ namespace PalcoNet.AbmGrado
         {
             var dt = new GradoDAO().obtenerGrado(nombre.Text, pcnt_from.Text, pcnt_to.Text);
             datagrid.DataSource = dt;
+
+            if (dt.Rows.Count == 0)
+            {
+                MessageBox.Show("No se encontraron resultados");
+            }
+
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
                 column.HeaderText = column.HeaderText.Replace("grad_", "").Replace("_", " ").ToUpper();

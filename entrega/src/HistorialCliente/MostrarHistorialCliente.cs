@@ -41,6 +41,10 @@ namespace PalcoNet.HistorialCliente
         {
             pag.Text = Convert.ToString(pagina);
             var dt = new HistorialDAO().obtenerHistorial(idCliente, pagina);
+            if (dt.Rows.Count == 0)
+            {
+                MessageBox.Show("No se encontraron resultados");
+            }
             datagrid.DataSource = dt;
             datagrid.AllowUserToAddRows = false;
             foreach (DataGridViewColumn column in datagrid.Columns)

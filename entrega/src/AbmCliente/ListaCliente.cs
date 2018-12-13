@@ -22,6 +22,12 @@ namespace PalcoNet.AbmCliente
         private void buscar_Click(object sender, EventArgs e) {
             var dt = new ClienteDAO().obtenerClientes(nombre.Text, apellido.Text, dni.Text, email.Text);
             datagrid.DataSource = dt;
+
+            if (dt.Rows.Count == 0) 
+            {
+                MessageBox.Show("No se encontraron resultados");
+            }
+
             foreach( DataGridViewColumn column in datagrid.Columns){
                 column.HeaderText = column.HeaderText.Replace("clie_", "").Replace("_", " ").ToUpper();
             }

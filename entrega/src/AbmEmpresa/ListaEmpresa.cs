@@ -22,6 +22,12 @@ namespace PalcoNet.AbmEmpresa
         private void buscar_Click(object sender, EventArgs e) {
             var dt = new EmpresaDAO().obtenerEmpresas(razon.Text, cuit.Text, email.Text);
             datagrid.DataSource = dt;
+
+            if (dt.Rows.Count == 0)
+            {
+                MessageBox.Show("No se encontraron resultados");
+            }
+
             foreach( DataGridViewColumn column in datagrid.Columns){
                 column.HeaderText = column.HeaderText.Replace("empr_", "").Replace("_", " ").ToUpper();
             }

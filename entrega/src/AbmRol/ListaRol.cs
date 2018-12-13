@@ -19,7 +19,14 @@ namespace PalcoNet.AbmRol
 
         private void buscar_Click(object sender, EventArgs e)
         {
-            datagrid.DataSource = new RolDAO().buscarRoles(rol_nombre.Text);
+            var dt = new RolDAO().buscarRoles(rol_nombre.Text);
+            
+            if (dt.Rows.Count == 0) 
+            {
+                MessageBox.Show("No se encontraron resultados");
+            }
+
+            datagrid.DataSource = dt;
 
             foreach (DataGridViewColumn column in datagrid.Columns)
             {

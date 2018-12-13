@@ -18,7 +18,15 @@ namespace PalcoNet.GenerarRendicionComisiones
             InitializeComponent();
 
             var dt = new EmpresaDAO().obtenerEmpresasPorRendir();
+
+            if (dt.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay empresas para generar rendiciones");
+                
+            }
+
             datagrid.DataSource = dt;
+
             foreach (DataGridViewColumn column in datagrid.Columns)
             {
                 column.HeaderText = column.HeaderText.Replace("empr_", "").Replace("_", " ").ToUpper();
