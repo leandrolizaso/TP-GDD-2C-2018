@@ -188,19 +188,26 @@ CREATE TABLE PEL.Ubicacion (
 	ubic_asiento NUMERIC (18,0),
 	ubic_sin_numerar BIT default 0,
 	ubic_precio NUMERIC(18,0), 
-	ubic_comision numeric (18,2),
-	ubic_item_factura_cantidad NUMERIC (18,0),
-	ubic_item_factura_descripcion nvarchar(60),
 	ubic_tipo NUMERIC(18,0) NOT NULl,
 	ubic_publ NUMERIC(18,0) NOT NULl,	
 	ubic_compra int,
-	ubic_factura NUMERIC(18,0),
 	PRIMARY KEY (ubic_id),
 	FOREIGN KEY (ubic_tipo) REFERENCES PEL.Tipo_Ubicacion (tipo_ubic_id),
 	FOREIGN KEY (ubic_compra) REFERENCES PEL.Compra(compr_id),
-	FOREIGN KEY (ubic_publ) REFERENCES PEL.Publicacion(publ_id),
-	FOREIGN KEY (ubic_factura) REFERENCES PEL.Factura(fact_id)
+	FOREIGN KEY (ubic_publ) REFERENCES PEL.Publicacion(publ_id)
 )
+
+CREATE TABLE PEL.Item_Factura (
+	item_fact NUMERIC(18,0) NOT NULL,
+	item_ubic NUMERIC(18,0) NOT NULL,
+	item_comision numeric (18,2),
+	item_cantidad NUMERIC (18,0),
+	item_descripcion nvarchar(60),
+	PRIMARY KEY (item_fact,item_ubic),
+	FOREIGN KEY (item_fact) REFERENCES PEL.Factura(fact_id),
+	FOREIGN KEY (item_ubic) REFERENCES PEL.Ubicacion(ubic_id)
+)
+
 
 GO
 
