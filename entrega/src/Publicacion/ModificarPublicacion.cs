@@ -174,20 +174,6 @@ namespace PalcoNet.Publicacion
                 labelDescripcion.Visible = true;
                 datosValidos = false;
             }
-
-            if (formFechas.fechas.Rows.Count==0)
-            {
-                labelFechas.ForeColor = Color.Coral;
-                datosValidos = false;
-            }
-
-            if (formUbicaciones.ubicaciones.Count == 0)
-            {
-                labelUbicaciones.ForeColor = Color.Coral;
-                datosValidos = false;
-            }
-
-
         }
 
         private void fechas_Click(object sender, EventArgs e)
