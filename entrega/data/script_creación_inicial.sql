@@ -640,21 +640,22 @@ BEGIN
 	DECLARE @factura numeric(18,0)
 	SELECT @factura = fact_id FROM PEL.Factura where fact_numero = (select max(fact_numero) from PEL.Factura)
 
-	UPDATE PEL.Ubicacion
-	set ubic_factura = @factura,
-		   ubic_item_factura_descripcion = 'Comision por compra',
-		   ubic_item_factura_cantidad = 1,
-		   ubic_comision = case when (select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ) = 0 then 0
-								 else ubic_precio/(select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ) end
-	where ubic_id in (SELECT TOP (@cantidad) ubic_id 
-					FROM PEL.Ubicacion join PEL.Publicacion ON publ_empresa_resp = @empresa and ubic_publ = publ_id 
-					join PEL.Compra ON compr_id = ubic_compra
-					WHERE ubic_factura is null
-					ORDER BY compr_fecha ASC)
+	INSERT PEL.Item_Factura(item_fact, item_ubic, item_comision, item_cantidad, item_descripcion)
+	SELECT @factura, ubic_id, (ubic_precio*grad_porcentaje/100), 1, 'Comision por compra'
+	FROM PEL.Ubicacion
+	WHERE ubic_id in (
+		SELECT TOP (@cantidad) ubic_id 
+		FROM PEL.Ubicacion join PEL.Publicacion ON publ_empresa_resp = @empresa and ubic_publ = publ_id 
+		JOIN PEL.Compra ON compr_id = ubic_compra
+		WHERE ubic_factura is null
+		ORDER BY compr_fecha ASC
+	)
 	
 	UPDATE PEL.Factura
-	set fact_importe = (select sum(ubic_precio - isnull(ubic_comision,0)) from PEL.Ubicacion where fact_id = @factura and ubic_factura = fact_id  group by ubic_factura)
-	where fact_id = @factura
+	SET fact_importe = (
+		SELECT SUM(item_comision) FROM PEL.Item_Factura WHERE item_fact = @factura
+	)
+	WHERE fact_id = @factura
 
 	SELECT @factura
 END
