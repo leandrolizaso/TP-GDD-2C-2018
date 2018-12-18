@@ -643,11 +643,17 @@ BEGIN
 	INSERT PEL.Item_Factura(item_fact, item_ubic, item_comision, item_cantidad, item_descripcion)
 	SELECT @factura, ubic_id, (ubic_precio*grad_porcentaje/100), 1, 'Comision por compra'
 	FROM PEL.Ubicacion
+	JOIN PEL.Publicacion on ubic_publ = publ_id
+	JOIN PEl.Grado on publ_grado = grad_id
 	WHERE ubic_id in (
 		SELECT TOP (@cantidad) ubic_id 
-		FROM PEL.Ubicacion join PEL.Publicacion ON publ_empresa_resp = @empresa and ubic_publ = publ_id 
+		FROM PEL.Ubicacion 
+		JOIN PEL.Publicacion ON ubic_publ = publ_id 
 		JOIN PEL.Compra ON compr_id = ubic_compra
-		WHERE ubic_factura is null
+		WHERE publ_empresa_resp = @empresa 
+		AND NOT EXISTS (
+			select 1 from PEL.Item_Factura where item_ubic = ubic_id
+		)
 		ORDER BY compr_fecha ASC
 	)
 	
