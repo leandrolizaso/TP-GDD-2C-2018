@@ -328,12 +328,11 @@ end
 
 
 go
-create procedure PEL.generar_username(@data nvarchar(50) output)
+
+create procedure PEL.generar_username(@data nvarchar(50) output, @key1 nvarchar(255))
 as
 begin
-	set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
-	while(PEL.f_es_username_valido(@data)!=0)
-		set @data = (SELECT RIGHT(CONVERT(varchar(50), NEWID()),12))
+	set @data = substring(replace(@key1, ' ', ''),0,6) + (SELECT RIGHT(CONVERT(varchar(255), NEWID()),3))
 	return
 end
 go
@@ -401,10 +400,10 @@ begin
 		end
 
 	if(@username is null or @username = '')
-		exec PEL.generar_username @data = @username output
+		exec PEL.generar_username @data = @username output, @key1 = @nombre;
 	if(@password is null or @password = '')
 		begin
-		set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+		exec PEL.generar_username @data = @password output, @key1 = @apellido;
 		set @estado = 'R'
 		end
 
@@ -479,10 +478,10 @@ begin
 		end
 
 	if(@username is null or @username = '')
-		exec PEL.generar_username @data = @username output;
+		exec PEL.generar_username @data = @username output, @key1 = @razon_social;
 	if(@password is null or @password = '')
 		begin
-		set @password = (SELECT RIGHT(CONVERT(varchar(255), NEWID()),12))
+		exec PEL.generar_username @data = @password output, @key1 = @razon_social;
 		set @estado = 'R'
 		end
 			
