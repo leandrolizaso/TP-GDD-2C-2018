@@ -167,7 +167,6 @@ CREATE TABLE PEL.Compra (
 CREATE TABLE PEL.Factura (
 	fact_id NUMERIC(18,0) IDENTITY(1,1) NOT NULL,
 	fact_fecha DATETIME,
-	fact_comision NUMERIC(18,2),
 	fact_importe NUMERIC(18,2) , 
 	fact_empr NUMERIC(18,0),
 	fact_numero NUMERIC(18,0), 
@@ -654,8 +653,7 @@ BEGIN
 					ORDER BY compr_fecha ASC)
 	
 	UPDATE PEL.Factura
-	set fact_importe = (select sum(ubic_precio - isnull(ubic_comision,0)) from PEL.Ubicacion where fact_id = @factura and ubic_factura = fact_id  group by ubic_factura),
-		fact_comision = (select sum(isnull(ubic_comision,0)) from PEL.Ubicacion where ubic_factura = fact_id)
+	set fact_importe = (select sum(ubic_precio - isnull(ubic_comision,0)) from PEL.Ubicacion where fact_id = @factura and ubic_factura = fact_id  group by ubic_factura)
 	where fact_id = @factura
 
 	SELECT @factura
@@ -987,7 +985,7 @@ GO
 
 
 INSERT INTO PEL.Factura (fact_fecha, 
-						 fact_comision, 
+						 fact_importe, 
 						 fact_numero,
 						 fact_empr)
 	 SELECT Factura_Fecha, 
