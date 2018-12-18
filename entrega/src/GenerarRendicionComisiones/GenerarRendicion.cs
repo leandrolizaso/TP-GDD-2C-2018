@@ -39,7 +39,7 @@ namespace PalcoNet.GenerarRendicionComisiones
             {
                 this.Hide();
                 new Factura(Int32.Parse(cantidad.Text), idEmpresa).ShowDialog();
-                this.Show();
+                this.Close();
             }
             else 
             {

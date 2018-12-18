@@ -21,8 +21,12 @@ namespace PalcoNet.GenerarRendicionComisiones
 
             if (dt.Rows.Count == 0)
             {
-                MessageBox.Show("No hay empresas para generar rendiciones");
-                
+                empresas.Visible = true;
+
+            }
+            else 
+            {
+                empresas.Visible = false;
             }
 
             datagrid.DataSource = dt;
@@ -47,7 +51,7 @@ namespace PalcoNet.GenerarRendicionComisiones
             decimal id_clickeado = (decimal)datagrid["empr_id", e.RowIndex].Value;
             this.Hide();
             new GenerarRendicion(id_clickeado).ShowDialog();
-            this.Show();
+            this.Close();
         }
 
         private void datagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -31,6 +31,7 @@
             this.datagrid = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.empresas = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,11 +68,22 @@
             this.label5.TabIndex = 30;
             this.label5.Text = "Doble click en la fila seleccionar";
             // 
+            // empresas
+            // 
+            this.empresas.AutoSize = true;
+            this.empresas.ForeColor = System.Drawing.Color.Coral;
+            this.empresas.Location = new System.Drawing.Point(244, 49);
+            this.empresas.Name = "empresas";
+            this.empresas.Size = new System.Drawing.Size(152, 13);
+            this.empresas.TabIndex = 31;
+            this.empresas.Text = "No hay empresas para facturar";
+            // 
             // SeleccionarEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(423, 294);
+            this.Controls.Add(this.empresas);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.datagrid);
@@ -88,5 +100,6 @@
         private System.Windows.Forms.DataGridView datagrid;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label empresas;
     }
 }
