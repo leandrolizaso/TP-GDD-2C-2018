@@ -621,7 +621,6 @@ SELECT TOP 5 clie_nombre, clie_apellido, clie_nro_doc, count(compr_id) as [Canti
 END
 GO
 
-
 CREATE PROCEDURE PEL.sp_generar_rendiciones (@cantidad int, @empresa numeric(18,0), @fecha varchar(30))
 AS
 BEGIN
@@ -640,11 +639,11 @@ BEGIN
 		   ubic_item_factura_cantidad = 1,
 		   ubic_comision = case when (select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ) = 0 then 0
 								 else ubic_precio/(select grad_porcentaje from PEL.Publicacion join PEL.Grado on grad_id = publ_grado and publ_id = ubic_publ) end
-	where ubic_id in (SELECT TOP (@cantidad) ubic_id 
-					FROM PEL.Ubicacion join PEL.Publicacion ON publ_empresa_resp = @empresa and ubic_publ = publ_id 
-					join PEL.Compra ON compr_id = ubic_compra
-					WHERE ubic_factura is null
-					ORDER BY compr_fecha ASC)
+	where ubic_compra in (select top (@cantidad) compr_id
+						  from PEL.Compra join PEL.Ubicacion on ubic_factura is null and ubic_compra = compr_id
+						  where compr_fecha <= convert(datetime,@fecha,121)
+						  group by compr_id,compr_fecha
+						  order by compr_fecha asc)
 	
 	UPDATE PEL.Factura
 	set fact_importe = (select sum(ubic_precio - isnull(ubic_comision,0)) from PEL.Ubicacion where fact_id = @factura and ubic_factura = fact_id  group by ubic_factura),
