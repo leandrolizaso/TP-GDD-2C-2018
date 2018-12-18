@@ -659,13 +659,15 @@ BEGIN
 
 	SELECT @factura
 END
+
 GO
 
 CREATE PROCEDURE PEL.sp_cantidad_a_rendir (@empresa numeric(18,0))
 AS
 BEGIN
 	SELECT isnull(count(ubic_id),0) as cantidad FROM PEL.Ubicacion join PEL.Publicacion ON ubic_publ = publ_id and publ_empresa_resp = @empresa join PEL.Compra ON compr_id = ubic_compra
-	WHERE ubic_factura is null and ubic_compra is not null
+	WHERE ubic_compra is not null
+	and not exists (select 1 from PEL.item_factura where item_ubic = ubic_id)
 END
 GO
 
@@ -673,7 +675,7 @@ CREATE PROCEDURE PEL.sp_empresas_por_rendir
 AS
 BEGIN
 	SELECT empr_id, empr_razon_social, count(ubic_id) as cantidad FROM PEL.Ubicacion join PEL.Publicacion ON publ_id = ubic_publ join PEL.Empresa ON publ_empresa_resp = empr_id
-	WHERE ubic_factura is null and ubic_compra is not null
+	WHERE ubic_compra is not null and not exists (select 1 from PEL.item_factura where item_ubic = ubic_id)
 	GROUP BY empr_id, empr_razon_social
 	ORDER BY 1
 
