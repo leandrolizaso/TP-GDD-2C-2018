@@ -59,6 +59,11 @@ namespace PalcoNet.Publicacion
         {
             if (esEmpresa)
             {
+                if (esAdmin)
+                {
+                    MessageBox.Show("Debe ser una empresa registrada para acceder a esta funcionalidad");
+                    return;
+                }
                 ultimaPagina = Convert.ToInt32(Math.Ceiling((new PublicacionDAO().totalPaginasEmpresa(rubros, nombre.Text, fecha_desde.Value, fecha_hasta.Value)) / 10));
             }
             else
@@ -117,7 +122,6 @@ namespace PalcoNet.Publicacion
 
             if (esEmpresa)
             {
-
                 new ModificarPublicacion(idPublicacion).ShowDialog();
           
             }

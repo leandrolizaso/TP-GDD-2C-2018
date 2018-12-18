@@ -97,7 +97,15 @@ namespace PalcoNet
                         proximaPantalla = new ListaPuntos();
                         break;
                     case "8":
-                        proximaPantalla = new ModificarPublicacion(-1);
+                        if (new RolDAO().esAdmin(Globales.idUsuarioLoggeado))
+                        {
+                            MessageBox.Show("Debe ser una empresa registrada para acceder a esta funcionalidad");
+                            return;
+                        }
+                        else
+                        {
+                            proximaPantalla = new ModificarPublicacion(-1);
+                        }
                         break;
                     case "9":
                         proximaPantalla = new ListaPublicaciones(true);
