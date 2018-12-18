@@ -55,7 +55,7 @@ namespace PalcoNet
         private void cambiarPass_Click(object sender, EventArgs e)
         {
 
-            if (new RolDAO().esAdmin(Globales.idUsuarioLoggeado))
+            if (new RolDAO().esAdmin(Globales.idUsuarioLoggeado) && idRol == 1)
             {
                 new ListaUsuario().ShowDialog();
             }
@@ -103,8 +103,16 @@ namespace PalcoNet
                         proximaPantalla = new ListaPublicaciones(true);
                         break;
                     case "10":
-                        proximaPantalla = new MostrarHistorialCliente();
-                        break;
+                        if (new RolDAO().esAdmin(Globales.idUsuarioLoggeado))
+                        {
+                            MessageBox.Show("Debe ser un cliente registrado para acceder a esta funcionalidad");
+                        }
+                        else
+                        {
+                            proximaPantalla = new MostrarHistorialCliente();
+                        }   
+                            break;
+                        
                     case "11":
                         proximaPantalla = new SeleccionarEmpresa();
                         break;

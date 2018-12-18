@@ -914,7 +914,9 @@ INSERT INTO PEL.Rol_Funcion(rol_func_rol, rol_func_func) values
 GO
 
 INSERT INTO PEL.Rol_Usuario(rol_usua_rol, rol_usua_usua) values
-	(1,1)
+	(1,1),
+	(2,1),
+	(3,1)
 GO
 
 INSERT INTO PEL.Rubro (rubr_descripcion)

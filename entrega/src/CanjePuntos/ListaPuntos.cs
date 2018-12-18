@@ -1,4 +1,6 @@
-﻿using PalcoNet.ListadoEstadistico;
+﻿using PalcoNet.AbmRol;
+using PalcoNet.ListadoEstadistico;
+using PalcoNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,11 +17,13 @@ namespace PalcoNet.CanjePuntos
     {
         int total = 0;
         Boolean datosValidos = true;
+        Boolean esAdmin;
 
         public ListaPuntos()
         {
             InitializeComponent();
             this.ocultarLabel();
+            esAdmin = new RolDAO().esAdmin(Globales.idUsuarioLoggeado);
         }
 
         private void ocultarLabel()
@@ -50,6 +54,10 @@ namespace PalcoNet.CanjePuntos
 
         private void crear_Click(object sender, EventArgs e)
         {
+            if (esAdmin) {
+                noEsCliente();
+                return;
+            }
             datosValidos = true;
             ocultarLabel();
             this.actualizarPuntos();
@@ -70,6 +78,12 @@ namespace PalcoNet.CanjePuntos
 
         private void buscar_Click(object sender, EventArgs e)
         {
+            if (esAdmin)
+            {
+                noEsCliente();
+                return;
+            }
+
             datosValidos = true;
             ocultarLabel();
             validar();
@@ -103,6 +117,12 @@ namespace PalcoNet.CanjePuntos
 
         private void premios_Click(object sender, EventArgs e)
         {
+            if (esAdmin)
+            {
+                noEsCliente();
+                return;
+            }
+
             datosValidos = true;
             ocultarLabel();
             PremioDAO dao = new PremioDAO();
@@ -117,6 +137,13 @@ namespace PalcoNet.CanjePuntos
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
+        }
+
+
+        private void noEsCliente() 
+        {
+            MessageBox.Show("Debe ser un cliente registrado para acceder a esta funcionalidad");
+            return;
         }
     }
 }

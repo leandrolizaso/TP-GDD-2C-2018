@@ -1,4 +1,5 @@
-﻿using PalcoNet.AbmRubro;
+﻿using PalcoNet.AbmRol;
+using PalcoNet.AbmRubro;
 using PalcoNet.Comprar;
 using PalcoNet.Publicacion;
 using PalcoNet.Utils;
@@ -22,11 +23,13 @@ namespace PalcoNet.Publicacion
         private int pagina = 1;
         private int ultimaPagina = 1;
         private bool esEmpresa;
+        private bool esAdmin;
 
         public ListaPublicaciones(bool esEmpr)
         {
             InitializeComponent();
             esEmpresa = esEmpr;
+            esAdmin = esAdmin = new RolDAO().esAdmin(Globales.idUsuarioLoggeado);
             rubros = "";
             fecha_desde.Value = Globales.getFechaHoy();
             fecha_hasta.Value = Globales.getFechaHoy();
@@ -120,7 +123,11 @@ namespace PalcoNet.Publicacion
             }
             else 
             {
-
+                if (esAdmin)
+                {
+                    MessageBox.Show("Debe ser un cliente registrado para acceder a esta funcionalidad");
+                    return;
+                }
                 new Compra(idPublicacion).ShowDialog();
           
             }
