@@ -1061,21 +1061,34 @@ INSERT INTO PEL.Ubicacion (ubic_fila,
 	where Factura_Fecha is null
 GO
 
+INSERT INTO PEL.Item_Factura (item_fact, 
+                              item_ubic, 
+							  item_comision, 
+							  item_cantidad, 
+							  item_descripcion) 
+    SELECT
+	      (select fact_id from pel.factura 
+		      where fact_numero = Factura_Nro 
+			    and fact_fecha = Factura_Fecha) as item_fact,
+	      (select ubic_id from pel.ubicacion 
+		      where ubic_fila=Ubicacion_fila 
+			    and ubic_asiento=Ubicacion_Asiento 
+				and ubic_publ = Espectaculo_Cod 
+				and ubic_tipo = Ubicacion_tipo_codigo) as item_ubic,
+          Item_Factura_Monto as item_comision,
+		  Item_Factura_Cantidad as item_cantidad,
+		  Item_Factura_Descripcion as item_descripcion
+    FROM gd_esquema.Maestra
+    WHERE Factura_Nro IS NOT NULL
 
-
+GO
 
 update PEL.Ubicacion
-	set ubic_factura = (select fact_id from PEL.Factura where fact_numero = Factura_nro), 
-		ubic_comision = Item_Factura_Monto,
-		ubic_item_factura_cantidad = Item_Factura_Cantidad,
-		ubic_item_factura_descripcion = Item_Factura_Descripcion,
-		ubic_compra = compr_id
+	set ubic_compra = compr_id
 	from gd_esquema.Maestra join PEL.Compra on compr_fecha = Compra_Fecha and Factura_Nro is not null
 							join PEL.Cliente on clie_nro_doc = Cli_Dni
 	where ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and 
 		  ubic_publ = Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
-
-
 
 update PEL.Factura
 set fact_importe = (select sum(ubic_precio - isnull(ubic_comision,0)) from PEL.Ubicacion where ubic_factura = fact_id
