@@ -1088,9 +1088,6 @@ update PEL.Ubicacion
 	where ubic_fila=Ubicacion_fila and ubic_asiento=Ubicacion_Asiento and 
 		  ubic_publ = Espectaculo_Cod and ubic_tipo = Ubicacion_tipo_codigo
 
-update PEL.Factura
-set fact_importe = (select sum(ubic_precio - isnull(ubic_comision,0)) from PEL.Ubicacion where ubic_factura = fact_id
-					group by ubic_factura)
 go
 
 ALTER TABLE PEL.cliente
